@@ -219,6 +219,8 @@
         }
         .nav-item.active i { color: #ffffff; }
 
+        .nav-item.hidden { display: none; }
+
         .user-info {
             padding: 1rem 1.2rem;
             margin: 0 0.8rem 1rem;
@@ -251,7 +253,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .user-details .role { font-size: 0.75rem; color: #8aa9cc; }
+        .user-details .role { 
+            font-size: 0.75rem; 
+            color: #8aa9cc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         .sidebar-footer {
             margin-top: auto;
@@ -381,6 +389,64 @@
         }
 
         .form-group textarea { resize: vertical; min-height: 70px; }
+
+        /* Checkbox група за роли */
+        .roles-checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0.6rem 0;
+        }
+
+        .role-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.1rem;
+            border-radius: 12px;
+            border: 2px solid #cfddee;
+            background: #ffffff;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1f3f61;
+            transition: 0.15s;
+            user-select: none;
+        }
+
+        .role-checkbox:hover {
+            border-color: #1e4a78;
+            background: #f5f9ff;
+        }
+
+        .role-checkbox input {
+            display: none;
+        }
+
+        .role-checkbox .check-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 2px solid #cfddee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            color: transparent;
+            font-size: 0.7rem;
+        }
+
+        .role-checkbox input:checked + .check-icon {
+            background: #1e4a78;
+            border-color: #1e4a78;
+            color: #ffffff;
+        }
+
+        .role-checkbox:has(input:checked) {
+            border-color: #1e4a78;
+            background: #e8f0fe;
+            color: #0b2b4f;
+        }
 
         .btn {
             display: inline-flex;
@@ -516,6 +582,29 @@
         }
 
         .code-badge button:hover { color: #0b2b4f; }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 2px 4px 2px 0;
+            background: #e8f0fe;
+            color: #0b2b4f;
+        }
+
+        .role-badge.admin {
+            background: #fff5e5;
+            color: #b06d00;
+        }
+
+        .role-badge.kinezi {
+            background: #e8f5e9;
+            color: #1a7a3e;
+        }
 
         .patient-link {
             color: #0b2b4f;
@@ -1092,6 +1181,127 @@
             margin-top: 0.3rem;
         }
 
+        /* Активност модул */
+        .user-activity-card {
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 20px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .user-activity-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #edf2f8;
+        }
+
+        .user-activity-header .user-avatar {
+            width: 55px;
+            height: 55px;
+            font-size: 1.2rem;
+            background: #1e4a78;
+        }
+
+        .user-activity-header .info h3 {
+            font-size: 1.2rem;
+            color: #0b2b4f;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .user-activity-header .info .badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .activity-stat {
+            text-align: center;
+            padding: 0.9rem;
+            background: #f8fbfe;
+            border-radius: 14px;
+            border: 1px solid #e9eef3;
+        }
+
+        .activity-stat .num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .activity-stat .lbl {
+            font-size: 0.78rem;
+            color: #7f95b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.2rem;
+        }
+
+        .activity-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1e4a78;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 1rem 0 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 1rem;
+            background: #f8fbfe;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            border-left: 3px solid #1e4a78;
+        }
+
+        .activity-item .main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .activity-item .name {
+            color: #0b2b4f;
+            font-weight: 600;
+        }
+
+        .activity-item .meta {
+            font-size: 0.78rem;
+            color: #7f95b0;
+        }
+
+        .activity-item .when {
+            font-size: 0.78rem;
+            color: #7f95b0;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
         /* Loading, toasts, modal */
         .loading-overlay {
             position: fixed;
@@ -1333,9 +1543,13 @@
                     <i class="fas fa-euro-sign"></i>
                     <span>Ценоразпис</span>
                 </button>
-                <button class="nav-item" data-module="users">
+                <button class="nav-item admin-only" data-module="users">
                     <i class="fas fa-user-shield"></i>
                     <span>Потребители</span>
+                </button>
+                <button class="nav-item admin-only" data-module="activity">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Активност</span>
                 </button>
             </nav>
 
@@ -1343,7 +1557,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v1.5 · Firebase</div>
+                <div class="sidebar-version">v1.6 · Firebase</div>
             </div>
         </aside>
 
@@ -1531,6 +1745,7 @@
                                 <th>Пациент</th>
                                 <th>Процедура</th>
                                 <th>Дата / Час</th>
+                                <th>Извършил</th>
                                 <th>Краен резултат</th>
                                 <th></th>
                             </tr>
@@ -1576,9 +1791,10 @@
                     <table class="price-table">
                         <thead>
                             <tr>
-                                <th style="width: 30%;">Пациент</th>
+                                <th style="width: 25%;">Пациент</th>
                                 <th>Процедура (описание)</th>
                                 <th>Цена за деня</th>
+                                <th>Въвел</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -1592,7 +1808,7 @@
                 </div>
             </section>
 
-            <!-- ПОТРЕБИТЕЛИ -->
+            <!-- ПОТРЕБИТЕЛИ (само админ) -->
             <section id="module-users" class="module">
                 <div class="module-header">
                     <h1><i class="fas fa-user-shield"></i> Потребители</h1>
@@ -1601,21 +1817,27 @@
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
                     <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Кодът за достъп се генерира автоматично (6 цифри).
+                        <i class="fas fa-info-circle"></i> Може да изберете една или повече роли. Кодът се генерира автоматично.
                     </p>
                     <form id="userForm" class="form-grid">
                         <div class="form-group">
                             <label for="userNameInput">Име и фамилия *</label>
                             <input type="text" id="userNameInput" placeholder="Алекс Тодоров" required>
                         </div>
-                        <div class="form-group">
-                            <label for="userRoleInput">Роля</label>
-                            <select id="userRoleInput">
-                                <option value="Лекар">Лекар</option>
-                                <option value="Медицинска сестра">Медицинска сестра</option>
-                                <option value="Рехабилитатор">Рехабилитатор</option>
-                                <option value="Администратор">Администратор</option>
-                            </select>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Роли *</label>
+                            <div class="roles-checkbox-group" id="userRolesGroup">
+                                <label class="role-checkbox">
+                                    <input type="checkbox" value="Кинезитерапевт">
+                                    <span class="check-icon"><i class="fas fa-check"></i></span>
+                                    <i class="fas fa-hands"></i> Кинезитерапевт
+                                </label>
+                                <label class="role-checkbox">
+                                    <input type="checkbox" value="Администратор">
+                                    <span class="check-icon"><i class="fas fa-check"></i></span>
+                                    <i class="fas fa-user-shield"></i> Администратор
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="addUserBtn">
@@ -1633,7 +1855,7 @@
                         <thead>
                             <tr>
                                 <th>Име</th>
-                                <th>Роля</th>
+                                <th>Роли</th>
                                 <th>Код за достъп</th>
                                 <th>Създаден на</th>
                                 <th>Действия</th>
@@ -1641,6 +1863,17 @@
                         </thead>
                         <tbody id="usersBody"></tbody>
                     </table>
+                </div>
+            </section>
+
+            <!-- АКТИВНОСТ (само админ) -->
+            <section id="module-activity" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-chart-bar"></i> Активност на кинезитерапевтите</h1>
+                </div>
+
+                <div id="activityContent">
+                    <!-- Попълва се динамично -->
                 </div>
             </section>
 
@@ -1794,6 +2027,37 @@
             return n.toFixed(2);
         }
 
+        // Връща масив с роли (за съвместимост със стари данни с 'role')
+        function getUserRoles(user) {
+            if (!user) return [];
+            if (Array.isArray(user.roles)) return user.roles;
+            if (user.role) return [user.role];
+            return [];
+        }
+
+        function hasRole(user, role) {
+            return getUserRoles(user).includes(role);
+        }
+
+        function isAdmin(user) {
+            return hasRole(user, 'Администратор');
+        }
+
+        function isOnlyKinezi(user) {
+            const roles = getUserRoles(user);
+            return roles.length === 1 && roles[0] === 'Кинезитерапевт';
+        }
+
+        function getRolesBadgesHtml(user) {
+            const roles = getUserRoles(user);
+            if (roles.length === 0) return '<span style="color:#7f95b0;">—</span>';
+            return roles.map(r => {
+                const cls = r === 'Администратор' ? 'admin' : 'kinezi';
+                const icon = r === 'Администратор' ? 'fa-user-shield' : 'fa-hands';
+                return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
+            }).join('');
+        }
+
         // =====================================================
         // СЪСТОЯНИЕ
         // =====================================================
@@ -1831,7 +2095,8 @@
             schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
             pricing: document.getElementById('module-pricing'),
-            users: document.getElementById('module-users')
+            users: document.getElementById('module-users'),
+            activity: document.getElementById('module-activity')
         };
         const patientProfileModule = document.getElementById('module-patient-profile');
 
@@ -1882,9 +2147,12 @@
         // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
-        const userRoleInput = document.getElementById('userRoleInput');
+        const userRolesGroup = document.getElementById('userRolesGroup');
         const addUserBtn = document.getElementById('addUserBtn');
         const usersBody = document.getElementById('usersBody');
+
+        // Активност
+        const activityContent = document.getElementById('activityContent');
 
         // Профил
         const profileContent = document.getElementById('profileContent');
@@ -1951,9 +2219,6 @@
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
-            console.log('Опит за вход с код:', code);
-            console.log('Заредени потребители:', users);
-
             const found = Object.entries(users).find(([, u]) => u.accessCode === code);
             if (found) {
                 const [id, user] = found;
@@ -1969,12 +2234,34 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
+
             const initials = (currentUser.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
             userAvatar.textContent = initials;
             userName.textContent = currentUser.name;
-            userRole.textContent = currentUser.role || 'Потребител';
+            userRole.textContent = getUserRoles(currentUser).join(' · ') || 'Потребител';
+
+            applyPermissions();
             startDataListeners();
             showToast(`Добре дошли, ${currentUser.name}!`, 'success');
+        }
+
+        function applyPermissions() {
+            const admin = isAdmin(currentUser);
+
+            // Показваме/скриваме admin-only модули
+            document.querySelectorAll('.nav-item.admin-only').forEach(item => {
+                item.classList.toggle('hidden', !admin);
+            });
+
+            // Ако не е админ и текущият модул е admin-only → превключваме на пациенти
+            const currentActive = document.querySelector('.nav-item.active');
+            if (!admin && currentActive && currentActive.classList.contains('admin-only')) {
+                navItems.forEach(n => n.classList.remove('active'));
+                const patientsNav = document.querySelector('.nav-item[data-module="patients"]');
+                if (patientsNav) patientsNav.classList.add('active');
+                Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+                if (modules.patients) modules.patients.classList.add('active');
+            }
         }
 
         logoutBtn.addEventListener('click', () => {
@@ -1992,19 +2279,20 @@
             try {
                 const snapshot = await get(usersRef);
                 const existingUsers = snapshot.val() || {};
-                const hasAdmin = Object.values(existingUsers).some(u => u.accessCode === '010610');
-                if (!hasAdmin) {
-                    console.log('Създавам admin потребител Алекс Тодоров...');
+                const adminExists = Object.values(existingUsers).some(u => 
+                    (Array.isArray(u.roles) && u.roles.includes('Администратор')) ||
+                    u.role === 'Администратор' ||
+                    u.accessCode === '010610'
+                );
+                if (!adminExists) {
                     const newRef = push(usersRef);
                     await set(newRef, {
                         name: 'Алекс Тодоров',
-                        role: 'Администратор',
+                        roles: ['Администратор'],
                         accessCode: '010610',
                         createdAt: Date.now()
                     });
                     console.log('✓ Admin създаден');
-                } else {
-                    console.log('✓ Admin вече съществува');
                 }
             } catch (error) {
                 console.error('Грешка при admin:', error);
@@ -2012,12 +2300,11 @@
         }
 
         // =====================================================
-        // СЛУШАТЕЛ ЗА ПОТРЕБИТЕЛИ — ПРЕДИ логин
+        // СЛУШАТЕЛ ЗА ПОТРЕБИТЕЛИ
         // =====================================================
         function startUsersListener() {
             onValue(usersRef, (snapshot) => {
                 users = snapshot.val() || {};
-                console.log('Потребители заредени:', users);
                 renderUsers();
 
                 if (!adminCreated) {
@@ -2040,7 +2327,7 @@
         }
 
         // =====================================================
-        // ОСТАНАЛИТЕ СЛУШАТЕЛИ — след логин
+        // ОСТАНАЛИТЕ СЛУШАТЕЛИ
         // =====================================================
         function startDataListeners() {
             if (dataListenersStarted) return;
@@ -2054,6 +2341,7 @@
                 renderWeek();
                 renderPricing();
                 renderDaySummary();
+                if (isAdmin(currentUser)) renderActivity();
                 showLoading(false);
             }, () => showLoading(false));
 
@@ -2063,17 +2351,20 @@
                 if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
                     openPatientProfile(window.currentProfilePatientId);
                 }
+                if (isAdmin(currentUser)) renderActivity();
             });
 
             onValue(appointmentsRef, (snapshot) => {
                 appointments = snapshot.val() || {};
                 renderWeek();
+                if (isAdmin(currentUser)) renderActivity();
             });
 
             onValue(pricingRef, (snapshot) => {
                 pricing = snapshot.val() || {};
                 renderPricing();
                 renderDaySummary();
+                if (isAdmin(currentUser)) renderActivity();
             });
         }
 
@@ -2154,12 +2445,18 @@
         }
 
         // =====================================================
-        // ПРОЦЕДУРИ - РЕНДЕР
+        // ПРОЦЕДУРИ
         // =====================================================
+        function getCreatorName(item) {
+            if (!item.createdBy) return '—';
+            const creator = users[item.createdBy];
+            return creator ? escapeHtml(creator.name) : '—';
+        }
+
         function renderProcedures() {
             const allProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }));
             if (allProcs.length === 0) {
-                proceduresBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                proceduresBody.innerHTML = `<tr><td colspan="6" class="empty-message">
                     <i class="fas fa-stethoscope"></i> Няма въведени процедури</td></tr>`;
                 return;
             }
@@ -2178,6 +2475,7 @@
                         <td>${patientName}</td>
                         <td>${escapeHtml(proc.description)}</td>
                         <td>${formatDate(proc.date)} ${proc.time || ''}</td>
+                        <td><small style="color:#7f95b0;">${getCreatorName(proc)}</small></td>
                         <td>${escapeHtml(proc.result || '—')}</td>
                         <td>
                             <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}">
@@ -2190,7 +2488,7 @@
         }
 
         // =====================================================
-        // ГРАФИК - РЕНДЕР
+        // ГРАФИК
         // =====================================================
         function renderWeek() {
             const days = [];
@@ -2273,7 +2571,7 @@
                 : active;
 
             if (filtered.length === 0) {
-                pricingBody.innerHTML = `<tr><td colspan="4" class="empty-message">
+                pricingBody.innerHTML = `<tr><td colspan="5" class="empty-message">
                     <i class="fas fa-users"></i> Няма намерени пациенти</td></tr>`;
                 updatePriceSummary();
                 return;
@@ -2284,6 +2582,7 @@
                 const priceVal = existing ? existing.price : '';
                 const descVal = existing ? (existing.description || '') : '';
                 const hasPrice = existing && existing.price !== '' && existing.price !== null && existing.price !== undefined;
+                const createdBy = existing ? getCreatorName(existing) : '—';
 
                 return `
                     <tr data-patient-id="${p.id}">
@@ -2306,6 +2605,7 @@
                                 <span class="currency">€</span>
                             </div>
                         </td>
+                        <td><small style="color:#7f95b0;">${createdBy}</small></td>
                         <td>
                             <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
                                 <button class="save-price-btn ${hasPrice ? 'saved' : ''}" data-patient-id="${p.id}">
@@ -2417,13 +2717,22 @@
             saveBtn.disabled = true;
             try {
                 const key = getPricingKey(patientId, currentPriceDate);
-                await set(ref(db, `pricing/${key}`), {
+                const existing = pricing[key];
+                const data = {
                     patientId: patientId,
                     date: currentPriceDate,
                     price: priceVal === '' ? '' : parseFloat(priceVal),
                     description: descVal,
                     updatedAt: Date.now()
-                });
+                };
+                // Запазваме createdBy само при първо създаване
+                if (!existing || !existing.createdBy) {
+                    data.createdBy = currentUser.id;
+                } else {
+                    data.createdBy = existing.createdBy;
+                }
+                data.updatedBy = currentUser.id;
+                await set(ref(db, `pricing/${key}`), data);
                 showToast('Цената е запазена.', 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -2472,9 +2781,7 @@
             renderPricing();
         });
 
-        // =====================================================
         // ИЗТРИЙ ВСИЧКИ ЦЕНИ
-        // =====================================================
         clearAllPricingBtn.addEventListener('click', async () => {
             const totalRecords = Object.keys(pricing).length;
 
@@ -2485,14 +2792,12 @@
 
             const confirmed = confirm(
                 `⚠️ ВНИМАНИЕ!\n\n` +
-                `Ще изтриете ВСИЧКИ ${totalRecords} записа с цени от ценоразписа.\n` +
-                `Това действие е НЕОБРАТИМО и ще засегне всички дни и всички пациенти.\n\n` +
-                `Сигурни ли сте?`
+                `Ще изтриете ВСИЧКИ ${totalRecords} записа с цени.\n` +
+                `Това действие е НЕОБРАТИМО.\n\nСигурни ли сте?`
             );
-
             if (!confirmed) return;
 
-            const doubleCheck = confirm('Последно потвърждение: сигурни ли сте, че искате да изтриете ВСИЧКИ цени?');
+            const doubleCheck = confirm('Последно потвърждение: да изтрия ли ВСИЧКИ цени?');
             if (!doubleCheck) return;
 
             clearAllPricingBtn.disabled = true;
@@ -2511,7 +2816,7 @@
         });
 
         // =====================================================
-        // ПОТРЕБИТЕЛИ - РЕНДЕР
+        // ПОТРЕБИТЕЛИ
         // =====================================================
         function renderUsers() {
             const allUsers = Object.entries(users).map(([id, u]) => ({ id, ...u }));
@@ -2523,6 +2828,9 @@
             usersBody.innerHTML = allUsers.map(u => {
                 const initials = (u.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
                 const isCurrent = currentUser && currentUser.id === u.id;
+                const roles = getUserRoles(u);
+                const hasAdmin = roles.includes('Администратор');
+                const showDelete = !isCurrent && !(hasAdmin && Object.values(users).filter(x => getUserRoles(x).includes('Администратор')).length === 1);
                 return `
                     <tr>
                         <td>
@@ -2531,7 +2839,7 @@
                                 <strong>${escapeHtml(u.name)}${isCurrent ? ' <span style="color:#1a7a3e; font-size:0.8rem;">(вие)</span>' : ''}</strong>
                             </div>
                         </td>
-                        <td>${escapeHtml(u.role || '—')}</td>
+                        <td>${getRolesBadgesHtml(u)}</td>
                         <td>
                             <span class="code-badge">
                                 ${u.accessCode}
@@ -2543,10 +2851,13 @@
                         <td>${formatTimestamp(u.createdAt)}</td>
                         <td>
                             <div class="actions">
+                                <button class="btn-outline btn-sm edit-user" data-id="${u.id}">
+                                    <i class="fas fa-edit"></i> Роли
+                                </button>
                                 <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}">
                                     <i class="fas fa-sync-alt"></i> Нов код
                                 </button>
-                                ${!isCurrent ? `
+                                ${showDelete ? `
                                     <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -2554,6 +2865,274 @@
                             </div>
                         </td>
                     </tr>
+                `;
+            }).join('');
+        }
+
+        // Създаване на потребител
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = userNameInput.value.trim();
+            if (!name) { showToast('Въведете име.', 'error'); return; }
+
+            const selectedRoles = Array.from(userRolesGroup.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+
+            if (selectedRoles.length === 0) {
+                showToast('Изберете поне една роля.', 'error');
+                return;
+            }
+
+            addUserBtn.disabled = true;
+            try {
+                const newCode = generateUniqueCode(users);
+                const newRef = push(usersRef);
+                await set(newRef, {
+                    name,
+                    roles: selectedRoles,
+                    accessCode: newCode,
+                    createdAt: Date.now()
+                });
+                modalUserName.textContent = name;
+                modalNewCode.textContent = newCode;
+                codeModal.classList.add('active');
+                userForm.reset();
+                showToast(`Потребител ${name} е създаден.`, 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                addUserBtn.disabled = false;
+            }
+        });
+
+        usersBody.addEventListener('click', async (e) => {
+            const copyBtn = e.target.closest('.copy-code');
+            if (copyBtn) {
+                try {
+                    await navigator.clipboard.writeText(copyBtn.dataset.code);
+                    showToast(`Код ${copyBtn.dataset.code} е копиран.`, 'success');
+                } catch { showToast('Не е разрешено.', 'error'); }
+                return;
+            }
+
+            const regenBtn = e.target.closest('.regenerate-code');
+            if (regenBtn) {
+                if (!confirm('Нов код? Старият ще спре да работи.')) return;
+                regenBtn.disabled = true;
+                try {
+                    const newCode = generateUniqueCode(users);
+                    await update(ref(db, `users/${regenBtn.dataset.id}`), { accessCode: newCode });
+                    showToast(`Нов код: ${newCode}`, 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    regenBtn.disabled = false;
+                }
+                return;
+            }
+
+            const editBtn = e.target.closest('.edit-user');
+            if (editBtn) {
+                const userId = editBtn.dataset.id;
+                const user = users[userId];
+                if (!user) return;
+
+                const currentRoles = getUserRoles(user);
+                const kineziChecked = currentRoles.includes('Кинезитерапевт');
+                const adminChecked = currentRoles.includes('Администратор');
+
+                const choice = prompt(
+                    `Редакция на роли за ${user.name}:\n\n` +
+                    `Въведи:\n` +
+                    `1 - Кинезитерапевт\n` +
+                    `2 - Администратор\n` +
+                    `3 - Кинезитерапевт + Администратор\n\n` +
+                    `Текущи роли: ${currentRoles.join(', ') || 'няма'}\n\n` +
+                    `Избор (1/2/3):`
+                );
+
+                let newRoles = null;
+                if (choice === '1') newRoles = ['Кинезитерапевт'];
+                else if (choice === '2') newRoles = ['Администратор'];
+                else if (choice === '3') newRoles = ['Кинезитерапевт', 'Администратор'];
+
+                if (!newRoles) {
+                    if (choice !== null) showToast('Невалиден избор.', 'error');
+                    return;
+                }
+
+                // Проверка: не може да оставиш системата без администратор
+                const otherAdmins = Object.entries(users).filter(([id, u]) =>
+                    id !== userId && getUserRoles(u).includes('Администратор')
+                );
+                const stillHasAdmin = newRoles.includes('Администратор');
+                if (!stillHasAdmin && otherAdmins.length === 0) {
+                    showToast('Не може да премахнете последния администратор!', 'error');
+                    return;
+                }
+
+                try {
+                    await update(ref(db, `users/${userId}`), { roles: newRoles, role: null });
+                    showToast(`Ролите на ${user.name} са обновени.`, 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                }
+                return;
+            }
+
+            const delBtn = e.target.closest('.delete-user');
+            if (delBtn) {
+                if (!confirm('Изтрий този потребител?')) return;
+                delBtn.disabled = true;
+                try {
+                    await remove(ref(db, `users/${delBtn.dataset.id}`));
+                    showToast('Потребителят е изтрит.', 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    delBtn.disabled = false;
+                }
+            }
+        });
+
+        // =====================================================
+        // АКТИВНОСТ (само админ)
+        // =====================================================
+        function renderActivity() {
+            if (!isAdmin(currentUser)) return;
+
+            // Намираме всички кинезитерапевти
+            const kineziUsers = Object.entries(users).filter(([, u]) => hasRole(u, 'Кинезитерапевт'));
+
+            if (kineziUsers.length === 0) {
+                activityContent.innerHTML = `<div class="card">
+                    <div class="empty-message">
+                        <i class="fas fa-users"></i><br>
+                        Все още няма потребители с роля „Кинезитерапевт“.
+                    </div>
+                </div>`;
+                return;
+            }
+
+            activityContent.innerHTML = kineziUsers.map(([userId, user]) => {
+                const initials = (user.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+
+                // Броим активността
+                const userPatients = Object.entries(patients).filter(([, p]) => p.createdBy === userId);
+                const userProcedures = Object.entries(procedures).filter(([, p]) => p.createdBy === userId);
+                const userAppointments = Object.entries(appointments).filter(([, a]) => a.createdBy === userId);
+                const userPricing = Object.entries(pricing).filter(([, p]) => p.createdBy === userId);
+
+                // Обща сума от цени
+                const totalSum = userPricing.reduce((sum, [, item]) => {
+                    const v = parseFloat(item.price);
+                    return sum + (isNaN(v) ? 0 : v);
+                }, 0);
+
+                return `
+                    <div class="user-activity-card">
+                        <div class="user-activity-header">
+                            <div class="user-avatar">${initials}</div>
+                            <div class="info">
+                                <h3>${escapeHtml(user.name)}</h3>
+                                <div class="badges">${getRolesBadgesHtml(user)}</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-stats">
+                            <div class="activity-stat">
+                                <div class="num">${userPatients.length}</div>
+                                <div class="lbl">Пациенти</div>
+                            </div>
+                            <div class="activity-stat">
+                                <div class="num">${userProcedures.length}</div>
+                                <div class="lbl">Процедури</div>
+                            </div>
+                            <div class="activity-stat">
+                                <div class="num">${userAppointments.length}</div>
+                                <div class="lbl">Часове</div>
+                            </div>
+                            <div class="activity-stat">
+                                <div class="num">${userPricing.length}</div>
+                                <div class="lbl">Цени</div>
+                            </div>
+                            <div class="activity-stat">
+                                <div class="num">${formatPrice(totalSum)} €</div>
+                                <div class="lbl">Сума</div>
+                            </div>
+                        </div>
+
+                        ${userPatients.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-users"></i> Добавени пациенти</div>
+                            <div class="activity-list">
+                                ${userPatients.slice(0, 5).map(([id, p]) => `
+                                    <div class="activity-item">
+                                        <div class="main">
+                                            <span class="name">${escapeHtml(p.name)}</span>
+                                            <span class="meta">${escapeHtml(p.phone || 'без телефон')}</span>
+                                        </div>
+                                        <span class="when">${formatTimestamp(p.createdAt)}</span>
+                                    </div>
+                                `).join('')}
+                                ${userPatients.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPatients.length - 5}</div>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${userProcedures.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-stethoscope"></i> Извършени процедури</div>
+                            <div class="activity-list">
+                                ${userProcedures.slice(0, 5).map(([id, p]) => {
+                                    const pat = patients[p.patientId];
+                                    return `
+                                        <div class="activity-item">
+                                            <div class="main">
+                                                <span class="name">${escapeHtml(p.description)}</span>
+                                                <span class="meta">${pat ? escapeHtml(pat.name) : '—'} · ${formatDate(p.date)} ${p.time || ''}</span>
+                                            </div>
+                                            <span class="when">${formatTimestamp(p.createdAt)}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                                ${userProcedures.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userProcedures.length - 5}</div>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${userAppointments.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-calendar-alt"></i> Записани часове</div>
+                            <div class="activity-list">
+                                ${userAppointments.slice(0, 5).map(([id, a]) => {
+                                    const pat = patients[a.patientId];
+                                    return `
+                                        <div class="activity-item">
+                                            <div class="main">
+                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'}</span>
+                                                <span class="meta">${formatDate(a.date)} в ${a.time || ''} · ${a.duration || 60}мин</span>
+                                            </div>
+                                            <span class="when">${formatTimestamp(a.createdAt)}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                                ${userAppointments.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userAppointments.length - 5}</div>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${userPricing.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-euro-sign"></i> Въведени цени</div>
+                            <div class="activity-list">
+                                ${userPricing.slice(0, 5).map(([key, p]) => {
+                                    const pat = patients[p.patientId];
+                                    return `
+                                        <div class="activity-item">
+                                            <div class="main">
+                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'} — ${formatPrice(p.price)} €</span>
+                                                <span class="meta">${escapeHtml(p.description || '—')} · ${formatDate(p.date)}</span>
+                                            </div>
+                                            <span class="when">${formatTimestamp(p.updatedAt || p.createdAt)}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                                ${userPricing.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPricing.length - 5}</div>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
                 `;
             }).join('');
         }
@@ -2673,6 +3252,7 @@
                                         <th>Дата</th>
                                         <th>Процедура</th>
                                         <th>Цена</th>
+                                        <th>Въвел</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2681,6 +3261,7 @@
                                             <td>${formatDate(p.date)}</td>
                                             <td>${escapeHtml(p.description || '—')}</td>
                                             <td><strong>${formatPrice(p.price)} €</strong></td>
+                                            <td><small style="color:#7f95b0;">${getCreatorName(p)}</small></td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -2748,7 +3329,8 @@
                 const newRef = push(patientsRef);
                 await set(newRef, {
                     name, phone: patientPhone.value.trim(), notes: patientNotes.value.trim(),
-                    archived: false, createdAt: Date.now()
+                    archived: false, createdAt: Date.now(),
+                    createdBy: currentUser.id
                 });
                 patientForm.reset();
                 showToast('Пациентът е добавен.', 'success');
@@ -2839,7 +3421,8 @@
                     patientId, date, time,
                     duration: parseInt(aptDuration.value),
                     note: aptNote.value.trim(),
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    createdBy: currentUser.id
                 });
                 appointmentForm.reset();
                 aptDate.value = new Date().toISOString().split('T')[0];
@@ -2904,7 +3487,8 @@
                 await set(newRef, {
                     patientId, description, date, time,
                     result: procResult.value.trim(),
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    createdBy: currentUser.id
                 });
                 procedureForm.reset();
                 procDate.value = new Date().toISOString().split('T')[0];
@@ -2931,70 +3515,6 @@
             }
         });
 
-        // =====================================================
-        // CRUD ПОТРЕБИТЕЛИ
-        // =====================================================
-        userForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = userNameInput.value.trim();
-            if (!name) { showToast('Въведете име.', 'error'); return; }
-            addUserBtn.disabled = true;
-            try {
-                const newCode = generateUniqueCode(users);
-                const newRef = push(usersRef);
-                await set(newRef, {
-                    name, role: userRoleInput.value,
-                    accessCode: newCode, createdAt: Date.now()
-                });
-                modalUserName.textContent = name;
-                modalNewCode.textContent = newCode;
-                codeModal.classList.add('active');
-                userForm.reset();
-                showToast(`Потребител ${name} е създаден.`, 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                addUserBtn.disabled = false;
-            }
-        });
-
-        usersBody.addEventListener('click', async (e) => {
-            const copyBtn = e.target.closest('.copy-code');
-            if (copyBtn) {
-                try {
-                    await navigator.clipboard.writeText(copyBtn.dataset.code);
-                    showToast(`Код ${copyBtn.dataset.code} е копиран.`, 'success');
-                } catch { showToast('Не е разрешено.', 'error'); }
-                return;
-            }
-            const regenBtn = e.target.closest('.regenerate-code');
-            if (regenBtn) {
-                if (!confirm('Нов код? Старият ще спре да работи.')) return;
-                regenBtn.disabled = true;
-                try {
-                    const newCode = generateUniqueCode(users);
-                    await update(ref(db, `users/${regenBtn.dataset.id}`), { accessCode: newCode });
-                    showToast(`Нов код: ${newCode}`, 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    regenBtn.disabled = false;
-                }
-                return;
-            }
-            const delBtn = e.target.closest('.delete-user');
-            if (delBtn) {
-                if (!confirm('Изтрий този потребител?')) return;
-                delBtn.disabled = true;
-                try {
-                    await remove(ref(db, `users/${delBtn.dataset.id}`));
-                    showToast('Потребителят е изтрит.', 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    delBtn.disabled = false;
-                }
-            }
-        });
-
         modalCopyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(modalNewCode.textContent);
@@ -3012,6 +3532,8 @@
         // =====================================================
         navItems.forEach(item => {
             item.addEventListener('click', () => {
+                if (item.classList.contains('hidden')) return;
+
                 const moduleName = item.dataset.module;
                 window.currentProfilePatientId = null;
                 patientProfileModule.classList.remove('active');
@@ -3035,6 +3557,8 @@
                 } else if (moduleName === 'pricing') {
                     renderPricing();
                     renderDaySummary();
+                } else if (moduleName === 'activity') {
+                    renderActivity();
                 }
             });
         });
