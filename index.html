@@ -390,62 +390,159 @@
 
         .form-group textarea { resize: vertical; min-height: 70px; }
 
-        /* Checkbox група за роли */
-        .roles-checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 0.6rem 0;
-        }
+        /* ROLES DROPDOWN */
+        .roles-dropdown { position: relative; width: 100%; }
 
-        .role-checkbox {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.6rem 1.1rem;
-            border-radius: 12px;
-            border: 2px solid #cfddee;
+        .roles-dropdown-trigger {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            border: 1px solid #cfddee;
+            font-size: 0.95rem;
             background: #ffffff;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            transition: 0.2s;
+            font-family: inherit;
             color: #1f3f61;
-            transition: 0.15s;
+            text-align: left;
+        }
+
+        .roles-dropdown-trigger:hover { border-color: #1e4a78; }
+        .roles-dropdown-trigger.open {
+            border-color: #0b2b4f;
+            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
+        }
+
+        .roles-dropdown-trigger .selected-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #0b2b4f;
+            font-weight: 500;
+        }
+
+        .roles-dropdown-trigger .selected-text.placeholder {
+            color: #7f95b0;
+            font-weight: 400;
+        }
+
+        .roles-dropdown-trigger .arrow {
+            transition: transform 0.2s;
+            color: #7f95b0;
+            font-size: 0.85rem;
+        }
+
+        .roles-dropdown-trigger.open .arrow { transform: rotate(180deg); }
+
+        .roles-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(11, 43, 79, 0.12);
+            padding: 0.5rem;
+            z-index: 100;
+            max-height: 260px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.15s, transform 0.15s;
+        }
+
+        .roles-dropdown-menu.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
             user-select: none;
+            font-size: 0.92rem;
+            color: #1f3f61;
         }
 
-        .role-checkbox:hover {
-            border-color: #1e4a78;
-            background: #f5f9ff;
-        }
+        .role-option:hover { background: #f5f9ff; }
 
-        .role-checkbox input {
-            display: none;
-        }
-
-        .role-checkbox .check-icon {
-            width: 18px;
-            height: 18px;
+        .role-option .checkbox {
+            width: 20px;
+            height: 20px;
             border-radius: 6px;
             border: 2px solid #cfddee;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
             transition: 0.15s;
             color: transparent;
             font-size: 0.7rem;
         }
 
-        .role-checkbox input:checked + .check-icon {
+        .role-option input[type="checkbox"] { display: none; }
+
+        .role-option input:checked + .checkbox {
             background: #1e4a78;
             border-color: #1e4a78;
             color: #ffffff;
         }
 
-        .role-checkbox:has(input:checked) {
-            border-color: #1e4a78;
+        .role-option.selected {
             background: #e8f0fe;
             color: #0b2b4f;
+            font-weight: 600;
+        }
+
+        .role-option .role-icon { color: #7fb2e5; width: 18px; text-align: center; }
+        .role-option.selected .role-icon { color: #1e4a78; }
+
+        .selected-roles-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            background: #e8f0fe;
+            color: #0b2b4f;
+            margin: 2px 4px 2px 0;
+        }
+
+        .role-badge.admin {
+            background: #fff5e5;
+            color: #b06d00;
+        }
+
+        .role-badge.kinezi {
+            background: #e8f5e9;
+            color: #1a7a3e;
+        }
+
+        .role-badge.patient {
+            background: #f0e8ff;
+            color: #6b3fa0;
         }
 
         .btn {
@@ -582,29 +679,6 @@
         }
 
         .code-badge button:hover { color: #0b2b4f; }
-
-        .role-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            margin: 2px 4px 2px 0;
-            background: #e8f0fe;
-            color: #0b2b4f;
-        }
-
-        .role-badge.admin {
-            background: #fff5e5;
-            color: #b06d00;
-        }
-
-        .role-badge.kinezi {
-            background: #e8f5e9;
-            color: #1a7a3e;
-        }
 
         .patient-link {
             color: #0b2b4f;
@@ -901,6 +975,11 @@
             position: relative;
         }
 
+        .appointment.mine {
+            border-left-color: #6b3fa0;
+            background: #f9f4ff;
+        }
+
         .appointment:hover {
             background: #e8f0fe;
             transform: translateX(2px);
@@ -1045,10 +1124,7 @@
             transform: translateY(-1px);
         }
 
-        .clear-all-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+        .clear-all-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .price-table input.price-input {
             width: 120px;
@@ -1108,9 +1184,7 @@
             transform: none;
         }
 
-        .save-price-btn.saved {
-            background: #1a7a3e;
-        }
+        .save-price-btn.saved { background: #1a7a3e; }
 
         .delete-price-btn {
             padding: 0.5rem 0.9rem;
@@ -1429,6 +1503,138 @@
 
         .modal-actions { display: flex; gap: 10px; justify-content: center; }
 
+        .edit-roles-modal {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.2rem;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.25s ease;
+        }
+
+        .edit-roles-modal h3 {
+            color: #0b2b4f;
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            text-align: center;
+        }
+
+        .edit-roles-modal .sub {
+            color: #7f95b0;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .edit-roles-modal .roles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 1.8rem;
+        }
+
+        .edit-role-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            border: 2px solid #cfddee;
+            cursor: pointer;
+            transition: 0.15s;
+            user-select: none;
+            font-size: 0.95rem;
+            color: #1f3f61;
+            font-weight: 500;
+        }
+
+        .edit-role-item:hover {
+            border-color: #1e4a78;
+            background: #f5f9ff;
+        }
+
+        .edit-role-item.selected {
+            border-color: #1e4a78;
+            background: #e8f0fe;
+            color: #0b2b4f;
+        }
+
+        .edit-role-item input { display: none; }
+
+        .edit-role-item .checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #cfddee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            color: transparent;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .edit-role-item input:checked + .checkbox {
+            background: #1e4a78;
+            border-color: #1e4a78;
+            color: #ffffff;
+        }
+
+        .edit-role-item .r-icon {
+            color: #7fb2e5;
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        .edit-role-item.selected .r-icon { color: #1e4a78; }
+
+        /* Пациентски портал */
+        .portal-welcome {
+            background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%);
+            color: #ffffff;
+            border-radius: 24px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(107, 63, 160, 0.25);
+        }
+
+        .portal-welcome h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .portal-welcome p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .portal-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e9eef3;
+            margin-bottom: 1.5rem;
+        }
+
+        .portal-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0b2b4f;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .portal-section h3 i {
+            color: #6b3fa0;
+        }
+
         @media (max-width: 1100px) {
             .week-grid { grid-template-columns: repeat(4, 1fr); }
         }
@@ -1557,7 +1763,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v1.6 · Firebase</div>
+                <div class="sidebar-version">v1.8 · Firebase</div>
             </div>
         </aside>
 
@@ -1571,6 +1777,9 @@
 
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
+                    <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
+                        <i class="fas fa-info-circle"></i> Към всеки пациент автоматично се създава 6-цифрен код за вход в системата.
+                    </p>
                     <form id="patientForm" class="form-grid">
                         <div class="form-group">
                             <label for="patientName">Име и фамилия *</label>
@@ -1607,6 +1816,7 @@
                                 <th style="width: 40px;"><input type="checkbox" id="selectAllPatients"></th>
                                 <th>Име</th>
                                 <th>Телефон</th>
+                                <th>Код за вход</th>
                                 <th>Бележки</th>
                                 <th>Действия</th>
                             </tr>
@@ -1624,6 +1834,7 @@
                             <tr>
                                 <th>Име</th>
                                 <th>Телефон</th>
+                                <th>Код за вход</th>
                                 <th>Бележки</th>
                                 <th>Действия</th>
                             </tr>
@@ -1817,7 +2028,7 @@
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
                     <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Може да изберете една или повече роли. Кодът се генерира автоматично.
+                        <i class="fas fa-info-circle"></i> Изберете една или повече роли от падащото меню.
                     </p>
                     <form id="userForm" class="form-grid">
                         <div class="form-group">
@@ -1826,18 +2037,27 @@
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
                             <label>Роли *</label>
-                            <div class="roles-checkbox-group" id="userRolesGroup">
-                                <label class="role-checkbox">
-                                    <input type="checkbox" value="Кинезитерапевт">
-                                    <span class="check-icon"><i class="fas fa-check"></i></span>
-                                    <i class="fas fa-hands"></i> Кинезитерапевт
-                                </label>
-                                <label class="role-checkbox">
-                                    <input type="checkbox" value="Администратор">
-                                    <span class="check-icon"><i class="fas fa-check"></i></span>
-                                    <i class="fas fa-user-shield"></i> Администратор
-                                </label>
+                            <div class="roles-dropdown" id="userRolesDropdown">
+                                <div class="roles-dropdown-trigger" id="userRolesTrigger">
+                                    <span class="selected-text placeholder" id="userRolesText">Изберете роли...</span>
+                                    <i class="fas fa-chevron-down arrow"></i>
+                                </div>
+                                <div class="roles-dropdown-menu" id="userRolesMenu">
+                                    <label class="role-option" data-role="Кинезитерапевт">
+                                        <input type="checkbox" value="Кинезитерапевт">
+                                        <span class="checkbox"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-hands role-icon"></i>
+                                        <span>Кинезитерапевт</span>
+                                    </label>
+                                    <label class="role-option" data-role="Администратор">
+                                        <input type="checkbox" value="Администратор">
+                                        <span class="checkbox"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-user-shield role-icon"></i>
+                                        <span>Администратор</span>
+                                    </label>
+                                </div>
                             </div>
+                            <div class="selected-roles-badges" id="userRolesBadges"></div>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="addUserBtn">
@@ -1872,9 +2092,7 @@
                     <h1><i class="fas fa-chart-bar"></i> Активност на кинезитерапевтите</h1>
                 </div>
 
-                <div id="activityContent">
-                    <!-- Попълва се динамично -->
-                </div>
+                <div id="activityContent"></div>
             </section>
 
             <!-- ПРОФИЛ -->
@@ -1885,16 +2103,96 @@
                 <div id="profileContent"></div>
             </section>
 
+            <!-- ПОРТАЛ ЗА ПАЦИЕНТ -->
+            <section id="module-portal" class="module">
+                <div class="portal-welcome">
+                    <h1><i class="fas fa-user-circle"></i> Здравейте, <span id="portalUserName">—</span>!</h1>
+                    <p>Това е вашият личен портал. Тук можете да видите своите процедури, да си запишете час и да прегледате ценоразписа.</p>
+                </div>
+
+                <div class="portal-section">
+                    <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
+                    <form id="portalAppointmentForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="portalAptDate">Дата *</label>
+                            <input type="date" id="portalAptDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="portalAptTime">Час *</label>
+                            <input type="time" id="portalAptTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="portalAptDuration">Продължителност (мин)</label>
+                            <select id="portalAptDuration">
+                                <option value="30">30 мин</option>
+                                <option value="45">45 мин</option>
+                                <option value="60" selected>60 мин</option>
+                                <option value="90">90 мин</option>
+                                <option value="120">120 мин</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="portalAptNote">Забележка</label>
+                            <input type="text" id="portalAptNote" placeholder="напр. Болки в коляното...">
+                        </div>
+                        <div class="form-group" style="justify-content: end;">
+                            <button type="submit" class="btn" id="portalAddAptBtn" style="background:#6b3fa0;">
+                                <i class="fas fa-calendar-check"></i> Запази час
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="portal-section">
+                    <h3><i class="fas fa-calendar-check"></i> Моите предстоящи часове</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Час</th>
+                                    <th>Продължителност</th>
+                                    <th>Забележка</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="portalAppointmentsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="portal-section">
+                    <h3><i class="fas fa-history"></i> Моите процедури</h3>
+                    <div id="portalProceduresBody"></div>
+                </div>
+
+                <div class="portal-section">
+                    <h3><i class="fas fa-euro-sign"></i> Ценоразпис</h3>
+                    <div class="table-wrapper">
+                        <table class="price-table">
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Процедура</th>
+                                    <th>Цена</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portalPricingBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL за код -->
     <div class="modal-overlay" id="codeModal">
         <div class="modal">
             <div class="modal-icon">
                 <i class="fas fa-key"></i>
             </div>
-            <h3>Потребителят е създаден</h3>
+            <h3>Код за достъп</h3>
             <p id="modalUserName">Алекс Тодоров</p>
             <div class="new-code" id="modalNewCode">010610</div>
             <p style="font-size: 0.85rem;">
@@ -1904,6 +2202,38 @@
             <div class="modal-actions">
                 <button class="btn" id="modalCopyBtn"><i class="fas fa-copy"></i> Копирай</button>
                 <button class="btn-outline btn" id="modalCloseBtn">Затвори</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL за редакция на роли -->
+    <div class="modal-overlay" id="editRolesModal">
+        <div class="edit-roles-modal">
+            <h3>Редакция на роли</h3>
+            <p class="sub" id="editRolesUserName">—</p>
+            <div class="roles-list" id="editRolesList">
+                <label class="edit-role-item" data-role="Кинезитерапевт">
+                    <input type="checkbox" value="Кинезитерапевт">
+                    <span class="checkbox"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-hands r-icon"></i>
+                    <span>Кинезитерапевт</span>
+                </label>
+                <label class="edit-role-item" data-role="Администратор">
+                    <input type="checkbox" value="Администратор">
+                    <span class="checkbox"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-user-shield r-icon"></i>
+                    <span>Администратор</span>
+                </label>
+                <label class="edit-role-item" data-role="Пациент">
+                    <input type="checkbox" value="Пациент">
+                    <span class="checkbox"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-user r-icon"></i>
+                    <span>Пациент</span>
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="saveRolesBtn"><i class="fas fa-save"></i> Запази</button>
+                <button class="btn-outline btn" id="cancelRolesBtn">Отказ</button>
             </div>
         </div>
     </div>
@@ -1983,17 +2313,20 @@
             return String(Math.floor(100000 + Math.random() * 900000));
         }
 
-        function isCodeUnique(code, users) {
-            return !Object.values(users).some(u => u.accessCode === code);
+        // Проверява уникалност в users И patients
+        function isCodeUnique(code, users, patients) {
+            const inUsers = Object.values(users).some(u => u.accessCode === code);
+            const inPatients = Object.values(patients).some(p => p.accessCode === code);
+            return !inUsers && !inPatients;
         }
 
-        function generateUniqueCode(users) {
+        function generateUniqueCode(users, patients) {
             let code, attempts = 0;
             do {
                 code = generate6DigitCode();
                 attempts++;
-                if (attempts > 100) throw new Error('Не може да се генерира уникален код');
-            } while (!isCodeUnique(code, users));
+                if (attempts > 200) throw new Error('Не може да се генерира уникален код');
+            } while (!isCodeUnique(code, users, patients));
             return code;
         }
 
@@ -2027,7 +2360,6 @@
             return n.toFixed(2);
         }
 
-        // Връща масив с роли (за съвместимост със стари данни с 'role')
         function getUserRoles(user) {
             if (!user) return [];
             if (Array.isArray(user.roles)) return user.roles;
@@ -2043,17 +2375,25 @@
             return hasRole(user, 'Администратор');
         }
 
-        function isOnlyKinezi(user) {
+        function isPatient(user) {
+            return hasRole(user, 'Пациент');
+        }
+
+        function isOnlyPatient(user) {
             const roles = getUserRoles(user);
-            return roles.length === 1 && roles[0] === 'Кинезитерапевт';
+            return roles.length === 1 && roles[0] === 'Пациент';
         }
 
         function getRolesBadgesHtml(user) {
             const roles = getUserRoles(user);
             if (roles.length === 0) return '<span style="color:#7f95b0;">—</span>';
             return roles.map(r => {
-                const cls = r === 'Администратор' ? 'admin' : 'kinezi';
-                const icon = r === 'Администратор' ? 'fa-user-shield' : 'fa-hands';
+                const cls = r === 'Администратор' ? 'admin'
+                          : r === 'Пациент' ? 'patient'
+                          : 'kinezi';
+                const icon = r === 'Администратор' ? 'fa-user-shield'
+                           : r === 'Пациент' ? 'fa-user'
+                           : 'fa-hands';
                 return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
             }).join('');
         }
@@ -2067,11 +2407,13 @@
         let appointments = {};
         let pricing = {};
         let currentUser = null;
+        let currentPatient = null;      // ако влезлият е пациент
         let dataListenersStarted = false;
         let sessionRestored = false;
         let currentWeekStart = getMonday(new Date());
         let currentPriceDate = new Date().toISOString().split('T')[0];
         let adminCreated = false;
+        let editingUserId = null;
 
         // =====================================================
         // DOM
@@ -2096,7 +2438,8 @@
             procedures: document.getElementById('module-procedures'),
             pricing: document.getElementById('module-pricing'),
             users: document.getElementById('module-users'),
-            activity: document.getElementById('module-activity')
+            activity: document.getElementById('module-activity'),
+            portal: document.getElementById('module-portal')
         };
         const patientProfileModule = document.getElementById('module-patient-profile');
 
@@ -2147,9 +2490,21 @@
         // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
-        const userRolesGroup = document.getElementById('userRolesGroup');
         const addUserBtn = document.getElementById('addUserBtn');
         const usersBody = document.getElementById('usersBody');
+
+        const userRolesDropdown = document.getElementById('userRolesDropdown');
+        const userRolesTrigger = document.getElementById('userRolesTrigger');
+        const userRolesMenu = document.getElementById('userRolesMenu');
+        const userRolesText = document.getElementById('userRolesText');
+        const userRolesBadges = document.getElementById('userRolesBadges');
+
+        // Edit roles modal
+        const editRolesModal = document.getElementById('editRolesModal');
+        const editRolesUserName = document.getElementById('editRolesUserName');
+        const editRolesList = document.getElementById('editRolesList');
+        const saveRolesBtn = document.getElementById('saveRolesBtn');
+        const cancelRolesBtn = document.getElementById('cancelRolesBtn');
 
         // Активност
         const activityContent = document.getElementById('activityContent');
@@ -2164,6 +2519,18 @@
         const modalNewCode = document.getElementById('modalNewCode');
         const modalCopyBtn = document.getElementById('modalCopyBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        // Portal
+        const portalUserName = document.getElementById('portalUserName');
+        const portalAppointmentForm = document.getElementById('portalAppointmentForm');
+        const portalAptDate = document.getElementById('portalAptDate');
+        const portalAptTime = document.getElementById('portalAptTime');
+        const portalAptDuration = document.getElementById('portalAptDuration');
+        const portalAptNote = document.getElementById('portalAptNote');
+        const portalAddAptBtn = document.getElementById('portalAddAptBtn');
+        const portalAppointmentsBody = document.getElementById('portalAppointmentsBody');
+        const portalProceduresBody = document.getElementById('portalProceduresBody');
+        const portalPricingBody = document.getElementById('portalPricingBody');
 
         // =====================================================
         // ЛОГИН
@@ -2219,58 +2586,139 @@
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
-            const found = Object.entries(users).find(([, u]) => u.accessCode === code);
-            if (found) {
-                const [id, user] = found;
+            // 1) Проверка в users (служители)
+            const foundUser = Object.entries(users).find(([, u]) => u.accessCode === code);
+            if (foundUser) {
+                const [id, user] = foundUser;
                 currentUser = { id, ...user };
+                currentPatient = null;
                 sessionStorage.setItem('currentUserId', id);
+                sessionStorage.removeItem('currentPatientId');
                 loginSuccess();
-            } else {
-                showLoginError('Грешен код. Опитайте отново.');
-                clearCodeInputs();
+                return;
             }
+
+            // 2) Проверка в patients (пациенти)
+            const foundPatient = Object.entries(patients).find(([, p]) => p.accessCode === code);
+            if (foundPatient) {
+                const [id, patient] = foundPatient;
+                currentPatient = { id, ...patient };
+                currentUser = {
+                    id: id,
+                    name: patient.name,
+                    roles: ['Пациент'],
+                    accessCode: patient.accessCode
+                };
+                sessionStorage.setItem('currentPatientId', id);
+                sessionStorage.removeItem('currentUserId');
+                loginSuccess();
+                return;
+            }
+
+            showLoginError('Грешен код. Опитайте отново.');
+            clearCodeInputs();
         });
 
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
 
-            const initials = (currentUser.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            const displayName = currentUser.name || currentPatient?.name || '?';
+            const initials = displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
             userAvatar.textContent = initials;
-            userName.textContent = currentUser.name;
+            userName.textContent = displayName;
             userRole.textContent = getUserRoles(currentUser).join(' · ') || 'Потребител';
 
             applyPermissions();
             startDataListeners();
-            showToast(`Добре дошли, ${currentUser.name}!`, 'success');
+            showToast(`Добре дошли, ${displayName}!`, 'success');
         }
 
         function applyPermissions() {
             const admin = isAdmin(currentUser);
+            const patientOnly = isOnlyPatient(currentUser);
 
-            // Показваме/скриваме admin-only модули
-            document.querySelectorAll('.nav-item.admin-only').forEach(item => {
-                item.classList.toggle('hidden', !admin);
+            // Показване/скриване на модули
+            navItems.forEach(item => {
+                const mod = item.dataset.module;
+
+                if (patientOnly) {
+                    // Пациентът вижда само портала
+                    item.classList.toggle('hidden', mod !== 'portal');
+                } else if (admin) {
+                    // Админ вижда всичко
+                    item.classList.remove('hidden');
+                } else {
+                    // Кинезитерапевт - без admin-only модули
+                    item.classList.toggle('hidden', item.classList.contains('admin-only'));
+                }
             });
 
-            // Ако не е админ и текущият модул е admin-only → превключваме на пациенти
-            const currentActive = document.querySelector('.nav-item.active');
-            if (!admin && currentActive && currentActive.classList.contains('admin-only')) {
+            // Ако е пациент - превключи на портала
+            if (patientOnly) {
                 navItems.forEach(n => n.classList.remove('active'));
-                const patientsNav = document.querySelector('.nav-item[data-module="patients"]');
-                if (patientsNav) patientsNav.classList.add('active');
+                const portalNav = document.querySelector('.nav-item[data-module="portal"]');
+                if (portalNav) portalNav.classList.add('active');
                 Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
-                if (modules.patients) modules.patients.classList.add('active');
+                if (modules.portal) modules.portal.classList.add('active');
+                renderPortal();
             }
         }
 
         logoutBtn.addEventListener('click', () => {
             if (confirm('Сигурни ли сте, че искате да излезете?')) {
                 sessionStorage.removeItem('currentUserId');
+                sessionStorage.removeItem('currentPatientId');
                 currentUser = null;
+                currentPatient = null;
                 location.reload();
             }
         });
+
+        // =====================================================
+        // ROLES DROPDOWN
+        // =====================================================
+        userRolesTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userRolesDropdown.classList.toggle('open');
+            userRolesTrigger.classList.toggle('open');
+            userRolesMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!userRolesDropdown.contains(e.target)) {
+                userRolesDropdown.classList.remove('open');
+                userRolesTrigger.classList.remove('open');
+                userRolesMenu.classList.remove('open');
+            }
+        });
+
+        userRolesMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', updateNewUserRolesUI);
+        });
+
+        function updateNewUserRolesUI() {
+            const selected = Array.from(userRolesMenu.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
+
+            userRolesMenu.querySelectorAll('.role-option').forEach(opt => {
+                const cb = opt.querySelector('input');
+                opt.classList.toggle('selected', cb.checked);
+            });
+
+            if (selected.length === 0) {
+                userRolesText.textContent = 'Изберете роли...';
+                userRolesText.classList.add('placeholder');
+            } else {
+                userRolesText.textContent = selected.join(', ');
+                userRolesText.classList.remove('placeholder');
+            }
+
+            userRolesBadges.innerHTML = selected.map(r => {
+                const cls = r === 'Администратор' ? 'admin' : 'kinezi';
+                const icon = r === 'Администратор' ? 'fa-user-shield' : 'fa-hands';
+                return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
+            }).join('');
+        }
 
         // =====================================================
         // AUTO ADMIN
@@ -2292,7 +2740,6 @@
                         accessCode: '010610',
                         createdAt: Date.now()
                     });
-                    console.log('✓ Admin създаден');
                 }
             } catch (error) {
                 console.error('Грешка при admin:', error);
@@ -2300,7 +2747,7 @@
         }
 
         // =====================================================
-        // СЛУШАТЕЛ ЗА ПОТРЕБИТЕЛИ
+        // СЛУШАТЕЛИ
         // =====================================================
         function startUsersListener() {
             onValue(usersRef, (snapshot) => {
@@ -2312,28 +2759,15 @@
                     setTimeout(() => ensureAdminExists(), 500);
                 }
 
-                if (!sessionRestored) {
-                    sessionRestored = true;
-                    const savedId = sessionStorage.getItem('currentUserId');
-                    if (savedId && !currentUser && users[savedId]) {
-                        currentUser = { id: savedId, ...users[savedId] };
-                        loginSuccess();
-                    }
-                }
+                if (!sessionRestored) tryRestoreSession();
             }, (error) => {
                 console.error('Грешка при четене на users:', error);
                 showToast('Грешка при свързване: ' + error.message, 'error');
             });
         }
 
-        // =====================================================
-        // ОСТАНАЛИТЕ СЛУШАТЕЛИ
-        // =====================================================
-        function startDataListeners() {
-            if (dataListenersStarted) return;
-            dataListenersStarted = true;
-            showLoading(true);
-
+        function startPatientsListenerEarly() {
+            // Слушаме пациентите отрано, за да можем да възстановим сесия на пациент
             onValue(patientsRef, (snapshot) => {
                 patients = snapshot.val() || {};
                 renderPatients();
@@ -2342,9 +2776,45 @@
                 renderPricing();
                 renderDaySummary();
                 if (isAdmin(currentUser)) renderActivity();
+                if (currentPatient) renderPortal();
+
+                if (!sessionRestored) tryRestoreSession();
                 showLoading(false);
             }, () => showLoading(false));
+        }
 
+        function tryRestoreSession() {
+            if (sessionRestored) return;
+            const savedUserId = sessionStorage.getItem('currentUserId');
+            const savedPatientId = sessionStorage.getItem('currentPatientId');
+
+            if (savedUserId && users[savedUserId]) {
+                sessionRestored = true;
+                currentUser = { id: savedUserId, ...users[savedUserId] };
+                currentPatient = null;
+                loginSuccess();
+                return;
+            }
+
+            if (savedPatientId && patients[savedPatientId]) {
+                sessionRestored = true;
+                const p = patients[savedPatientId];
+                currentPatient = { id: savedPatientId, ...p };
+                currentUser = {
+                    id: savedPatientId,
+                    name: p.name,
+                    roles: ['Пациент'],
+                    accessCode: p.accessCode
+                };
+                loginSuccess();
+            }
+        }
+
+        function startDataListeners() {
+            if (dataListenersStarted) return;
+            dataListenersStarted = true;
+            showLoading(true);
+            // Слушателите за пациенти, процедури, appointments, pricing вече са пуснати в startPatientsListenerEarly
             onValue(proceduresRef, (snapshot) => {
                 procedures = snapshot.val() || {};
                 renderProcedures();
@@ -2352,12 +2822,14 @@
                     openPatientProfile(window.currentProfilePatientId);
                 }
                 if (isAdmin(currentUser)) renderActivity();
+                if (currentPatient) renderPortal();
             });
 
             onValue(appointmentsRef, (snapshot) => {
                 appointments = snapshot.val() || {};
                 renderWeek();
                 if (isAdmin(currentUser)) renderActivity();
+                if (currentPatient) renderPortal();
             });
 
             onValue(pricingRef, (snapshot) => {
@@ -2365,6 +2837,7 @@
                 renderPricing();
                 renderDaySummary();
                 if (isAdmin(currentUser)) renderActivity();
+                if (currentPatient) renderPortal();
             });
         }
 
@@ -2377,7 +2850,7 @@
             const archived = allPatients.filter(p => p.archived).sort((a, b) => a.name.localeCompare(b.name));
 
             if (active.length === 0) {
-                activePatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                activePatientsBody.innerHTML = `<tr><td colspan="6" class="empty-message">
                     <i class="fas fa-user-slash"></i> Няма активни пациенти</td></tr>`;
             } else {
                 activePatientsBody.innerHTML = active.map(p => `
@@ -2389,6 +2862,16 @@
                             </a>
                         </td>
                         <td>${escapeHtml(p.phone || '—')}</td>
+                        <td>
+                            ${p.accessCode ? `
+                                <span class="code-badge">
+                                    ${p.accessCode}
+                                    <button class="copy-patient-code" data-code="${p.accessCode}" title="Копирай">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </span>
+                            ` : '<span style="color:#7f95b0;">—</span>'}
+                        </td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
                             <button class="btn-outline btn-sm archive-single" data-id="${p.id}">
@@ -2400,7 +2883,7 @@
             }
 
             if (archived.length === 0) {
-                archivedPatientsBody.innerHTML = `<tr><td colspan="4" class="empty-message">
+                archivedPatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
                     <i class="fas fa-archive"></i> Няма архивирани пациенти</td></tr>`;
             } else {
                 archivedPatientsBody.innerHTML = archived.map(p => `
@@ -2411,6 +2894,16 @@
                             </a>
                         </td>
                         <td>${escapeHtml(p.phone || '—')}</td>
+                        <td>
+                            ${p.accessCode ? `
+                                <span class="code-badge">
+                                    ${p.accessCode}
+                                    <button class="copy-patient-code" data-code="${p.accessCode}">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </span>
+                            ` : '—'}
+                        </td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
                             <div class="actions">
@@ -2430,6 +2923,17 @@
             updatePatientDropdowns();
         }
 
+        // Копиране на пациентски код
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.copy-patient-code');
+            if (btn) {
+                try {
+                    await navigator.clipboard.writeText(btn.dataset.code);
+                    showToast('Кодът е копиран.', 'success');
+                } catch { showToast('Не е разрешено.', 'error'); }
+            }
+        });
+
         function updatePatientDropdowns() {
             const active = Object.entries(patients)
                 .filter(([, p]) => !p.archived)
@@ -2437,6 +2941,7 @@
                 .sort((a, b) => a.name.localeCompare(b.name));
 
             [procPatient, aptPatient].forEach(select => {
+                if (!select) return;
                 const currentValue = select.value;
                 select.innerHTML = '<option value="">-- избери пациент --</option>' +
                     active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
@@ -2504,6 +3009,7 @@
             }
 
             const todayStr = toDateStr(new Date());
+            const myPatientId = currentPatient ? currentPatient.id : null;
 
             weekGrid.innerHTML = days.map((day, i) => {
                 const dateStr = toDateStr(day);
@@ -2518,8 +3024,9 @@
                     : dayApts.map(a => {
                         const pat = patients[a.patientId];
                         const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                        const isMine = myPatientId && a.patientId === myPatientId;
                         return `
-                            <div class="appointment" data-id="${a.id}">
+                            <div class="appointment ${isMine ? 'mine' : ''}" data-id="${a.id}">
                                 <button class="delete-apt" data-id="${a.id}" title="Изтрий">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -2685,7 +3192,6 @@
             });
         }
 
-        // Запазване на цена
         pricingBody.addEventListener('click', async (e) => {
             const saveBtn = e.target.closest('.save-price-btn');
             if (!saveBtn) return;
@@ -2723,15 +3229,14 @@
                     date: currentPriceDate,
                     price: priceVal === '' ? '' : parseFloat(priceVal),
                     description: descVal,
-                    updatedAt: Date.now()
+                    updatedAt: Date.now(),
+                    updatedBy: currentUser.id
                 };
-                // Запазваме createdBy само при първо създаване
                 if (!existing || !existing.createdBy) {
                     data.createdBy = currentUser.id;
                 } else {
                     data.createdBy = existing.createdBy;
                 }
-                data.updatedBy = currentUser.id;
                 await set(ref(db, `pricing/${key}`), data);
                 showToast('Цената е запазена.', 'success');
             } catch (err) {
@@ -2741,7 +3246,6 @@
             }
         });
 
-        // Изтриване на цена
         pricingBody.addEventListener('click', async (e) => {
             const deleteBtn = e.target.closest('.delete-price-btn');
             if (!deleteBtn) return;
@@ -2781,7 +3285,6 @@
             renderPricing();
         });
 
-        // ИЗТРИЙ ВСИЧКИ ЦЕНИ
         clearAllPricingBtn.addEventListener('click', async () => {
             const totalRecords = Object.keys(pricing).length;
 
@@ -2827,10 +3330,11 @@
             }
             usersBody.innerHTML = allUsers.map(u => {
                 const initials = (u.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-                const isCurrent = currentUser && currentUser.id === u.id;
+                const isCurrent = currentUser && currentUser.id === u.id && !currentPatient;
                 const roles = getUserRoles(u);
                 const hasAdmin = roles.includes('Администратор');
-                const showDelete = !isCurrent && !(hasAdmin && Object.values(users).filter(x => getUserRoles(x).includes('Администратор')).length === 1);
+                const totalAdmins = Object.values(users).filter(x => getUserRoles(x).includes('Администратор')).length;
+                const showDelete = !isCurrent && !(hasAdmin && totalAdmins === 1);
                 return `
                     <tr>
                         <td>
@@ -2869,13 +3373,12 @@
             }).join('');
         }
 
-        // Създаване на потребител
         userForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = userNameInput.value.trim();
             if (!name) { showToast('Въведете име.', 'error'); return; }
 
-            const selectedRoles = Array.from(userRolesGroup.querySelectorAll('input[type="checkbox"]:checked'))
+            const selectedRoles = Array.from(userRolesMenu.querySelectorAll('input[type="checkbox"]:checked'))
                 .map(cb => cb.value);
 
             if (selectedRoles.length === 0) {
@@ -2885,7 +3388,7 @@
 
             addUserBtn.disabled = true;
             try {
-                const newCode = generateUniqueCode(users);
+                const newCode = generateUniqueCode(users, patients);
                 const newRef = push(usersRef);
                 await set(newRef, {
                     name,
@@ -2896,7 +3399,11 @@
                 modalUserName.textContent = name;
                 modalNewCode.textContent = newCode;
                 codeModal.classList.add('active');
+
                 userForm.reset();
+                userRolesMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                updateNewUserRolesUI();
+
                 showToast(`Потребител ${name} е създаден.`, 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -2920,7 +3427,7 @@
                 if (!confirm('Нов код? Старият ще спре да работи.')) return;
                 regenBtn.disabled = true;
                 try {
-                    const newCode = generateUniqueCode(users);
+                    const newCode = generateUniqueCode(users, patients);
                     await update(ref(db, `users/${regenBtn.dataset.id}`), { accessCode: newCode });
                     showToast(`Нов код: ${newCode}`, 'success');
                 } catch (err) {
@@ -2932,50 +3439,7 @@
 
             const editBtn = e.target.closest('.edit-user');
             if (editBtn) {
-                const userId = editBtn.dataset.id;
-                const user = users[userId];
-                if (!user) return;
-
-                const currentRoles = getUserRoles(user);
-                const kineziChecked = currentRoles.includes('Кинезитерапевт');
-                const adminChecked = currentRoles.includes('Администратор');
-
-                const choice = prompt(
-                    `Редакция на роли за ${user.name}:\n\n` +
-                    `Въведи:\n` +
-                    `1 - Кинезитерапевт\n` +
-                    `2 - Администратор\n` +
-                    `3 - Кинезитерапевт + Администратор\n\n` +
-                    `Текущи роли: ${currentRoles.join(', ') || 'няма'}\n\n` +
-                    `Избор (1/2/3):`
-                );
-
-                let newRoles = null;
-                if (choice === '1') newRoles = ['Кинезитерапевт'];
-                else if (choice === '2') newRoles = ['Администратор'];
-                else if (choice === '3') newRoles = ['Кинезитерапевт', 'Администратор'];
-
-                if (!newRoles) {
-                    if (choice !== null) showToast('Невалиден избор.', 'error');
-                    return;
-                }
-
-                // Проверка: не може да оставиш системата без администратор
-                const otherAdmins = Object.entries(users).filter(([id, u]) =>
-                    id !== userId && getUserRoles(u).includes('Администратор')
-                );
-                const stillHasAdmin = newRoles.includes('Администратор');
-                if (!stillHasAdmin && otherAdmins.length === 0) {
-                    showToast('Не може да премахнете последния администратор!', 'error');
-                    return;
-                }
-
-                try {
-                    await update(ref(db, `users/${userId}`), { roles: newRoles, role: null });
-                    showToast(`Ролите на ${user.name} са обновени.`, 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                }
+                openEditRolesModal(editBtn.dataset.id);
                 return;
             }
 
@@ -2994,12 +3458,94 @@
         });
 
         // =====================================================
-        // АКТИВНОСТ (само админ)
+        // EDIT ROLES MODAL
+        // =====================================================
+        function openEditRolesModal(userId) {
+            const user = users[userId];
+            if (!user) return;
+
+            editingUserId = userId;
+            editRolesUserName.textContent = user.name;
+
+            const currentRoles = getUserRoles(user);
+            editRolesList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = currentRoles.includes(cb.value);
+            });
+            updateEditRolesUI();
+
+            editRolesModal.classList.add('active');
+        }
+
+        editRolesList.querySelectorAll('.edit-role-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (e.target.tagName === 'INPUT') return;
+                e.preventDefault();
+                const cb = item.querySelector('input[type="checkbox"]');
+                cb.checked = !cb.checked;
+                updateEditRolesUI();
+            });
+        });
+
+        function updateEditRolesUI() {
+            editRolesList.querySelectorAll('.edit-role-item').forEach(item => {
+                const cb = item.querySelector('input[type="checkbox"]');
+                item.classList.toggle('selected', cb.checked);
+            });
+        }
+
+        saveRolesBtn.addEventListener('click', async () => {
+            if (!editingUserId) return;
+
+            const selectedRoles = Array.from(editRolesList.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+
+            if (selectedRoles.length === 0) {
+                showToast('Изберете поне една роля.', 'error');
+                return;
+            }
+
+            const otherAdmins = Object.entries(users).filter(([id, u]) =>
+                id !== editingUserId && getUserRoles(u).includes('Администратор')
+            );
+            if (!selectedRoles.includes('Администратор') && otherAdmins.length === 0) {
+                showToast('Не може да премахнете последния администратор!', 'error');
+                return;
+            }
+
+            saveRolesBtn.disabled = true;
+            try {
+                await update(ref(db, `users/${editingUserId}`), {
+                    roles: selectedRoles,
+                    role: null
+                });
+                showToast('Ролите са обновени.', 'success');
+                editRolesModal.classList.remove('active');
+                editingUserId = null;
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                saveRolesBtn.disabled = false;
+            }
+        });
+
+        cancelRolesBtn.addEventListener('click', () => {
+            editRolesModal.classList.remove('active');
+            editingUserId = null;
+        });
+
+        editRolesModal.addEventListener('click', (e) => {
+            if (e.target === editRolesModal) {
+                editRolesModal.classList.remove('active');
+                editingUserId = null;
+            }
+        });
+
+        // =====================================================
+        // АКТИВНОСТ
         // =====================================================
         function renderActivity() {
             if (!isAdmin(currentUser)) return;
 
-            // Намираме всички кинезитерапевти
             const kineziUsers = Object.entries(users).filter(([, u]) => hasRole(u, 'Кинезитерапевт'));
 
             if (kineziUsers.length === 0) {
@@ -3015,13 +3561,11 @@
             activityContent.innerHTML = kineziUsers.map(([userId, user]) => {
                 const initials = (user.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
-                // Броим активността
                 const userPatients = Object.entries(patients).filter(([, p]) => p.createdBy === userId);
                 const userProcedures = Object.entries(procedures).filter(([, p]) => p.createdBy === userId);
                 const userAppointments = Object.entries(appointments).filter(([, a]) => a.createdBy === userId);
                 const userPricing = Object.entries(pricing).filter(([, p]) => p.createdBy === userId);
 
-                // Обща сума от цени
                 const totalSum = userPricing.reduce((sum, [, item]) => {
                     const v = parseFloat(item.price);
                     return sum + (isNaN(v) ? 0 : v);
@@ -3190,6 +3734,7 @@
                         <div class="contact">
                             ${patient.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(patient.phone)}</span>` : ''}
                             ${patient.notes ? `<span><i class="fas fa-info-circle"></i> ${escapeHtml(patient.notes)}</span>` : ''}
+                            ${patient.accessCode ? `<span><i class="fas fa-key"></i> Код: <strong>${patient.accessCode}</strong></span>` : ''}
                             ${patient.archived ? `<span><i class="fas fa-archive"></i> Архивиран</span>` : ''}
                         </div>
                     </div>
@@ -3326,12 +3871,24 @@
             if (!name) { showToast('Въведете име.', 'error'); return; }
             addPatientBtn.disabled = true;
             try {
+                // Генерираме уникален код за пациента
+                const patientCode = generateUniqueCode(users, patients);
                 const newRef = push(patientsRef);
                 await set(newRef, {
-                    name, phone: patientPhone.value.trim(), notes: patientNotes.value.trim(),
-                    archived: false, createdAt: Date.now(),
-                    createdBy: currentUser.id
+                    name,
+                    phone: patientPhone.value.trim(),
+                    notes: patientNotes.value.trim(),
+                    archived: false,
+                    createdAt: Date.now(),
+                    createdBy: currentUser.id,
+                    accessCode: patientCode
                 });
+
+                // Показваме кода в modal
+                modalUserName.textContent = name;
+                modalNewCode.textContent = patientCode;
+                codeModal.classList.add('active');
+
                 patientForm.reset();
                 showToast('Пациентът е добавен.', 'success');
             } catch (err) {
@@ -3528,6 +4085,141 @@
         });
 
         // =====================================================
+        // ПОРТАЛ ЗА ПАЦИЕНТ
+        // =====================================================
+        function renderPortal() {
+            if (!currentPatient) return;
+
+            portalUserName.textContent = currentPatient.name;
+
+            // Моите предстоящи часове
+            const myApts = Object.entries(appointments)
+                .map(([id, a]) => ({ id, ...a }))
+                .filter(a => a.patientId === currentPatient.id && a.date >= toDateStr(new Date()))
+                .sort((a, b) => {
+                    const da = `${a.date || ''} ${a.time || ''}`;
+                    const dbb = `${b.date || ''} ${b.time || ''}`;
+                    return da.localeCompare(dbb);
+                });
+
+            if (myApts.length === 0) {
+                portalAppointmentsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                    <i class="fas fa-calendar-times"></i> Нямате предстоящи часове
+                </td></tr>`;
+            } else {
+                portalAppointmentsBody.innerHTML = myApts.map(a => `
+                    <tr>
+                        <td>${formatDate(a.date)}</td>
+                        <td>${a.time || '—'}</td>
+                        <td>${a.duration || 60} мин</td>
+                        <td>${escapeHtml(a.note || '—')}</td>
+                        <td>
+                            <button class="btn-danger-outline btn-sm portal-delete-apt" data-id="${a.id}">
+                                <i class="fas fa-trash-alt"></i> Отмени
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Моите процедури
+            const myProcs = Object.entries(procedures)
+                .map(([id, p]) => ({ id, ...p }))
+                .filter(p => p.patientId === currentPatient.id)
+                .sort((a, b) => {
+                    const da = `${a.date || ''} ${a.time || ''}`;
+                    const dbb = `${b.date || ''} ${b.time || ''}`;
+                    return dbb.localeCompare(da);
+                });
+
+            if (myProcs.length === 0) {
+                portalProceduresBody.innerHTML = `<div class="empty-message">
+                    <i class="fas fa-stethoscope"></i> Все още няма процедури
+                </div>`;
+            } else {
+                portalProceduresBody.innerHTML = `<div class="timeline">
+                    ${myProcs.map(p => `
+                        <div class="timeline-item">
+                            <div class="date">
+                                <i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time || '—'}
+                            </div>
+                            <div class="title">${escapeHtml(p.description)}</div>
+                            ${p.result ? `<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>` : ''}
+                        </div>
+                    `).join('')}
+                </div>`;
+            }
+
+            // Ценоразпис (само за мен)
+            const myPrices = Object.entries(pricing)
+                .map(([key, item]) => ({ key, ...item }))
+                .filter(item => item.patientId === currentPatient.id)
+                .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+            if (myPrices.length === 0) {
+                portalPricingBody.innerHTML = `<tr><td colspan="3" class="empty-message">
+                    <i class="fas fa-euro-sign"></i> Все още няма въведени цени
+                </td></tr>`;
+            } else {
+                portalPricingBody.innerHTML = myPrices.map(p => `
+                    <tr>
+                        <td>${formatDate(p.date)}</td>
+                        <td>${escapeHtml(p.description || '—')}</td>
+                        <td><strong>${formatPrice(p.price)} €</strong></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Пациент си запазва час
+        portalAppointmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentPatient) return;
+
+            const date = portalAptDate.value;
+            const time = portalAptTime.value;
+            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
+
+            portalAddAptBtn.disabled = true;
+            try {
+                const newRef = push(appointmentsRef);
+                await set(newRef, {
+                    patientId: currentPatient.id,
+                    date,
+                    time,
+                    duration: parseInt(portalAptDuration.value),
+                    note: portalAptNote.value.trim(),
+                    createdAt: Date.now(),
+                    createdBy: currentPatient.id,
+                    createdByPatient: true
+                });
+                portalAppointmentForm.reset();
+                portalAptDate.value = new Date().toISOString().split('T')[0];
+                portalAptDuration.value = '60';
+                showToast('Часът е запазен.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                portalAddAptBtn.disabled = false;
+            }
+        });
+
+        // Пациент отменя свой час
+        portalAppointmentsBody.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.portal-delete-apt');
+            if (!btn) return;
+            if (!confirm('Сигурни ли сте, че искате да отмените този час?')) return;
+            btn.disabled = true;
+            try {
+                await remove(ref(db, `appointments/${btn.dataset.id}`));
+                showToast('Часът е отменен.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+                btn.disabled = false;
+            }
+        });
+
+        // =====================================================
         // НАВИГАЦИЯ
         // =====================================================
         navItems.forEach(item => {
@@ -3559,6 +4251,8 @@
                     renderDaySummary();
                 } else if (moduleName === 'activity') {
                     renderActivity();
+                } else if (moduleName === 'portal') {
+                    renderPortal();
                 }
             });
         });
@@ -3571,10 +4265,13 @@
             procDate.value = today;
             aptDate.value = today;
             priceDateInput.value = today;
+            portalAptDate.value = today;
             currentPriceDate = today;
             codeInputEls[0].focus();
 
+            // Стартираме слушателите за users и patients ПРЕДИ логин
             startUsersListener();
+            startPatientsListenerEarly();
         }
 
         init();
