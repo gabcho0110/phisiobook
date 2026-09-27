@@ -593,6 +593,399 @@
             color: #0b2b4f;
         }
 
+        /* Пациент - клик на име */
+        .patient-link {
+            color: #0b2b4f;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .patient-link:hover {
+            background: #e8f0fe;
+            color: #1e4a78;
+            border-color: #cfddee;
+        }
+
+        .patient-link i {
+            color: #7fb2e5;
+            font-size: 0.85rem;
+        }
+
+        /* Профил на пациент */
+        .patient-profile {
+            display: none;
+        }
+
+        .patient-profile.active {
+            display: block;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #cfddee;
+            border-radius: 40px;
+            background: transparent;
+            color: #0b2b4f;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: #f5f9ff;
+            border-color: #0b2b4f;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 2rem;
+            padding: 1.8rem 2rem;
+            background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%);
+            border-radius: 24px;
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(11, 43, 79, 0.15);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #0b2b4f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-info h2 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .profile-info .contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            font-size: 0.9rem;
+            color: #c8ddf0;
+        }
+
+        .profile-info .contact span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 18px;
+            padding: 1.2rem 1.4rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: #7f95b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        /* Timeline за процедури */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9eef3;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: 0.2s;
+        }
+
+        .timeline-item:hover {
+            box-shadow: 0 8px 20px rgba(11, 43, 79, 0.08);
+            transform: translateX(4px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1e4a78;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 3px #e8f0fe;
+        }
+
+        .timeline-item .date {
+            font-size: 0.85rem;
+            color: #1e4a78;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-item .title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #0b2b4f;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .result {
+            font-size: 0.9rem;
+            color: #5a7a9a;
+            background: #f8fbfe;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            border-left: 3px solid #1e4a78;
+            margin-top: 0.6rem;
+        }
+
+        .timeline-item .result strong {
+            color: #0b2b4f;
+        }
+
+        /* График - календар */
+        .schedule-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .week-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .week-nav button {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid #cfddee;
+            background: #ffffff;
+            color: #0b2b4f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .week-nav button:hover {
+            background: #f5f9ff;
+            border-color: #0b2b4f;
+        }
+
+        .week-nav .week-label {
+            font-weight: 600;
+            color: #0b2b4f;
+            font-size: 1rem;
+            min-width: 220px;
+            text-align: center;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-column {
+            background: #f8fbfe;
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e9eef3;
+        }
+
+        .day-column.today {
+            border: 2px solid #1e4a78;
+            background: #ffffff;
+        }
+
+        .day-header {
+            padding: 0.8rem 0.6rem;
+            background: #ffffff;
+            border-bottom: 1px solid #e9eef3;
+            text-align: center;
+        }
+
+        .day-column.today .day-header {
+            background: #1e4a78;
+            color: #ffffff;
+            border-bottom-color: #1e4a78;
+        }
+
+        .day-header .day-name {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+        .day-column.today .day-header .day-name {
+            opacity: 0.85;
+        }
+
+        .day-header .day-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0b2b4f;
+            margin-top: 0.2rem;
+        }
+
+        .day-column.today .day-header .day-number {
+            color: #ffffff;
+        }
+
+        .day-body {
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .appointment {
+            background: #ffffff;
+            border: 1px solid #cfddee;
+            border-left: 4px solid #1e4a78;
+            border-radius: 10px;
+            padding: 0.6rem 0.7rem;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: 0.15s;
+            position: relative;
+        }
+
+        .appointment:hover {
+            background: #e8f0fe;
+            transform: translateX(2px);
+            box-shadow: 0 4px 10px rgba(11, 43, 79, 0.1);
+        }
+
+        .appointment .time {
+            font-weight: 700;
+            color: #1e4a78;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .appointment .patient-name {
+            font-weight: 600;
+            color: #0b2b4f;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .appointment .note {
+            color: #7f95b0;
+            font-size: 0.75rem;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .appointment .delete-apt {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: transparent;
+            border: none;
+            color: #b22234;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.15s;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .appointment:hover .delete-apt {
+            opacity: 1;
+        }
+
+        .appointment .delete-apt:hover {
+            background: #fff5f5;
+        }
+
+        .no-appointments {
+            text-align: center;
+            color: #b0c1d4;
+            font-size: 0.8rem;
+            padding: 1rem 0.5rem;
+            font-style: italic;
+        }
+
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -730,6 +1123,12 @@
             justify-content: center;
         }
 
+        @media (max-width: 1100px) {
+            .week-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
         @media (max-width: 800px) {
             .sidebar {
                 width: 90px;
@@ -755,6 +1154,13 @@
                 height: 54px;
                 font-size: 1.3rem;
             }
+            .week-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -767,6 +1173,9 @@
             }
             .login-card { padding: 2rem 1.5rem; }
             .modal .new-code { font-size: 2rem; letter-spacing: 5px; }
+            .week-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -790,12 +1199,12 @@
 
             <form id="loginForm">
                 <div class="code-inputs" id="codeInputs">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="0">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="1">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="2">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="3">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="4">
-                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="5">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off">
                 </div>
                 <button type="submit" class="login-btn" id="loginBtn" disabled>
                     <i class="fas fa-sign-in-alt"></i> Вход в системата
@@ -839,6 +1248,10 @@
                     <i class="fas fa-users"></i>
                     <span>Пациенти</span>
                 </button>
+                <button class="nav-item" data-module="schedule">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>График</span>
+                </button>
                 <button class="nav-item" data-module="procedures">
                     <i class="fas fa-stethoscope"></i>
                     <span>Процедури</span>
@@ -853,7 +1266,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v1.0 · Firebase</div>
+                <div class="sidebar-version">v1.1 · Firebase</div>
             </div>
         </aside>
 
@@ -930,6 +1343,69 @@
                         <tbody id="archivedPatientsBody"></tbody>
                     </table>
                 </div>
+            </section>
+
+            <!-- МОДУЛ ГРАФИК -->
+            <section id="module-schedule" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-calendar-alt"></i> График</h1>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-plus-circle"></i> Нов час</h3>
+                    <form id="appointmentForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="aptPatient">Пациент *</label>
+                            <select id="aptPatient" required>
+                                <option value="">-- избери пациент --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="aptDate">Дата *</label>
+                            <input type="date" id="aptDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aptTime">Час *</label>
+                            <input type="time" id="aptTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aptDuration">Продължителност (мин)</label>
+                            <select id="aptDuration">
+                                <option value="30">30 мин</option>
+                                <option value="45">45 мин</option>
+                                <option value="60" selected>60 мин</option>
+                                <option value="90">90 мин</option>
+                                <option value="120">120 мин</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="aptNote">Забележка</label>
+                            <input type="text" id="aptNote" placeholder="напр. Първи преглед / Контролен преглед...">
+                        </div>
+                        <div class="form-group" style="justify-content: end;">
+                            <button type="submit" class="btn" id="addAppointmentBtn">
+                                <i class="fas fa-save"></i> Запази час
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="schedule-controls">
+                    <div class="week-nav">
+                        <button id="prevWeekBtn" title="Предишна седмица">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="week-label" id="weekLabel">—</div>
+                        <button id="nextWeekBtn" title="Следваща седмица">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <button class="btn-outline btn-sm" id="todayBtn">
+                        <i class="fas fa-calendar-day"></i> Днес
+                    </button>
+                </div>
+
+                <div class="week-grid" id="weekGrid"></div>
             </section>
 
             <!-- МОДУЛ ПРОЦЕДУРИ -->
@@ -1042,6 +1518,15 @@
                 </div>
             </section>
 
+            <!-- ПРОФИЛ НА ПАЦИЕНТ -->
+            <section id="module-patient-profile" class="module patient-profile">
+                <button class="back-btn" id="backToPatientsBtn">
+                    <i class="fas fa-arrow-left"></i> Назад към пациенти
+                </button>
+
+                <div id="profileContent"></div>
+            </section>
+
         </main>
     </div>
 
@@ -1102,6 +1587,7 @@
         const patientsRef = ref(db, 'patients');
         const proceduresRef = ref(db, 'procedures');
         const usersRef = ref(db, 'users');
+        const appointmentsRef = ref(db, 'appointments');
 
         // =====================================================
         // 3. ПОМОЩНИ ФУНКЦИИ
@@ -1166,15 +1652,44 @@
             return code;
         }
 
+        // Помощни за дати
+        function getMonday(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(d.setDate(diff));
+        }
+
+        function addDays(date, days) {
+            const d = new Date(date);
+            d.setDate(d.getDate() + days);
+            return d;
+        }
+
+        function toDateStr(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        const BG_DAYS = ['Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб', 'Нед'];
+        const BG_MONTHS = ['януари', 'февруари', 'март', 'април', 'май', 'юни',
+                           'юли', 'август', 'септември', 'октомври', 'ноември', 'декември'];
+
         // =====================================================
         // 4. СЪСТОЯНИЕ
         // =====================================================
         let patients = {};
         let procedures = {};
         let users = {};
+        let appointments = {};
         let currentUser = null;
         let dataListenersStarted = false;
         let sessionRestored = false;
+
+        // Текуща седмица за графика
+        let currentWeekStart = getMonday(new Date());
 
         // =====================================================
         // 5. DOM
@@ -1195,10 +1710,13 @@
         const navItems = document.querySelectorAll('.nav-item');
         const modules = {
             patients: document.getElementById('module-patients'),
+            schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
             users: document.getElementById('module-users')
         };
+        const patientProfileModule = document.getElementById('module-patient-profile');
 
+        // Пациенти
         const patientForm = document.getElementById('patientForm');
         const patientName = document.getElementById('patientName');
         const patientPhone = document.getElementById('patientPhone');
@@ -1209,6 +1727,21 @@
         const selectAllPatients = document.getElementById('selectAllPatients');
         const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
 
+        // График
+        const appointmentForm = document.getElementById('appointmentForm');
+        const aptPatient = document.getElementById('aptPatient');
+        const aptDate = document.getElementById('aptDate');
+        const aptTime = document.getElementById('aptTime');
+        const aptDuration = document.getElementById('aptDuration');
+        const aptNote = document.getElementById('aptNote');
+        const addAppointmentBtn = document.getElementById('addAppointmentBtn');
+        const weekGrid = document.getElementById('weekGrid');
+        const weekLabel = document.getElementById('weekLabel');
+        const prevWeekBtn = document.getElementById('prevWeekBtn');
+        const nextWeekBtn = document.getElementById('nextWeekBtn');
+        const todayBtn = document.getElementById('todayBtn');
+
+        // Процедури
         const procedureForm = document.getElementById('procedureForm');
         const procPatient = document.getElementById('procPatient');
         const procDescription = document.getElementById('procDescription');
@@ -1218,12 +1751,18 @@
         const addProcedureBtn = document.getElementById('addProcedureBtn');
         const proceduresBody = document.getElementById('proceduresBody');
 
+        // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
         const userRoleInput = document.getElementById('userRoleInput');
         const addUserBtn = document.getElementById('addUserBtn');
         const usersBody = document.getElementById('usersBody');
 
+        // Профил на пациент
+        const profileContent = document.getElementById('profileContent');
+        const backToPatientsBtn = document.getElementById('backToPatientsBtn');
+
+        // Modal
         const codeModal = document.getElementById('codeModal');
         const modalUserName = document.getElementById('modalUserName');
         const modalNewCode = document.getElementById('modalNewCode');
@@ -1231,7 +1770,7 @@
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
         // =====================================================
-        // 6. ЛОГИН ЛОГИКА
+        // 6. ЛОГИН
         // =====================================================
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
@@ -1270,12 +1809,8 @@
         });
 
         function updateLoginBtn() {
-            const code = getEnteredCode();
+            const code = Array.from(codeInputEls).map(i => i.value).join('');
             loginBtn.disabled = code.length !== 6;
-        }
-
-        function getEnteredCode() {
-            return Array.from(codeInputEls).map(i => i.value).join('');
         }
 
         function clearCodeInputs() {
@@ -1295,7 +1830,7 @@
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const code = getEnteredCode();
+            const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
             const found = Object.entries(users).find(([, u]) => u.accessCode === code);
@@ -1321,7 +1856,6 @@
             userRole.textContent = currentUser.role || 'Потребител';
 
             startDataListeners();
-
             showToast(`Добре дошли, ${currentUser.name}!`, 'success');
         }
 
@@ -1334,14 +1868,12 @@
         });
 
         // =====================================================
-        // 7. АВТОМАТИЧНО СЪЗДАВАНЕ НА АДМИН (Алекс Тодоров)
+        // 7. AUTO-ADMIN
         // =====================================================
         async function ensureAdminExists() {
             try {
                 const snapshot = await get(usersRef);
                 const existingUsers = snapshot.val() || {};
-
-                // Проверяваме дали има потребител с код 010610
                 const hasAdmin = Object.values(existingUsers).some(u => u.accessCode === '010610');
 
                 if (!hasAdmin) {
@@ -1353,10 +1885,9 @@
                         accessCode: '010610',
                         createdAt: Date.now()
                     });
-                    console.log('✓ Admin потребител е създаден.');
                 }
             } catch (error) {
-                console.error('Грешка при проверка на admin:', error);
+                console.error('Грешка при admin:', error);
             }
         }
 
@@ -1366,32 +1897,37 @@
         function startDataListeners() {
             if (dataListenersStarted) return;
             dataListenersStarted = true;
-
             showLoading(true);
 
             onValue(patientsRef, (snapshot) => {
                 patients = snapshot.val() || {};
                 renderPatients();
                 renderProcedures();
+                renderWeek();
                 showLoading(false);
             }, (error) => {
-                console.error('Грешка patients:', error);
-                showToast('Грешка при четене на пациенти: ' + error.message, 'error');
+                console.error(error);
                 showLoading(false);
             });
 
             onValue(proceduresRef, (snapshot) => {
                 procedures = snapshot.val() || {};
                 renderProcedures();
-            }, (error) => {
-                console.error('Грешка procedures:', error);
+                // Ако сме в профил на пациент - презареди го
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
+                    openPatientProfile(window.currentProfilePatientId);
+                }
+            });
+
+            onValue(appointmentsRef, (snapshot) => {
+                appointments = snapshot.val() || {};
+                renderWeek();
             });
 
             onValue(usersRef, (snapshot) => {
                 users = snapshot.val() || {};
                 renderUsers();
 
-                // Възстановяване на сесия (само веднъж)
                 if (!sessionRestored) {
                     sessionRestored = true;
                     const savedId = sessionStorage.getItem('currentUserId');
@@ -1400,13 +1936,11 @@
                         loginSuccess();
                     }
                 }
-            }, (error) => {
-                console.error('Грешка users:', error);
             });
         }
 
         // =====================================================
-        // 9. РЕНДИРАНЕ
+        // 9. РЕНДИРАНЕ НА ПАЦИЕНТИ
         // =====================================================
         function renderPatients() {
             const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
@@ -1420,7 +1954,11 @@
                 activePatientsBody.innerHTML = active.map(p => `
                     <tr>
                         <td><input type="checkbox" class="patient-checkbox" value="${p.id}"></td>
-                        <td><strong>${escapeHtml(p.name)}</strong></td>
+                        <td>
+                            <a class="patient-link" data-id="${p.id}">
+                                <i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}
+                            </a>
+                        </td>
                         <td>${escapeHtml(p.phone || '—')}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
@@ -1438,15 +1976,19 @@
             } else {
                 archivedPatientsBody.innerHTML = archived.map(p => `
                     <tr>
-                        <td><strong>${escapeHtml(p.name)}</strong></td>
+                        <td>
+                            <a class="patient-link" data-id="${p.id}">
+                                <i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}
+                            </a>
+                        </td>
                         <td>${escapeHtml(p.phone || '—')}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
                             <div class="actions">
-                                <button class="btn-outline btn-sm restore-patient" data-id="${p.id}" title="Върни в активни">
+                                <button class="btn-outline btn-sm restore-patient" data-id="${p.id}">
                                     <i class="fas fa-undo-alt"></i> Върни
                                 </button>
-                                <button class="btn-danger-outline btn-sm delete-patient" data-id="${p.id}" title="Изтрий завинаги">
+                                <button class="btn-danger-outline btn-sm delete-patient" data-id="${p.id}">
                                     <i class="fas fa-trash-alt"></i> Изтрий
                                 </button>
                             </div>
@@ -1456,23 +1998,28 @@
             }
 
             selectAllPatients.checked = false;
-            updatePatientDropdown();
+            updatePatientDropdowns();
         }
 
-        function updatePatientDropdown() {
+        function updatePatientDropdowns() {
             const active = Object.entries(patients)
                 .filter(([, p]) => !p.archived)
-                .map(([id, p]) => ({ id, name: p.name }));
+                .map(([id, p]) => ({ id, name: p.name }))
+                .sort((a, b) => a.name.localeCompare(b.name));
 
-            const currentValue = procPatient.value;
-            procPatient.innerHTML = '<option value="">-- избери пациент --</option>' +
-                active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
-
-            if (active.some(p => p.id === currentValue)) {
-                procPatient.value = currentValue;
-            }
+            [procPatient, aptPatient].forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">-- избери пациент --</option>' +
+                    active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+                if (active.some(p => p.id === currentValue)) {
+                    select.value = currentValue;
+                }
+            });
         }
 
+        // =====================================================
+        // 10. РЕНДИРАНЕ НА ПРОЦЕДУРИ
+        // =====================================================
         function renderProcedures() {
             const allProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }));
 
@@ -1490,7 +2037,9 @@
 
             proceduresBody.innerHTML = sorted.map(proc => {
                 const pat = patients[proc.patientId];
-                const patientName = pat ? escapeHtml(pat.name) : '<i>неизвестен пациент</i>';
+                const patientName = pat
+                    ? `<a class="patient-link" data-id="${pat.id}"><i class="fas fa-user-circle"></i> ${escapeHtml(pat.name)}</a>`
+                    : '<i>неизвестен пациент</i>';
                 return `
                     <tr>
                         <td>${patientName}</td>
@@ -1498,7 +2047,7 @@
                         <td>${formatDate(proc.date)} ${proc.time || ''}</td>
                         <td>${escapeHtml(proc.result || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}" title="Изтрий">
+                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -1507,6 +2056,69 @@
             }).join('');
         }
 
+        // =====================================================
+        // 11. РЕНДИРАНЕ НА ГРАФИК
+        // =====================================================
+        function renderWeek() {
+            const days = [];
+            for (let i = 0; i < 7; i++) {
+                days.push(addDays(currentWeekStart, i));
+            }
+
+            // Заглавие
+            const startD = days[0];
+            const endD = days[6];
+            const monthName = BG_MONTHS[startD.getMonth()];
+            if (startD.getMonth() === endD.getMonth()) {
+                weekLabel.textContent = `${startD.getDate()} – ${endD.getDate()} ${monthName} ${startD.getFullYear()}`;
+            } else {
+                weekLabel.textContent = `${startD.getDate()} ${BG_MONTHS[startD.getMonth()]} – ${endD.getDate()} ${BG_MONTHS[endD.getMonth()]} ${endD.getFullYear()}`;
+            }
+
+            const todayStr = toDateStr(new Date());
+
+            weekGrid.innerHTML = days.map((day, i) => {
+                const dateStr = toDateStr(day);
+                const isToday = dateStr === todayStr;
+
+                // Намираме appointments за този ден
+                const dayApts = Object.entries(appointments)
+                    .map(([id, a]) => ({ id, ...a }))
+                    .filter(a => a.date === dateStr)
+                    .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+                const aptsHtml = dayApts.length === 0
+                    ? `<div class="no-appointments">няма часове</div>`
+                    : dayApts.map(a => {
+                        const pat = patients[a.patientId];
+                        const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                        return `
+                            <div class="appointment" data-id="${a.id}">
+                                <button class="delete-apt" data-id="${a.id}" title="Изтрий">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <div class="time"><i class="fas fa-clock"></i> ${a.time || ''} · ${a.duration || 60}мин</div>
+                                <div class="patient-name">${patName}</div>
+                                ${a.note ? `<div class="note">${escapeHtml(a.note)}</div>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+
+                return `
+                    <div class="day-column ${isToday ? 'today' : ''}">
+                        <div class="day-header">
+                            <div class="day-name">${BG_DAYS[i]}</div>
+                            <div class="day-number">${day.getDate()}</div>
+                        </div>
+                        <div class="day-body">${aptsHtml}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =====================================================
+        // 12. РЕНДИРАНЕ НА ПОТРЕБИТЕЛИ
+        // =====================================================
         function renderUsers() {
             const allUsers = Object.entries(users).map(([id, u]) => ({ id, ...u }));
 
@@ -1531,7 +2143,7 @@
                         <td>
                             <span class="code-badge">
                                 ${u.accessCode}
-                                <button class="copy-code" data-code="${u.accessCode}" title="Копирай">
+                                <button class="copy-code" data-code="${u.accessCode}">
                                     <i class="fas fa-copy"></i>
                                 </button>
                             </span>
@@ -1539,11 +2151,11 @@
                         <td>${formatTimestamp(u.createdAt)}</td>
                         <td>
                             <div class="actions">
-                                <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}" title="Генерирай нов код">
+                                <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}">
                                     <i class="fas fa-sync-alt"></i> Нов код
                                 </button>
                                 ${!isCurrent ? `
-                                    <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}" title="Изтрий">
+                                    <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 ` : ''}
@@ -1555,7 +2167,154 @@
         }
 
         // =====================================================
-        // 10. CRUD - ПАЦИЕНТИ
+        // 13. ПРОФИЛ НА ПАЦИЕНТ
+        // =====================================================
+        function openPatientProfile(patientId) {
+            const patient = patients[patientId];
+            if (!patient) {
+                showToast('Пациентът не е намерен.', 'error');
+                return;
+            }
+
+            window.currentProfilePatientId = patientId;
+
+            // Скриваме всички модули
+            Object.values(modules).forEach(m => m.classList.remove('active'));
+            patientProfileModule.classList.add('active');
+            navItems.forEach(n => n.classList.remove('active'));
+
+            // Намираме процедурите на този пациент
+            const patientProcs = Object.entries(procedures)
+                .map(([id, p]) => ({ id, ...p }))
+                .filter(p => p.patientId === patientId)
+                .sort((a, b) => {
+                    const da = `${a.date || ''} ${a.time || ''}`;
+                    const dbb = `${b.date || ''} ${b.time || ''}`;
+                    return dbb.localeCompare(da);
+                });
+
+            // Намираме часовете в графика
+            const patientApts = Object.entries(appointments)
+                .map(([id, a]) => ({ id, ...a }))
+                .filter(a => a.patientId === patientId && a.date >= toDateStr(new Date()))
+                .sort((a, b) => {
+                    const da = `${a.date || ''} ${a.time || ''}`;
+                    const dbb = `${b.date || ''} ${b.time || ''}`;
+                    return da.localeCompare(dbb);
+                });
+
+            const initials = (patient.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            const lastProcedure = patientProcs[0];
+
+            profileContent.innerHTML = `
+                <div class="profile-header">
+                    <div class="profile-avatar">${initials}</div>
+                    <div class="profile-info">
+                        <h2>${escapeHtml(patient.name)}</h2>
+                        <div class="contact">
+                            ${patient.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(patient.phone)}</span>` : ''}
+                            ${patient.notes ? `<span><i class="fas fa-info-circle"></i> ${escapeHtml(patient.notes)}</span>` : ''}
+                            ${patient.archived ? `<span><i class="fas fa-archive"></i> Архивиран</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="label">Общо процедури</div>
+                        <div class="value">${patientProcs.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Предстоящи часове</div>
+                        <div class="value">${patientApts.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Последна процедура</div>
+                        <div class="value" style="font-size: 1rem; padding-top: 0.4rem;">
+                            ${lastProcedure ? formatDate(lastProcedure.date) : '—'}
+                        </div>
+                    </div>
+                </div>
+
+                ${patientApts.length > 0 ? `
+                    <div class="card">
+                        <h3><i class="fas fa-calendar-check"></i> Предстоящи часове в графика</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Час</th>
+                                        <th>Продължителност</th>
+                                        <th>Забележка</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${patientApts.map(a => `
+                                        <tr>
+                                            <td>${formatDate(a.date)}</td>
+                                            <td>${a.time || '—'}</td>
+                                            <td>${a.duration || 60} мин</td>
+                                            <td>${escapeHtml(a.note || '—')}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="card">
+                    <h3><i class="fas fa-history"></i> История на процедурите (${patientProcs.length})</h3>
+                    ${patientProcs.length === 0 ? `
+                        <div class="empty-message">
+                            <i class="fas fa-stethoscope"></i><br>
+                            Все още няма извършени процедури с този пациент
+                        </div>
+                    ` : `
+                        <div class="timeline">
+                            ${patientProcs.map(p => `
+                                <div class="timeline-item">
+                                    <div class="date">
+                                        <i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time || '—'}
+                                    </div>
+                                    <div class="title">${escapeHtml(p.description)}</div>
+                                    ${p.result ? `
+                                        <div class="result">
+                                            <strong>Резултат:</strong> ${escapeHtml(p.result)}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        backToPatientsBtn.addEventListener('click', () => {
+            window.currentProfilePatientId = null;
+            patientProfileModule.classList.remove('active');
+            modules.patients.classList.add('active');
+            // Активираме пациенти nav
+            navItems.forEach(n => {
+                n.classList.toggle('active', n.dataset.module === 'patients');
+            });
+        });
+
+        // Делегиране на клик на пациентско име
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('.patient-link');
+            if (link) {
+                e.preventDefault();
+                openPatientProfile(link.dataset.id);
+            }
+        });
+
+        // =====================================================
+        // 14. CRUD - ПАЦИЕНТИ
         // =====================================================
         patientForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1566,11 +2325,8 @@
             try {
                 const newRef = push(patientsRef);
                 await set(newRef, {
-                    name: name,
-                    phone: patientPhone.value.trim(),
-                    notes: patientNotes.value.trim(),
-                    archived: false,
-                    createdAt: Date.now()
+                    name, phone: patientPhone.value.trim(), notes: patientNotes.value.trim(),
+                    archived: false, createdAt: Date.now()
                 });
                 patientForm.reset();
                 showToast('Пациентът е добавен.', 'success');
@@ -1596,10 +2352,7 @@
 
         archiveSelectedBtn.addEventListener('click', async () => {
             const checked = document.querySelectorAll('.patient-checkbox:checked');
-            if (checked.length === 0) {
-                showToast('Моля, изберете поне един пациент.', 'error');
-                return;
-            }
+            if (checked.length === 0) { showToast('Изберете поне един пациент.', 'error'); return; }
             archiveSelectedBtn.disabled = true;
             try {
                 const updates = {};
@@ -1613,12 +2366,10 @@
             }
         });
 
-        // Делегиране на събития за архив (Върни + Изтрий)
         archivedPatientsBody.addEventListener('click', async (e) => {
             const restoreBtn = e.target.closest('.restore-patient');
             const deleteBtn = e.target.closest('.delete-patient');
 
-            // Възстановяване
             if (restoreBtn) {
                 restoreBtn.disabled = true;
                 try {
@@ -1631,13 +2382,12 @@
                 return;
             }
 
-            // Изтриване
             if (deleteBtn) {
-                if (!confirm('Сигурни ли сте, че искате да изтриете пациента ЗАВИНАГИ? Това действие е необратимо.')) return;
+                if (!confirm('Сигурни ли сте, че искате да изтриете пациента ЗАВИНАГИ?')) return;
                 deleteBtn.disabled = true;
                 try {
                     await remove(ref(db, `patients/${deleteBtn.dataset.id}`));
-                    showToast('Пациентът е изтрит завинаги.', 'success');
+                    showToast('Пациентът е изтрит.', 'success');
                 } catch (err) {
                     showToast('Грешка: ' + err.message, 'error');
                     deleteBtn.disabled = false;
@@ -1650,7 +2400,80 @@
         });
 
         // =====================================================
-        // 11. CRUD - ПРОЦЕДУРИ
+        // 15. CRUD - ГРАФИК
+        // =====================================================
+        appointmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = aptPatient.value;
+            const date = aptDate.value;
+            const time = aptTime.value;
+
+            if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
+            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
+
+            addAppointmentBtn.disabled = true;
+            try {
+                const newRef = push(appointmentsRef);
+                await set(newRef, {
+                    patientId,
+                    date,
+                    time,
+                    duration: parseInt(aptDuration.value),
+                    note: aptNote.value.trim(),
+                    createdAt: Date.now()
+                });
+                appointmentForm.reset();
+                aptDate.value = new Date().toISOString().split('T')[0];
+                aptDuration.value = '60';
+                showToast('Часът е записан.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                addAppointmentBtn.disabled = false;
+            }
+        });
+
+        weekGrid.addEventListener('click', async (e) => {
+            const delBtn = e.target.closest('.delete-apt');
+            if (delBtn) {
+                e.stopPropagation();
+                if (!confirm('Изтрий този час?')) return;
+                try {
+                    await remove(ref(db, `appointments/${delBtn.dataset.id}`));
+                    showToast('Часът е изтрит.', 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                }
+                return;
+            }
+
+            // Клик на appointment → отваряне на пациент
+            const apt = e.target.closest('.appointment');
+            if (apt) {
+                const aptData = appointments[apt.dataset.id];
+                if (aptData && aptData.patientId) {
+                    openPatientProfile(aptData.patientId);
+                }
+            }
+        });
+
+        prevWeekBtn.addEventListener('click', () => {
+            currentWeekStart = addDays(currentWeekStart, -7);
+            renderWeek();
+        });
+
+        nextWeekBtn.addEventListener('click', () => {
+            currentWeekStart = addDays(currentWeekStart, 7);
+            renderWeek();
+        });
+
+        todayBtn.addEventListener('click', () => {
+            currentWeekStart = getMonday(new Date());
+            renderWeek();
+        });
+
+        // =====================================================
+        // 16. CRUD - ПРОЦЕДУРИ
         // =====================================================
         procedureForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1673,7 +2496,7 @@
                 });
                 procedureForm.reset();
                 procDate.value = new Date().toISOString().split('T')[0];
-                updatePatientDropdown();
+                updatePatientDropdowns();
                 showToast('Процедурата е запазена.', 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -1685,7 +2508,7 @@
         proceduresBody.addEventListener('click', async (e) => {
             const btn = e.target.closest('.delete-procedure');
             if (!btn) return;
-            if (!confirm('Сигурни ли сте, че искате да изтриете тази процедура?')) return;
+            if (!confirm('Изтрий тази процедура?')) return;
             btn.disabled = true;
             try {
                 await remove(ref(db, `procedures/${btn.dataset.id}`));
@@ -1697,28 +2520,24 @@
         });
 
         // =====================================================
-        // 12. CRUD - ПОТРЕБИТЕЛИ
+        // 17. CRUD - ПОТРЕБИТЕЛИ
         // =====================================================
         userForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = userNameInput.value.trim();
-            if (!name) { showToast('Моля, въведете име.', 'error'); return; }
+            if (!name) { showToast('Въведете име.', 'error'); return; }
 
             addUserBtn.disabled = true;
             try {
                 const newCode = generateUniqueCode(users);
                 const newRef = push(usersRef);
                 await set(newRef, {
-                    name: name,
-                    role: userRoleInput.value,
-                    accessCode: newCode,
-                    createdAt: Date.now()
+                    name, role: userRoleInput.value,
+                    accessCode: newCode, createdAt: Date.now()
                 });
-
                 modalUserName.textContent = name;
                 modalNewCode.textContent = newCode;
                 codeModal.classList.add('active');
-
                 userForm.reset();
                 showToast(`Потребител ${name} е създаден.`, 'success');
             } catch (err) {
@@ -1734,15 +2553,13 @@
                 try {
                     await navigator.clipboard.writeText(copyBtn.dataset.code);
                     showToast(`Код ${copyBtn.dataset.code} е копиран.`, 'success');
-                } catch {
-                    showToast('Копирането не е разрешено.', 'error');
-                }
+                } catch { showToast('Не е разрешено.', 'error'); }
                 return;
             }
 
             const regenBtn = e.target.closest('.regenerate-code');
             if (regenBtn) {
-                if (!confirm('Да генерирам ли нов код? Старият ще спре да работи.')) return;
+                if (!confirm('Нов код? Старият ще спре да работи.')) return;
                 regenBtn.disabled = true;
                 try {
                     const newCode = generateUniqueCode(users);
@@ -1757,7 +2574,7 @@
 
             const delBtn = e.target.closest('.delete-user');
             if (delBtn) {
-                if (!confirm('Сигурни ли сте, че искате да изтриете този потребител?')) return;
+                if (!confirm('Изтрий този потребител?')) return;
                 delBtn.disabled = true;
                 try {
                     await remove(ref(db, `users/${delBtn.dataset.id}`));
@@ -1773,9 +2590,7 @@
             try {
                 await navigator.clipboard.writeText(modalNewCode.textContent);
                 showToast('Кодът е копиран.', 'success');
-            } catch {
-                showToast('Копирането не е разрешено.', 'error');
-            }
+            } catch { showToast('Не е разрешено.', 'error'); }
         });
 
         modalCloseBtn.addEventListener('click', () => codeModal.classList.remove('active'));
@@ -1784,11 +2599,14 @@
         });
 
         // =====================================================
-        // 13. НАВИГАЦИЯ
+        // 18. НАВИГАЦИЯ
         // =====================================================
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 const moduleName = item.dataset.module;
+                window.currentProfilePatientId = null;
+                patientProfileModule.classList.remove('active');
+
                 navItems.forEach(n => n.classList.remove('active'));
                 item.classList.add('active');
 
@@ -1797,27 +2615,28 @@
                 });
 
                 if (moduleName === 'procedures') {
-                    updatePatientDropdown();
+                    updatePatientDropdowns();
                     renderProcedures();
                 } else if (moduleName === 'patients') {
                     renderPatients();
                 } else if (moduleName === 'users') {
                     renderUsers();
+                } else if (moduleName === 'schedule') {
+                    renderWeek();
                 }
             });
         });
 
         // =====================================================
-        // 14. ИНИЦИАЛИЗАЦИЯ
+        // 19. ИНИЦИАЛИЗАЦИЯ
         // =====================================================
         async function init() {
-            procDate.value = new Date().toISOString().split('T')[0];
+            const today = new Date().toISOString().split('T')[0];
+            procDate.value = today;
+            aptDate.value = today;
             codeInputEls[0].focus();
 
-            // 1. Първо създаваме admin, ако не съществува
             await ensureAdminExists();
-
-            // 2. Стартираме слушателите (ще заредят users и ще възстановят сесия при нужда)
             startDataListeners();
         }
 
