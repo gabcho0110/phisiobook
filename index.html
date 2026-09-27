@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Медицински център · Вход</title>
+    <title>PhysioBook · Вход</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -34,7 +34,7 @@
         }
 
         .login-screen.hidden {
-            display: none;
+            display: none !important;
         }
 
         .login-card {
@@ -65,10 +65,11 @@
         }
 
         .login-card h1 {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: #0b2b4f;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.4rem;
+            letter-spacing: -0.5px;
         }
 
         .login-card p.subtitle {
@@ -175,7 +176,7 @@
         }
 
         .app.hidden {
-            display: none;
+            display: none !important;
         }
 
         /* ---------- SIDEBAR ---------- */
@@ -194,9 +195,9 @@
         }
 
         .sidebar h2 {
-            font-size: 1.6rem;
-            font-weight: 400;
-            letter-spacing: 1px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             padding: 0 1rem 1.5rem 1rem;
             border-bottom: 1px solid #2a4b6e;
             margin-bottom: 1.5rem;
@@ -206,7 +207,7 @@
         }
 
         .sidebar h2 i {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: #a6d0ff;
         }
 
@@ -564,7 +565,6 @@
             gap: 10px;
         }
 
-        /* Код badge */
         .code-badge {
             display: inline-flex;
             align-items: center;
@@ -593,7 +593,6 @@
             color: #0b2b4f;
         }
 
-        /* Loading */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -621,7 +620,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Toasts */
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -654,7 +652,6 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Modal за показване на нов код */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -733,7 +730,6 @@
             justify-content: center;
         }
 
-        /* Responsive */
         @media (max-width: 800px) {
             .sidebar {
                 width: 90px;
@@ -741,7 +737,7 @@
             }
             .sidebar h2 span,
             .nav-item span,
-            .sidebar-footer,
+            .sidebar-footer .logout-btn span,
             .user-details {
                 display: none;
             }
@@ -782,9 +778,9 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="logo">
-                <i class="fas fa-hospital-user"></i>
+                <i class="fas fa-heart-pulse"></i>
             </div>
-            <h1>МедЦентър</h1>
+            <h1>PhysioBook</h1>
             <p class="subtitle">Въведете вашия 6-цифрен код за достъп</p>
 
             <div class="login-error" id="loginError">
@@ -807,7 +803,7 @@
             </form>
 
             <div class="login-footer">
-                <i class="fas fa-lock"></i> Защитен достъп · Свързан с Firebase
+                <i class="fas fa-lock"></i> Защитен достъп · PhysioBook
             </div>
         </div>
     </div>
@@ -817,20 +813,17 @@
          ============================================ -->
     <div class="app hidden" id="app">
 
-        <!-- Loading -->
         <div class="loading-overlay" id="loadingOverlay">
             <i class="fas fa-spinner"></i>
             <span>Зареждане...</span>
         </div>
 
-        <!-- Toasts -->
         <div class="toast-container" id="toastContainer"></div>
 
-        <!-- SIDEBAR -->
         <aside class="sidebar">
             <h2>
-                <i class="fas fa-hospital-user"></i>
-                <span>МедЦентър</span>
+                <i class="fas fa-heart-pulse"></i>
+                <span>PhysioBook</span>
             </h2>
 
             <div class="user-info" id="currentUserInfo">
@@ -858,13 +851,12 @@
 
             <div class="sidebar-footer">
                 <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Изход
+                    <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
                 <div class="sidebar-version">v1.0 · Firebase</div>
             </div>
         </aside>
 
-        <!-- MAIN -->
         <main class="main">
 
             <!-- МОДУЛ ПАЦИЕНТИ -->
@@ -921,6 +913,9 @@
 
                 <div style="margin-top: 2.5rem;">
                     <h3><i class="fas fa-archive"></i> Архив на пациенти</h3>
+                    <p style="color: #7f95b0; font-size: 0.9rem; margin-top: 0.4rem;">
+                        <i class="fas fa-info-circle"></i> Можете да върнете пациент обратно в активните или да го изтриете завинаги.
+                    </p>
                 </div>
                 <div class="table-wrapper">
                     <table>
@@ -1050,7 +1045,7 @@
         </main>
     </div>
 
-    <!-- Modal за показване на нов код -->
+    <!-- Modal -->
     <div class="modal-overlay" id="codeModal">
         <div class="modal">
             <div class="modal-icon">
@@ -1070,10 +1065,9 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         // =====================================================
-        // 1. ИМПОРТ НА FIREBASE SDK
+        // 1. FIREBASE SDK
         // =====================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import {
@@ -1083,11 +1077,13 @@
             set,
             update,
             remove,
-            onValue
+            onValue,
+            get,
+            child
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         // =====================================================
-        // 2. FIREBASE КОНФИГУРАЦИЯ
+        // 2. FIREBASE КОНФИГ
         // =====================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -1151,17 +1147,14 @@
             return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Генерира 6-цифрен код
         function generate6DigitCode() {
             return String(Math.floor(100000 + Math.random() * 900000));
         }
 
-        // Проверява уникалност на код
         function isCodeUnique(code, users) {
             return !Object.values(users).some(u => u.accessCode === code);
         }
 
-        // Генерира уникален код
         function generateUniqueCode(users) {
             let code;
             let attempts = 0;
@@ -1180,11 +1173,12 @@
         let procedures = {};
         let users = {};
         let currentUser = null;
+        let dataListenersStarted = false;
+        let sessionRestored = false;
 
         // =====================================================
-        // 5. DOM РЕФЕРЕНЦИИ
+        // 5. DOM
         // =====================================================
-        // Логин
         const loginScreen = document.getElementById('loginScreen');
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
@@ -1192,14 +1186,12 @@
         const loginErrorText = document.getElementById('loginErrorText');
         const codeInputEls = document.querySelectorAll('#codeInputs input');
 
-        // App
         const appEl = document.getElementById('app');
         const logoutBtn = document.getElementById('logoutBtn');
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const userRole = document.getElementById('userRole');
 
-        // Навигация
         const navItems = document.querySelectorAll('.nav-item');
         const modules = {
             patients: document.getElementById('module-patients'),
@@ -1207,7 +1199,6 @@
             users: document.getElementById('module-users')
         };
 
-        // Пациенти
         const patientForm = document.getElementById('patientForm');
         const patientName = document.getElementById('patientName');
         const patientPhone = document.getElementById('patientPhone');
@@ -1218,7 +1209,6 @@
         const selectAllPatients = document.getElementById('selectAllPatients');
         const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
 
-        // Процедури
         const procedureForm = document.getElementById('procedureForm');
         const procPatient = document.getElementById('procPatient');
         const procDescription = document.getElementById('procDescription');
@@ -1228,14 +1218,12 @@
         const addProcedureBtn = document.getElementById('addProcedureBtn');
         const proceduresBody = document.getElementById('proceduresBody');
 
-        // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
         const userRoleInput = document.getElementById('userRoleInput');
         const addUserBtn = document.getElementById('addUserBtn');
         const usersBody = document.getElementById('usersBody');
 
-        // Modal
         const codeModal = document.getElementById('codeModal');
         const modalUserName = document.getElementById('modalUserName');
         const modalNewCode = document.getElementById('modalNewCode');
@@ -1245,13 +1233,11 @@
         // =====================================================
         // 6. ЛОГИН ЛОГИКА
         // =====================================================
-        // Автоматично преместване между полетата
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
                 e.target.value = val.slice(0, 1);
                 e.target.classList.toggle('filled', !!e.target.value);
-
                 if (val && idx < codeInputEls.length - 1) {
                     codeInputEls[idx + 1].focus();
                 }
@@ -1312,13 +1298,11 @@
             const code = getEnteredCode();
             if (code.length !== 6) return;
 
-            // Търси потребител с този код
             const found = Object.entries(users).find(([, u]) => u.accessCode === code);
 
             if (found) {
                 const [id, user] = found;
                 currentUser = { id, ...user };
-                // Запазваме в sessionStorage (изчиства се при затваряне на таба)
                 sessionStorage.setItem('currentUserId', id);
                 loginSuccess();
             } else {
@@ -1331,37 +1315,55 @@
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
 
-            // Показваме потребителската информация
-            const initials = currentUser.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            const initials = (currentUser.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
             userAvatar.textContent = initials;
             userName.textContent = currentUser.name;
             userRole.textContent = currentUser.role || 'Потребител';
 
-            // Зареждаме данните
-            listenToData();
+            startDataListeners();
 
             showToast(`Добре дошли, ${currentUser.name}!`, 'success');
         }
 
-        function logout() {
-            currentUser = null;
-            sessionStorage.removeItem('currentUserId');
-            // Изчистваме слушателите
-            location.reload(); // Най-простият начин - презареждане
-        }
-
         logoutBtn.addEventListener('click', () => {
             if (confirm('Сигурни ли сте, че искате да излезете?')) {
-                logout();
+                sessionStorage.removeItem('currentUserId');
+                currentUser = null;
+                location.reload();
             }
         });
 
         // =====================================================
-        // 7. FIREBASE СЛУШАТЕЛИ
+        // 7. АВТОМАТИЧНО СЪЗДАВАНЕ НА АДМИН (Алекс Тодоров)
         // =====================================================
-        let dataListenersStarted = false;
+        async function ensureAdminExists() {
+            try {
+                const snapshot = await get(usersRef);
+                const existingUsers = snapshot.val() || {};
 
-        function listenToData() {
+                // Проверяваме дали има потребител с код 010610
+                const hasAdmin = Object.values(existingUsers).some(u => u.accessCode === '010610');
+
+                if (!hasAdmin) {
+                    console.log('Създавам admin потребител Алекс Тодоров...');
+                    const newRef = push(usersRef);
+                    await set(newRef, {
+                        name: 'Алекс Тодоров',
+                        role: 'Администратор',
+                        accessCode: '010610',
+                        createdAt: Date.now()
+                    });
+                    console.log('✓ Admin потребител е създаден.');
+                }
+            } catch (error) {
+                console.error('Грешка при проверка на admin:', error);
+            }
+        }
+
+        // =====================================================
+        // 8. FIREBASE СЛУШАТЕЛИ
+        // =====================================================
+        function startDataListeners() {
             if (dataListenersStarted) return;
             dataListenersStarted = true;
 
@@ -1383,35 +1385,28 @@
                 renderProcedures();
             }, (error) => {
                 console.error('Грешка procedures:', error);
-                showToast('Грешка при четене на процедури', 'error');
             });
 
             onValue(usersRef, (snapshot) => {
                 users = snapshot.val() || {};
                 renderUsers();
 
-                // Автоматично възстановяване на сесия
-                const savedId = sessionStorage.getItem('currentUserId');
-                if (savedId && !currentUser && users[savedId]) {
-                    currentUser = { id: savedId, ...users[savedId] };
-                    loginSuccess();
+                // Възстановяване на сесия (само веднъж)
+                if (!sessionRestored) {
+                    sessionRestored = true;
+                    const savedId = sessionStorage.getItem('currentUserId');
+                    if (savedId && !currentUser && users[savedId]) {
+                        currentUser = { id: savedId, ...users[savedId] };
+                        loginSuccess();
+                    }
                 }
             }, (error) => {
                 console.error('Грешка users:', error);
-                showToast('Грешка при четене на потребители', 'error');
             });
         }
 
-        // Проверка за съществуваща сесия при зареждане
-        function checkExistingSession() {
-            const savedId = sessionStorage.getItem('currentUserId');
-            if (savedId) {
-                // Ще се възстанови след зареждане на users
-            }
-        }
-
         // =====================================================
-        // 8. РЕНДИРАНЕ
+        // 9. РЕНДИРАНЕ
         // =====================================================
         function renderPatients() {
             const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
@@ -1447,9 +1442,14 @@
                         <td>${escapeHtml(p.phone || '—')}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm restore-patient" data-id="${p.id}">
-                                <i class="fas fa-undo-alt"></i> Върни
-                            </button>
+                            <div class="actions">
+                                <button class="btn-outline btn-sm restore-patient" data-id="${p.id}" title="Върни в активни">
+                                    <i class="fas fa-undo-alt"></i> Върни
+                                </button>
+                                <button class="btn-danger-outline btn-sm delete-patient" data-id="${p.id}" title="Изтрий завинаги">
+                                    <i class="fas fa-trash-alt"></i> Изтрий
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `).join('');
@@ -1538,14 +1538,16 @@
                         </td>
                         <td>${formatTimestamp(u.createdAt)}</td>
                         <td>
-                            <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}" title="Генерирай нов код">
-                                <i class="fas fa-sync-alt"></i> Нов код
-                            </button>
-                            ${!isCurrent ? `
-                                <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}" title="Изтрий">
-                                    <i class="fas fa-trash-alt"></i>
+                            <div class="actions">
+                                <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}" title="Генерирай нов код">
+                                    <i class="fas fa-sync-alt"></i> Нов код
                                 </button>
-                            ` : ''}
+                                ${!isCurrent ? `
+                                    <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}" title="Изтрий">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -1553,15 +1555,12 @@
         }
 
         // =====================================================
-        // 9. CRUD - ПАЦИЕНТИ
+        // 10. CRUD - ПАЦИЕНТИ
         // =====================================================
         patientForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = patientName.value.trim();
-            if (!name) {
-                showToast('Моля, въведете име.', 'error');
-                return;
-            }
+            if (!name) { showToast('Моля, въведете име.', 'error'); return; }
 
             addPatientBtn.disabled = true;
             try {
@@ -1614,16 +1613,35 @@
             }
         });
 
+        // Делегиране на събития за архив (Върни + Изтрий)
         archivedPatientsBody.addEventListener('click', async (e) => {
-            const btn = e.target.closest('.restore-patient');
-            if (!btn) return;
-            btn.disabled = true;
-            try {
-                await update(ref(db, `patients/${btn.dataset.id}`), { archived: false });
-                showToast('Пациентът е възстановен.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-                btn.disabled = false;
+            const restoreBtn = e.target.closest('.restore-patient');
+            const deleteBtn = e.target.closest('.delete-patient');
+
+            // Възстановяване
+            if (restoreBtn) {
+                restoreBtn.disabled = true;
+                try {
+                    await update(ref(db, `patients/${restoreBtn.dataset.id}`), { archived: false });
+                    showToast('Пациентът е възстановен.', 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    restoreBtn.disabled = false;
+                }
+                return;
+            }
+
+            // Изтриване
+            if (deleteBtn) {
+                if (!confirm('Сигурни ли сте, че искате да изтриете пациента ЗАВИНАГИ? Това действие е необратимо.')) return;
+                deleteBtn.disabled = true;
+                try {
+                    await remove(ref(db, `patients/${deleteBtn.dataset.id}`));
+                    showToast('Пациентът е изтрит завинаги.', 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    deleteBtn.disabled = false;
+                }
             }
         });
 
@@ -1632,7 +1650,7 @@
         });
 
         // =====================================================
-        // 10. CRUD - ПРОЦЕДУРИ
+        // 11. CRUD - ПРОЦЕДУРИ
         // =====================================================
         procedureForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1649,10 +1667,7 @@
             try {
                 const newRef = push(proceduresRef);
                 await set(newRef, {
-                    patientId: patientId,
-                    description: description,
-                    date: date,
-                    time: time,
+                    patientId, description, date, time,
                     result: procResult.value.trim(),
                     createdAt: Date.now()
                 });
@@ -1682,29 +1697,24 @@
         });
 
         // =====================================================
-        // 11. CRUD - ПОТРЕБИТЕЛИ
+        // 12. CRUD - ПОТРЕБИТЕЛИ
         // =====================================================
         userForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = userNameInput.value.trim();
-            if (!name) {
-                showToast('Моля, въведете име.', 'error');
-                return;
-            }
+            if (!name) { showToast('Моля, въведете име.', 'error'); return; }
 
             addUserBtn.disabled = true;
             try {
                 const newCode = generateUniqueCode(users);
                 const newRef = push(usersRef);
-                const newUser = {
+                await set(newRef, {
                     name: name,
                     role: userRoleInput.value,
                     accessCode: newCode,
                     createdAt: Date.now()
-                };
-                await set(newRef, newUser);
+                });
 
-                // Показваме modal с новия код
                 modalUserName.textContent = name;
                 modalNewCode.textContent = newCode;
                 codeModal.classList.add('active');
@@ -1719,20 +1729,17 @@
         });
 
         usersBody.addEventListener('click', async (e) => {
-            // Копиране на код
             const copyBtn = e.target.closest('.copy-code');
             if (copyBtn) {
-                const code = copyBtn.dataset.code;
                 try {
-                    await navigator.clipboard.writeText(code);
-                    showToast(`Код ${code} е копиран.`, 'success');
+                    await navigator.clipboard.writeText(copyBtn.dataset.code);
+                    showToast(`Код ${copyBtn.dataset.code} е копиран.`, 'success');
                 } catch {
                     showToast('Копирането не е разрешено.', 'error');
                 }
                 return;
             }
 
-            // Нов код
             const regenBtn = e.target.closest('.regenerate-code');
             if (regenBtn) {
                 if (!confirm('Да генерирам ли нов код? Старият ще спре да работи.')) return;
@@ -1748,7 +1755,6 @@
                 return;
             }
 
-            // Изтриване
             const delBtn = e.target.closest('.delete-user');
             if (delBtn) {
                 if (!confirm('Сигурни ли сте, че искате да изтриете този потребител?')) return;
@@ -1763,7 +1769,6 @@
             }
         });
 
-        // Modal бутони
         modalCopyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(modalNewCode.textContent);
@@ -1773,16 +1778,13 @@
             }
         });
 
-        modalCloseBtn.addEventListener('click', () => {
-            codeModal.classList.remove('active');
-        });
-
+        modalCloseBtn.addEventListener('click', () => codeModal.classList.remove('active'));
         codeModal.addEventListener('click', (e) => {
             if (e.target === codeModal) codeModal.classList.remove('active');
         });
 
         // =====================================================
-        // 12. НАВИГАЦИЯ
+        // 13. НАВИГАЦИЯ
         // =====================================================
         navItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -1806,12 +1808,17 @@
         });
 
         // =====================================================
-        // 13. ИНИЦИАЛИЗАЦИЯ
+        // 14. ИНИЦИАЛИЗАЦИЯ
         // =====================================================
-        function init() {
+        async function init() {
             procDate.value = new Date().toISOString().split('T')[0];
             codeInputEls[0].focus();
-            checkExistingSession();
+
+            // 1. Първо създаваме admin, ако не съществува
+            await ensureAdminExists();
+
+            // 2. Стартираме слушателите (ще заредят users и ще възстановят сесия при нужда)
+            startDataListeners();
         }
 
         init();
