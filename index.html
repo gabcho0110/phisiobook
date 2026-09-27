@@ -43,19 +43,17 @@
             text-align: center;
         }
 
-        .login-card .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.2rem;
+        .login-logo {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            object-fit: cover;
             background: #0b2b4f;
-            border-radius: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(11, 43, 79, 0.25);
+            box-shadow: 0 10px 30px rgba(11, 43, 79, 0.35);
+            border: 4px solid #ffffff;
+            display: block;
         }
-
-        .login-card .logo i { font-size: 2.5rem; color: #ffffff; }
 
         .login-card h1 {
             font-size: 1.8rem;
@@ -176,15 +174,24 @@
             font-size: 1.5rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            padding: 0 1rem 1.5rem 1rem;
+            padding: 0 1rem 1.2rem 1rem;
             border-bottom: 1px solid #2a4b6e;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .sidebar h2 i { font-size: 1.7rem; color: #a6d0ff; }
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ffffff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 2px solid #ffffff;
+        }
 
         .nav {
             display: flex;
@@ -530,20 +537,9 @@
             margin: 2px 4px 2px 0;
         }
 
-        .role-badge.admin {
-            background: #fff5e5;
-            color: #b06d00;
-        }
-
-        .role-badge.kinezi {
-            background: #e8f5e9;
-            color: #1a7a3e;
-        }
-
-        .role-badge.patient {
-            background: #f0e8ff;
-            color: #6b3fa0;
-        }
+        .role-badge.admin { background: #fff5e5; color: #b06d00; }
+        .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
+        .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
 
         .btn {
             display: inline-flex;
@@ -1359,16 +1355,8 @@
             min-width: 0;
         }
 
-        .activity-item .name {
-            color: #0b2b4f;
-            font-weight: 600;
-        }
-
-        .activity-item .meta {
-            font-size: 0.78rem;
-            color: #7f95b0;
-        }
-
+        .activity-item .name { color: #0b2b4f; font-weight: 600; }
+        .activity-item .meta { font-size: 0.78rem; color: #7f95b0; }
         .activity-item .when {
             font-size: 0.78rem;
             color: #7f95b0;
@@ -1599,16 +1587,29 @@
             padding: 2rem 2.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 10px 25px rgba(107, 63, 160, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .portal-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
 
         .portal-welcome h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 600;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }
 
         .portal-welcome p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             opacity: 0.9;
         }
 
@@ -1631,8 +1632,18 @@
             gap: 8px;
         }
 
-        .portal-section h3 i {
-            color: #6b3fa0;
+        .portal-section h3 i { color: #6b3fa0; }
+
+        /* Kinezi select */
+        .kinezi-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            border: 1px solid #cfddee;
+            font-size: 0.95rem;
+            background: #ffffff;
+            font-family: inherit;
+            cursor: pointer;
         }
 
         @media (max-width: 1100px) {
@@ -1645,7 +1656,8 @@
             .nav-item span,
             .sidebar-footer .logout-btn span,
             .user-details { display: none; }
-            .sidebar h2 i { margin: 0 auto; }
+            .sidebar h2 { padding: 0 0 1rem; justify-content: center; }
+            .sidebar-logo { width: 40px; height: 40px; }
             .nav-item { justify-content: center; padding: 0.9rem; }
             .nav-item i { width: auto; font-size: 1.4rem; }
             .user-info { justify-content: center; padding: 0.7rem; margin: 0 0.3rem 1rem; }
@@ -1656,6 +1668,7 @@
             .profile-header { flex-direction: column; text-align: center; }
             .price-date-bar .summary { margin-left: 0; }
             .clear-all-btn { width: 100%; justify-content: center; }
+            .portal-welcome { flex-direction: column; text-align: center; }
         }
 
         @media (max-width: 480px) {
@@ -1677,9 +1690,7 @@
     <!-- ЛОГИН -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
-            <div class="logo">
-                <i class="fas fa-heart-pulse"></i>
-            </div>
+            <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="login-logo" id="loginLogoImg">
             <h1>PhysioBook</h1>
             <p class="subtitle">Въведете вашия 6-цифрен код за достъп</p>
 
@@ -1720,7 +1731,7 @@
 
         <aside class="sidebar">
             <h2>
-                <i class="fas fa-heart-pulse"></i>
+                <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="sidebar-logo">
                 <span>PhysioBook</span>
             </h2>
 
@@ -1757,13 +1768,17 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Активност</span>
                 </button>
+                <button class="nav-item" data-module="portal">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Моят портал</span>
+                </button>
             </nav>
 
             <div class="sidebar-footer">
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v1.8 · Firebase</div>
+                <div class="sidebar-version">v2.0 · Firebase</div>
             </div>
         </aside>
 
@@ -1778,7 +1793,7 @@
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
                     <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Към всеки пациент автоматично се създава 6-цифрен код за вход в системата.
+                        <i class="fas fa-info-circle"></i> Към всеки пациент автоматично се създава 6-цифрен код за вход.
                     </p>
                     <form id="patientForm" class="form-grid">
                         <div class="form-group">
@@ -1878,8 +1893,8 @@
                             </select>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label for="aptNote">Забележка</label>
-                            <input type="text" id="aptNote" placeholder="напр. Първи преглед...">
+                            <label for="aptNote">За какво е часът / процедура *</label>
+                            <input type="text" id="aptNote" placeholder="напр. Болки в коляното, рехабилитация..." required>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="addAppointmentBtn">
@@ -1924,7 +1939,7 @@
                         </div>
                         <div class="form-group">
                             <label for="procDescription">Описание на процедурата *</label>
-                            <input type="text" id="procDescription" placeholder="напр. Венозна инфузия" required>
+                            <input type="text" id="procDescription" placeholder="напр. Физиотерапия" required>
                         </div>
                         <div class="form-group">
                             <label for="procDate">Дата *</label>
@@ -2019,7 +2034,7 @@
                 </div>
             </section>
 
-            <!-- ПОТРЕБИТЕЛИ (само админ) -->
+            <!-- ПОТРЕБИТЕЛИ -->
             <section id="module-users" class="module">
                 <div class="module-header">
                     <h1><i class="fas fa-user-shield"></i> Потребители</h1>
@@ -2028,7 +2043,7 @@
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
                     <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Изберете една или повече роли от падащото меню.
+                        <i class="fas fa-info-circle"></i> Изберете една или повече роли.
                     </p>
                     <form id="userForm" class="form-grid">
                         <div class="form-group">
@@ -2086,7 +2101,7 @@
                 </div>
             </section>
 
-            <!-- АКТИВНОСТ (само админ) -->
+            <!-- АКТИВНОСТ -->
             <section id="module-activity" class="module">
                 <div class="module-header">
                     <h1><i class="fas fa-chart-bar"></i> Активност на кинезитерапевтите</h1>
@@ -2106,13 +2121,22 @@
             <!-- ПОРТАЛ ЗА ПАЦИЕНТ -->
             <section id="module-portal" class="module">
                 <div class="portal-welcome">
-                    <h1><i class="fas fa-user-circle"></i> Здравейте, <span id="portalUserName">—</span>!</h1>
-                    <p>Това е вашият личен портал. Тук можете да видите своите процедури, да си запишете час и да прегледате ценоразписа.</p>
+                    <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="portal-logo">
+                    <div>
+                        <h1>Здравейте, <span id="portalUserName">—</span>!</h1>
+                        <p>Това е вашият личен портал — тук можете да си запазите час, да видите процедурите си и ценоразписа.</p>
+                    </div>
                 </div>
 
                 <div class="portal-section">
                     <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
                     <form id="portalAppointmentForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="portalAptKinezi">Кинезитерапевт *</label>
+                            <select id="portalAptKinezi" class="kinezi-select" required>
+                                <option value="">-- избери кинезитерапевт --</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="portalAptDate">Дата *</label>
                             <input type="date" id="portalAptDate" required>
@@ -2132,8 +2156,8 @@
                             </select>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label for="portalAptNote">Забележка</label>
-                            <input type="text" id="portalAptNote" placeholder="напр. Болки в коляното...">
+                            <label for="portalAptNote">За каква процедура / оплакване *</label>
+                            <input type="text" id="portalAptNote" placeholder="напр. Болки в кръста, рехабилитация след операция..." required>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="portalAddAptBtn" style="background:#6b3fa0;">
@@ -2151,8 +2175,8 @@
                                 <tr>
                                     <th>Дата</th>
                                     <th>Час</th>
-                                    <th>Продължителност</th>
-                                    <th>Забележка</th>
+                                    <th>Кинезитерапевт</th>
+                                    <th>Процедура</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -2313,7 +2337,6 @@
             return String(Math.floor(100000 + Math.random() * 900000));
         }
 
-        // Проверява уникалност в users И patients
         function isCodeUnique(code, users, patients) {
             const inUsers = Object.values(users).some(u => u.accessCode === code);
             const inPatients = Object.values(patients).some(p => p.accessCode === code);
@@ -2407,13 +2430,14 @@
         let appointments = {};
         let pricing = {};
         let currentUser = null;
-        let currentPatient = null;      // ако влезлият е пациент
+        let currentPatient = null;
         let dataListenersStarted = false;
         let sessionRestored = false;
         let currentWeekStart = getMonday(new Date());
         let currentPriceDate = new Date().toISOString().split('T')[0];
         let adminCreated = false;
         let editingUserId = null;
+        let isLoadingOverlayShown = false;   // ← за fix на bug
 
         // =====================================================
         // DOM
@@ -2523,6 +2547,7 @@
         // Portal
         const portalUserName = document.getElementById('portalUserName');
         const portalAppointmentForm = document.getElementById('portalAppointmentForm');
+        const portalAptKinezi = document.getElementById('portalAptKinezi');
         const portalAptDate = document.getElementById('portalAptDate');
         const portalAptTime = document.getElementById('portalAptTime');
         const portalAptDuration = document.getElementById('portalAptDuration');
@@ -2586,7 +2611,6 @@
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
-            // 1) Проверка в users (служители)
             const foundUser = Object.entries(users).find(([, u]) => u.accessCode === code);
             if (foundUser) {
                 const [id, user] = foundUser;
@@ -2598,7 +2622,6 @@
                 return;
             }
 
-            // 2) Проверка в patients (пациенти)
             const foundPatient = Object.entries(patients).find(([, p]) => p.accessCode === code);
             if (foundPatient) {
                 const [id, patient] = foundPatient;
@@ -2622,6 +2645,7 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
+            showLoading(false);  // ← за всеки случай махаме overlay
 
             const displayName = currentUser.name || currentPatient?.name || '?';
             const initials = displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
@@ -2638,23 +2662,18 @@
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
 
-            // Показване/скриване на модули
             navItems.forEach(item => {
                 const mod = item.dataset.module;
 
                 if (patientOnly) {
-                    // Пациентът вижда само портала
                     item.classList.toggle('hidden', mod !== 'portal');
                 } else if (admin) {
-                    // Админ вижда всичко
                     item.classList.remove('hidden');
                 } else {
-                    // Кинезитерапевт - без admin-only модули
                     item.classList.toggle('hidden', item.classList.contains('admin-only'));
                 }
             });
 
-            // Ако е пациент - превключи на портала
             if (patientOnly) {
                 navItems.forEach(n => n.classList.remove('active'));
                 const portalNav = document.querySelector('.nav-item[data-module="portal"]');
@@ -2753,6 +2772,7 @@
             onValue(usersRef, (snapshot) => {
                 users = snapshot.val() || {};
                 renderUsers();
+                renderPortalKineziSelect();
 
                 if (!adminCreated) {
                     adminCreated = true;
@@ -2762,12 +2782,11 @@
                 if (!sessionRestored) tryRestoreSession();
             }, (error) => {
                 console.error('Грешка при четене на users:', error);
-                showToast('Грешка при свързване: ' + error.message, 'error');
+                showLoading(false);
             });
         }
 
         function startPatientsListenerEarly() {
-            // Слушаме пациентите отрано, за да можем да възстановим сесия на пациент
             onValue(patientsRef, (snapshot) => {
                 patients = snapshot.val() || {};
                 renderPatients();
@@ -2813,8 +2832,7 @@
         function startDataListeners() {
             if (dataListenersStarted) return;
             dataListenersStarted = true;
-            showLoading(true);
-            // Слушателите за пациенти, процедури, appointments, pricing вече са пуснати в startPatientsListenerEarly
+
             onValue(proceduresRef, (snapshot) => {
                 procedures = snapshot.val() || {};
                 renderProcedures();
@@ -2839,10 +2857,13 @@
                 if (isAdmin(currentUser)) renderActivity();
                 if (currentPatient) renderPortal();
             });
+
+            // Скриваме overlay след кратък момент
+            setTimeout(() => showLoading(false), 500);
         }
 
         // =====================================================
-        // ПАЦИЕНТИ - РЕНДЕР
+        // ПАЦИЕНТИ
         // =====================================================
         function renderPatients() {
             const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
@@ -2923,7 +2944,6 @@
             updatePatientDropdowns();
         }
 
-        // Копиране на пациентски код
         document.addEventListener('click', async (e) => {
             const btn = e.target.closest('.copy-patient-code');
             if (btn) {
@@ -2947,6 +2967,20 @@
                     active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
                 if (active.some(p => p.id === currentValue)) select.value = currentValue;
             });
+        }
+
+        // Попълва select-а с кинезитерапевти в портала
+        function renderPortalKineziSelect() {
+            if (!portalAptKinezi) return;
+            const kinezi = Object.entries(users)
+                .filter(([, u]) => hasRole(u, 'Кинезитерапевт'))
+                .map(([id, u]) => ({ id, name: u.name }))
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            const currentValue = portalAptKinezi.value;
+            portalAptKinezi.innerHTML = '<option value="">-- избери кинезитерапевт --</option>' +
+                kinezi.map(k => `<option value="${k.id}">${escapeHtml(k.name)}</option>`).join('');
+            if (kinezi.some(k => k.id === currentValue)) portalAptKinezi.value = currentValue;
         }
 
         // =====================================================
@@ -3025,6 +3059,7 @@
                         const pat = patients[a.patientId];
                         const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
                         const isMine = myPatientId && a.patientId === myPatientId;
+                        const kineziName = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
                         return `
                             <div class="appointment ${isMine ? 'mine' : ''}" data-id="${a.id}">
                                 <button class="delete-apt" data-id="${a.id}" title="Изтрий">
@@ -3032,7 +3067,8 @@
                                 </button>
                                 <div class="time"><i class="fas fa-clock"></i> ${a.time || ''} · ${a.duration || 60}мин</div>
                                 <div class="patient-name">${patName}</div>
-                                ${a.note ? `<div class="note">${escapeHtml(a.note)}</div>` : ''}
+                                ${a.note ? `<div class="note">📋 ${escapeHtml(a.note)}</div>` : ''}
+                                ${kineziName ? `<div class="note">👨‍⚕️ ${escapeHtml(kineziName)}</div>` : ''}
                             </div>
                         `;
                     }).join('');
@@ -3563,7 +3599,7 @@
 
                 const userPatients = Object.entries(patients).filter(([, p]) => p.createdBy === userId);
                 const userProcedures = Object.entries(procedures).filter(([, p]) => p.createdBy === userId);
-                const userAppointments = Object.entries(appointments).filter(([, a]) => a.createdBy === userId);
+                const userAppointments = Object.entries(appointments).filter(([, a]) => a.kineziId === userId || a.createdBy === userId);
                 const userPricing = Object.entries(pricing).filter(([, p]) => p.createdBy === userId);
 
                 const totalSum = userPricing.reduce((sum, [, item]) => {
@@ -3604,19 +3640,22 @@
                             </div>
                         </div>
 
-                        ${userPatients.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-users"></i> Добавени пациенти</div>
+                        ${userAppointments.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-calendar-alt"></i> Записани часове</div>
                             <div class="activity-list">
-                                ${userPatients.slice(0, 5).map(([id, p]) => `
-                                    <div class="activity-item">
-                                        <div class="main">
-                                            <span class="name">${escapeHtml(p.name)}</span>
-                                            <span class="meta">${escapeHtml(p.phone || 'без телефон')}</span>
+                                ${userAppointments.slice(0, 5).map(([id, a]) => {
+                                    const pat = patients[a.patientId];
+                                    return `
+                                        <div class="activity-item">
+                                            <div class="main">
+                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'}</span>
+                                                <span class="meta">${formatDate(a.date)} в ${a.time || ''} · ${a.duration || 60}мин${a.note ? ' · ' + escapeHtml(a.note) : ''}</span>
+                                            </div>
+                                            <span class="when">${formatTimestamp(a.createdAt)}</span>
                                         </div>
-                                        <span class="when">${formatTimestamp(p.createdAt)}</span>
-                                    </div>
-                                `).join('')}
-                                ${userPatients.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPatients.length - 5}</div>` : ''}
+                                    `;
+                                }).join('')}
+                                ${userAppointments.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userAppointments.length - 5}</div>` : ''}
                             </div>
                         ` : ''}
 
@@ -3639,41 +3678,19 @@
                             </div>
                         ` : ''}
 
-                        ${userAppointments.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-calendar-alt"></i> Записани часове</div>
+                        ${userPatients.length > 0 ? `
+                            <div class="activity-section-title"><i class="fas fa-users"></i> Добавени пациенти</div>
                             <div class="activity-list">
-                                ${userAppointments.slice(0, 5).map(([id, a]) => {
-                                    const pat = patients[a.patientId];
-                                    return `
-                                        <div class="activity-item">
-                                            <div class="main">
-                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'}</span>
-                                                <span class="meta">${formatDate(a.date)} в ${a.time || ''} · ${a.duration || 60}мин</span>
-                                            </div>
-                                            <span class="when">${formatTimestamp(a.createdAt)}</span>
+                                ${userPatients.slice(0, 5).map(([id, p]) => `
+                                    <div class="activity-item">
+                                        <div class="main">
+                                            <span class="name">${escapeHtml(p.name)}</span>
+                                            <span class="meta">${escapeHtml(p.phone || 'без телефон')}</span>
                                         </div>
-                                    `;
-                                }).join('')}
-                                ${userAppointments.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userAppointments.length - 5}</div>` : ''}
-                            </div>
-                        ` : ''}
-
-                        ${userPricing.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-euro-sign"></i> Въведени цени</div>
-                            <div class="activity-list">
-                                ${userPricing.slice(0, 5).map(([key, p]) => {
-                                    const pat = patients[p.patientId];
-                                    return `
-                                        <div class="activity-item">
-                                            <div class="main">
-                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'} — ${formatPrice(p.price)} €</span>
-                                                <span class="meta">${escapeHtml(p.description || '—')} · ${formatDate(p.date)}</span>
-                                            </div>
-                                            <span class="when">${formatTimestamp(p.updatedAt || p.createdAt)}</span>
-                                        </div>
-                                    `;
-                                }).join('')}
-                                ${userPricing.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPricing.length - 5}</div>` : ''}
+                                        <span class="when">${formatTimestamp(p.createdAt)}</span>
+                                    </div>
+                                `).join('')}
+                                ${userPatients.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPatients.length - 5}</div>` : ''}
                             </div>
                         ` : ''}
                     </div>
@@ -3768,19 +3785,22 @@
                                     <tr>
                                         <th>Дата</th>
                                         <th>Час</th>
-                                        <th>Продължителност</th>
-                                        <th>Забележка</th>
+                                        <th>Кинезитерапевт</th>
+                                        <th>Процедура</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${patientApts.map(a => `
-                                        <tr>
-                                            <td>${formatDate(a.date)}</td>
-                                            <td>${a.time || '—'}</td>
-                                            <td>${a.duration || 60} мин</td>
-                                            <td>${escapeHtml(a.note || '—')}</td>
-                                        </tr>
-                                    `).join('')}
+                                    ${patientApts.map(a => {
+                                        const kinezi = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
+                                        return `
+                                            <tr>
+                                                <td>${formatDate(a.date)}</td>
+                                                <td>${a.time || '—'}</td>
+                                                <td>${escapeHtml(kinezi)}</td>
+                                                <td>${escapeHtml(a.note || '—')}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -3871,7 +3891,6 @@
             if (!name) { showToast('Въведете име.', 'error'); return; }
             addPatientBtn.disabled = true;
             try {
-                // Генерираме уникален код за пациента
                 const patientCode = generateUniqueCode(users, patients);
                 const newRef = push(patientsRef);
                 await set(newRef, {
@@ -3884,7 +3903,6 @@
                     accessCode: patientCode
                 });
 
-                // Показваме кода в modal
                 modalUserName.textContent = name;
                 modalNewCode.textContent = patientCode;
                 codeModal.classList.add('active');
@@ -3968,8 +3986,10 @@
             const patientId = aptPatient.value;
             const date = aptDate.value;
             const time = aptTime.value;
+            const note = aptNote.value.trim();
             if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
             if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
+            if (!note) { showToast('Напишете за каква процедура е часът.', 'error'); return; }
 
             addAppointmentBtn.disabled = true;
             try {
@@ -3977,7 +3997,7 @@
                 await set(newRef, {
                     patientId, date, time,
                     duration: parseInt(aptDuration.value),
-                    note: aptNote.value.trim(),
+                    note: note,
                     createdAt: Date.now(),
                     createdBy: currentUser.id
                 });
@@ -4092,6 +4112,9 @@
 
             portalUserName.textContent = currentPatient.name;
 
+            // Попълваме select-а с кинезитерапевти
+            renderPortalKineziSelect();
+
             // Моите предстоящи часове
             const myApts = Object.entries(appointments)
                 .map(([id, a]) => ({ id, ...a }))
@@ -4107,19 +4130,22 @@
                     <i class="fas fa-calendar-times"></i> Нямате предстоящи часове
                 </td></tr>`;
             } else {
-                portalAppointmentsBody.innerHTML = myApts.map(a => `
-                    <tr>
-                        <td>${formatDate(a.date)}</td>
-                        <td>${a.time || '—'}</td>
-                        <td>${a.duration || 60} мин</td>
-                        <td>${escapeHtml(a.note || '—')}</td>
-                        <td>
-                            <button class="btn-danger-outline btn-sm portal-delete-apt" data-id="${a.id}">
-                                <i class="fas fa-trash-alt"></i> Отмени
-                            </button>
-                        </td>
-                    </tr>
-                `).join('');
+                portalAppointmentsBody.innerHTML = myApts.map(a => {
+                    const kineziName = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
+                    return `
+                        <tr>
+                            <td>${formatDate(a.date)}</td>
+                            <td>${a.time || '—'}</td>
+                            <td>${escapeHtml(kineziName)}</td>
+                            <td>${escapeHtml(a.note || '—')}</td>
+                            <td>
+                                <button class="btn-danger-outline btn-sm portal-delete-apt" data-id="${a.id}">
+                                    <i class="fas fa-trash-alt"></i> Отмени
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
             }
 
             // Моите процедури
@@ -4150,7 +4176,7 @@
                 </div>`;
             }
 
-            // Ценоразпис (само за мен)
+            // Ценоразпис
             const myPrices = Object.entries(pricing)
                 .map(([key, item]) => ({ key, ...item }))
                 .filter(item => item.patientId === currentPatient.id)
@@ -4176,19 +4202,25 @@
             e.preventDefault();
             if (!currentPatient) return;
 
+            const kineziId = portalAptKinezi.value;
             const date = portalAptDate.value;
             const time = portalAptTime.value;
+            const note = portalAptNote.value.trim();
+
+            if (!kineziId) { showToast('Изберете кинезитерапевт.', 'error'); return; }
             if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
+            if (!note) { showToast('Напишете за каква процедура е часът.', 'error'); return; }
 
             portalAddAptBtn.disabled = true;
             try {
                 const newRef = push(appointmentsRef);
                 await set(newRef, {
                     patientId: currentPatient.id,
+                    kineziId: kineziId,
                     date,
                     time,
                     duration: parseInt(portalAptDuration.value),
-                    note: portalAptNote.value.trim(),
+                    note: note,
                     createdAt: Date.now(),
                     createdBy: currentPatient.id,
                     createdByPatient: true
@@ -4204,7 +4236,6 @@
             }
         });
 
-        // Пациент отменя свой час
         portalAppointmentsBody.addEventListener('click', async (e) => {
             const btn = e.target.closest('.portal-delete-apt');
             if (!btn) return;
@@ -4269,12 +4300,21 @@
             currentPriceDate = today;
             codeInputEls[0].focus();
 
-            // Стартираме слушателите за users и patients ПРЕДИ логин
+            // Показваме loading overlay, но с timeout за сигурност
+            showLoading(true);
+            setTimeout(() => showLoading(false), 3000);
+
             startUsersListener();
             startPatientsListenerEarly();
         }
 
         init();
+
+        // Скриваме overlay след 2 секунди, независимо от състоянието
+        // (за да няма заклещване, ако нещо се обърка)
+        window.addEventListener('load', () => {
+            setTimeout(() => showLoading(false), 1500);
+        });
     </script>
 </body>
 </html>
