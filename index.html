@@ -934,6 +934,33 @@
             font-weight: 700;
         }
 
+        .clear-all-btn {
+            padding: 0.7rem 1.4rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .clear-all-btn:hover:not(:disabled) {
+            background: #b22234;
+            border-color: #b22234;
+            transform: translateY(-1px);
+        }
+
+        .clear-all-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .price-table input.price-input {
             width: 120px;
             padding: 0.5rem 0.8rem;
@@ -1212,6 +1239,7 @@
             .week-grid { grid-template-columns: repeat(2, 1fr); }
             .profile-header { flex-direction: column; text-align: center; }
             .price-date-bar .summary { margin-left: 0; }
+            .clear-all-btn { width: 100%; justify-content: center; }
         }
 
         @media (max-width: 480px) {
@@ -1315,7 +1343,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v1.4 · Firebase</div>
+                <div class="sidebar-version">v1.5 · Firebase</div>
             </div>
         </aside>
 
@@ -1533,6 +1561,9 @@
                             <span class="big-value" id="priceTotalSummary">0.00 €</span>
                         </div>
                     </div>
+                    <button class="clear-all-btn" id="clearAllPricingBtn" title="Изтрий всички цени">
+                        <i class="fas fa-trash-alt"></i> Изтрий всички цени
+                    </button>
                 </div>
 
                 <div class="card" style="padding: 1.2rem 1.5rem;">
@@ -1846,6 +1877,7 @@
         const priceTotalSummary = document.getElementById('priceTotalSummary');
         const priceCountSummary = document.getElementById('priceCountSummary');
         const daySummaryGrid = document.getElementById('daySummaryGrid');
+        const clearAllPricingBtn = document.getElementById('clearAllPricingBtn');
 
         // Потребители
         const userForm = document.getElementById('userForm');
@@ -1954,7 +1986,7 @@
         });
 
         // =====================================================
-        // AUTO ADMIN — създава се СЛЕД като users listener зареди
+        // AUTO ADMIN
         // =====================================================
         async function ensureAdminExists() {
             try {
@@ -1980,7 +2012,7 @@
         }
 
         // =====================================================
-        // СЛУШАТЕЛ ЗА ПОТРЕБИТЕЛИ — стартира ПРЕДИ логин
+        // СЛУШАТЕЛ ЗА ПОТРЕБИТЕЛИ — ПРЕДИ логин
         // =====================================================
         function startUsersListener() {
             onValue(usersRef, (snapshot) => {
@@ -1988,14 +2020,11 @@
                 console.log('Потребители заредени:', users);
                 renderUsers();
 
-                // След като заредят потребителите, създаваме admin ако трябва
                 if (!adminCreated) {
                     adminCreated = true;
-                    // Малко закъснение, за да не се блъска с текущия listener
                     setTimeout(() => ensureAdminExists(), 500);
                 }
 
-                // Възстановяване на сесия
                 if (!sessionRestored) {
                     sessionRestored = true;
                     const savedId = sessionStorage.getItem('currentUserId');
@@ -2011,7 +2040,7 @@
         }
 
         // =====================================================
-        // ОСТАНАЛИТЕ СЛУШАТЕЛИ — стартират СЛЕД логин
+        // ОСТАНАЛИТЕ СЛУШАТЕЛИ — след логин
         // =====================================================
         function startDataListeners() {
             if (dataListenersStarted) return;
@@ -2441,6 +2470,44 @@
 
         priceSearchInput.addEventListener('input', () => {
             renderPricing();
+        });
+
+        // =====================================================
+        // ИЗТРИЙ ВСИЧКИ ЦЕНИ
+        // =====================================================
+        clearAllPricingBtn.addEventListener('click', async () => {
+            const totalRecords = Object.keys(pricing).length;
+
+            if (totalRecords === 0) {
+                showToast('Няма въведени цени за изтриване.', 'error');
+                return;
+            }
+
+            const confirmed = confirm(
+                `⚠️ ВНИМАНИЕ!\n\n` +
+                `Ще изтриете ВСИЧКИ ${totalRecords} записа с цени от ценоразписа.\n` +
+                `Това действие е НЕОБРАТИМО и ще засегне всички дни и всички пациенти.\n\n` +
+                `Сигурни ли сте?`
+            );
+
+            if (!confirmed) return;
+
+            const doubleCheck = confirm('Последно потвърждение: сигурни ли сте, че искате да изтриете ВСИЧКИ цени?');
+            if (!doubleCheck) return;
+
+            clearAllPricingBtn.disabled = true;
+            const originalText = clearAllPricingBtn.innerHTML;
+            clearAllPricingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изтриване...';
+
+            try {
+                await remove(pricingRef);
+                showToast(`Всички ${totalRecords} записа с цени са изтрити.`, 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                clearAllPricingBtn.disabled = false;
+                clearAllPricingBtn.innerHTML = originalText;
+            }
         });
 
         // =====================================================
@@ -2983,7 +3050,6 @@
             currentPriceDate = today;
             codeInputEls[0].focus();
 
-            // ВАЖНО: стартираме слушателя за потребители ПРЕДИ логин
             startUsersListener();
         }
 
