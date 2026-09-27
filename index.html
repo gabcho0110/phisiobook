@@ -43,16 +43,24 @@
             text-align: center;
         }
 
-        .login-logo {
-            width: 140px;
-            height: 140px;
+        .login-logo-wrapper {
+            width: 160px;
+            height: 160px;
             margin: 0 auto 1rem;
             border-radius: 50%;
-            object-fit: cover;
-            background: #0b2b4f;
-            box-shadow: 0 10px 30px rgba(11, 43, 79, 0.35);
+            background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(11, 43, 79, 0.35);
             border: 4px solid #ffffff;
-            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-logo-wrapper svg {
+            width: 85%;
+            height: 85%;
         }
 
         .login-card h1 {
@@ -179,18 +187,25 @@
             margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .sidebar-logo {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            object-fit: cover;
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e8f0fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border: 2px solid #ffffff;
+            overflow: hidden;
+        }
+
+        .sidebar-logo svg {
+            width: 90%;
+            height: 90%;
         }
 
         .nav {
@@ -1596,10 +1611,18 @@
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ffffff;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .portal-logo svg {
+            width: 90%;
+            height: 90%;
         }
 
         .portal-welcome h1 {
@@ -1634,7 +1657,6 @@
 
         .portal-section h3 i { color: #6b3fa0; }
 
-        /* Kinezi select */
         .kinezi-select {
             width: 100%;
             padding: 0.8rem 1rem;
@@ -1687,10 +1709,48 @@
 </head>
 <body>
 
+    <!-- SVG ЛОГО (използва се многократно) -->
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <!-- Символ: човешка фигура в медитация с гръбначен стълб и ръка -->
+            <symbol id="physio-logo" viewBox="0 0 200 200">
+                <!-- Външен кръг -->
+                <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
+                
+                <!-- Тяло/гръбнак - човешка фигура в седнало положение -->
+                <!-- Глава -->
+                <circle cx="100" cy="55" r="18" fill="#1e4a78"/>
+                
+                <!-- Рамо/тяло - вдлъбната форма -->
+                <path d="M 82,73 Q 75,90 75,110 Q 75,135 85,150 L 115,150 Q 125,135 125,110 Q 125,90 118,73 Z" 
+                      fill="#1e4a78"/>
+                
+                <!-- Гръбначен стълб - точки надолу по тялото -->
+                <circle cx="100" cy="82" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="92" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="102" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="112" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="122" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="132" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="142" r="3.2" fill="#3fb8b0"/>
+                
+                <!-- Ръка, подпираща отдолу -->
+                <path d="M 55,150 Q 70,160 100,165 Q 130,160 145,150 Q 155,145 150,138 Q 145,132 135,140 Q 120,152 100,152 Q 80,152 65,140 Q 55,132 50,138 Q 45,145 55,150 Z" 
+                      fill="#3fb8b0"/>
+                
+                <!-- Дъга отгоре (движение) -->
+                <path d="M 60,40 Q 80,20 100,18 Q 120,20 140,40" 
+                      fill="none" stroke="#3fb8b0" stroke-width="3.5" stroke-linecap="round"/>
+            </symbol>
+        </defs>
+    </svg>
+
     <!-- ЛОГИН -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
-            <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="login-logo" id="loginLogoImg">
+            <div class="login-logo-wrapper">
+                <svg><use href="#physio-logo"></use></svg>
+            </div>
             <h1>PhysioBook</h1>
             <p class="subtitle">Въведете вашия 6-цифрен код за достъп</p>
 
@@ -1731,7 +1791,9 @@
 
         <aside class="sidebar">
             <h2>
-                <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="sidebar-logo">
+                <div class="sidebar-logo">
+                    <svg><use href="#physio-logo"></use></svg>
+                </div>
                 <span>PhysioBook</span>
             </h2>
 
@@ -1778,7 +1840,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v2.0 · Firebase</div>
+                <div class="sidebar-version">v2.1 · Firebase</div>
             </div>
         </aside>
 
@@ -2121,7 +2183,9 @@
             <!-- ПОРТАЛ ЗА ПАЦИЕНТ -->
             <section id="module-portal" class="module">
                 <div class="portal-welcome">
-                    <img src="https://i.ibb.co/Y4hKQzxj/logo.png" alt="PhysioBook" class="portal-logo">
+                    <div class="portal-logo">
+                        <svg><use href="#physio-logo"></use></svg>
+                    </div>
                     <div>
                         <h1>Здравейте, <span id="portalUserName">—</span>!</h1>
                         <p>Това е вашият личен портал — тук можете да си запазите час, да видите процедурите си и ценоразписа.</p>
@@ -2437,7 +2501,6 @@
         let currentPriceDate = new Date().toISOString().split('T')[0];
         let adminCreated = false;
         let editingUserId = null;
-        let isLoadingOverlayShown = false;   // ← за fix на bug
 
         // =====================================================
         // DOM
@@ -2467,7 +2530,6 @@
         };
         const patientProfileModule = document.getElementById('module-patient-profile');
 
-        // Пациенти
         const patientForm = document.getElementById('patientForm');
         const patientName = document.getElementById('patientName');
         const patientPhone = document.getElementById('patientPhone');
@@ -2478,7 +2540,6 @@
         const selectAllPatients = document.getElementById('selectAllPatients');
         const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
 
-        // График
         const appointmentForm = document.getElementById('appointmentForm');
         const aptPatient = document.getElementById('aptPatient');
         const aptDate = document.getElementById('aptDate');
@@ -2492,7 +2553,6 @@
         const nextWeekBtn = document.getElementById('nextWeekBtn');
         const todayBtn = document.getElementById('todayBtn');
 
-        // Процедури
         const procedureForm = document.getElementById('procedureForm');
         const procPatient = document.getElementById('procPatient');
         const procDescription = document.getElementById('procDescription');
@@ -2502,7 +2562,6 @@
         const addProcedureBtn = document.getElementById('addProcedureBtn');
         const proceduresBody = document.getElementById('proceduresBody');
 
-        // Ценоразпис
         const priceDateInput = document.getElementById('priceDateInput');
         const priceSearchInput = document.getElementById('priceSearchInput');
         const pricingBody = document.getElementById('pricingBody');
@@ -2511,7 +2570,6 @@
         const daySummaryGrid = document.getElementById('daySummaryGrid');
         const clearAllPricingBtn = document.getElementById('clearAllPricingBtn');
 
-        // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
         const addUserBtn = document.getElementById('addUserBtn');
@@ -2523,28 +2581,22 @@
         const userRolesText = document.getElementById('userRolesText');
         const userRolesBadges = document.getElementById('userRolesBadges');
 
-        // Edit roles modal
         const editRolesModal = document.getElementById('editRolesModal');
         const editRolesUserName = document.getElementById('editRolesUserName');
         const editRolesList = document.getElementById('editRolesList');
         const saveRolesBtn = document.getElementById('saveRolesBtn');
         const cancelRolesBtn = document.getElementById('cancelRolesBtn');
 
-        // Активност
         const activityContent = document.getElementById('activityContent');
-
-        // Профил
         const profileContent = document.getElementById('profileContent');
         const backToPatientsBtn = document.getElementById('backToPatientsBtn');
 
-        // Modal
         const codeModal = document.getElementById('codeModal');
         const modalUserName = document.getElementById('modalUserName');
         const modalNewCode = document.getElementById('modalNewCode');
         const modalCopyBtn = document.getElementById('modalCopyBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-        // Portal
         const portalUserName = document.getElementById('portalUserName');
         const portalAppointmentForm = document.getElementById('portalAppointmentForm');
         const portalAptKinezi = document.getElementById('portalAptKinezi');
@@ -2645,7 +2697,7 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
-            showLoading(false);  // ← за всеки случай махаме overlay
+            showLoading(false);
 
             const displayName = currentUser.name || currentPatient?.name || '?';
             const initials = displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
@@ -2858,7 +2910,6 @@
                 if (currentPatient) renderPortal();
             });
 
-            // Скриваме overlay след кратък момент
             setTimeout(() => showLoading(false), 500);
         }
 
@@ -2969,7 +3020,6 @@
             });
         }
 
-        // Попълва select-а с кинезитерапевти в портала
         function renderPortalKineziSelect() {
             if (!portalAptKinezi) return;
             const kinezi = Object.entries(users)
@@ -4111,11 +4161,8 @@
             if (!currentPatient) return;
 
             portalUserName.textContent = currentPatient.name;
-
-            // Попълваме select-а с кинезитерапевти
             renderPortalKineziSelect();
 
-            // Моите предстоящи часове
             const myApts = Object.entries(appointments)
                 .map(([id, a]) => ({ id, ...a }))
                 .filter(a => a.patientId === currentPatient.id && a.date >= toDateStr(new Date()))
@@ -4148,7 +4195,6 @@
                 }).join('');
             }
 
-            // Моите процедури
             const myProcs = Object.entries(procedures)
                 .map(([id, p]) => ({ id, ...p }))
                 .filter(p => p.patientId === currentPatient.id)
@@ -4176,7 +4222,6 @@
                 </div>`;
             }
 
-            // Ценоразпис
             const myPrices = Object.entries(pricing)
                 .map(([key, item]) => ({ key, ...item }))
                 .filter(item => item.patientId === currentPatient.id)
@@ -4197,7 +4242,6 @@
             }
         }
 
-        // Пациент си запазва час
         portalAppointmentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentPatient) return;
@@ -4300,9 +4344,9 @@
             currentPriceDate = today;
             codeInputEls[0].focus();
 
-            // Показваме loading overlay, но с timeout за сигурност
+            // Показваме overlay за кратко
             showLoading(true);
-            setTimeout(() => showLoading(false), 3000);
+            setTimeout(() => showLoading(false), 2000);
 
             startUsersListener();
             startPatientsListenerEarly();
@@ -4310,10 +4354,9 @@
 
         init();
 
-        // Скриваме overlay след 2 секунди, независимо от състоянието
-        // (за да няма заклещване, ако нещо се обърка)
+        // Fallback: скриваме overlay след 3 секунди винаги
         window.addEventListener('load', () => {
-            setTimeout(() => showLoading(false), 1500);
+            setTimeout(() => showLoading(false), 3000);
         });
     </script>
 </body>
