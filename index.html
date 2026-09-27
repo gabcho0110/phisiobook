@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Медицински център · Пациенти и процедури</title>
+    <title>Медицински център · Вход</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -19,7 +19,166 @@
             min-height: 100vh;
         }
 
-        /* ---------- SIDEBAR (тъмносин) ---------- */
+        /* ============================================
+           ЛОГИН ЕКРАН
+           ============================================ */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1.5rem;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 2.5rem 2.5rem 2rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-card .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.2rem;
+            background: #0b2b4f;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(11, 43, 79, 0.25);
+        }
+
+        .login-card .logo i {
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
+
+        .login-card h1 {
+            font-size: 1.6rem;
+            color: #0b2b4f;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-card p.subtitle {
+            color: #7f95b0;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .code-inputs input {
+            width: 52px;
+            height: 62px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            border: 2px solid #cfddee;
+            border-radius: 14px;
+            color: #0b2b4f;
+            background: #f8fbfe;
+            transition: all 0.15s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-inputs input:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(11, 43, 79, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .code-inputs input.filled {
+            background: #e8f0fe;
+            border-color: #1e4a78;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 40px;
+            background: #0b2b4f;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px rgba(11, 43, 79, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            background: #1e4a78;
+            transform: translateY(-1px);
+            box-shadow: 0 14px 24px rgba(11, 43, 79, 0.28);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            background: #fff5f5;
+            color: #b22234;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .login-error.active {
+            display: flex;
+        }
+
+        .login-footer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #edf2f8;
+            font-size: 0.8rem;
+            color: #7f95b0;
+        }
+
+        /* ============================================
+           ОСНОВНО ПРИЛОЖЕНИЕ
+           ============================================ */
+        .app {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .app.hidden {
+            display: none;
+        }
+
+        /* ---------- SIDEBAR ---------- */
         .sidebar {
             width: 280px;
             background-color: #0b2b4f;
@@ -64,7 +223,7 @@
             gap: 14px;
             padding: 0.9rem 1.2rem;
             border-radius: 14px;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 500;
             color: #e0edff;
             background: transparent;
@@ -77,7 +236,7 @@
 
         .nav-item i {
             width: 24px;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: #7fb2e5;
         }
 
@@ -96,15 +255,86 @@
             color: #ffffff;
         }
 
+        .user-info {
+            padding: 1rem 1.2rem;
+            margin: 0 0.8rem 1rem;
+            background: #1a3c5e;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1e4a78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .user-details .name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-details .role {
+            font-size: 0.75rem;
+            color: #8aa9cc;
+        }
+
         .sidebar-footer {
             margin-top: auto;
-            padding: 1.5rem 1rem 0.5rem;
-            font-size: 0.85rem;
-            color: #8aa9cc;
+            padding: 1rem 0.8rem 0.5rem;
             border-top: 1px solid #1d3a57;
         }
 
-        /* ---------- MAIN CONTENT ---------- */
+        .logout-btn {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #2a4b6e;
+            border-radius: 14px;
+            background: transparent;
+            color: #e0edff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+            margin-bottom: 0.8rem;
+        }
+
+        .logout-btn:hover {
+            background: #b22234;
+            border-color: #b22234;
+            color: #ffffff;
+        }
+
+        .sidebar-version {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6a8cb0;
+        }
+
+        /* ---------- MAIN ---------- */
         .main {
             flex: 1;
             background-color: #ffffff;
@@ -231,7 +461,7 @@
             white-space: nowrap;
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             background-color: #1e4a78;
             transform: translateY(-1px);
             box-shadow: 0 12px 20px rgba(11, 43, 79, 0.2);
@@ -250,7 +480,7 @@
             box-shadow: none;
         }
 
-        .btn-outline:hover {
+        .btn-outline:hover:not(:disabled) {
             background: #f5f9ff;
             border-color: #0b2b4f;
             box-shadow: none;
@@ -260,6 +490,20 @@
         .btn-sm {
             padding: 0.5rem 1.2rem;
             font-size: 0.85rem;
+        }
+
+        .btn-danger-outline {
+            background: transparent;
+            color: #b22234;
+            border: 1px solid #f0c0c0;
+            box-shadow: none;
+        }
+
+        .btn-danger-outline:hover:not(:disabled) {
+            background: #fff5f5;
+            border-color: #b22234;
+            box-shadow: none;
+            transform: none;
         }
 
         .table-wrapper {
@@ -299,12 +543,6 @@
             border-bottom: none;
         }
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
         .empty-message {
             text-align: center;
             padding: 2rem;
@@ -326,14 +564,40 @@
             gap: 10px;
         }
 
-        /* Индикатор за зареждане */
+        /* Код badge */
+        .code-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e8f0fe;
+            color: #0b2b4f;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .code-badge button {
+            background: transparent;
+            border: none;
+            color: #1e4a78;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.85rem;
+            transition: 0.15s;
+        }
+
+        .code-badge button:hover {
+            color: #0b2b4f;
+        }
+
+        /* Loading */
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            inset: 0;
+            background: rgba(255, 255, 255, 0.85);
             display: none;
             justify-content: center;
             align-items: center;
@@ -357,7 +621,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Toast съобщения */
+        /* Toasts */
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -382,19 +646,94 @@
             max-width: 380px;
         }
 
-        .toast.error {
-            background: #b22234;
-        }
-
-        .toast.success {
-            background: #1a7a3e;
-        }
+        .toast.error { background: #b22234; }
+        .toast.success { background: #1a7a3e; }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(30px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
+        /* Modal за показване на нов код */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 43, 79, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal .modal-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.2rem;
+            background: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal .modal-icon i {
+            font-size: 2rem;
+            color: #0b2b4f;
+        }
+
+        .modal h3 {
+            color: #0b2b4f;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal p {
+            color: #7f95b0;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal .new-code {
+            font-family: 'Courier New', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: #0b2b4f;
+            background: #e8f0fe;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            user-select: all;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* Responsive */
         @media (max-width: 800px) {
             .sidebar {
                 width: 90px;
@@ -402,196 +741,336 @@
             }
             .sidebar h2 span,
             .nav-item span,
-            .sidebar-footer {
+            .sidebar-footer,
+            .user-details {
                 display: none;
             }
-            .sidebar h2 i {
-                margin: 0 auto;
-            }
-            .nav-item {
-                justify-content: center;
-                padding: 0.9rem;
-            }
-            .nav-item i {
-                width: auto;
-                font-size: 1.5rem;
-            }
+            .sidebar h2 i { margin: 0 auto; }
+            .nav-item { justify-content: center; padding: 0.9rem; }
+            .nav-item i { width: auto; font-size: 1.4rem; }
+            .user-info { justify-content: center; padding: 0.7rem; margin: 0 0.3rem 1rem; }
             .main {
                 max-width: calc(100% - 90px);
                 padding: 1.5rem;
             }
-            .module-header h1 {
-                font-size: 1.6rem;
+            .module-header h1 { font-size: 1.6rem; }
+            .code-inputs input {
+                width: 44px;
+                height: 54px;
+                font-size: 1.3rem;
             }
+        }
+
+        @media (max-width: 480px) {
+            .code-inputs { gap: 6px; }
+            .code-inputs input {
+                width: 38px;
+                height: 48px;
+                font-size: 1.15rem;
+                border-radius: 10px;
+            }
+            .login-card { padding: 2rem 1.5rem; }
+            .modal .new-code { font-size: 2rem; letter-spacing: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Loading overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <i class="fas fa-spinner"></i>
-        <span>Зареждане...</span>
+    <!-- ============================================
+         ЛОГИН ЕКРАН
+         ============================================ -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="logo">
+                <i class="fas fa-hospital-user"></i>
+            </div>
+            <h1>МедЦентър</h1>
+            <p class="subtitle">Въведете вашия 6-цифрен код за достъп</p>
+
+            <div class="login-error" id="loginError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="loginErrorText">Грешен код. Опитайте отново.</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="code-inputs" id="codeInputs">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="0">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="1">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="2">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="3">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="4">
+                    <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="off" data-index="5">
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn" disabled>
+                    <i class="fas fa-sign-in-alt"></i> Вход в системата
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <i class="fas fa-lock"></i> Защитен достъп · Свързан с Firebase
+            </div>
+        </div>
     </div>
 
-    <!-- Toast notifications -->
-    <div class="toast-container" id="toastContainer"></div>
+    <!-- ============================================
+         ОСНОВНО ПРИЛОЖЕНИЕ
+         ============================================ -->
+    <div class="app hidden" id="app">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <h2>
-            <i class="fas fa-hospital-user"></i>
-            <span>МедЦентър</span>
-        </h2>
-        <nav class="nav">
-            <button class="nav-item active" data-module="patients">
-                <i class="fas fa-users"></i>
-                <span>Пациенти</span>
-            </button>
-            <button class="nav-item" data-module="procedures">
-                <i class="fas fa-stethoscope"></i>
-                <span>Процедури</span>
-            </button>
-        </nav>
-        <div class="sidebar-footer">
-            <i class="fas fa-cloud"></i> Firebase свързан
+        <!-- Loading -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <i class="fas fa-spinner"></i>
+            <span>Зареждане...</span>
         </div>
-    </aside>
 
-    <!-- MAIN -->
-    <main class="main">
+        <!-- Toasts -->
+        <div class="toast-container" id="toastContainer"></div>
 
-        <!-- МОДУЛ ПАЦИЕНТИ -->
-        <section id="module-patients" class="module active">
-            <div class="module-header">
-                <h1><i class="fas fa-users"></i> Пациенти</h1>
-            </div>
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2>
+                <i class="fas fa-hospital-user"></i>
+                <span>МедЦентър</span>
+            </h2>
 
-            <div class="card">
-                <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
-                <form id="patientForm" class="form-grid">
-                    <div class="form-group">
-                        <label for="patientName">Име и фамилия *</label>
-                        <input type="text" id="patientName" placeholder="Иван Петров" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="patientPhone">Телефон</label>
-                        <input type="text" id="patientPhone" placeholder="0888 123 456">
-                    </div>
-                    <div class="form-group">
-                        <label for="patientNotes">Бележки</label>
-                        <input type="text" id="patientNotes" placeholder="алергии, диагнози...">
-                    </div>
-                    <div class="form-group" style="justify-content: end;">
-                        <button type="submit" class="btn" id="addPatientBtn">
-                            <i class="fas fa-save"></i> Добави пациент
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="filter-bar">
-                <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
-                <div class="btn-group">
-                    <button class="btn-outline btn-sm" id="archiveSelectedBtn">
-                        <i class="fas fa-archive"></i> Архивирай избраните
-                    </button>
+            <div class="user-info" id="currentUserInfo">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <div class="user-details">
+                    <span class="name" id="userName">Потребител</span>
+                    <span class="role" id="userRole">Роля</span>
                 </div>
             </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 40px;"><input type="checkbox" id="selectAllPatients"></th>
-                            <th>Име</th>
-                            <th>Телефон</th>
-                            <th>Бележки</th>
-                            <th>Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody id="activePatientsBody"></tbody>
-                </table>
-            </div>
 
-            <div style="margin-top: 2.5rem;">
-                <h3><i class="fas fa-archive"></i> Архив на пациенти</h3>
-            </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Име</th>
-                            <th>Телефон</th>
-                            <th>Бележки</th>
-                            <th>Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody id="archivedPatientsBody"></tbody>
-                </table>
-            </div>
-        </section>
+            <nav class="nav">
+                <button class="nav-item active" data-module="patients">
+                    <i class="fas fa-users"></i>
+                    <span>Пациенти</span>
+                </button>
+                <button class="nav-item" data-module="procedures">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>Процедури</span>
+                </button>
+                <button class="nav-item" data-module="users">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Потребители</span>
+                </button>
+            </nav>
 
-        <!-- МОДУЛ ПРОЦЕДУРИ -->
-        <section id="module-procedures" class="module">
-            <div class="module-header">
-                <h1><i class="fas fa-stethoscope"></i> Процедури</h1>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Изход
+                </button>
+                <div class="sidebar-version">v1.0 · Firebase</div>
             </div>
+        </aside>
 
-            <div class="card">
-                <h3><i class="fas fa-plus-circle"></i> Нова процедура</h3>
-                <form id="procedureForm" class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
-                    <div class="form-group">
-                        <label for="procPatient">Пациент *</label>
-                        <select id="procPatient" required>
-                            <option value="">-- избери пациент --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="procDescription">Описание на процедурата *</label>
-                        <input type="text" id="procDescription" placeholder="напр. Поставяне на венозна инфузия" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="procDate">Дата *</label>
-                        <input type="date" id="procDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="procTime">Час *</label>
-                        <input type="time" id="procTime" required>
-                    </div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="procResult">Краен резултат</label>
-                        <textarea id="procResult" placeholder="описание на резултата след процедурата..."></textarea>
-                    </div>
-                    <div class="form-group" style="justify-content: end;">
-                        <button type="submit" class="btn" id="addProcedureBtn">
-                            <i class="fas fa-save"></i> Запази процедура
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- МОДУЛ ПАЦИЕНТИ -->
+            <section id="module-patients" class="module active">
+                <div class="module-header">
+                    <h1><i class="fas fa-users"></i> Пациенти</h1>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
+                    <form id="patientForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="patientName">Име и фамилия *</label>
+                            <input type="text" id="patientName" placeholder="Иван Петров" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientPhone">Телефон</label>
+                            <input type="text" id="patientPhone" placeholder="0888 123 456">
+                        </div>
+                        <div class="form-group">
+                            <label for="patientNotes">Бележки</label>
+                            <input type="text" id="patientNotes" placeholder="алергии, диагнози...">
+                        </div>
+                        <div class="form-group" style="justify-content: end;">
+                            <button type="submit" class="btn" id="addPatientBtn">
+                                <i class="fas fa-save"></i> Добави пациент
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="filter-bar">
+                    <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
+                    <div class="btn-group">
+                        <button class="btn-outline btn-sm" id="archiveSelectedBtn">
+                            <i class="fas fa-archive"></i> Архивирай избраните
                         </button>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;"><input type="checkbox" id="selectAllPatients"></th>
+                                <th>Име</th>
+                                <th>Телефон</th>
+                                <th>Бележки</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activePatientsBody"></tbody>
+                    </table>
+                </div>
 
-            <div class="filter-bar">
-                <h3 style="margin:0;"><i class="fas fa-list"></i> Извършени процедури</h3>
-            </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Пациент</th>
-                            <th>Процедура</th>
-                            <th>Дата / Час</th>
-                            <th>Краен резултат</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="proceduresBody"></tbody>
-                </table>
-            </div>
-        </section>
+                <div style="margin-top: 2.5rem;">
+                    <h3><i class="fas fa-archive"></i> Архив на пациенти</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Име</th>
+                                <th>Телефон</th>
+                                <th>Бележки</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="archivedPatientsBody"></tbody>
+                    </table>
+                </div>
+            </section>
 
-    </main>
+            <!-- МОДУЛ ПРОЦЕДУРИ -->
+            <section id="module-procedures" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-stethoscope"></i> Процедури</h1>
+                </div>
 
-    <!-- Firebase SDK (Module version чрез CDN) -->
+                <div class="card">
+                    <h3><i class="fas fa-plus-circle"></i> Нова процедура</h3>
+                    <form id="procedureForm" class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                        <div class="form-group">
+                            <label for="procPatient">Пациент *</label>
+                            <select id="procPatient" required>
+                                <option value="">-- избери пациент --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="procDescription">Описание на процедурата *</label>
+                            <input type="text" id="procDescription" placeholder="напр. Венозна инфузия" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="procDate">Дата *</label>
+                            <input type="date" id="procDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="procTime">Час *</label>
+                            <input type="time" id="procTime" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="procResult">Краен резултат</label>
+                            <textarea id="procResult" placeholder="описание на резултата..."></textarea>
+                        </div>
+                        <div class="form-group" style="justify-content: end;">
+                            <button type="submit" class="btn" id="addProcedureBtn">
+                                <i class="fas fa-save"></i> Запази процедура
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="filter-bar">
+                    <h3 style="margin:0;"><i class="fas fa-list"></i> Извършени процедури</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Пациент</th>
+                                <th>Процедура</th>
+                                <th>Дата / Час</th>
+                                <th>Краен резултат</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="proceduresBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- МОДУЛ ПОТРЕБИТЕЛИ -->
+            <section id="module-users" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-user-shield"></i> Потребители</h1>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
+                    <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
+                        <i class="fas fa-info-circle"></i> Кодът за достъп се генерира автоматично (6 цифри) и се показва веднага след създаване.
+                    </p>
+                    <form id="userForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="userNameInput">Име и фамилия *</label>
+                            <input type="text" id="userNameInput" placeholder="Алекс Тодоров" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userRoleInput">Роля</label>
+                            <select id="userRoleInput">
+                                <option value="Лекар">Лекар</option>
+                                <option value="Медицинска сестра">Медицинска сестра</option>
+                                <option value="Рехабилитатор">Рехабилитатор</option>
+                                <option value="Администратор">Администратор</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="justify-content: end;">
+                            <button type="submit" class="btn" id="addUserBtn">
+                                <i class="fas fa-key"></i> Създай потребител
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="filter-bar">
+                    <h3 style="margin:0;"><i class="fas fa-users-cog"></i> Списък с потребители</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Име</th>
+                                <th>Роля</th>
+                                <th>Код за достъп</th>
+                                <th>Създаден на</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal за показване на нов код -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <h3>Потребителят е създаден</h3>
+            <p id="modalUserName">Алекс Тодоров</p>
+            <div class="new-code" id="modalNewCode">010610</div>
+            <p style="font-size: 0.85rem;">
+                <i class="fas fa-exclamation-triangle" style="color: #d97706;"></i>
+                Запазете този код! Той е нужен за вход в системата.
+            </p>
+            <div class="modal-actions">
+                <button class="btn" id="modalCopyBtn"><i class="fas fa-copy"></i> Копирай</button>
+                <button class="btn-outline btn" id="modalCloseBtn">Затвори</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
     <script type="module">
         // =====================================================
         // 1. ИМПОРТ НА FIREBASE SDK
@@ -604,13 +1083,11 @@
             set,
             update,
             remove,
-            onValue,
-            child,
-            get
+            onValue
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         // =====================================================
-        // 2. FIREBASE КОНФИГУРАЦИЯ (от твоя проект)
+        // 2. FIREBASE КОНФИГУРАЦИЯ
         // =====================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -623,16 +1100,15 @@
             measurementId: "G-S3S31S72B0"
         };
 
-        // Инициализация
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Рефенции към колекциите
         const patientsRef = ref(db, 'patients');
         const proceduresRef = ref(db, 'procedures');
+        const usersRef = ref(db, 'users');
 
         // =====================================================
-        // 3. ПОМОЩНИ ФУНКЦИИ (Toast, Loading)
+        // 3. ПОМОЩНИ ФУНКЦИИ
         // =====================================================
         const toastContainer = document.getElementById('toastContainer');
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -669,36 +1145,80 @@
             return `${d}.${m}.${y}`;
         }
 
-        function generateId(prefix = 'id') {
-            return prefix + '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        function formatTimestamp(ts) {
+            if (!ts) return '—';
+            const d = new Date(ts);
+            return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Генерира 6-цифрен код
+        function generate6DigitCode() {
+            return String(Math.floor(100000 + Math.random() * 900000));
+        }
+
+        // Проверява уникалност на код
+        function isCodeUnique(code, users) {
+            return !Object.values(users).some(u => u.accessCode === code);
+        }
+
+        // Генерира уникален код
+        function generateUniqueCode(users) {
+            let code;
+            let attempts = 0;
+            do {
+                code = generate6DigitCode();
+                attempts++;
+                if (attempts > 100) throw new Error('Не може да се генерира уникален код');
+            } while (!isCodeUnique(code, users));
+            return code;
         }
 
         // =====================================================
-        // 4. СЪСТОЯНИЕ (кеш на данните)
+        // 4. СЪСТОЯНИЕ
         // =====================================================
-        let patients = {};     // { id: {name, phone, notes, archived} }
-        let procedures = {};   // { id: {patientId, description, date, time, result} }
+        let patients = {};
+        let procedures = {};
+        let users = {};
+        let currentUser = null;
 
         // =====================================================
         // 5. DOM РЕФЕРЕНЦИИ
         // =====================================================
+        // Логин
+        const loginScreen = document.getElementById('loginScreen');
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const loginErrorText = document.getElementById('loginErrorText');
+        const codeInputEls = document.querySelectorAll('#codeInputs input');
+
+        // App
+        const appEl = document.getElementById('app');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userRole = document.getElementById('userRole');
+
+        // Навигация
         const navItems = document.querySelectorAll('.nav-item');
         const modules = {
             patients: document.getElementById('module-patients'),
-            procedures: document.getElementById('module-procedures')
+            procedures: document.getElementById('module-procedures'),
+            users: document.getElementById('module-users')
         };
 
+        // Пациенти
         const patientForm = document.getElementById('patientForm');
         const patientName = document.getElementById('patientName');
         const patientPhone = document.getElementById('patientPhone');
         const patientNotes = document.getElementById('patientNotes');
         const addPatientBtn = document.getElementById('addPatientBtn');
-
         const activePatientsBody = document.getElementById('activePatientsBody');
         const archivedPatientsBody = document.getElementById('archivedPatientsBody');
         const selectAllPatients = document.getElementById('selectAllPatients');
         const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
 
+        // Процедури
         const procedureForm = document.getElementById('procedureForm');
         const procPatient = document.getElementById('procPatient');
         const procDescription = document.getElementById('procDescription');
@@ -708,15 +1228,196 @@
         const addProcedureBtn = document.getElementById('addProcedureBtn');
         const proceduresBody = document.getElementById('proceduresBody');
 
+        // Потребители
+        const userForm = document.getElementById('userForm');
+        const userNameInput = document.getElementById('userNameInput');
+        const userRoleInput = document.getElementById('userRoleInput');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const usersBody = document.getElementById('usersBody');
+
+        // Modal
+        const codeModal = document.getElementById('codeModal');
+        const modalUserName = document.getElementById('modalUserName');
+        const modalNewCode = document.getElementById('modalNewCode');
+        const modalCopyBtn = document.getElementById('modalCopyBtn');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
         // =====================================================
-        // 6. РЕНДИРАНЕ
+        // 6. ЛОГИН ЛОГИКА
+        // =====================================================
+        // Автоматично преместване между полетата
+        codeInputEls.forEach((input, idx) => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.replace(/\D/g, '');
+                e.target.value = val.slice(0, 1);
+                e.target.classList.toggle('filled', !!e.target.value);
+
+                if (val && idx < codeInputEls.length - 1) {
+                    codeInputEls[idx + 1].focus();
+                }
+                updateLoginBtn();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                    codeInputEls[idx - 1].focus();
+                }
+                if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
+                if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+                if (paste) {
+                    codeInputEls.forEach((inp, i) => {
+                        inp.value = paste[i] || '';
+                        inp.classList.toggle('filled', !!inp.value);
+                    });
+                    const lastIdx = Math.min(paste.length, 5);
+                    codeInputEls[lastIdx].focus();
+                    updateLoginBtn();
+                }
+            });
+
+            input.addEventListener('focus', (e) => e.target.select());
+        });
+
+        function updateLoginBtn() {
+            const code = getEnteredCode();
+            loginBtn.disabled = code.length !== 6;
+        }
+
+        function getEnteredCode() {
+            return Array.from(codeInputEls).map(i => i.value).join('');
+        }
+
+        function clearCodeInputs() {
+            codeInputEls.forEach(i => {
+                i.value = '';
+                i.classList.remove('filled');
+            });
+            codeInputEls[0].focus();
+            updateLoginBtn();
+        }
+
+        function showLoginError(msg) {
+            loginErrorText.textContent = msg;
+            loginError.classList.add('active');
+            setTimeout(() => loginError.classList.remove('active'), 4000);
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const code = getEnteredCode();
+            if (code.length !== 6) return;
+
+            // Търси потребител с този код
+            const found = Object.entries(users).find(([, u]) => u.accessCode === code);
+
+            if (found) {
+                const [id, user] = found;
+                currentUser = { id, ...user };
+                // Запазваме в sessionStorage (изчиства се при затваряне на таба)
+                sessionStorage.setItem('currentUserId', id);
+                loginSuccess();
+            } else {
+                showLoginError('Грешен код. Опитайте отново.');
+                clearCodeInputs();
+            }
+        });
+
+        function loginSuccess() {
+            loginScreen.classList.add('hidden');
+            appEl.classList.remove('hidden');
+
+            // Показваме потребителската информация
+            const initials = currentUser.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            userAvatar.textContent = initials;
+            userName.textContent = currentUser.name;
+            userRole.textContent = currentUser.role || 'Потребител';
+
+            // Зареждаме данните
+            listenToData();
+
+            showToast(`Добре дошли, ${currentUser.name}!`, 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            sessionStorage.removeItem('currentUserId');
+            // Изчистваме слушателите
+            location.reload(); // Най-простият начин - презареждане
+        }
+
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('Сигурни ли сте, че искате да излезете?')) {
+                logout();
+            }
+        });
+
+        // =====================================================
+        // 7. FIREBASE СЛУШАТЕЛИ
+        // =====================================================
+        let dataListenersStarted = false;
+
+        function listenToData() {
+            if (dataListenersStarted) return;
+            dataListenersStarted = true;
+
+            showLoading(true);
+
+            onValue(patientsRef, (snapshot) => {
+                patients = snapshot.val() || {};
+                renderPatients();
+                renderProcedures();
+                showLoading(false);
+            }, (error) => {
+                console.error('Грешка patients:', error);
+                showToast('Грешка при четене на пациенти: ' + error.message, 'error');
+                showLoading(false);
+            });
+
+            onValue(proceduresRef, (snapshot) => {
+                procedures = snapshot.val() || {};
+                renderProcedures();
+            }, (error) => {
+                console.error('Грешка procedures:', error);
+                showToast('Грешка при четене на процедури', 'error');
+            });
+
+            onValue(usersRef, (snapshot) => {
+                users = snapshot.val() || {};
+                renderUsers();
+
+                // Автоматично възстановяване на сесия
+                const savedId = sessionStorage.getItem('currentUserId');
+                if (savedId && !currentUser && users[savedId]) {
+                    currentUser = { id: savedId, ...users[savedId] };
+                    loginSuccess();
+                }
+            }, (error) => {
+                console.error('Грешка users:', error);
+                showToast('Грешка при четене на потребители', 'error');
+            });
+        }
+
+        // Проверка за съществуваща сесия при зареждане
+        function checkExistingSession() {
+            const savedId = sessionStorage.getItem('currentUserId');
+            if (savedId) {
+                // Ще се възстанови след зареждане на users
+            }
+        }
+
+        // =====================================================
+        // 8. РЕНДИРАНЕ
         // =====================================================
         function renderPatients() {
             const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
             const active = allPatients.filter(p => !p.archived);
             const archived = allPatients.filter(p => p.archived);
 
-            // Активни
             if (active.length === 0) {
                 activePatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
                     <i class="fas fa-user-slash"></i> Няма активни пациенти</td></tr>`;
@@ -728,7 +1429,7 @@
                         <td>${escapeHtml(p.phone || '—')}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm archive-single" data-id="${p.id}" title="Архивирай">
+                            <button class="btn-outline btn-sm archive-single" data-id="${p.id}">
                                 <i class="fas fa-archive"></i> Архив
                             </button>
                         </td>
@@ -736,7 +1437,6 @@
                 `).join('');
             }
 
-            // Архивирани
             if (archived.length === 0) {
                 archivedPatientsBody.innerHTML = `<tr><td colspan="4" class="empty-message">
                     <i class="fas fa-archive"></i> Няма архивирани пациенти</td></tr>`;
@@ -747,7 +1447,7 @@
                         <td>${escapeHtml(p.phone || '—')}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm restore-patient" data-id="${p.id}" title="Възстанови">
+                            <button class="btn-outline btn-sm restore-patient" data-id="${p.id}">
                                 <i class="fas fa-undo-alt"></i> Върни
                             </button>
                         </td>
@@ -760,15 +1460,15 @@
         }
 
         function updatePatientDropdown() {
-            const activePatients = Object.entries(patients)
+            const active = Object.entries(patients)
                 .filter(([, p]) => !p.archived)
                 .map(([id, p]) => ({ id, name: p.name }));
 
             const currentValue = procPatient.value;
             procPatient.innerHTML = '<option value="">-- избери пациент --</option>' +
-                activePatients.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+                active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
 
-            if (activePatients.some(p => p.id === currentValue)) {
+            if (active.some(p => p.id === currentValue)) {
                 procPatient.value = currentValue;
             }
         }
@@ -782,7 +1482,6 @@
                 return;
             }
 
-            // Сортиране по дата+час низходящо
             const sorted = [...allProcs].sort((a, b) => {
                 const da = `${a.date || ''} ${a.time || ''}`;
                 const dbb = `${b.date || ''} ${b.time || ''}`;
@@ -799,7 +1498,7 @@
                         <td>${formatDate(proc.date)} ${proc.time || ''}</td>
                         <td>${escapeHtml(proc.result || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}" title="Изтрий процедура">
+                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}" title="Изтрий">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -808,131 +1507,132 @@
             }).join('');
         }
 
-        // =====================================================
-        // 7. FIREBASE REAL-TIME СЛУШАТЕЛИ
-        // =====================================================
-        function listenToData() {
-            showLoading(true);
+        function renderUsers() {
+            const allUsers = Object.entries(users).map(([id, u]) => ({ id, ...u }));
 
-            // Слушане на пациенти
-            onValue(patientsRef, (snapshot) => {
-                patients = snapshot.val() || {};
-                renderPatients();
-                renderProcedures();
-                showLoading(false);
-            }, (error) => {
-                console.error('Грешка при четене на пациенти:', error);
-                showToast('Грешка при свързване с Firebase: ' + error.message, 'error');
-                showLoading(false);
-            });
+            if (allUsers.length === 0) {
+                usersBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                    <i class="fas fa-users"></i> Няма създадени потребители</td></tr>`;
+                return;
+            }
 
-            // Слушане на процедури
-            onValue(proceduresRef, (snapshot) => {
-                procedures = snapshot.val() || {};
-                renderProcedures();
-            }, (error) => {
-                console.error('Грешка при четене на процедури:', error);
-                showToast('Грешка при зареждане на процедури', 'error');
-            });
+            usersBody.innerHTML = allUsers.map(u => {
+                const initials = (u.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+                const isCurrent = currentUser && currentUser.id === u.id;
+                return `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="user-avatar" style="background: #1e4a78;">${initials}</div>
+                                <strong>${escapeHtml(u.name)}${isCurrent ? ' <span style="color:#1a7a3e; font-size:0.8rem;">(вие)</span>' : ''}</strong>
+                            </div>
+                        </td>
+                        <td>${escapeHtml(u.role || '—')}</td>
+                        <td>
+                            <span class="code-badge">
+                                ${u.accessCode}
+                                <button class="copy-code" data-code="${u.accessCode}" title="Копирай">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </span>
+                        </td>
+                        <td>${formatTimestamp(u.createdAt)}</td>
+                        <td>
+                            <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}" title="Генерирай нов код">
+                                <i class="fas fa-sync-alt"></i> Нов код
+                            </button>
+                            ${!isCurrent ? `
+                                <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}" title="Изтрий">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            ` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         // =====================================================
-        // 8. CRUD ОПЕРАЦИИ - ПАЦИЕНТИ
+        // 9. CRUD - ПАЦИЕНТИ
         // =====================================================
         patientForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = patientName.value.trim();
             if (!name) {
-                showToast('Моля, въведете име на пациент.', 'error');
+                showToast('Моля, въведете име.', 'error');
                 return;
             }
 
             addPatientBtn.disabled = true;
-            const newPatient = {
-                name: name,
-                phone: patientPhone.value.trim(),
-                notes: patientNotes.value.trim(),
-                archived: false,
-                createdAt: Date.now()
-            };
-
             try {
                 const newRef = push(patientsRef);
-                await set(newRef, newPatient);
+                await set(newRef, {
+                    name: name,
+                    phone: patientPhone.value.trim(),
+                    notes: patientNotes.value.trim(),
+                    archived: false,
+                    createdAt: Date.now()
+                });
                 patientForm.reset();
-                showToast('Пациентът е добавен успешно.', 'success');
-            } catch (error) {
-                console.error('Грешка при добавяне:', error);
-                showToast('Грешка при добавяне: ' + error.message, 'error');
+                showToast('Пациентът е добавен.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
             } finally {
                 addPatientBtn.disabled = false;
             }
         });
 
-        // Архивиране на един пациент
         activePatientsBody.addEventListener('click', async (e) => {
-            const archiveBtn = e.target.closest('.archive-single');
-            if (!archiveBtn) return;
-            const id = archiveBtn.dataset.id;
-            archiveBtn.disabled = true;
+            const btn = e.target.closest('.archive-single');
+            if (!btn) return;
+            btn.disabled = true;
             try {
-                await update(ref(db, `patients/${id}`), { archived: true });
-                showToast('Пациентът е преместен в архив.', 'success');
-            } catch (error) {
-                console.error('Грешка при архивиране:', error);
-                showToast('Грешка при архивиране: ' + error.message, 'error');
-                archiveBtn.disabled = false;
+                await update(ref(db, `patients/${btn.dataset.id}`), { archived: true });
+                showToast('Пациентът е архивиран.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+                btn.disabled = false;
             }
         });
 
-        // Групово архивиране
         archiveSelectedBtn.addEventListener('click', async () => {
-            const checkboxes = document.querySelectorAll('.patient-checkbox:checked');
-            if (checkboxes.length === 0) {
+            const checked = document.querySelectorAll('.patient-checkbox:checked');
+            if (checked.length === 0) {
                 showToast('Моля, изберете поне един пациент.', 'error');
                 return;
             }
-            const ids = Array.from(checkboxes).map(cb => cb.value);
             archiveSelectedBtn.disabled = true;
-
             try {
                 const updates = {};
-                ids.forEach(id => {
-                    updates[`patients/${id}/archived`] = true;
-                });
+                checked.forEach(cb => { updates[`patients/${cb.value}/archived`] = true; });
                 await update(ref(db), updates);
-                showToast(`Архивирани ${ids.length} пациента.`, 'success');
-            } catch (error) {
-                console.error('Грешка при групово архивиране:', error);
-                showToast('Грешка: ' + error.message, 'error');
+                showToast(`Архивирани ${checked.length} пациента.`, 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
             } finally {
                 archiveSelectedBtn.disabled = false;
             }
         });
 
-        // Възстановяване от архив
         archivedPatientsBody.addEventListener('click', async (e) => {
-            const restoreBtn = e.target.closest('.restore-patient');
-            if (!restoreBtn) return;
-            const id = restoreBtn.dataset.id;
-            restoreBtn.disabled = true;
+            const btn = e.target.closest('.restore-patient');
+            if (!btn) return;
+            btn.disabled = true;
             try {
-                await update(ref(db, `patients/${id}`), { archived: false });
+                await update(ref(db, `patients/${btn.dataset.id}`), { archived: false });
                 showToast('Пациентът е възстановен.', 'success');
-            } catch (error) {
-                console.error('Грешка при възстановяване:', error);
-                showToast('Грешка: ' + error.message, 'error');
-                restoreBtn.disabled = false;
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+                btn.disabled = false;
             }
         });
 
-        // Select all
         selectAllPatients.addEventListener('change', (e) => {
             document.querySelectorAll('.patient-checkbox').forEach(cb => cb.checked = e.target.checked);
         });
 
         // =====================================================
-        // 9. CRUD ОПЕРАЦИИ - ПРОЦЕДУРИ
+        // 10. CRUD - ПРОЦЕДУРИ
         // =====================================================
         procedureForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -941,64 +1641,148 @@
             const date = procDate.value;
             const time = procTime.value;
 
-            if (!patientId) {
-                showToast('Моля, изберете пациент.', 'error');
-                return;
-            }
-            if (!description) {
-                showToast('Моля, въведете описание.', 'error');
-                return;
-            }
-            if (!date || !time) {
-                showToast('Моля, попълнете дата и час.', 'error');
-                return;
-            }
+            if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
+            if (!description) { showToast('Въведете описание.', 'error'); return; }
+            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
 
             addProcedureBtn.disabled = true;
-            const newProcedure = {
-                patientId: patientId,
-                description: description,
-                date: date,
-                time: time,
-                result: procResult.value.trim(),
-                createdAt: Date.now()
-            };
-
             try {
                 const newRef = push(proceduresRef);
-                await set(newRef, newProcedure);
+                await set(newRef, {
+                    patientId: patientId,
+                    description: description,
+                    date: date,
+                    time: time,
+                    result: procResult.value.trim(),
+                    createdAt: Date.now()
+                });
                 procedureForm.reset();
                 procDate.value = new Date().toISOString().split('T')[0];
                 updatePatientDropdown();
                 showToast('Процедурата е запазена.', 'success');
-            } catch (error) {
-                console.error('Грешка при добавяне на процедура:', error);
-                showToast('Грешка: ' + error.message, 'error');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
             } finally {
                 addProcedureBtn.disabled = false;
             }
         });
 
-        // Изтриване на процедура
         proceduresBody.addEventListener('click', async (e) => {
-            const deleteBtn = e.target.closest('.delete-procedure');
-            if (!deleteBtn) return;
-            const id = deleteBtn.dataset.id;
+            const btn = e.target.closest('.delete-procedure');
+            if (!btn) return;
             if (!confirm('Сигурни ли сте, че искате да изтриете тази процедура?')) return;
-
-            deleteBtn.disabled = true;
+            btn.disabled = true;
             try {
-                await remove(ref(db, `procedures/${id}`));
+                await remove(ref(db, `procedures/${btn.dataset.id}`));
                 showToast('Процедурата е изтрита.', 'success');
-            } catch (error) {
-                console.error('Грешка при изтриване:', error);
-                showToast('Грешка: ' + error.message, 'error');
-                deleteBtn.disabled = false;
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+                btn.disabled = false;
             }
         });
 
         // =====================================================
-        // 10. НАВИГАЦИЯ
+        // 11. CRUD - ПОТРЕБИТЕЛИ
+        // =====================================================
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = userNameInput.value.trim();
+            if (!name) {
+                showToast('Моля, въведете име.', 'error');
+                return;
+            }
+
+            addUserBtn.disabled = true;
+            try {
+                const newCode = generateUniqueCode(users);
+                const newRef = push(usersRef);
+                const newUser = {
+                    name: name,
+                    role: userRoleInput.value,
+                    accessCode: newCode,
+                    createdAt: Date.now()
+                };
+                await set(newRef, newUser);
+
+                // Показваме modal с новия код
+                modalUserName.textContent = name;
+                modalNewCode.textContent = newCode;
+                codeModal.classList.add('active');
+
+                userForm.reset();
+                showToast(`Потребител ${name} е създаден.`, 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                addUserBtn.disabled = false;
+            }
+        });
+
+        usersBody.addEventListener('click', async (e) => {
+            // Копиране на код
+            const copyBtn = e.target.closest('.copy-code');
+            if (copyBtn) {
+                const code = copyBtn.dataset.code;
+                try {
+                    await navigator.clipboard.writeText(code);
+                    showToast(`Код ${code} е копиран.`, 'success');
+                } catch {
+                    showToast('Копирането не е разрешено.', 'error');
+                }
+                return;
+            }
+
+            // Нов код
+            const regenBtn = e.target.closest('.regenerate-code');
+            if (regenBtn) {
+                if (!confirm('Да генерирам ли нов код? Старият ще спре да работи.')) return;
+                regenBtn.disabled = true;
+                try {
+                    const newCode = generateUniqueCode(users);
+                    await update(ref(db, `users/${regenBtn.dataset.id}`), { accessCode: newCode });
+                    showToast(`Нов код: ${newCode}`, 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    regenBtn.disabled = false;
+                }
+                return;
+            }
+
+            // Изтриване
+            const delBtn = e.target.closest('.delete-user');
+            if (delBtn) {
+                if (!confirm('Сигурни ли сте, че искате да изтриете този потребител?')) return;
+                delBtn.disabled = true;
+                try {
+                    await remove(ref(db, `users/${delBtn.dataset.id}`));
+                    showToast('Потребителят е изтрит.', 'success');
+                } catch (err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    delBtn.disabled = false;
+                }
+            }
+        });
+
+        // Modal бутони
+        modalCopyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(modalNewCode.textContent);
+                showToast('Кодът е копиран.', 'success');
+            } catch {
+                showToast('Копирането не е разрешено.', 'error');
+            }
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            codeModal.classList.remove('active');
+        });
+
+        codeModal.addEventListener('click', (e) => {
+            if (e.target === codeModal) codeModal.classList.remove('active');
+        });
+
+        // =====================================================
+        // 12. НАВИГАЦИЯ
         // =====================================================
         navItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -1013,18 +1797,21 @@
                 if (moduleName === 'procedures') {
                     updatePatientDropdown();
                     renderProcedures();
-                } else {
+                } else if (moduleName === 'patients') {
                     renderPatients();
+                } else if (moduleName === 'users') {
+                    renderUsers();
                 }
             });
         });
 
         // =====================================================
-        // 11. ИНИЦИАЛИЗАЦИЯ
+        // 13. ИНИЦИАЛИЗАЦИЯ
         // =====================================================
         function init() {
             procDate.value = new Date().toISOString().split('T')[0];
-            listenToData();
+            codeInputEls[0].focus();
+            checkExistingSession();
         }
 
         init();
