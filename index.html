@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Медицински център · Пациенти и процедури</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- SIDEBAR (тъмносин) ---------- */
+        .sidebar {
+            width: 280px;
+            background-color: #0b2b4f;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0.5rem;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            padding: 0 1rem 1.5rem 1rem;
+            border-bottom: 1px solid #2a4b6e;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar h2 i {
+            font-size: 1.8rem;
+            color: #a6d0ff;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 0.8rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.9rem 1.2rem;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #e0edff;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 1.25rem;
+            color: #7fb2e5;
+        }
+
+        .nav-item:hover {
+            background-color: #1f3f61;
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background-color: #1e4a78;
+            color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item.active i {
+            color: #ffffff;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1.5rem 1rem 0.5rem;
+            font-size: 0.85rem;
+            color: #8aa9cc;
+            border-top: 1px solid #1d3a57;
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .main {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            max-width: calc(100% - 280px);
+        }
+
+        .module {
+            display: none;
+            animation: fade 0.2s ease;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .module-header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #0b2b4f;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-header h1 i {
+            color: #1e4a78;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9eef3;
+            margin-bottom: 2rem;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #0b2b4f;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem 1.5rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1f3f61;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            border: 1px solid #cfddee;
+            font-size: 0.95rem;
+            background: #ffffff;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background-color: #0b2b4f;
+            color: #ffffff;
+            box-shadow: 0 8px 16px rgba(11, 43, 79, 0.15);
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background-color: #1e4a78;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 20px rgba(11, 43, 79, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #0b2b4f;
+            border: 1px solid #cfddee;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: #f5f9ff;
+            border-color: #0b2b4f;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid #e9eef3;
+            background: #ffffff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 600px;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1.2rem;
+            background: #f8fbfe;
+            color: #0b2b4f;
+            font-weight: 600;
+            border-bottom: 1px solid #dee9f2;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #edf2f8;
+            color: #1f3f61;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: #7f95b0;
+            font-style: italic;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-bar .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Индикатор за зареждане */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 1.2rem;
+            color: #0b2b4f;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-overlay i {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast съобщения */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            background: #0b2b4f;
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+            max-width: 380px;
+        }
+
+        .toast.error {
+            background: #b22234;
+        }
+
+        .toast.success {
+            background: #1a7a3e;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 90px;
+                padding: 1.5rem 0.3rem;
+            }
+            .sidebar h2 span,
+            .nav-item span,
+            .sidebar-footer {
+                display: none;
+            }
+            .sidebar h2 i {
+                margin: 0 auto;
+            }
+            .nav-item {
+                justify-content: center;
+                padding: 0.9rem;
+            }
+            .nav-item i {
+                width: auto;
+                font-size: 1.5rem;
+            }
+            .main {
+                max-width: calc(100% - 90px);
+                padding: 1.5rem;
+            }
+            .module-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <i class="fas fa-spinner"></i>
+        <span>Зареждане...</span>
+    </div>
+
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>
+            <i class="fas fa-hospital-user"></i>
+            <span>МедЦентър</span>
+        </h2>
+        <nav class="nav">
+            <button class="nav-item active" data-module="patients">
+                <i class="fas fa-users"></i>
+                <span>Пациенти</span>
+            </button>
+            <button class="nav-item" data-module="procedures">
+                <i class="fas fa-stethoscope"></i>
+                <span>Процедури</span>
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <i class="fas fa-cloud"></i> Firebase свързан
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- МОДУЛ ПАЦИЕНТИ -->
+        <section id="module-patients" class="module active">
+            <div class="module-header">
+                <h1><i class="fas fa-users"></i> Пациенти</h1>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
+                <form id="patientForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="patientName">Име и фамилия *</label>
+                        <input type="text" id="patientName" placeholder="Иван Петров" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientPhone">Телефон</label>
+                        <input type="text" id="patientPhone" placeholder="0888 123 456">
+                    </div>
+                    <div class="form-group">
+                        <label for="patientNotes">Бележки</label>
+                        <input type="text" id="patientNotes" placeholder="алергии, диагнози...">
+                    </div>
+                    <div class="form-group" style="justify-content: end;">
+                        <button type="submit" class="btn" id="addPatientBtn">
+                            <i class="fas fa-save"></i> Добави пациент
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="filter-bar">
+                <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
+                <div class="btn-group">
+                    <button class="btn-outline btn-sm" id="archiveSelectedBtn">
+                        <i class="fas fa-archive"></i> Архивирай избраните
+                    </button>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox" id="selectAllPatients"></th>
+                            <th>Име</th>
+                            <th>Телефон</th>
+                            <th>Бележки</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activePatientsBody"></tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 2.5rem;">
+                <h3><i class="fas fa-archive"></i> Архив на пациенти</h3>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Име</th>
+                            <th>Телефон</th>
+                            <th>Бележки</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archivedPatientsBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- МОДУЛ ПРОЦЕДУРИ -->
+        <section id="module-procedures" class="module">
+            <div class="module-header">
+                <h1><i class="fas fa-stethoscope"></i> Процедури</h1>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-plus-circle"></i> Нова процедура</h3>
+                <form id="procedureForm" class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                    <div class="form-group">
+                        <label for="procPatient">Пациент *</label>
+                        <select id="procPatient" required>
+                            <option value="">-- избери пациент --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="procDescription">Описание на процедурата *</label>
+                        <input type="text" id="procDescription" placeholder="напр. Поставяне на венозна инфузия" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="procDate">Дата *</label>
+                        <input type="date" id="procDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="procTime">Час *</label>
+                        <input type="time" id="procTime" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="procResult">Краен резултат</label>
+                        <textarea id="procResult" placeholder="описание на резултата след процедурата..."></textarea>
+                    </div>
+                    <div class="form-group" style="justify-content: end;">
+                        <button type="submit" class="btn" id="addProcedureBtn">
+                            <i class="fas fa-save"></i> Запази процедура
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="filter-bar">
+                <h3 style="margin:0;"><i class="fas fa-list"></i> Извършени процедури</h3>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Пациент</th>
+                            <th>Процедура</th>
+                            <th>Дата / Час</th>
+                            <th>Краен резултат</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="proceduresBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Firebase SDK (Module version чрез CDN) -->
+    <script type="module">
+        // =====================================================
+        // 1. ИМПОРТ НА FIREBASE SDK
+        // =====================================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getDatabase,
+            ref,
+            push,
+            set,
+            update,
+            remove,
+            onValue,
+            child,
+            get
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        // =====================================================
+        // 2. FIREBASE КОНФИГУРАЦИЯ (от твоя проект)
+        // =====================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
+            authDomain: "physiobook-d6eff.firebaseapp.com",
+            databaseURL: "https://physiobook-d6eff-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "physiobook-d6eff",
+            storageBucket: "physiobook-d6eff.firebasestorage.app",
+            messagingSenderId: "72682142520",
+            appId: "1:72682142520:web:ef39ae0e5ca3d48f5cdfcd",
+            measurementId: "G-S3S31S72B0"
+        };
+
+        // Инициализация
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Рефенции към колекциите
+        const patientsRef = ref(db, 'patients');
+        const proceduresRef = ref(db, 'procedures');
+
+        // =====================================================
+        // 3. ПОМОЩНИ ФУНКЦИИ (Toast, Loading)
+        // =====================================================
+        const toastContainer = document.getElementById('toastContainer');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle'
+                       : type === 'error' ? 'fa-exclamation-circle'
+                       : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function showLoading(show = true) {
+            loadingOverlay.classList.toggle('active', show);
+        }
+
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}.${m}.${y}`;
+        }
+
+        function generateId(prefix = 'id') {
+            return prefix + '_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        }
+
+        // =====================================================
+        // 4. СЪСТОЯНИЕ (кеш на данните)
+        // =====================================================
+        let patients = {};     // { id: {name, phone, notes, archived} }
+        let procedures = {};   // { id: {patientId, description, date, time, result} }
+
+        // =====================================================
+        // 5. DOM РЕФЕРЕНЦИИ
+        // =====================================================
+        const navItems = document.querySelectorAll('.nav-item');
+        const modules = {
+            patients: document.getElementById('module-patients'),
+            procedures: document.getElementById('module-procedures')
+        };
+
+        const patientForm = document.getElementById('patientForm');
+        const patientName = document.getElementById('patientName');
+        const patientPhone = document.getElementById('patientPhone');
+        const patientNotes = document.getElementById('patientNotes');
+        const addPatientBtn = document.getElementById('addPatientBtn');
+
+        const activePatientsBody = document.getElementById('activePatientsBody');
+        const archivedPatientsBody = document.getElementById('archivedPatientsBody');
+        const selectAllPatients = document.getElementById('selectAllPatients');
+        const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
+
+        const procedureForm = document.getElementById('procedureForm');
+        const procPatient = document.getElementById('procPatient');
+        const procDescription = document.getElementById('procDescription');
+        const procDate = document.getElementById('procDate');
+        const procTime = document.getElementById('procTime');
+        const procResult = document.getElementById('procResult');
+        const addProcedureBtn = document.getElementById('addProcedureBtn');
+        const proceduresBody = document.getElementById('proceduresBody');
+
+        // =====================================================
+        // 6. РЕНДИРАНЕ
+        // =====================================================
+        function renderPatients() {
+            const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
+            const active = allPatients.filter(p => !p.archived);
+            const archived = allPatients.filter(p => p.archived);
+
+            // Активни
+            if (active.length === 0) {
+                activePatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                    <i class="fas fa-user-slash"></i> Няма активни пациенти</td></tr>`;
+            } else {
+                activePatientsBody.innerHTML = active.map(p => `
+                    <tr>
+                        <td><input type="checkbox" class="patient-checkbox" value="${p.id}"></td>
+                        <td><strong>${escapeHtml(p.name)}</strong></td>
+                        <td>${escapeHtml(p.phone || '—')}</td>
+                        <td>${escapeHtml(p.notes || '—')}</td>
+                        <td>
+                            <button class="btn-outline btn-sm archive-single" data-id="${p.id}" title="Архивирай">
+                                <i class="fas fa-archive"></i> Архив
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Архивирани
+            if (archived.length === 0) {
+                archivedPatientsBody.innerHTML = `<tr><td colspan="4" class="empty-message">
+                    <i class="fas fa-archive"></i> Няма архивирани пациенти</td></tr>`;
+            } else {
+                archivedPatientsBody.innerHTML = archived.map(p => `
+                    <tr>
+                        <td><strong>${escapeHtml(p.name)}</strong></td>
+                        <td>${escapeHtml(p.phone || '—')}</td>
+                        <td>${escapeHtml(p.notes || '—')}</td>
+                        <td>
+                            <button class="btn-outline btn-sm restore-patient" data-id="${p.id}" title="Възстанови">
+                                <i class="fas fa-undo-alt"></i> Върни
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            selectAllPatients.checked = false;
+            updatePatientDropdown();
+        }
+
+        function updatePatientDropdown() {
+            const activePatients = Object.entries(patients)
+                .filter(([, p]) => !p.archived)
+                .map(([id, p]) => ({ id, name: p.name }));
+
+            const currentValue = procPatient.value;
+            procPatient.innerHTML = '<option value="">-- избери пациент --</option>' +
+                activePatients.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+
+            if (activePatients.some(p => p.id === currentValue)) {
+                procPatient.value = currentValue;
+            }
+        }
+
+        function renderProcedures() {
+            const allProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }));
+
+            if (allProcs.length === 0) {
+                proceduresBody.innerHTML = `<tr><td colspan="5" class="empty-message">
+                    <i class="fas fa-stethoscope"></i> Няма въведени процедури</td></tr>`;
+                return;
+            }
+
+            // Сортиране по дата+час низходящо
+            const sorted = [...allProcs].sort((a, b) => {
+                const da = `${a.date || ''} ${a.time || ''}`;
+                const dbb = `${b.date || ''} ${b.time || ''}`;
+                return dbb.localeCompare(da);
+            });
+
+            proceduresBody.innerHTML = sorted.map(proc => {
+                const pat = patients[proc.patientId];
+                const patientName = pat ? escapeHtml(pat.name) : '<i>неизвестен пациент</i>';
+                return `
+                    <tr>
+                        <td>${patientName}</td>
+                        <td>${escapeHtml(proc.description)}</td>
+                        <td>${formatDate(proc.date)} ${proc.time || ''}</td>
+                        <td>${escapeHtml(proc.result || '—')}</td>
+                        <td>
+                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}" title="Изтрий процедура">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // =====================================================
+        // 7. FIREBASE REAL-TIME СЛУШАТЕЛИ
+        // =====================================================
+        function listenToData() {
+            showLoading(true);
+
+            // Слушане на пациенти
+            onValue(patientsRef, (snapshot) => {
+                patients = snapshot.val() || {};
+                renderPatients();
+                renderProcedures();
+                showLoading(false);
+            }, (error) => {
+                console.error('Грешка при четене на пациенти:', error);
+                showToast('Грешка при свързване с Firebase: ' + error.message, 'error');
+                showLoading(false);
+            });
+
+            // Слушане на процедури
+            onValue(proceduresRef, (snapshot) => {
+                procedures = snapshot.val() || {};
+                renderProcedures();
+            }, (error) => {
+                console.error('Грешка при четене на процедури:', error);
+                showToast('Грешка при зареждане на процедури', 'error');
+            });
+        }
+
+        // =====================================================
+        // 8. CRUD ОПЕРАЦИИ - ПАЦИЕНТИ
+        // =====================================================
+        patientForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = patientName.value.trim();
+            if (!name) {
+                showToast('Моля, въведете име на пациент.', 'error');
+                return;
+            }
+
+            addPatientBtn.disabled = true;
+            const newPatient = {
+                name: name,
+                phone: patientPhone.value.trim(),
+                notes: patientNotes.value.trim(),
+                archived: false,
+                createdAt: Date.now()
+            };
+
+            try {
+                const newRef = push(patientsRef);
+                await set(newRef, newPatient);
+                patientForm.reset();
+                showToast('Пациентът е добавен успешно.', 'success');
+            } catch (error) {
+                console.error('Грешка при добавяне:', error);
+                showToast('Грешка при добавяне: ' + error.message, 'error');
+            } finally {
+                addPatientBtn.disabled = false;
+            }
+        });
+
+        // Архивиране на един пациент
+        activePatientsBody.addEventListener('click', async (e) => {
+            const archiveBtn = e.target.closest('.archive-single');
+            if (!archiveBtn) return;
+            const id = archiveBtn.dataset.id;
+            archiveBtn.disabled = true;
+            try {
+                await update(ref(db, `patients/${id}`), { archived: true });
+                showToast('Пациентът е преместен в архив.', 'success');
+            } catch (error) {
+                console.error('Грешка при архивиране:', error);
+                showToast('Грешка при архивиране: ' + error.message, 'error');
+                archiveBtn.disabled = false;
+            }
+        });
+
+        // Групово архивиране
+        archiveSelectedBtn.addEventListener('click', async () => {
+            const checkboxes = document.querySelectorAll('.patient-checkbox:checked');
+            if (checkboxes.length === 0) {
+                showToast('Моля, изберете поне един пациент.', 'error');
+                return;
+            }
+            const ids = Array.from(checkboxes).map(cb => cb.value);
+            archiveSelectedBtn.disabled = true;
+
+            try {
+                const updates = {};
+                ids.forEach(id => {
+                    updates[`patients/${id}/archived`] = true;
+                });
+                await update(ref(db), updates);
+                showToast(`Архивирани ${ids.length} пациента.`, 'success');
+            } catch (error) {
+                console.error('Грешка при групово архивиране:', error);
+                showToast('Грешка: ' + error.message, 'error');
+            } finally {
+                archiveSelectedBtn.disabled = false;
+            }
+        });
+
+        // Възстановяване от архив
+        archivedPatientsBody.addEventListener('click', async (e) => {
+            const restoreBtn = e.target.closest('.restore-patient');
+            if (!restoreBtn) return;
+            const id = restoreBtn.dataset.id;
+            restoreBtn.disabled = true;
+            try {
+                await update(ref(db, `patients/${id}`), { archived: false });
+                showToast('Пациентът е възстановен.', 'success');
+            } catch (error) {
+                console.error('Грешка при възстановяване:', error);
+                showToast('Грешка: ' + error.message, 'error');
+                restoreBtn.disabled = false;
+            }
+        });
+
+        // Select all
+        selectAllPatients.addEventListener('change', (e) => {
+            document.querySelectorAll('.patient-checkbox').forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // =====================================================
+        // 9. CRUD ОПЕРАЦИИ - ПРОЦЕДУРИ
+        // =====================================================
+        procedureForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = procPatient.value;
+            const description = procDescription.value.trim();
+            const date = procDate.value;
+            const time = procTime.value;
+
+            if (!patientId) {
+                showToast('Моля, изберете пациент.', 'error');
+                return;
+            }
+            if (!description) {
+                showToast('Моля, въведете описание.', 'error');
+                return;
+            }
+            if (!date || !time) {
+                showToast('Моля, попълнете дата и час.', 'error');
+                return;
+            }
+
+            addProcedureBtn.disabled = true;
+            const newProcedure = {
+                patientId: patientId,
+                description: description,
+                date: date,
+                time: time,
+                result: procResult.value.trim(),
+                createdAt: Date.now()
+            };
+
+            try {
+                const newRef = push(proceduresRef);
+                await set(newRef, newProcedure);
+                procedureForm.reset();
+                procDate.value = new Date().toISOString().split('T')[0];
+                updatePatientDropdown();
+                showToast('Процедурата е запазена.', 'success');
+            } catch (error) {
+                console.error('Грешка при добавяне на процедура:', error);
+                showToast('Грешка: ' + error.message, 'error');
+            } finally {
+                addProcedureBtn.disabled = false;
+            }
+        });
+
+        // Изтриване на процедура
+        proceduresBody.addEventListener('click', async (e) => {
+            const deleteBtn = e.target.closest('.delete-procedure');
+            if (!deleteBtn) return;
+            const id = deleteBtn.dataset.id;
+            if (!confirm('Сигурни ли сте, че искате да изтриете тази процедура?')) return;
+
+            deleteBtn.disabled = true;
+            try {
+                await remove(ref(db, `procedures/${id}`));
+                showToast('Процедурата е изтрита.', 'success');
+            } catch (error) {
+                console.error('Грешка при изтриване:', error);
+                showToast('Грешка: ' + error.message, 'error');
+                deleteBtn.disabled = false;
+            }
+        });
+
+        // =====================================================
+        // 10. НАВИГАЦИЯ
+        // =====================================================
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const moduleName = item.dataset.module;
+                navItems.forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+
+                Object.keys(modules).forEach(key => {
+                    modules[key].classList.toggle('active', key === moduleName);
+                });
+
+                if (moduleName === 'procedures') {
+                    updatePatientDropdown();
+                    renderProcedures();
+                } else {
+                    renderPatients();
+                }
+            });
+        });
+
+        // =====================================================
+        // 11. ИНИЦИАЛИЗАЦИЯ
+        // =====================================================
+        function init() {
+            procDate.value = new Date().toISOString().split('T')[0];
+            listenToData();
+        }
+
+        init();
+    </script>
+</body>
+</html>
