@@ -33,19 +33,7 @@
         .app.hidden { display: none !important; }
 
         /* HEADER */
-        .app-header {
-            background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%);
-            color: #ffffff;
-            padding: 0.9rem 1.5rem;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 1.5rem;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.9rem 1.5rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: sticky; top: 0; z-index: 100; }
         .header-left { display: flex; align-items: center; gap: 15px; }
         .header-logo { width: 42px; height: 42px; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
         .header-logo svg { width: 90%; height: 90%; }
@@ -491,6 +479,124 @@
         .portal-section h3 { font-size: 1.2rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .portal-section h3 i { color: #6b3fa0; }
 
+        /* МОИТЕ УПРАЖНЕНИЯ - за пациент */
+        .patient-ex-card {
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+        .patient-ex-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #edf2f8;
+            flex-wrap: wrap;
+        }
+        .patient-ex-card-header .home-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: #e8f5e9;
+            color: #1a7a3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            flex-shrink: 0;
+        }
+        .patient-ex-card-header h3 { color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem; }
+        .patient-ex-card-header .sub { font-size:0.85rem; color:#7f95b0; }
+
+        .patient-ex-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 1.2rem;
+            border-radius: 16px;
+            background: #f8fbfe;
+            border-left: 5px solid #1a7a3e;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .patient-ex-item .ex-media {
+            flex-shrink: 0;
+        }
+        .patient-ex-item .ex-media iframe,
+        .patient-ex-item .ex-media video {
+            width: 260px;
+            height: 160px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .patient-ex-item .ex-media img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .patient-ex-item .ex-media .placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            background: #e8f0fe;
+            color: #1e4a78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .patient-ex-item .ex-content {
+            flex: 1;
+            min-width: 220px;
+        }
+        .patient-ex-item .ex-content .ex-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .patient-ex-item .ex-content .ex-title .num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1e4a78;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .patient-ex-item .ex-content .ex-title h4 {
+            color: #0b2b4f;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .patient-ex-item .ex-content .ex-description {
+            font-size: 0.9rem;
+            color: #5a7a9a;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 700px) {
+            .patient-ex-item .ex-media iframe,
+            .patient-ex-item .ex-media video {
+                width: 100%;
+                height: 180px;
+            }
+        }
+
         @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 380px; } }
         @media (max-width: 800px) {
             .sidebar { width: 80px; }
@@ -629,13 +735,12 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v4.2 · Firebase</div>
+                    <div class="sidebar-version">v4.3 · Firebase</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- МОДУЛИТЕ (същите) -->
-
+                <!-- ТАБЛО -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -649,7 +754,7 @@
                         <div class="dash-card free"><div class="dash-card-header"><span class="dash-card-title">Свободни часове</span><div class="dash-card-icon"><i class="fas fa-calendar-plus"></i></div></div><div class="dash-card-value" id="dashFreeSlots">0</div><div class="dash-card-sub">днес (9:00 – 18:00)</div></div>
                     </div>
                     <div class="dash-section"><h3><i class="fas fa-user-clock"></i> Днешни пациенти</h3><div class="dash-list" id="dashTodayList"></div></div>
-                    <div class="dash-section"><h3><i class="fas fa-hourglass-half"></i> Предстоящи процедури (следващите 7 дни)</h3><div class="dash-list" id="dashUpcomingList"></div></div>
+                    <div class="dash-section"><h3><i class="fas fa-hourglass-half"></i> Предстоящи процедури</h3><div class="dash-list" id="dashUpcomingList"></div></div>
                     <div class="dash-section">
                         <h3><i class="fas fa-tasks"></i> Задачи</h3>
                         <form class="task-form" id="taskForm"><input type="text" id="taskInput" placeholder="Напр. Обади се на Иван Петров..."><button type="submit" class="btn" id="addTaskBtn"><i class="fas fa-plus"></i> Добави</button></form>
@@ -658,6 +763,7 @@
                     <div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
                 </section>
 
+                <!-- ПАЦИЕНТИ -->
                 <section id="module-patients" class="module">
                     <div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
                     <div class="card">
@@ -675,6 +781,7 @@
                     <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
                 </section>
 
+                <!-- ГРАФИК -->
                 <section id="module-schedule" class="module">
                     <div class="module-header"><h1><i class="fas fa-calendar-alt"></i> График</h1></div>
                     <div class="card">
@@ -699,6 +806,7 @@
                     <div class="week-grid" id="weekGrid"></div>
                 </section>
 
+                <!-- ПРОЦЕДУРИ -->
                 <section id="module-procedures" class="module">
                     <div class="module-header"><h1><i class="fas fa-stethoscope"></i> Процедури</h1></div>
                     <div class="card">
@@ -715,9 +823,10 @@
                     <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
                 </section>
 
+                <!-- УПРАЖНЕНИЯ -->
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
-                    <div class="exercise-tabs" id="exerciseTabsBar">
+                    <div class="exercise-tabs">
                         <button class="exercise-tab active" data-ex-tab="library"><i class="fas fa-book"></i> Библиотека</button>
                         <button class="exercise-tab" data-ex-tab="programs"><i class="fas fa-home"></i> Домашни програми</button>
                     </div>
@@ -808,6 +917,7 @@
                     </div>
                 </section>
 
+                <!-- ДОКУМЕНТАЦИЯ -->
                 <section id="module-documentation" class="module">
                     <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
                     <div class="doc-tabs">
@@ -815,7 +925,6 @@
                         <button class="doc-tab" data-doc-tab="soap"><i class="fas fa-clipboard-list"></i> SOAP</button>
                         <button class="doc-tab" data-doc-tab="files"><i class="fas fa-folder-open"></i> Файлове</button>
                     </div>
-
                     <div class="doc-pane active" data-doc-pane="sessions">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нова бележка</h3>
@@ -831,7 +940,6 @@
                         <div class="doc-filter-bar"><select id="sessionFilterPatient"><option value="">-- Всички пациенти --</option></select><input type="text" id="sessionSearch" placeholder="Търси..."></div>
                         <div class="notes-list" id="sessionNotesList"></div>
                     </div>
-
                     <div class="doc-pane" data-doc-pane="soap">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нова SOAP бележка</h3>
@@ -853,7 +961,6 @@
                         <div class="doc-filter-bar"><select id="soapFilterPatient"><option value="">-- Всички пациенти --</option></select><input type="text" id="soapSearch" placeholder="Търси..."></div>
                         <div class="notes-list" id="soapNotesList"></div>
                     </div>
-
                     <div class="doc-pane" data-doc-pane="files">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нов файл</h3>
@@ -872,6 +979,7 @@
                     </div>
                 </section>
 
+                <!-- ЦЕНОРАЗПИС -->
                 <section id="module-pricing" class="module">
                     <div class="module-header"><h1><i class="fas fa-euro-sign"></i> Ценоразпис</h1></div>
                     <div class="price-date-bar">
@@ -887,6 +995,7 @@
                     <div style="margin-top: 2.5rem;"><h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3><div class="day-summary-grid" id="daySummaryGrid"></div></div>
                 </section>
 
+                <!-- НАСТРОЙКИ -->
                 <section id="module-settings" class="module">
                     <div class="module-header"><h1><i class="fas fa-cog"></i> Настройки</h1></div>
                     <div class="settings-tabs">
@@ -1016,21 +1125,19 @@
                     </div>
                 </section>
 
+                <!-- ПРОФИЛ -->
                 <section id="module-patient-profile" class="module patient-profile">
                     <button class="back-btn" id="backToPatientsBtn"><i class="fas fa-arrow-left"></i> Назад</button>
                     <div id="profileContent"></div>
                 </section>
 
-                <!-- МОДУЛ "МОЯТ ПОРТАЛ" (пациент) -->
+                <!-- МОЯТ ПОРТАЛ (за пациент) -->
                 <section id="module-portal" class="module">
                     <div class="portal-welcome">
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
                         <div><h1>Здравейте, <span id="portalUserName">—</span>!</h1><p>Това е вашият личен портал.</p></div>
                     </div>
-
-                    <!-- Моята домашна програма -->
                     <div id="patientHomePrograms"></div>
-
                     <div class="portal-section">
                         <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
                         <form id="portalAppointmentForm" class="form-grid">
@@ -1052,7 +1159,7 @@
                     </div>
                 </section>
 
-                <!-- МОДУЛ "УПРАЖНЕНИЯ" ЗА ПАЦИЕНТ (скрит, показва се само на пациенти) -->
+                <!-- МОИТЕ УПРАЖНЕНИЯ (за пациент) -->
                 <section id="module-patient-exercises" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-dumbbell"></i> Моите упражнения</h1>
@@ -1069,34 +1176,23 @@
             <h2><i class="fas fa-envelope"></i> Съобщения</h2>
             <button class="messages-close" id="messagesClose"><i class="fas fa-times"></i></button>
         </div>
-
         <div class="messages-tabs">
             <button class="msg-tab active" data-msg-tab="inbox"><i class="fas fa-inbox"></i> Входящи</button>
             <button class="msg-tab" data-msg-tab="sent"><i class="fas fa-paper-plane"></i> Изпратени</button>
             <button class="msg-tab" data-msg-tab="new"><i class="fas fa-pen"></i> Ново</button>
         </div>
-
-        <div class="msg-pane active" data-msg-pane="inbox">
-            <div class="messages-list" id="inboxList"></div>
-        </div>
-
-        <div class="msg-pane" data-msg-pane="sent">
-            <div class="messages-list" id="sentList"></div>
-        </div>
-
+        <div class="msg-pane active" data-msg-pane="inbox"><div class="messages-list" id="inboxList"></div></div>
+        <div class="msg-pane" data-msg-pane="sent"><div class="messages-list" id="sentList"></div></div>
         <div class="msg-pane" data-msg-pane="new">
             <div class="messages-list" style="flex: 1; display:flex; flex-direction:column;">
                 <h4 style="font-size:1rem; color:#0b2b4f; margin-bottom:1rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-pen"></i> Ново съобщение</h4>
                 <div class="msg-compose" style="border-top:none; padding:0; flex:1;">
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block;">До (получател) *</label>
                     <select id="msgRecipient" required><option value="">-- избери получател --</option></select>
-
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block; margin-top:10px;">Относно (опционално)</label>
                     <input type="text" id="msgSubject" placeholder="напр. Относно Иван Петров">
-
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block; margin-top:10px;">Съобщение *</label>
                     <textarea id="msgText" placeholder="Напишете вашето съобщение..." style="min-height:150px;" required></textarea>
-
                     <div class="msg-compose-actions" style="margin-top:1rem;">
                         <button class="btn-outline btn" id="msgClearBtn"><i class="fas fa-times"></i> Изчисти</button>
                         <button class="btn" id="msgSendBtn"><i class="fas fa-paper-plane"></i> Изпрати</button>
@@ -1104,7 +1200,6 @@
                 </div>
             </div>
         </div>
-
         <div class="chat-view" id="chatView">
             <div class="chat-header">
                 <button id="chatBackBtn"><i class="fas fa-arrow-left"></i></button>
@@ -1125,12 +1220,10 @@
             <h2><i class="fas fa-bell"></i> Известия</h2>
             <button class="notif-close" id="notifClose"><i class="fas fa-times"></i></button>
         </div>
-
         <div class="notif-actions-bar">
             <button class="notif-mark-btn" id="notifMarkAllBtn"><i class="fas fa-check-double"></i> Маркирай всички като прочетени</button>
             <button class="notif-mark-btn" id="notifClearAllBtn"><i class="fas fa-trash-alt"></i> Изтрий всички</button>
         </div>
-
         <div class="notif-list" id="notifList"></div>
     </div>
 
@@ -1396,17 +1489,15 @@
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
-                    // Пациентът вижда само: Моят портал, Моите упражнения
-                    if (mod === 'portal' || mod === 'patient-exercises') {
+                    // Пациент вижда само: Моят портал (не Моите упражнения като отделен модул,
+                    // защото упражненията са вградени в портала)
+                    if (mod === 'portal') {
                         item.classList.remove('hidden');
                     } else {
                         item.classList.add('hidden');
                     }
                 } else {
-                    // Служители - скриваме "patient-exercises", показваме всичко останало
-                    if (mod === 'patient-exercises') {
-                        item.classList.add('hidden');
-                    } else if (mod === 'settings' && !admin) {
+                    if (mod === 'settings' && !admin) {
                         item.classList.add('hidden');
                     } else if (mod === 'portal') {
                         item.classList.add('hidden');
@@ -1417,7 +1508,6 @@
             });
 
             if (patientOnly) {
-                // Активираме "Моят портал" като начален
                 navItems.forEach(n => n.classList.remove('active'));
                 const p = document.querySelector('.nav-item[data-module="portal"]');
                 if (p) p.classList.add('active');
@@ -1447,9 +1537,7 @@
             }
         }
 
-        $('headerNavToggle').addEventListener('click', () => {
-            $('sidebar').classList.toggle('collapsed');
-        });
+        $('headerNavToggle').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); });
 
         function applyClinicSettings() {
             if (clinicSettings.name) {
@@ -1509,7 +1597,7 @@
                 renderPricing();
                 renderDaySummary();
                 updatePatientDropdowns();
-                if (currentPatient) { renderPortal(); renderPatientExercises(); }
+                if (currentPatient) renderPortal();
                 if (currentUser && !currentPatient) renderDashboard();
                 if (!sessionRestored) tryRestoreSession();
                 showLoading(false);
@@ -1544,9 +1632,9 @@
             onValue(appointmentsRef, (s) => { appointments = s.val() || {}; renderWeek(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(pricingRef, (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(tasksRef, (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPatientExercises(); });
-            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPatientExercises(); });
-            onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) { renderPortal(); renderPatientExercises(); } if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
+            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPortal(); });
+            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPortal(); });
+            onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) renderPortal(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
             onValue(sessionNotesRef, (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); });
             onValue(soapNotesRef, (s) => { soapNotes = s.val() || {}; renderSoapNotes(); });
             onValue(documentsRef, (s) => { documents = s.val() || {}; renderDocuments(); });
@@ -2158,7 +2246,7 @@
         });
         $('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
 
-        // УПРАЖНЕНИЯ
+        // УПРАЖНЕНИЯ (за служители)
         document.querySelectorAll('.exercise-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.exTab;
@@ -2279,6 +2367,7 @@
                         name: r.name, reps: r.reps, description: r.desc,
                         createdBy: currentUser.id, createdAt: Date.now()
                     });
+                    await createNotification(r.patientId, 'Ново упражнение', `Добавено е упражнение: ${r.name}`, 'exercise');
                 }
                 showToast(`Запазени ${validRows.length}.`, 'success');
                 $('shortRowsContainer').innerHTML = '';
@@ -2391,27 +2480,20 @@
         });
 
         // ДОБАВЯНЕ НА УПРАЖНЕНИЯ В ПРОГРАМА (ред по ред)
-        function addProgramRow(defaultExercise) {
+        function addProgramRow() {
             const rowNum = $('programRowsContainer').children.length + 1;
-
-            // Генерираме dropdown с упражнения от библиотеката
             const allEx = [];
-            Object.entries(exercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'extended', source: 'lib', data: ex });
-            });
-            Object.entries(shortExercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'short', source: 'short', data: ex });
-            });
-
-            const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}" data-name="${escapeHtml(ex.name)}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
+            Object.entries(exercises).forEach(([id, ex]) => { allEx.push({ id, name: ex.name, type: 'extended' }); });
+            Object.entries(shortExercises).forEach(([id, ex]) => { allEx.push({ id, name: ex.name, type: 'short' }); });
+            const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
 
             const row = document.createElement('div');
             row.className = 'program-row';
             row.innerHTML = `
                 <div class="row-label">№${rowNum}</div>
-                <input type="text" class="prog-row-name" placeholder="Име на упражнение *" value="${defaultExercise ? escapeHtml(defaultExercise.name || '') : ''}" required>
-                <input type="text" class="prog-row-reps" placeholder="Повторения" value="${defaultExercise && defaultExercise.reps ? escapeHtml(defaultExercise.reps) : ''}">
-                <input type="text" class="prog-row-sets" placeholder="Серии" value="${defaultExercise && defaultExercise.sets ? defaultExercise.sets : ''}">
+                <input type="text" class="prog-row-name" placeholder="Име на упражнение *" required>
+                <input type="text" class="prog-row-reps" placeholder="Повторения">
+                <input type="text" class="prog-row-sets" placeholder="Серии">
                 <select class="prog-row-library" style="width:100%; padding:0.65rem 0.8rem; border-radius:10px; border:1px solid #cfddee; font-size:0.85rem; font-family:inherit; background:#ffffff;">
                     <option value="">-- или от библиотека --</option>
                     ${libraryOptions}
@@ -2420,7 +2502,6 @@
             `;
             $('programRowsContainer').appendChild(row);
 
-            // При избор от библиотека → попълва автоматично името
             row.querySelector('.prog-row-library').addEventListener('change', (e) => {
                 const val = e.target.value;
                 if (!val) return;
@@ -2473,13 +2554,10 @@
                 row.querySelector('.prog-row-name').classList.remove('required-missing');
 
                 let libId = null, libType = null;
-                if (libVal) {
-                    [libId, libType] = libVal.split('|');
-                }
+                if (libVal) { [libId, libType] = libVal.split('|'); }
 
                 exercisesList.push({
-                    name,
-                    reps,
+                    name, reps,
                     sets: sets ? parseInt(sets) : 0,
                     libId: libId || null,
                     libType: libType || null,
@@ -2515,22 +2593,12 @@
                 const pat = patients[prog.patientId];
                 const pn = pat?escapeHtml(pat.name):'неизвестен';
 
-                // Нов формат: prog.exercises е масив от обекти { name, reps, sets, libId, libType }
-                // Стар формат: prog.exerciseIds или prog.exercises с id и type
                 let exList = [];
                 if (prog.exercises && Array.isArray(prog.exercises)) {
                     exList = prog.exercises.map(item => {
-                        // Ако е нов формат (има name) - използваме директно
                         if (item.name) {
-                            return {
-                                name: item.name,
-                                reps: item.reps || '',
-                                sets: item.sets || 0,
-                                libId: item.libId,
-                                libType: item.libType
-                            };
+                            return { name: item.name, reps: item.reps || '', sets: item.sets || 0 };
                         }
-                        // Ако е стар формат - взимаме от библиотеката
                         if (item.type === 'short') {
                             const ex = shortExercises[item.id];
                             return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null;
@@ -2538,11 +2606,6 @@
                             const ex = exercises[item.id];
                             return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
                         }
-                    }).filter(Boolean);
-                } else if (prog.exerciseIds) {
-                    exList = prog.exerciseIds.map(id => {
-                        const ex = exercises[id];
-                        return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
                     }).filter(Boolean);
                 }
 
@@ -2730,9 +2793,7 @@
             $('notifPanel').classList.toggle('open');
             $('messagesPanel').classList.remove('open');
         });
-        $('notifClose').addEventListener('click', () => {
-            $('notifPanel').classList.remove('open');
-        });
+        $('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
 
         function updateNotificationsBadge() {
             if (!currentUser) return;
@@ -2750,827 +2811,4 @@
             if (!currentUser) return;
             const myId = currentUser.id;
             const all = Object.entries(notifications)
-                .map(([id, n]) => ({ id, ...n }))
-                .filter(n => n.userId === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (all.length === 0) {
-                $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`;
-                return;
-            }
-
-            $('notifList').innerHTML = all.map(n => {
-                const iconMap = {
-                    'appointment': 'fa-calendar-check',
-                    'procedure': 'fa-stethoscope',
-                    'message': 'fa-envelope',
-                    'task': 'fa-tasks',
-                    'document': 'fa-file-medical-alt',
-                    'exercise': 'fa-dumbbell',
-                    'default': 'fa-bell'
-                };
-                const icon = iconMap[n.type] || iconMap['default'];
-                return `<div class="notif-item ${n.read ? 'read' : ''}" data-notif-id="${n.id}">
-                    <button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="notif-item-header">
-                        <div class="notif-item-title">
-                            <i class="fas ${icon}"></i>
-                            ${escapeHtml(n.title || 'Известие')}
-                        </div>
-                        <div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div>
-                    </div>
-                    <div class="notif-item-text">${escapeHtml(n.text || '')}</div>
-                </div>`;
-            }).join('');
-        }
-
-        $('notifList').addEventListener('click', async (e) => {
-            const delBtn = e.target.closest('.notif-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.notifId;
-                try { await remove(ref(db, `notifications/${id}`)); showToast('Известието е изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
-            const item = e.target.closest('.notif-item');
-            if (item) {
-                const id = item.dataset.notifId;
-                try { await update(ref(db, `notifications/${id}`), { read: true }); }
-                catch(err) { console.error(err); }
-            }
-        });
-
-        $('notifMarkAllBtn').addEventListener('click', async () => {
-            if (!currentUser) return;
-            const myId = currentUser.id;
-            const updates = {};
-            Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId && !n.read) {
-                    updates[`notifications/${id}/read`] = true;
-                }
-            });
-            if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; }
-            try {
-                await update(ref(db), updates);
-                showToast('Всички са маркирани като прочетени.','success');
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-        });
-
-        $('notifClearAllBtn').addEventListener('click', async () => {
-            if (!currentUser) return;
-            if (!confirm('Да изтрия ли всички известия?')) return;
-            const myId = currentUser.id;
-            const updates = {};
-            Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId) updates[`notifications/${id}`] = null;
-            });
-            if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
-            try {
-                await update(ref(db), updates);
-                showToast('Всички известия са изтрити.','success');
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-        });
-
-        async function createNotification(userId, title, text, type = 'default') {
-            try {
-                await set(push(notificationsRef), {
-                    userId, title, text, type,
-                    read: false,
-                    createdAt: Date.now()
-                });
-            } catch(err) { console.error('Notif error:', err); }
-        }
-
-        // СЪОБЩЕНИЯ
-        $('headerMessagesBtn').addEventListener('click', () => {
-            $('messagesPanel').classList.toggle('open');
-            $('notifPanel').classList.remove('open');
-        });
-        $('messagesClose').addEventListener('click', () => {
-            $('messagesPanel').classList.remove('open');
-            $('chatView').classList.remove('active');
-        });
-
-        document.querySelectorAll('.msg-tab').forEach(tab=>{
-            tab.addEventListener('click', ()=>{
-                const t = tab.dataset.msgTab;
-                document.querySelectorAll('.msg-tab').forEach(x=>x.classList.toggle('active', x===tab));
-                document.querySelectorAll('.msg-pane').forEach(p=>p.classList.toggle('active', p.dataset.msgPane === t));
-                $('chatView').classList.remove('active');
-                currentChatUserId = null;
-            });
-        });
-
-        function updateMessagesBadge() {
-            if (!currentUser) return;
-            const myId = currentUser.id;
-            const unread = Object.values(messages).filter(m => m.to === myId && !m.read).length;
-            if (unread > 0) {
-                $('messagesBadge').textContent = unread;
-                $('messagesBadge').style.display = 'flex';
-            } else {
-                $('messagesBadge').style.display = 'none';
-            }
-        }
-
-        function renderMessageRecipients() {
-            const sel = $('msgRecipient');
-            if (!sel) return;
-            const staff = Object.entries(users)
-                .filter(([id]) => !currentUser || id !== currentUser.id)
-                .map(([id, u]) => ({ id, name: u.name, type: 'staff' }));
-            const pats = Object.entries(patients)
-                .filter(([, p]) => !p.archived)
-                .map(([id, p]) => ({ id, name: p.name, type: 'patient' }));
-
-            const cur = sel.value;
-            sel.innerHTML = '<option value="">-- избери получател --</option>';
-            if (staff.length > 0) {
-                const g = document.createElement('optgroup');
-                g.label = 'Служители';
-                staff.forEach(s => {
-                    const o = document.createElement('option');
-                    o.value = 'staff:' + s.id;
-                    o.textContent = s.name;
-                    g.appendChild(o);
-                });
-                sel.appendChild(g);
-            }
-            if (pats.length > 0) {
-                const g = document.createElement('optgroup');
-                g.label = 'Пациенти';
-                pats.forEach(p => {
-                    const o = document.createElement('option');
-                    o.value = 'patient:' + p.id;
-                    o.textContent = p.name;
-                    g.appendChild(o);
-                });
-                sel.appendChild(g);
-            }
-            if (cur) sel.value = cur;
-        }
-
-        function getRecipientInfo(value) {
-            if (!value) return null;
-            const [type, id] = value.split(':');
-            if (type === 'staff' && users[id]) return { id, name: users[id].name, type: 'staff' };
-            if (type === 'patient' && patients[id]) return { id, name: patients[id].name, type: 'patient' };
-            return null;
-        }
-
-        function renderInbox() {
-            if (!currentUser) return;
-            const myId = currentUser.id;
-            const inbox = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => m.to === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (inbox.length === 0) {
-                $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`;
-                return;
-            }
-
-            $('inboxList').innerHTML = inbox.map(m => {
-                const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from];
-                const senderName = sender ? sender.name : 'Неизвестен';
-                return `<div class="msg-item ${!m.read ? 'unread' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}">
-                    <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
-                    <div class="msg-item-header">
-                        <div class="msg-item-sender">
-                            <div class="msg-avatar">${getUserInitials(senderName)}</div>
-                            ${escapeHtml(senderName)}
-                            ${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}
-                        </div>
-                        <div class="msg-item-time">${formatTimestamp(m.createdAt)}</div>
-                    </div>
-                    ${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}
-                    <div class="msg-item-preview">${escapeHtml(m.text)}</div>
-                </div>`;
-            }).join('');
-        }
-
-        function renderSent() {
-            if (!currentUser) return;
-            const myId = currentUser.id;
-            const sent = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => m.from === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (sent.length === 0) {
-                $('sentList').innerHTML = `<div class="msg-empty"><i class="fas fa-paper-plane"></i>Нямате изпратени съобщения</div>`;
-                return;
-            }
-
-            $('sentList').innerHTML = sent.map(m => {
-                const recipient = m.toType === 'staff' ? users[m.to] : patients[m.to];
-                const recipientName = recipient ? recipient.name : 'Неизвестен';
-                return `<div class="msg-item" data-msg-id="${m.id}" data-to-id="${m.to}" data-to-type="${m.toType}">
-                    <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
-                    <div class="msg-item-header">
-                        <div class="msg-item-sender">
-                            <div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>
-                            До: ${escapeHtml(recipientName)}
-                        </div>
-                        <div class="msg-item-time">${formatTimestamp(m.createdAt)}</div>
-                    </div>
-                    ${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}
-                    <div class="msg-item-preview">${escapeHtml(m.text)}</div>
-                </div>`;
-            }).join('');
-        }
-
-        $('inboxList').addEventListener('click', async (e) => {
-            const delBtn = e.target.closest('.msg-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.msgId;
-                if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
-            const item = e.target.closest('.msg-item');
-            if (!item) return;
-            const fromId = item.dataset.fromId;
-            const fromType = item.dataset.fromType;
-            const myId = currentUser.id;
-            const updates = {};
-            Object.entries(messages).forEach(([id, m]) => {
-                if (m.to === myId && m.from === fromId && !m.read) {
-                    updates[`messages/${id}/read`] = true;
-                }
-            });
-            if (Object.keys(updates).length > 0) {
-                try { await update(ref(db), updates); } catch(err) { console.error(err); }
-            }
-            openChat(fromId, fromType);
-        });
-
-        $('sentList').addEventListener('click', async (e) => {
-            const delBtn = e.target.closest('.msg-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.msgId;
-                if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
-            const item = e.target.closest('.msg-item');
-            if (!item) return;
-            openChat(item.dataset.toId, item.dataset.toType);
-        });
-
-        function openChat(userId, userType) {
-            currentChatUserId = { id: userId, type: userType };
-            const name = userType === 'staff' ? (users[userId]?.name || '—') : (patients[userId]?.name || '—');
-            $('chatWithName').innerHTML = `${escapeHtml(name)} <small>${userType === 'staff' ? '(служител)' : '(пациент)'}</small>`;
-            $('chatView').classList.add('active');
-            document.querySelectorAll('.msg-pane').forEach(p => p.classList.remove('active'));
-            renderChat();
-            setTimeout(() => $('chatInput').focus(), 100);
-        }
-
-        function renderChat() {
-            if (!currentChatUserId || !currentUser) return;
-            const myId = currentUser.id;
-            const otherId = currentChatUserId.id;
-            const chatMsgs = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId))
-                .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
-
-            if (chatMsgs.length === 0) {
-                $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения. Започнете разговор!</div>`;
-                return;
-            }
-
-            $('chatBody').innerHTML = chatMsgs.map(m => {
-                const isMine = m.from === myId;
-                return `<div class="chat-bubble ${isMine ? 'mine' : 'theirs'}" data-msg-id="${m.id}">
-                    ${isMine ? `<button class="bubble-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>` : ''}
-                    ${!isMine ? `<div class="bubble-sender">${escapeHtml(m.fromType === 'staff' ? (users[m.from]?.name || '') : (patients[m.from]?.name || ''))}</div>` : ''}
-                    ${m.subject ? `<div style="font-weight:700; font-size:0.78rem; margin-bottom:4px; opacity:0.85;">${escapeHtml(m.subject)}</div>` : ''}
-                    ${escapeHtml(m.text)}
-                    <span class="bubble-time">${formatTimeShort(m.createdAt)}</span>
-                </div>`;
-            }).join('');
-
-            setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50);
-        }
-
-        $('chatBody').addEventListener('click', async (e) => {
-            const delBtn = e.target.closest('.bubble-delete');
-            if (!delBtn) return;
-            e.stopPropagation();
-            const id = delBtn.dataset.msgId;
-            if (!confirm('Изтрий това съобщение?')) return;
-            try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
-            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-        });
-
-        $('chatDeleteBtn').addEventListener('click', async () => {
-            if (!currentChatUserId) return;
-            if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител?')) return;
-            const myId = currentUser.id;
-            const otherId = currentChatUserId.id;
-            const updates = {};
-            Object.entries(messages).forEach(([id, m]) => {
-                if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) {
-                    updates[`messages/${id}`] = null;
-                }
-            });
-            if (Object.keys(updates).length === 0) { showToast('Няма съобщения.','info'); return; }
-            try {
-                await update(ref(db), updates);
-                showToast('Всички съобщения са изтрити.','success');
-                $('chatView').classList.remove('active');
-                currentChatUserId = null;
-                document.querySelector('.msg-tab.active')?.click();
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-        });
-
-        $('chatBackBtn').addEventListener('click', () => {
-            $('chatView').classList.remove('active');
-            currentChatUserId = null;
-            document.querySelector('.msg-tab.active')?.click();
-        });
-
-        $('chatSendBtn').addEventListener('click', sendChatMessage);
-        $('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); sendChatMessage(); }
-        });
-
-        async function sendChatMessage() {
-            const text = $('chatInput').value.trim();
-            if (!text || !currentChatUserId || !currentUser) return;
-
-            $('chatSendBtn').disabled = true;
-            try {
-                await set(push(messagesRef), {
-                    from: currentUser.id,
-                    fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: currentChatUserId.id,
-                    toType: currentChatUserId.type,
-                    text: text,
-                    subject: '',
-                    read: false,
-                    createdAt: Date.now()
-                });
-                await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
-                $('chatInput').value = '';
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                $('chatSendBtn').disabled = false;
-            }
-        }
-
-        $('msgSendBtn').addEventListener('click', async () => {
-            const recipientVal = $('msgRecipient').value;
-            const text = $('msgText').value.trim();
-            const subject = $('msgSubject').value.trim();
-
-            if (!recipientVal) { showToast('Изберете получател.', 'error'); return; }
-            if (!text) { showToast('Напишете съобщение.', 'error'); return; }
-
-            const recipient = getRecipientInfo(recipientVal);
-            if (!recipient) { showToast('Невалиден получател.', 'error'); return; }
-
-            $('msgSendBtn').disabled = true;
-            try {
-                await set(push(messagesRef), {
-                    from: currentUser.id,
-                    fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: recipient.id,
-                    toType: recipient.type,
-                    subject: subject,
-                    text: text,
-                    read: false,
-                    createdAt: Date.now()
-                });
-                await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
-                $('msgText').value = '';
-                $('msgSubject').value = '';
-                $('msgRecipient').value = '';
-                showToast('Съобщението е изпратено.', 'success');
-                document.querySelector('.msg-tab[data-msg-tab="sent"]')?.click();
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                $('msgSendBtn').disabled = false;
-            }
-        });
-
-        $('msgClearBtn').addEventListener('click', () => {
-            $('msgRecipient').value = '';
-            $('msgSubject').value = '';
-            $('msgText').value = '';
-        });
-
-        // CRUD
-        $('patientForm').addEventListener('submit', async (e)=>{
-            e.preventDefault();
-            const name = $('patientName').value.trim();
-            if (!name) return;
-            $('addPatientBtn').disabled = true;
-            try {
-                const code = generateUniqueCode(users, patients);
-                await set(push(patientsRef), {
-                    name, phone: $('patientPhone').value.trim(),
-                    notes: $('patientNotes').value.trim(),
-                    archived: false, createdAt: Date.now(),
-                    createdBy: currentUser.id, accessCode: code
-                });
-                $('modalUserName').textContent = name;
-                $('modalNewCode').textContent = code;
-                $('codeModal').classList.add('active');
-                $('patientForm').reset();
-                showToast('Добавен.','success');
-            } catch(err){showToast('Грешка: '+err.message,'error');}
-            finally { $('addPatientBtn').disabled = false; }
-        });
-
-        $('activePatientsBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.archive-single');
-            if (!b) return;
-            try { await update(ref(db,`patients/${b.dataset.id}`),{archived:true}); showToast('Архивиран.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
-        });
-
-        $('archivedPatientsBody').addEventListener('click', async (e)=>{
-            const r = e.target.closest('.restore-patient');
-            if (r) { try { await update(ref(db,`patients/${r.dataset.id}`),{archived:false}); showToast('Възстановен.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
-            const d = e.target.closest('.delete-patient');
-            if (d) { if(!confirm('Изтрий ЗАВИНАГИ?'))return; try { await remove(ref(db,`patients/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
-        });
-
-        $('appointmentForm').addEventListener('submit', async (e)=>{
-            e.preventDefault();
-            const pid = $('aptPatient').value;
-            const dt = $('aptDate').value;
-            const tm = $('aptTime').value;
-            const note = $('aptNote').value.trim();
-            if (!pid || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
-            $('addAppointmentBtn').disabled = true;
-            try {
-                await set(push(appointmentsRef), {
-                    patientId: pid, date: dt, time: tm, note,
-                    duration: parseInt($('aptDuration').value),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
-                await createNotification(pid, 'Нов час', `Записан час на ${formatDate(dt)} в ${tm}`, 'appointment');
-                $('appointmentForm').reset();
-                $('aptDate').value = new Date().toISOString().split('T')[0];
-                showToast('Записан.','success');
-            } catch(err){showToast('Грешка: '+err.message,'error');}
-            finally { $('addAppointmentBtn').disabled = false; }
-        });
-
-        $('weekGrid').addEventListener('click', async (e)=>{
-            const d = e.target.closest('.delete-apt');
-            if (d) { e.stopPropagation(); if(!confirm('Изтрий?'))return; try { await remove(ref(db,`appointments/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
-            const apt = e.target.closest('.appointment');
-            if (apt) { const a = appointments[apt.dataset.id]; if (a && a.patientId) openPatientProfile(a.patientId); }
-        });
-
-        $('prevWeekBtn').addEventListener('click', ()=>{ currentWeekStart = addDays(currentWeekStart,-7); renderWeek(); });
-        $('nextWeekBtn').addEventListener('click', ()=>{ currentWeekStart = addDays(currentWeekStart,7); renderWeek(); });
-        $('todayBtn').addEventListener('click', ()=>{ currentWeekStart = getMonday(new Date()); renderWeek(); });
-
-        $('procedureForm').addEventListener('submit', async (e)=>{
-            e.preventDefault();
-            const pid = $('procPatient').value;
-            const desc = $('procDescription').value.trim();
-            const dt = $('procDate').value;
-            const tm = $('procTime').value;
-            if (!pid || !desc || !dt || !tm) { showToast('Попълнете полетата.','error'); return; }
-            $('addProcedureBtn').disabled = true;
-            try {
-                await set(push(proceduresRef), {
-                    patientId: pid, description: desc, date: dt, time: tm,
-                    result: $('procResult').value.trim(),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
-                $('procedureForm').reset();
-                $('procDate').value = new Date().toISOString().split('T')[0];
-                showToast('Запазена.','success');
-            } catch(err){showToast('Грешка: '+err.message,'error');}
-            finally { $('addProcedureBtn').disabled = false; }
-        });
-
-        $('proceduresBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.delete-procedure');
-            if (!b) return;
-            if (!confirm('Изтрий?')) return;
-            try { await remove(ref(db,`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
-        });
-
-        // ПРОФИЛ
-        function openPatientProfile(patientId) {
-            const patient = patients[patientId];
-            if (!patient) { showToast('Не е намерен.','error'); return; }
-            window.currentProfilePatientId = patientId;
-            Object.values(modules).forEach(m=>m.classList.remove('active'));
-            patientProfileModule.classList.add('active');
-            navItems.forEach(n=>n.classList.remove('active'));
-
-            const procs = Object.entries(procedures).map(([id,p])=>({id,...p})).filter(p=>p.patientId===patientId).sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
-            const prices = Object.entries(pricing).map(([k,i])=>({k,...i})).filter(i=>i.patientId===patientId);
-            const pSession = Object.entries(sessionNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-            const pSoap = Object.entries(soapNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-            const pDocs = Object.entries(documents).map(([id,d])=>({id,...d})).filter(d=>d.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-            const total = prices.reduce((s,p)=>s+(parseFloat(p.price)||0),0);
-
-            $('profileContent').innerHTML = `
-                <div class="profile-header">
-                    <div class="profile-avatar">${getUserInitials(patient.name)}</div>
-                    <div class="profile-info">
-                        <h2>${escapeHtml(patient.name)}</h2>
-                        <div class="contact">
-                            ${patient.phone?`<span><i class="fas fa-phone"></i> ${escapeHtml(patient.phone)}</span>`:''}
-                            ${patient.accessCode?`<span><i class="fas fa-key"></i> Код: <strong>${patient.accessCode}</strong></span>`:''}
-                        </div>
-                    </div>
-                </div>
-                <div class="stats-row">
-                    <div class="stat-card"><div class="label">Процедури</div><div class="value">${procs.length}</div></div>
-                    <div class="stat-card"><div class="label">Бележки</div><div class="value">${pSession.length}</div></div>
-                    <div class="stat-card"><div class="label">SOAP</div><div class="value">${pSoap.length}</div></div>
-                    <div class="stat-card"><div class="label">Файлове</div><div class="value">${pDocs.length}</div></div>
-                    <div class="stat-card"><div class="label">Платено</div><div class="value">${formatPrice(total)} €</div></div>
-                </div>
-                <div class="card">
-                    <h3><i class="fas fa-history"></i> Процедури (${procs.length})</h3>
-                    ${procs.length===0?'<div class="empty-message">Няма процедури</div>':`
-                        <div class="timeline">${procs.map(p=>`
-                            <div class="timeline-item">
-                                <div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time||'—'}</div>
-                                <div class="title">${escapeHtml(p.description)}</div>
-                                ${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}
-                            </div>
-                        `).join('')}</div>`}
-                </div>
-            `;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        $('backToPatientsBtn').addEventListener('click', ()=>{
-            window.currentProfilePatientId = null;
-            patientProfileModule.classList.remove('active');
-            modules.patients.classList.add('active');
-            navItems.forEach(n=>n.classList.toggle('active', n.dataset.module === 'patients'));
-        });
-
-        document.addEventListener('click', (e)=>{
-            const link = e.target.closest('.patient-link');
-            if (link) { e.preventDefault(); openPatientProfile(link.dataset.id); }
-        });
-
-        // ПОРТАЛ (пациент)
-        function renderPortal() {
-            if (!currentPatient) return;
-            $('portalUserName').textContent = currentPatient.name;
-            renderPortalKineziSelect();
-
-            const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
-
-            // Моята програма
-            if (pPrograms.length===0) $('patientHomePrograms').innerHTML = '';
-            else {
-                $('patientHomePrograms').innerHTML = `<div class="patient-program-section"><h3><i class="fas fa-home"></i> Моята домашна програма</h3>${pPrograms.map(prog=>{
-                    let exList = [];
-                    if (prog.exercises && Array.isArray(prog.exercises)) {
-                        exList = prog.exercises.map(item => {
-                            if (item.name) return { name: item.name, reps: item.reps, sets: item.sets, libId: item.libId, libType: item.libType };
-                            if (item.type === 'short') {
-                                const ex = shortExercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null;
-                            } else {
-                                const ex = exercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null;
-                            }
-                        }).filter(Boolean);
-                    }
-                    return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
-                        <h4 style="color:#0b2b4f;margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>
-                        ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}
-                        <div style="display:flex;flex-direction:column;gap:10px;">
-                            ${exList.map((ex,i)=>{
-                                let mediaHtml = '';
-                                let exData = null;
-                                if (ex.libId) {
-                                    exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
-                                }
-                                if (exData && exData.videoUrl) {
-                                    const yt = getYouTubeId(exData.videoUrl);
-                                    if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
-                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`;
-                                } else if (exData && exData.imageUrl) {
-                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
-                                }
-                                return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
-                                    ${mediaHtml}
-                                    <div style="flex:1;min-width:0;">
-                                        <div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
-                                        ${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}
-                                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                                            ${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}
-                                            ${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}
-                                        </div>
-                                    </div>
-                                </div>`;
-                            }).join('')}
-                        </div>
-                    </div>`;
-                }).join('')}</div>`;
-            }
-
-            const apts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.patientId===currentPatient.id && a.date>=toDateStr(new Date())).sort((a,b)=>`${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-            if (apts.length===0) $('portalAppointmentsBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма часове</td></tr>`;
-            else {
-                $('portalAppointmentsBody').innerHTML = apts.map(a=>{
-                    const k = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
-                    return `<tr><td>${formatDate(a.date)}</td><td>${a.time||'—'}</td><td>${escapeHtml(k)}</td><td>${escapeHtml(a.note||'—')}</td><td><button class="btn-danger-outline btn btn-sm portal-delete-apt" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`;
-                }).join('');
-            }
-
-            const procs = Object.entries(procedures).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id).sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
-            if (procs.length===0) $('portalProceduresBody').innerHTML = '<div class="empty-message">Няма процедури</div>';
-            else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
-        }
-
-        // МОДУЛ "УПРАЖНЕНИЯ" ЗА ПАЦИЕНТ
-        function renderPatientExercises() {
-            if (!currentPatient) return;
-            const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
-
-            if (pPrograms.length===0) {
-                $('patientExercisesContent').innerHTML = `<div class="card"><div class="empty-message"><i class="fas fa-dumbbell" style="font-size:2.5rem;color:#cfddee;display:block;margin-bottom:0.8rem;"></i>Все още нямате зададени упражнения.<br>Вашият кинезитерапевт ще ви ги добави скоро.</div></div>`;
-                return;
-            }
-
-            $('patientExercisesContent').innerHTML = pPrograms.map(prog => {
-                let exList = [];
-                if (prog.exercises && Array.isArray(prog.exercises)) {
-                    exList = prog.exercises.map(item => {
-                        let exData = null;
-                        if (item.name) {
-                            // Нов формат
-                            if (item.libId) {
-                                exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
-                            }
-                            return { name: item.name, reps: item.reps || '', sets: item.sets || 0, libId: item.libId, libType: item.libType, data: exData };
-                        }
-                        // Стар формат
-                        if (item.type === 'short') {
-                            const ex = shortExercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null;
-                        } else {
-                            const ex = exercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null;
-                        }
-                    }).filter(Boolean);
-                }
-
-                return `
-                    <div class="card" style="padding: 1.5rem;">
-                        <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8; flex-wrap:wrap;">
-                            <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;">
-                                <i class="fas fa-clipboard-list"></i>
-                            </div>
-                            <div style="flex:1; min-width:200px;">
-                                <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
-                                <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
-                            </div>
-                        </div>
-
-                        ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a; font-size:0.95rem; line-height:1.5;">
-                            <strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}
-                        </div>` : ''}
-
-                        <div style="display:flex; flex-direction:column; gap:14px;">
-                            ${exList.map((ex, i) => {
-                                const exData = ex.data;
-                                let mediaHtml = '';
-                                if (exData && exData.videoUrl) {
-                                    const yt = getYouTubeId(exData.videoUrl);
-                                    if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>`;
-                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></video>`;
-                                } else if (exData && exData.imageUrl) {
-                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">`;
-                                } else {
-                                    mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
-                                }
-
-                                return `
-                                    <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
-                                        ${mediaHtml}
-                                        <div style="flex:1; min-width:200px;">
-                                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                                                <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
-                                                <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
-                                            </div>
-                                            ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(exData.description)}</div>` : ''}
-                                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                                ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
-                                                ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
-                                                ${exData && exData.weight ? `<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(exData.weight)} кг</span>` : ''}
-                                                ${exData && exData.duration ? `<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${exData.duration} сек</span>` : ''}
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        $('portalAppointmentForm').addEventListener('submit', async (e)=>{
-            e.preventDefault();
-            if (!currentPatient) return;
-            const k = $('portalAptKinezi').value;
-            const dt = $('portalAptDate').value;
-            const tm = $('portalAptTime').value;
-            const note = $('portalAptNote').value.trim();
-            if (!k || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
-            $('portalAddAptBtn').disabled = true;
-            try {
-                await set(push(appointmentsRef), {
-                    patientId: currentPatient.id, kineziId: k, date: dt, time: tm, note,
-                    duration: parseInt($('portalAptDuration').value),
-                    createdAt: Date.now(), createdBy: currentPatient.id
-                });
-                await createNotification(k, 'Нов час от пациент', `${currentPatient.name} записа час на ${formatDate(dt)} в ${tm}`, 'appointment');
-                $('portalAppointmentForm').reset();
-                $('portalAptDate').value = new Date().toISOString().split('T')[0];
-                showToast('Запазен.','success');
-            } catch(err){showToast('Грешка: '+err.message,'error');}
-            finally { $('portalAddAptBtn').disabled = false; }
-        });
-
-        $('portalAppointmentsBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.portal-delete-apt');
-            if (!b) return;
-            if (!confirm('Отмени?')) return;
-            try { await remove(ref(db,`appointments/${b.dataset.id}`)); showToast('Отменен.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
-        });
-
-        // НАВИГАЦИЯ
-        navItems.forEach(item=>{
-            item.addEventListener('click', ()=>{
-                if (item.classList.contains('hidden')) return;
-                const mod = item.dataset.module;
-                window.currentProfilePatientId = null;
-                patientProfileModule.classList.remove('active');
-
-                navItems.forEach(n=>n.classList.remove('active'));
-                item.classList.add('active');
-                Object.keys(modules).forEach(k=>modules[k].classList.toggle('active', k === mod));
-
-                if (mod === 'dashboard') renderDashboard();
-                else if (mod === 'patients') renderPatients();
-                else if (mod === 'schedule') renderWeek();
-                else if (mod === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
-                else if (mod === 'exercises') {
-                    if (isPatient(currentUser)) {
-                        renderPatientExercises();
-                    } else {
-                        renderExerciseLibrary(); renderProgramsList();
-                    }
-                }
-                else if (mod === 'documentation') { updatePatientDropdowns(); renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
-                else if (mod === 'pricing') { renderPricing(); renderDaySummary(); }
-                else if (mod === 'settings') { renderServices(); renderProcedureTemplates(); renderCategories(); renderUsers(); renderTemplates(); }
-                else if (mod === 'portal') renderPortal();
-                else if (mod === 'patient-exercises') renderPatientExercises();
-            });
-        });
-
-        // INIT
-        function init() {
-            const today = new Date().toISOString().split('T')[0];
-            ['procDate','aptDate','noteDate','soapDate','priceDateInput','portalAptDate'].forEach(id=>{ if($(id)) $(id).value = today; });
-            currentPriceDate = today;
-            codeInputEls[0].focus();
-
-            showLoading(true);
-            setTimeout(() => showLoading(false), 2000);
-
-            startUsersListener();
-            startPatientsListenerEarly();
-        }
-
-        init();
-    </script>
-</body>
-</html>
+                .
