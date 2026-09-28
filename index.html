@@ -51,17 +51,14 @@
         .header-logo svg { width: 90%; height: 90%; }
         .header-nav-toggle { background: transparent; border: none; color: #a6d0ff; font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 10px; transition: 0.15s; }
         .header-nav-toggle:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
         .header-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 3px; }
         .header-clinic-name { font-size: 1.35rem; font-weight: 700; letter-spacing: 0.3px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .header-clinic-name i { color: #a6d0ff; font-size: 1.1rem; }
         .header-clinic-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; letter-spacing: 0.5px; }
-
         .header-actions { display: flex; align-items: center; gap: 10px; }
         .header-icon-btn { background: transparent; border: none; color: #a6d0ff; font-size: 1.1rem; cursor: pointer; padding: 0.55rem; border-radius: 10px; transition: 0.15s; position: relative; }
         .header-icon-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
         .header-icon-btn .notif-badge { position: absolute; top: 2px; right: 2px; background: #b22234; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-
         .header-user { display: flex; align-items: center; gap: 10px; padding: 0.3rem 0.8rem 0.3rem 0.3rem; background: rgba(255, 255, 255, 0.1); border-radius: 40px; cursor: pointer; transition: 0.15s; }
         .header-user:hover { background: rgba(255, 255, 255, 0.15); }
         .header-user .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
@@ -295,6 +292,15 @@
         .patient-program-section { background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; border-radius: 20px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; }
         .patient-program-section h3 { color: #1a7a3e; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
 
+        /* ПРОГРАМА - ДОБАВЯНЕ НА УПРАЖНЕНИЯ РЕД ПО РЕД */
+        .program-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem; }
+        .program-row { display: grid; grid-template-columns: 70px 1.5fr 1fr 1fr 2fr 50px; gap: 10px; align-items: center; background: #f8fbfe; border: 1px solid #e9eef3; border-radius: 14px; padding: 0.7rem 0.8rem; }
+        .program-row input { width: 100%; padding: 0.65rem 0.8rem; border-radius: 10px; border: 1px solid #cfddee; font-size: 0.88rem; font-family: inherit; background: #ffffff; min-width: 0; }
+        .program-row input:focus { outline: none; border-color: #0b2b4f; box-shadow: 0 0 0 2px rgba(11, 43, 79, 0.1); }
+        .program-row input.required-missing { border-color: #b22234; background: #fff5f5; }
+        .program-row .row-label { font-size: 0.78rem; color: #7f95b0; font-weight: 600; text-align: center; }
+        @media (max-width: 900px) { .program-row { grid-template-columns: 1fr 1fr; padding: 1rem; } }
+
         /* ДОКУМЕНТАЦИЯ */
         .doc-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .doc-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
@@ -359,48 +365,20 @@
         .service-category-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: #e8f0fe; color: #1e4a78; }
 
         /* ПАНЕЛ СЪОБЩЕНИЯ */
-        .messages-panel {
-            position: fixed;
-            top: 70px;
-            right: 0;
-            width: 440px;
-            max-width: 100vw;
-            height: calc(100vh - 70px);
-            background: #ffffff;
-            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 500;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
+        .messages-panel { position: fixed; top: 70px; right: 0; width: 440px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
         .messages-panel.open { transform: translateX(0); }
         .messages-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .messages-header h2 { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .messages-close { background: transparent; border: none; color: #a6d0ff; font-size: 1.3rem; cursor: pointer; padding: 0.4rem; border-radius: 8px; }
         .messages-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
-
         .messages-tabs { display: flex; gap: 4px; padding: 0.8rem 1.2rem 0; border-bottom: 1px solid #e9eef3; background: #ffffff; flex-shrink: 0; flex-wrap: wrap; }
         .msg-tab { padding: 0.7rem 1rem; border-radius: 10px 10px 0 0; border: none; background: transparent; color: #7f95b0; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-bottom: 2px solid transparent; }
         .msg-tab.active { color: #1e4a78; border-bottom-color: #1e4a78; }
         .msg-tab:hover { color: #1e4a78; }
-
         .msg-pane { display: none; flex-direction: column; flex: 1; overflow: hidden; }
         .msg-pane.active { display: flex; }
-
         .messages-list { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; }
-
-        .msg-item {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 1rem 1.2rem;
-            margin-bottom: 10px;
-            border-left: 4px solid #1e4a78;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            cursor: pointer;
-            transition: 0.15s;
-            position: relative;
-        }
+        .msg-item { background: #ffffff; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; border-left: 4px solid #1e4a78; box-shadow: 0 2px 8px rgba(0,0,0,0.03); cursor: pointer; transition: 0.15s; position: relative; }
         .msg-item:hover { transform: translateX(4px); box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
         .msg-item.unread { border-left-color: #d97706; background: #fff9ee; }
         .msg-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
@@ -409,32 +387,15 @@
         .msg-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
         .msg-item-preview { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .msg-item-new-badge { display: inline-block; background: #d97706; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: 6px; }
-
-        .msg-item-delete {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: transparent;
-            border: none;
-            color: #b22234;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 6px;
-            opacity: 0;
-            transition: 0.15s;
-            font-size: 0.85rem;
-        }
+        .msg-item-delete { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: #b22234; cursor: pointer; padding: 4px 6px; border-radius: 6px; opacity: 0; transition: 0.15s; font-size: 0.85rem; }
         .msg-item:hover .msg-item-delete { opacity: 1; }
         .msg-item-delete:hover { background: #fff5f5; }
-
         .msg-compose { padding: 1.2rem; border-top: 1px solid #e9eef3; background: #ffffff; flex-shrink: 0; }
         .msg-compose h4 { font-size: 0.9rem; color: #0b2b4f; font-weight: 600; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 6px; }
         .msg-compose input, .msg-compose textarea, .msg-compose select { width: 100%; padding: 0.7rem 0.9rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; margin-bottom: 8px; background: #f8fbfe; }
         .msg-compose input:focus, .msg-compose textarea:focus, .msg-compose select:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08); }
         .msg-compose textarea { resize: vertical; min-height: 80px; }
         .msg-compose-actions { display: flex; gap: 8px; justify-content: flex-end; }
-
-        /* ЧАТ */
         .chat-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .chat-view.active { display: flex; }
         .chat-header { padding: 0.9rem 1.2rem; background: #ffffff; border-bottom: 1px solid #e9eef3; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -444,9 +405,7 @@
         .chat-header .chat-with small { font-weight: 400; color: #7f95b0; font-size: 0.78rem; margin-left: 6px; }
         .chat-header .chat-delete-btn { background: transparent; border: 1px solid #f0c0c0; color: #b22234; cursor: pointer; font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; }
         .chat-header .chat-delete-btn:hover { background: #fff5f5; border-color: #b22234; }
-
         .chat-body { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; display: flex; flex-direction: column; gap: 10px; }
-
         .chat-bubble { max-width: 80%; padding: 0.7rem 1rem; border-radius: 16px; font-size: 0.9rem; line-height: 1.4; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; }
         .chat-bubble.mine { align-self: flex-end; background: #1e4a78; color: #fff; border-bottom-right-radius: 4px; }
         .chat-bubble.theirs { align-self: flex-start; background: #ffffff; color: #1f3f61; border-bottom-left-radius: 4px; border: 1px solid #e9eef3; }
@@ -455,32 +414,16 @@
         .chat-bubble .bubble-delete { position: absolute; top: 4px; right: 4px; background: transparent; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 0.7rem; padding: 2px 4px; border-radius: 4px; opacity: 0; transition: 0.15s; }
         .chat-bubble.mine:hover .bubble-delete { opacity: 1; }
         .chat-bubble.mine .bubble-delete:hover { background: rgba(255,255,255,0.2); color: #fff; }
-
         .chat-input-area { padding: 0.8rem 1.2rem; background: #ffffff; border-top: 1px solid #e9eef3; display: flex; gap: 8px; flex-shrink: 0; }
         .chat-input-area input { flex: 1; padding: 0.75rem 1rem; border-radius: 30px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #f8fbfe; }
         .chat-input-area input:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08); }
         .chat-send-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: #1e4a78; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; transition: 0.15s; }
         .chat-send-btn:hover { background: #0b2b4f; transform: scale(1.05); }
-
         .msg-empty { text-align: center; padding: 2.5rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.9rem; }
         .msg-empty i { display: block; font-size: 2.5rem; margin-bottom: 0.8rem; color: #cfddee; }
 
         /* ПАНЕЛ ИЗВЕСТИЯ */
-        .notif-panel {
-            position: fixed;
-            top: 70px;
-            right: 0;
-            width: 420px;
-            max-width: 100vw;
-            height: calc(100vh - 70px);
-            background: #ffffff;
-            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 500;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
+        .notif-panel { position: fixed; top: 70px; right: 0; width: 420px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
         .notif-panel.open { transform: translateX(0); }
         .notif-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .notif-header h2 { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
@@ -488,17 +431,7 @@
         .notif-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
         .notif-actions-bar { padding: 0.8rem 1.2rem; background: #ffffff; border-bottom: 1px solid #e9eef3; display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
         .notif-list { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; }
-
-        .notif-item {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 1rem 1.2rem;
-            margin-bottom: 10px;
-            border-left: 4px solid #d97706;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            transition: 0.15s;
-            position: relative;
-        }
+        .notif-item { background: #ffffff; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; border-left: 4px solid #d97706; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: 0.15s; position: relative; cursor: pointer; }
         .notif-item:hover { box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
         .notif-item.read { border-left-color: #cfddee; background: #fafbfc; opacity: 0.75; }
         .notif-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
@@ -507,37 +440,10 @@
         .notif-item.read .notif-item-title i { color: #7f95b0; }
         .notif-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
         .notif-item-text { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; }
-
-        .notif-item-delete {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: transparent;
-            border: none;
-            color: #b22234;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 6px;
-            opacity: 0;
-            transition: 0.15s;
-            font-size: 0.85rem;
-        }
+        .notif-item-delete { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: #b22234; cursor: pointer; padding: 4px 6px; border-radius: 6px; opacity: 0; transition: 0.15s; font-size: 0.85rem; }
         .notif-item:hover .notif-item-delete { opacity: 1; }
         .notif-item-delete:hover { background: #fff5f5; }
-
-        .notif-mark-btn {
-            background: transparent;
-            border: 1px solid #cfddee;
-            color: #1e4a78;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.4rem 0.8rem;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .notif-mark-btn { background: transparent; border: 1px solid #cfddee; color: #1e4a78; cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
         .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
 
         /* ПОТРЕБИТЕЛИ */
@@ -723,12 +629,13 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v4.1 · Firebase</div>
+                    <div class="sidebar-version">v4.2 · Firebase</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- МОДУЛИТЕ (същите като преди) -->
+                <!-- МОДУЛИТЕ (същите) -->
+
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -810,7 +717,7 @@
 
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
-                    <div class="exercise-tabs">
+                    <div class="exercise-tabs" id="exerciseTabsBar">
                         <button class="exercise-tab active" data-ex-tab="library"><i class="fas fa-book"></i> Библиотека</button>
                         <button class="exercise-tab" data-ex-tab="programs"><i class="fas fa-home"></i> Домашни програми</button>
                     </div>
@@ -867,16 +774,36 @@
 
                     <div class="exercise-pane" data-ex-pane="programs">
                         <div class="card">
-                            <h3><i class="fas fa-plus-circle"></i> Нова програма</h3>
-                            <form id="programForm" class="form-grid">
-                                <div class="form-group"><label>Пациент *</label><select id="progPatient" required><option value="">-- избери --</option></select></div>
-                                <div class="form-group"><label>Заглавие *</label><input type="text" id="progTitle" required></div>
-                                <div class="form-group" style="grid-column: span 2;"><label>Бележки</label><textarea id="progNotes"></textarea></div>
-                                <div class="form-group" style="grid-column: span 2;"><label>Избери упражнения *</label><div id="exercisePickerList" style="border:1px solid #cfddee; border-radius:14px; padding:0.8rem; max-height:280px; overflow-y:auto;"></div></div>
-                                <div class="form-group" style="justify-content: end; grid-column: span 2;"><button type="submit" class="btn" id="addProgramBtn"><i class="fas fa-save"></i> Създай</button></div>
+                            <h3><i class="fas fa-plus-circle"></i> Нова домашна програма</h3>
+                            <form id="programForm">
+                                <div class="form-grid" style="margin-bottom:1.5rem;">
+                                    <div class="form-group"><label>Пациент *</label><select id="progPatient" required><option value="">-- избери --</option></select></div>
+                                    <div class="form-group"><label>Заглавие *</label><input type="text" id="progTitle" placeholder="напр. Програма за коляно" required></div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:1.5rem;">
+                                    <label>Бележки / инструкции</label>
+                                    <textarea id="progNotes" placeholder="Общи насоки за пациента..."></textarea>
+                                </div>
+
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:10px;">
+                                    <h4 style="color:#0b2b4f; font-size:1rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-list-ul" style="color:#1e4a78;"></i> Упражнения в програмата</h4>
+                                    <button type="button" class="btn-outline btn btn-sm" id="addProgramRowBtn"><i class="fas fa-plus"></i> Добави ред</button>
+                                </div>
+
+                                <div class="program-rows" id="programRowsContainer"></div>
+
+                                <div style="background:#f8fbfe; padding:1rem; border-radius:12px; border-left:3px solid #1e4a78; margin-top:1rem; font-size:0.88rem; color:#5a7a9a;">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>Съвет:</strong> Можете да избирате упражнения от библиотеката (dropdown "От библиотека") или да въведете ново име на упражнение ръчно.
+                                </div>
+
+                                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem;">
+                                    <button type="button" class="btn-outline btn" id="cancelProgramBtn"><i class="fas fa-times"></i> Отказ</button>
+                                    <button type="submit" class="btn" id="addProgramBtn"><i class="fas fa-save"></i> Създай програма</button>
+                                </div>
                             </form>
                         </div>
-                        <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Програми</h3></div>
+                        <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3></div>
                         <div id="programsList"></div>
                     </div>
                 </section>
@@ -1094,12 +1021,16 @@
                     <div id="profileContent"></div>
                 </section>
 
+                <!-- МОДУЛ "МОЯТ ПОРТАЛ" (пациент) -->
                 <section id="module-portal" class="module">
                     <div class="portal-welcome">
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
                         <div><h1>Здравейте, <span id="portalUserName">—</span>!</h1><p>Това е вашият личен портал.</p></div>
                     </div>
+
+                    <!-- Моята домашна програма -->
                     <div id="patientHomePrograms"></div>
+
                     <div class="portal-section">
                         <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
                         <form id="portalAppointmentForm" class="form-grid">
@@ -1119,6 +1050,14 @@
                         <h3><i class="fas fa-history"></i> Моите процедури</h3>
                         <div id="portalProceduresBody"></div>
                     </div>
+                </section>
+
+                <!-- МОДУЛ "УПРАЖНЕНИЯ" ЗА ПАЦИЕНТ (скрит, показва се само на пациенти) -->
+                <section id="module-patient-exercises" class="module">
+                    <div class="module-header">
+                        <h1><i class="fas fa-dumbbell"></i> Моите упражнения</h1>
+                    </div>
+                    <div id="patientExercisesContent"></div>
                 </section>
             </main>
         </div>
@@ -1314,6 +1253,7 @@
         function hasRole(u,r){ return getUserRoles(u).includes(r); }
         function isAdmin(u){ return hasRole(u,'Администратор'); }
         function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
+        function isPatient(u){ return hasRole(u, 'Пациент'); }
         function getRolesBadgesHtml(u){
             const roles = getUserRoles(u);
             if (roles.length===0) return '<span style="color:#7f95b0;">—</span>';
@@ -1356,7 +1296,8 @@
             documentation: document.getElementById('module-documentation'),
             pricing: document.getElementById('module-pricing'),
             settings: document.getElementById('module-settings'),
-            portal: document.getElementById('module-portal')
+            portal: document.getElementById('module-portal'),
+            'patient-exercises': document.getElementById('module-patient-exercises')
         };
         const patientProfileModule = document.getElementById('module-patient-profile');
 
@@ -1455,15 +1396,28 @@
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
-                    item.classList.toggle('hidden', mod !== 'portal');
+                    // Пациентът вижда само: Моят портал, Моите упражнения
+                    if (mod === 'portal' || mod === 'patient-exercises') {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
                 } else {
-                    if (mod === 'settings' && !admin) item.classList.add('hidden');
-                    else if (mod === 'portal') item.classList.add('hidden');
-                    else item.classList.remove('hidden');
+                    // Служители - скриваме "patient-exercises", показваме всичко останало
+                    if (mod === 'patient-exercises') {
+                        item.classList.add('hidden');
+                    } else if (mod === 'settings' && !admin) {
+                        item.classList.add('hidden');
+                    } else if (mod === 'portal') {
+                        item.classList.add('hidden');
+                    } else {
+                        item.classList.remove('hidden');
+                    }
                 }
             });
 
             if (patientOnly) {
+                // Активираме "Моят портал" като начален
                 navItems.forEach(n => n.classList.remove('active'));
                 const p = document.querySelector('.nav-item[data-module="portal"]');
                 if (p) p.classList.add('active');
@@ -1555,7 +1509,7 @@
                 renderPricing();
                 renderDaySummary();
                 updatePatientDropdowns();
-                if (currentPatient) renderPortal();
+                if (currentPatient) { renderPortal(); renderPatientExercises(); }
                 if (currentUser && !currentPatient) renderDashboard();
                 if (!sessionRestored) tryRestoreSession();
                 showLoading(false);
@@ -1590,9 +1544,9 @@
             onValue(appointmentsRef, (s) => { appointments = s.val() || {}; renderWeek(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(pricingRef, (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(tasksRef, (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); });
-            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); });
-            onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) renderPortal(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
+            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPatientExercises(); });
+            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) renderPatientExercises(); });
+            onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) { renderPortal(); renderPatientExercises(); } if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
             onValue(sessionNotesRef, (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); });
             onValue(soapNotesRef, (s) => { soapNotes = s.val() || {}; renderSoapNotes(); });
             onValue(documentsRef, (s) => { documents = s.val() || {}; renderDocuments(); });
@@ -2436,43 +2390,119 @@
             if (b2) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        function renderExercisePicker() {
-            const allExt = Object.entries(exercises).map(([id,ex])=>({ id, type: 'extended', ...ex }));
-            const allShort = Object.entries(shortExercises).map(([id,ex])=>({ id, type: 'short', ...ex }));
-            const all = [...allExt, ...allShort];
-            if (all.length===0) { $('exercisePickerList').innerHTML = `<div style="text-align:center;color:#7f95b0;padding:1rem;font-style:italic;">Няма упражнения</div>`; return; }
-            $('exercisePickerList').innerHTML = all.map(ex=>`
-                <label style="display:flex;align-items:center;gap:10px;padding:0.6rem 0.8rem;border-radius:8px;cursor:pointer;">
-                    <input type="checkbox" value="${ex.id}" data-type="${ex.type}" style="width:18px;height:18px;cursor:pointer;">
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-weight:600;color:#0b2b4f;font-size:0.9rem;">${escapeHtml(ex.name)}</div>
-                        <div style="font-size:0.78rem;color:#7f95b0;">
-                            ${ex.type==='short'?'Съкратено · '+(ex.reps||'')+' повт.':(ex.category||'')+' · '+(ex.sets||0)+'x'+(ex.reps||'')}
-                        </div>
-                    </div>
-                </label>
-            `).join('');
+        // ДОБАВЯНЕ НА УПРАЖНЕНИЯ В ПРОГРАМА (ред по ред)
+        function addProgramRow(defaultExercise) {
+            const rowNum = $('programRowsContainer').children.length + 1;
+
+            // Генерираме dropdown с упражнения от библиотеката
+            const allEx = [];
+            Object.entries(exercises).forEach(([id, ex]) => {
+                allEx.push({ id, name: ex.name, type: 'extended', source: 'lib', data: ex });
+            });
+            Object.entries(shortExercises).forEach(([id, ex]) => {
+                allEx.push({ id, name: ex.name, type: 'short', source: 'short', data: ex });
+            });
+
+            const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}" data-name="${escapeHtml(ex.name)}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
+
+            const row = document.createElement('div');
+            row.className = 'program-row';
+            row.innerHTML = `
+                <div class="row-label">№${rowNum}</div>
+                <input type="text" class="prog-row-name" placeholder="Име на упражнение *" value="${defaultExercise ? escapeHtml(defaultExercise.name || '') : ''}" required>
+                <input type="text" class="prog-row-reps" placeholder="Повторения" value="${defaultExercise && defaultExercise.reps ? escapeHtml(defaultExercise.reps) : ''}">
+                <input type="text" class="prog-row-sets" placeholder="Серии" value="${defaultExercise && defaultExercise.sets ? defaultExercise.sets : ''}">
+                <select class="prog-row-library" style="width:100%; padding:0.65rem 0.8rem; border-radius:10px; border:1px solid #cfddee; font-size:0.85rem; font-family:inherit; background:#ffffff;">
+                    <option value="">-- или от библиотека --</option>
+                    ${libraryOptions}
+                </select>
+                <button type="button" class="remove-row-btn" title="Премахни"><i class="fas fa-times"></i></button>
+            `;
+            $('programRowsContainer').appendChild(row);
+
+            // При избор от библиотека → попълва автоматично името
+            row.querySelector('.prog-row-library').addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (!val) return;
+                const [libId, libType] = val.split('|');
+                const ex = libType === 'short' ? shortExercises[libId] : exercises[libId];
+                if (ex) {
+                    row.querySelector('.prog-row-name').value = ex.name || '';
+                    if (ex.reps) row.querySelector('.prog-row-reps').value = ex.reps;
+                    if (ex.sets) row.querySelector('.prog-row-sets').value = ex.sets;
+                }
+            });
         }
+
+        $('addProgramRowBtn').addEventListener('click', () => addProgramRow());
+        $('programRowsContainer').addEventListener('click', (e) => {
+            const btn = e.target.closest('.remove-row-btn');
+            if (!btn) return;
+            btn.closest('.program-row').remove();
+        });
+
+        $('cancelProgramBtn').addEventListener('click', () => {
+            if ($('programRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return;
+            $('programRowsContainer').innerHTML = '';
+            $('programForm').reset();
+        });
 
         $('programForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const pid = $('progPatient').value;
             const title = $('progTitle').value.trim();
-            if (!pid || !title) { showToast('Попълнете полетата.','error'); return; }
-            const checked = Array.from($('exercisePickerList').querySelectorAll('input:checked'));
-            if (checked.length===0) { showToast('Изберете упражнения.','error'); return; }
-            const items = checked.map(cb=>({ id: cb.value, type: cb.dataset.type }));
+            if (!pid || !title) { showToast('Попълнете пациент и заглавие.','error'); return; }
+
+            const rows = Array.from($('programRowsContainer').querySelectorAll('.program-row'));
+            if (rows.length === 0) { showToast('Добавете поне едно упражнение.','error'); return; }
+
+            const exercisesList = [];
+            let hasErrors = false;
+
+            rows.forEach((row, idx) => {
+                const name = row.querySelector('.prog-row-name').value.trim();
+                const reps = row.querySelector('.prog-row-reps').value.trim();
+                const sets = row.querySelector('.prog-row-sets').value.trim();
+                const libVal = row.querySelector('.prog-row-library').value;
+
+                if (!name) {
+                    row.querySelector('.prog-row-name').classList.add('required-missing');
+                    hasErrors = true;
+                    return;
+                }
+                row.querySelector('.prog-row-name').classList.remove('required-missing');
+
+                let libId = null, libType = null;
+                if (libVal) {
+                    [libId, libType] = libVal.split('|');
+                }
+
+                exercisesList.push({
+                    name,
+                    reps,
+                    sets: sets ? parseInt(sets) : 0,
+                    libId: libId || null,
+                    libType: libType || null,
+                    order: idx + 1
+                });
+            });
+
+            if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; }
+
             $('addProgramBtn').disabled = true;
             try {
                 await set(push(programsRef), {
-                    patientId: pid, title,
+                    patientId: pid,
+                    title,
                     notes: $('progNotes').value.trim(),
-                    exercises: items, exerciseIds: items.map(x=>x.id),
-                    createdBy: currentUser.id, createdAt: Date.now()
+                    exercises: exercisesList,
+                    createdBy: currentUser.id,
+                    createdAt: Date.now()
                 });
+                await createNotification(pid, 'Нова домашна програма', `Създадена е програма: ${title}`, 'exercise');
                 $('programForm').reset();
-                $('exercisePickerList').querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
-                showToast('Създадена.','success');
+                $('programRowsContainer').innerHTML = '';
+                showToast('Програмата е създадена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
             finally { $('addProgramBtn').disabled = false; }
         });
@@ -2484,22 +2514,49 @@
             $('programsList').innerHTML = sorted.map(prog=>{
                 const pat = patients[prog.patientId];
                 const pn = pat?escapeHtml(pat.name):'неизвестен';
-                const exItems = prog.exercises || (prog.exerciseIds||[]).map(id=>({ id, type: 'extended' }));
-                const exList = exItems.map(item=>{
-                    if (item.type === 'short') return shortExercises[item.id] ? { ...shortExercises[item.id], _type: 'short' } : null;
-                    return exercises[item.id] ? { ...exercises[item.id], _type: 'extended' } : null;
-                }).filter(Boolean);
+
+                // Нов формат: prog.exercises е масив от обекти { name, reps, sets, libId, libType }
+                // Стар формат: prog.exerciseIds или prog.exercises с id и type
+                let exList = [];
+                if (prog.exercises && Array.isArray(prog.exercises)) {
+                    exList = prog.exercises.map(item => {
+                        // Ако е нов формат (има name) - използваме директно
+                        if (item.name) {
+                            return {
+                                name: item.name,
+                                reps: item.reps || '',
+                                sets: item.sets || 0,
+                                libId: item.libId,
+                                libType: item.libType
+                            };
+                        }
+                        // Ако е стар формат - взимаме от библиотеката
+                        if (item.type === 'short') {
+                            const ex = shortExercises[item.id];
+                            return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null;
+                        } else {
+                            const ex = exercises[item.id];
+                            return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
+                        }
+                    }).filter(Boolean);
+                } else if (prog.exerciseIds) {
+                    exList = prog.exerciseIds.map(id => {
+                        const ex = exercises[id];
+                        return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
+                    }).filter(Boolean);
+                }
+
                 return `<div class="home-program-card">
                     <div class="home-program-header">
                         <div class="title-block">
                             <div class="home-icon"><i class="fas fa-home"></i></div>
-                            <div><h3>${escapeHtml(prog.title)}</h3><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-dumbbell"></i> ${exList.length} · ${formatTimestamp(prog.createdAt)}</div></div>
+                            <div><h3>${escapeHtml(prog.title)}</h3><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-dumbbell"></i> ${exList.length} упражнения · ${formatTimestamp(prog.createdAt)}</div></div>
                         </div>
                         <button class="btn-danger-outline btn btn-sm delete-program" data-id="${prog.id}"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:12px;border-left:3px solid #1e4a78;margin-bottom:1rem;color:#5a7a9a;font-size:0.9rem;">${escapeHtml(prog.notes)}</div>`:''}
                     <div class="home-program-exercises">
-                        ${exList.map((ex,i)=>`<div class="home-exercise-item"><div class="num">${ex._type === 'short' ? (ex.number || i+1) : i+1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex._type === 'short' ? 'Съкратено' : escapeHtml(ex.category||'')}${ex.reps?' · '+escapeHtml(ex.reps)+' повт.':''}</div></div></div>`).join('')}
+                        ${exList.map((ex,i)=>`<div class="home-exercise-item"><div class="num">${i+1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps?'Повторения: '+escapeHtml(ex.reps):''}${ex.sets?' · Серии: '+ex.sets:''}</div></div></div>`).join('')}
                     </div>
                 </div>`;
             }).join('');
@@ -2709,6 +2766,7 @@
                     'message': 'fa-envelope',
                     'task': 'fa-tasks',
                     'document': 'fa-file-medical-alt',
+                    'exercise': 'fa-dumbbell',
                     'default': 'fa-bell'
                 };
                 const icon = iconMap[n.type] || iconMap['default'];
@@ -2729,7 +2787,6 @@
         }
 
         $('notifList').addEventListener('click', async (e) => {
-            // Delete
             const delBtn = e.target.closest('.notif-item-delete');
             if (delBtn) {
                 e.stopPropagation();
@@ -2738,7 +2795,6 @@
                 catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
-            // Mark as read
             const item = e.target.closest('.notif-item');
             if (item) {
                 const id = item.dataset.notifId;
@@ -2769,9 +2825,7 @@
             const myId = currentUser.id;
             const updates = {};
             Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId) {
-                    updates[`notifications/${id}`] = null;
-                }
+                if (n.userId === myId) updates[`notifications/${id}`] = null;
             });
             if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
             try {
@@ -2780,7 +2834,6 @@
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
-        // Helper: създаване на известие
         async function createNotification(userId, title, text, type = 'default') {
             try {
                 await set(push(notificationsRef), {
@@ -2931,7 +2984,6 @@
             }).join('');
         }
 
-        // Клик върху съобщение - отваряне на чат
         $('inboxList').addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.msg-item-delete');
             if (delBtn) {
@@ -2971,9 +3023,7 @@
             }
             const item = e.target.closest('.msg-item');
             if (!item) return;
-            const toId = item.dataset.toId;
-            const toType = item.dataset.toType;
-            openChat(toId, toType);
+            openChat(item.dataset.toId, item.dataset.toType);
         });
 
         function openChat(userId, userType) {
@@ -3014,7 +3064,6 @@
             setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50);
         }
 
-        // Изтриване на съобщение от чат
         $('chatBody').addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.bubble-delete');
             if (!delBtn) return;
@@ -3027,7 +3076,7 @@
 
         $('chatDeleteBtn').addEventListener('click', async () => {
             if (!currentChatUserId) return;
-            if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител? Това не може да бъде отменено.')) return;
+            if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител?')) return;
             const myId = currentUser.id;
             const otherId = currentChatUserId.id;
             const updates = {};
@@ -3042,16 +3091,14 @@
                 showToast('Всички съобщения са изтрити.','success');
                 $('chatView').classList.remove('active');
                 currentChatUserId = null;
-                const activeTab = document.querySelector('.msg-tab.active');
-                if (activeTab) activeTab.click();
+                document.querySelector('.msg-tab.active')?.click();
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         $('chatBackBtn').addEventListener('click', () => {
             $('chatView').classList.remove('active');
             currentChatUserId = null;
-            const activeTab = document.querySelector('.msg-tab.active');
-            if (activeTab) activeTab.click();
+            document.querySelector('.msg-tab.active')?.click();
         });
 
         $('chatSendBtn').addEventListener('click', sendChatMessage);
@@ -3075,9 +3122,7 @@
                     read: false,
                     createdAt: Date.now()
                 });
-                // Създай известие за получателя
-                const myName = currentUser.name;
-                await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${myName}: ${text.substring(0, 50)}${text.length > 50 ? '...' : ''}`, 'message');
+                await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('chatInput').value = '';
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -3109,12 +3154,12 @@
                     read: false,
                     createdAt: Date.now()
                 });
-                await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}${text.length > 50 ? '...' : ''}`, 'message');
+                await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('msgText').value = '';
                 $('msgSubject').value = '';
                 $('msgRecipient').value = '';
                 showToast('Съобщението е изпратено.', 'success');
-                document.querySelector('.msg-tab[data-msg-tab="sent"]').click();
+                document.querySelector('.msg-tab[data-msg-tab="sent"]')?.click();
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
@@ -3128,7 +3173,7 @@
             $('msgText').value = '';
         });
 
-        // CRUD Пациенти и останалите (същите като преди)
+        // CRUD
         $('patientForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('patientName').value.trim();
@@ -3179,7 +3224,6 @@
                     duration: parseInt($('aptDuration').value),
                     createdAt: Date.now(), createdBy: currentUser.id
                 });
-                const pat = patients[pid];
                 await createNotification(pid, 'Нов час', `Записан час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('appointmentForm').reset();
                 $('aptDate').value = new Date().toISOString().split('T')[0];
@@ -3289,19 +3333,62 @@
             if (link) { e.preventDefault(); openPatientProfile(link.dataset.id); }
         });
 
-        // ПОРТАЛ
+        // ПОРТАЛ (пациент)
         function renderPortal() {
             if (!currentPatient) return;
             $('portalUserName').textContent = currentPatient.name;
             renderPortalKineziSelect();
 
             const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
+
+            // Моята програма
             if (pPrograms.length===0) $('patientHomePrograms').innerHTML = '';
             else {
-                $('patientHomePrograms').innerHTML = `<div class="patient-program-section"><h3><i class="fas fa-home"></i> Моята програма</h3>${pPrograms.map(prog=>{
-                    const items = prog.exercises || (prog.exerciseIds||[]).map(id=>({id,type:'extended'}));
-                    const exList = items.map(it=>it.type==='short'?shortExercises[it.id]:exercises[it.id]).filter(Boolean);
-                    return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;"><h4 style="color:#0b2b4f;margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}<div style="display:flex;flex-direction:column;gap:10px;">${exList.map((ex,i)=>`<div style="background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;"><div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div><div style="display:flex;gap:6px;flex-wrap:wrap;">${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}</div></div>`).join('')}</div></div>`;
+                $('patientHomePrograms').innerHTML = `<div class="patient-program-section"><h3><i class="fas fa-home"></i> Моята домашна програма</h3>${pPrograms.map(prog=>{
+                    let exList = [];
+                    if (prog.exercises && Array.isArray(prog.exercises)) {
+                        exList = prog.exercises.map(item => {
+                            if (item.name) return { name: item.name, reps: item.reps, sets: item.sets, libId: item.libId, libType: item.libType };
+                            if (item.type === 'short') {
+                                const ex = shortExercises[item.id];
+                                return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null;
+                            } else {
+                                const ex = exercises[item.id];
+                                return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null;
+                            }
+                        }).filter(Boolean);
+                    }
+                    return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+                        <h4 style="color:#0b2b4f;margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>
+                        ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            ${exList.map((ex,i)=>{
+                                let mediaHtml = '';
+                                let exData = null;
+                                if (ex.libId) {
+                                    exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
+                                }
+                                if (exData && exData.videoUrl) {
+                                    const yt = getYouTubeId(exData.videoUrl);
+                                    if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
+                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`;
+                                } else if (exData && exData.imageUrl) {
+                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
+                                }
+                                return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
+                                    ${mediaHtml}
+                                    <div style="flex:1;min-width:0;">
+                                        <div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
+                                        ${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}
+                                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                            ${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}
+                                            ${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>`;
                 }).join('')}</div>`;
             }
 
@@ -3317,6 +3404,94 @@
             const procs = Object.entries(procedures).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id).sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
             if (procs.length===0) $('portalProceduresBody').innerHTML = '<div class="empty-message">Няма процедури</div>';
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
+        }
+
+        // МОДУЛ "УПРАЖНЕНИЯ" ЗА ПАЦИЕНТ
+        function renderPatientExercises() {
+            if (!currentPatient) return;
+            const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
+
+            if (pPrograms.length===0) {
+                $('patientExercisesContent').innerHTML = `<div class="card"><div class="empty-message"><i class="fas fa-dumbbell" style="font-size:2.5rem;color:#cfddee;display:block;margin-bottom:0.8rem;"></i>Все още нямате зададени упражнения.<br>Вашият кинезитерапевт ще ви ги добави скоро.</div></div>`;
+                return;
+            }
+
+            $('patientExercisesContent').innerHTML = pPrograms.map(prog => {
+                let exList = [];
+                if (prog.exercises && Array.isArray(prog.exercises)) {
+                    exList = prog.exercises.map(item => {
+                        let exData = null;
+                        if (item.name) {
+                            // Нов формат
+                            if (item.libId) {
+                                exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
+                            }
+                            return { name: item.name, reps: item.reps || '', sets: item.sets || 0, libId: item.libId, libType: item.libType, data: exData };
+                        }
+                        // Стар формат
+                        if (item.type === 'short') {
+                            const ex = shortExercises[item.id];
+                            return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null;
+                        } else {
+                            const ex = exercises[item.id];
+                            return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null;
+                        }
+                    }).filter(Boolean);
+                }
+
+                return `
+                    <div class="card" style="padding: 1.5rem;">
+                        <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8; flex-wrap:wrap;">
+                            <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div style="flex:1; min-width:200px;">
+                                <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
+                                <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
+                            </div>
+                        </div>
+
+                        ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a; font-size:0.95rem; line-height:1.5;">
+                            <strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}
+                        </div>` : ''}
+
+                        <div style="display:flex; flex-direction:column; gap:14px;">
+                            ${exList.map((ex, i) => {
+                                const exData = ex.data;
+                                let mediaHtml = '';
+                                if (exData && exData.videoUrl) {
+                                    const yt = getYouTubeId(exData.videoUrl);
+                                    if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>`;
+                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></video>`;
+                                } else if (exData && exData.imageUrl) {
+                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">`;
+                                } else {
+                                    mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
+                                }
+
+                                return `
+                                    <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
+                                        ${mediaHtml}
+                                        <div style="flex:1; min-width:200px;">
+                                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                                                <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
+                                                <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
+                                            </div>
+                                            ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(exData.description)}</div>` : ''}
+                                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                                ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
+                                                ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
+                                                ${exData && exData.weight ? `<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(exData.weight)} кг</span>` : ''}
+                                                ${exData && exData.duration ? `<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${exData.duration} сек</span>` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         $('portalAppointmentForm').addEventListener('submit', async (e)=>{
@@ -3366,11 +3541,18 @@
                 else if (mod === 'patients') renderPatients();
                 else if (mod === 'schedule') renderWeek();
                 else if (mod === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
-                else if (mod === 'exercises') { renderExerciseLibrary(); renderProgramsList(); renderExercisePicker(); }
+                else if (mod === 'exercises') {
+                    if (isPatient(currentUser)) {
+                        renderPatientExercises();
+                    } else {
+                        renderExerciseLibrary(); renderProgramsList();
+                    }
+                }
                 else if (mod === 'documentation') { updatePatientDropdowns(); renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
                 else if (mod === 'pricing') { renderPricing(); renderDaySummary(); }
                 else if (mod === 'settings') { renderServices(); renderProcedureTemplates(); renderCategories(); renderUsers(); renderTemplates(); }
                 else if (mod === 'portal') renderPortal();
+                else if (mod === 'patient-exercises') renderPatientExercises();
             });
         });
 
