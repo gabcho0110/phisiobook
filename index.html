@@ -46,195 +46,47 @@
             top: 0;
             z-index: 100;
         }
-
-        /* ЛЯВО */
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-logo { width: 42px; height: 42px; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
         .header-logo svg { width: 90%; height: 90%; }
-
-        .header-nav-toggle {
-            background: transparent;
-            border: none;
-            color: #a6d0ff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 10px;
-            transition: 0.15s;
-        }
+        .header-nav-toggle { background: transparent; border: none; color: #a6d0ff; font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 10px; transition: 0.15s; }
         .header-nav-toggle:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-        /* ЦЕНТЪР - име на клиниката */
-        .header-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 3px;
-        }
+        .header-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 3px; }
+        .header-clinic-name { font-size: 1.35rem; font-weight: 700; letter-spacing: 0.3px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .header-clinic-name i { color: #a6d0ff; font-size: 1.1rem; }
+        .header-clinic-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; letter-spacing: 0.5px; }
 
-        .header-clinic-name {
-            font-size: 1.35rem;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .header-clinic-name i {
-            color: #a6d0ff;
-            font-size: 1.1rem;
-        }
-
-        .header-clinic-sub {
-            font-size: 0.75rem;
-            color: #a6d0ff;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        /* ДЯСНО */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-icon-btn {
-            background: transparent;
-            border: none;
-            color: #a6d0ff;
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.55rem;
-            border-radius: 10px;
-            transition: 0.15s;
-            position: relative;
-        }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .header-icon-btn { background: transparent; border: none; color: #a6d0ff; font-size: 1.1rem; cursor: pointer; padding: 0.55rem; border-radius: 10px; transition: 0.15s; position: relative; }
         .header-icon-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .header-icon-btn .notif-badge { position: absolute; top: 2px; right: 2px; background: #b22234; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
-        .header-icon-btn .notif-badge {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            background: #b22234;
-            color: #fff;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            font-size: 0.65rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .header-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.3rem 0.8rem 0.3rem 0.3rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.15s;
-        }
+        .header-user { display: flex; align-items: center; gap: 10px; padding: 0.3rem 0.8rem 0.3rem 0.3rem; background: rgba(255, 255, 255, 0.1); border-radius: 40px; cursor: pointer; transition: 0.15s; }
         .header-user:hover { background: rgba(255, 255, 255, 0.15); }
-
-        .header-user .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #ffffff;
-            color: #0b2b4f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-
-        .header-user .user-name {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #ffffff;
-        }
+        .header-user .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+        .header-user .user-name { font-size: 0.85rem; font-weight: 500; color: #ffffff; }
 
         /* APP BODY */
-        .app-body {
-            display: flex;
-            flex: 1;
-            min-height: calc(100vh - 70px);
-        }
-
-        .sidebar {
-            width: 280px;
-            background-color: #0b2b4f;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem 0.5rem;
-            position: sticky;
-            top: 70px;
-            height: calc(100vh - 70px);
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
+        .app-body { display: flex; flex: 1; min-height: calc(100vh - 70px); }
+        .sidebar { width: 280px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.5rem 0.5rem; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; }
-
         .nav { display: flex; flex-direction: column; gap: 0.4rem; padding: 0 0.8rem; }
-
-        .nav-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 0.85rem 1.2rem; border-radius: 14px;
-            font-size: 0.98rem; font-weight: 500;
-            color: #e0edff; background: transparent; border: none;
-            width: 100%; text-align: left; cursor: pointer;
-        }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 0.85rem 1.2rem; border-radius: 14px; font-size: 0.98rem; font-weight: 500; color: #e0edff; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; }
         .nav-item i { width: 24px; font-size: 1.1rem; color: #7fb2e5; }
         .nav-item:hover { background-color: #1f3f61; color: #ffffff; }
         .nav-item.active { background-color: #1e4a78; color: #ffffff; }
         .nav-item.active i { color: #ffffff; }
         .nav-item.hidden { display: none !important; }
-
         .sidebar-footer { margin-top: auto; padding: 1rem 0.8rem 0.5rem; border-top: 1px solid #1d3a57; }
-
-        .logout-btn {
-            width: 100%; padding: 0.8rem 1rem;
-            border: 1px solid #2a4b6e; border-radius: 14px;
-            background: transparent; color: #e0edff;
-            font-size: 0.9rem; font-weight: 500; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            margin-bottom: 0.8rem;
-        }
+        .logout-btn { width: 100%; padding: 0.8rem 1rem; border: 1px solid #2a4b6e; border-radius: 14px; background: transparent; color: #e0edff; font-size: 0.9rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 0.8rem; }
         .logout-btn:hover { background: #b22234; border-color: #b22234; }
-
         .sidebar-version { text-align: center; font-size: 0.75rem; color: #6a8cb0; }
 
         .main { flex: 1; background-color: #f8fbfe; padding: 2rem 2.5rem; overflow-y: auto; }
-
         .module { display: none; animation: fade 0.2s ease; }
         .module.active { display: block; }
         @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
-
         .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
         .module-header h1 { font-size: 2rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
         .module-header h1 i { color: #1e4a78; }
@@ -523,72 +375,20 @@
             flex-direction: column;
         }
         .messages-panel.open { transform: translateX(0); }
-        .messages-header {
-            padding: 1.2rem 1.5rem;
-            background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%);
-            color: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-        .messages-header h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .messages-close {
-            background: transparent;
-            border: none;
-            color: #a6d0ff;
-            font-size: 1.3rem;
-            cursor: pointer;
-            padding: 0.4rem;
-            border-radius: 8px;
-        }
+        .messages-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .messages-header h2 { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .messages-close { background: transparent; border: none; color: #a6d0ff; font-size: 1.3rem; cursor: pointer; padding: 0.4rem; border-radius: 8px; }
         .messages-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
-        .messages-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 0.8rem 1.2rem 0;
-            border-bottom: 1px solid #e9eef3;
-            background: #ffffff;
-            flex-shrink: 0;
-        }
-        .msg-tab {
-            padding: 0.7rem 1rem;
-            border-radius: 10px 10px 0 0;
-            border: none;
-            background: transparent;
-            color: #7f95b0;
-            font-weight: 600;
-            font-size: 0.88rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 2px solid transparent;
-        }
+        .messages-tabs { display: flex; gap: 4px; padding: 0.8rem 1.2rem 0; border-bottom: 1px solid #e9eef3; background: #ffffff; flex-shrink: 0; flex-wrap: wrap; }
+        .msg-tab { padding: 0.7rem 1rem; border-radius: 10px 10px 0 0; border: none; background: transparent; color: #7f95b0; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-bottom: 2px solid transparent; }
         .msg-tab.active { color: #1e4a78; border-bottom-color: #1e4a78; }
         .msg-tab:hover { color: #1e4a78; }
 
-        .msg-pane {
-            display: none;
-            flex-direction: column;
-            flex: 1;
-            overflow: hidden;
-        }
+        .msg-pane { display: none; flex-direction: column; flex: 1; overflow: hidden; }
         .msg-pane.active { display: flex; }
 
-        .messages-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem 1.2rem;
-            background: #f8fbfe;
-        }
+        .messages-list { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; }
 
         .msg-item {
             background: #ffffff;
@@ -599,229 +399,146 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             cursor: pointer;
             transition: 0.15s;
+            position: relative;
         }
         .msg-item:hover { transform: translateX(4px); box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
         .msg-item.unread { border-left-color: #d97706; background: #fff9ee; }
-        .msg-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 5px;
-        }
-        .msg-item-sender {
-            font-weight: 700;
-            color: #0b2b4f;
-            font-size: 0.92rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .msg-item-sender .msg-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #1e4a78;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.7rem;
-        }
+        .msg-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
+        .msg-item-sender { font-weight: 700; color: #0b2b4f; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
+        .msg-item-sender .msg-avatar { width: 28px; height: 28px; border-radius: 50%; background: #1e4a78; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; }
         .msg-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
-        .msg-item-preview {
-            color: #5a7a9a;
-            font-size: 0.88rem;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .msg-item-new-badge {
-            display: inline-block;
-            background: #d97706;
-            color: #fff;
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 0.15rem 0.5rem;
-            border-radius: 20px;
-            margin-left: 6px;
-        }
+        .msg-item-preview { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .msg-item-new-badge { display: inline-block; background: #d97706; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: 6px; }
 
-        .msg-compose {
-            padding: 1.2rem;
-            border-top: 1px solid #e9eef3;
-            background: #ffffff;
-            flex-shrink: 0;
+        .msg-item-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: #b22234;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: 0.15s;
+            font-size: 0.85rem;
         }
-        .msg-compose h4 {
-            font-size: 0.9rem;
-            color: #0b2b4f;
-            font-weight: 600;
-            margin-bottom: 0.7rem;
+        .msg-item:hover .msg-item-delete { opacity: 1; }
+        .msg-item-delete:hover { background: #fff5f5; }
+
+        .msg-compose { padding: 1.2rem; border-top: 1px solid #e9eef3; background: #ffffff; flex-shrink: 0; }
+        .msg-compose h4 { font-size: 0.9rem; color: #0b2b4f; font-weight: 600; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 6px; }
+        .msg-compose input, .msg-compose textarea, .msg-compose select { width: 100%; padding: 0.7rem 0.9rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; margin-bottom: 8px; background: #f8fbfe; }
+        .msg-compose input:focus, .msg-compose textarea:focus, .msg-compose select:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08); }
+        .msg-compose textarea { resize: vertical; min-height: 80px; }
+        .msg-compose-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+        /* ЧАТ */
+        .chat-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+        .chat-view.active { display: flex; }
+        .chat-header { padding: 0.9rem 1.2rem; background: #ffffff; border-bottom: 1px solid #e9eef3; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .chat-header button { background: transparent; border: none; color: #1e4a78; cursor: pointer; font-size: 1rem; padding: 0.4rem; border-radius: 8px; }
+        .chat-header button:hover { background: #e8f0fe; }
+        .chat-header .chat-with { font-weight: 700; color: #0b2b4f; font-size: 0.95rem; flex: 1; }
+        .chat-header .chat-with small { font-weight: 400; color: #7f95b0; font-size: 0.78rem; margin-left: 6px; }
+        .chat-header .chat-delete-btn { background: transparent; border: 1px solid #f0c0c0; color: #b22234; cursor: pointer; font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; }
+        .chat-header .chat-delete-btn:hover { background: #fff5f5; border-color: #b22234; }
+
+        .chat-body { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; display: flex; flex-direction: column; gap: 10px; }
+
+        .chat-bubble { max-width: 80%; padding: 0.7rem 1rem; border-radius: 16px; font-size: 0.9rem; line-height: 1.4; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; }
+        .chat-bubble.mine { align-self: flex-end; background: #1e4a78; color: #fff; border-bottom-right-radius: 4px; }
+        .chat-bubble.theirs { align-self: flex-start; background: #ffffff; color: #1f3f61; border-bottom-left-radius: 4px; border: 1px solid #e9eef3; }
+        .chat-bubble .bubble-time { font-size: 0.68rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
+        .chat-bubble .bubble-sender { font-size: 0.72rem; font-weight: 700; margin-bottom: 3px; opacity: 0.85; }
+        .chat-bubble .bubble-delete { position: absolute; top: 4px; right: 4px; background: transparent; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 0.7rem; padding: 2px 4px; border-radius: 4px; opacity: 0; transition: 0.15s; }
+        .chat-bubble.mine:hover .bubble-delete { opacity: 1; }
+        .chat-bubble.mine .bubble-delete:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+        .chat-input-area { padding: 0.8rem 1.2rem; background: #ffffff; border-top: 1px solid #e9eef3; display: flex; gap: 8px; flex-shrink: 0; }
+        .chat-input-area input { flex: 1; padding: 0.75rem 1rem; border-radius: 30px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #f8fbfe; }
+        .chat-input-area input:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08); }
+        .chat-send-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: #1e4a78; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; transition: 0.15s; }
+        .chat-send-btn:hover { background: #0b2b4f; transform: scale(1.05); }
+
+        .msg-empty { text-align: center; padding: 2.5rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.9rem; }
+        .msg-empty i { display: block; font-size: 2.5rem; margin-bottom: 0.8rem; color: #cfddee; }
+
+        /* ПАНЕЛ ИЗВЕСТИЯ */
+        .notif-panel {
+            position: fixed;
+            top: 70px;
+            right: 0;
+            width: 420px;
+            max-width: 100vw;
+            height: calc(100vh - 70px);
+            background: #ffffff;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 500;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
             display: flex;
+            flex-direction: column;
+        }
+        .notif-panel.open { transform: translateX(0); }
+        .notif-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .notif-header h2 { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .notif-close { background: transparent; border: none; color: #ffd89a; font-size: 1.3rem; cursor: pointer; padding: 0.4rem; border-radius: 8px; }
+        .notif-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .notif-actions-bar { padding: 0.8rem 1.2rem; background: #ffffff; border-bottom: 1px solid #e9eef3; display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+        .notif-list { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; background: #f8fbfe; }
+
+        .notif-item {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 10px;
+            border-left: 4px solid #d97706;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: 0.15s;
+            position: relative;
+        }
+        .notif-item:hover { box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
+        .notif-item.read { border-left-color: #cfddee; background: #fafbfc; opacity: 0.75; }
+        .notif-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
+        .notif-item-title { font-weight: 700; color: #0b2b4f; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
+        .notif-item-title i { color: #d97706; }
+        .notif-item.read .notif-item-title i { color: #7f95b0; }
+        .notif-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
+        .notif-item-text { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; }
+
+        .notif-item-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: #b22234;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: 0.15s;
+            font-size: 0.85rem;
+        }
+        .notif-item:hover .notif-item-delete { opacity: 1; }
+        .notif-item-delete:hover { background: #fff5f5; }
+
+        .notif-mark-btn {
+            background: transparent;
+            border: 1px solid #cfddee;
+            color: #1e4a78;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
-        .msg-compose input, .msg-compose textarea, .msg-compose select {
-            width: 100%;
-            padding: 0.7rem 0.9rem;
-            border-radius: 12px;
-            border: 1px solid #cfddee;
-            font-size: 0.9rem;
-            font-family: inherit;
-            margin-bottom: 8px;
-            background: #f8fbfe;
-        }
-        .msg-compose input:focus, .msg-compose textarea:focus, .msg-compose select:focus {
-            outline: none;
-            border-color: #1e4a78;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08);
-        }
-        .msg-compose textarea { resize: vertical; min-height: 80px; }
-        .msg-compose-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
-        /* ЧАТ */
-        .chat-view {
-            flex: 1;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .chat-view.active { display: flex; }
-        .chat-header {
-            padding: 0.9rem 1.2rem;
-            background: #ffffff;
-            border-bottom: 1px solid #e9eef3;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-        .chat-header button {
-            background: transparent;
-            border: none;
-            color: #1e4a78;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 0.4rem;
-            border-radius: 8px;
-        }
-        .chat-header button:hover { background: #e8f0fe; }
-        .chat-header .chat-with {
-            font-weight: 700;
-            color: #0b2b4f;
-            font-size: 0.95rem;
-        }
-        .chat-header .chat-with small { font-weight: 400; color: #7f95b0; font-size: 0.78rem; margin-left: 6px; }
-
-        .chat-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem 1.2rem;
-            background: #f8fbfe;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .chat-bubble {
-            max-width: 80%;
-            padding: 0.7rem 1rem;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            word-break: break-word;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-            position: relative;
-        }
-        .chat-bubble.mine {
-            align-self: flex-end;
-            background: #1e4a78;
-            color: #fff;
-            border-bottom-right-radius: 4px;
-        }
-        .chat-bubble.theirs {
-            align-self: flex-start;
-            background: #ffffff;
-            color: #1f3f61;
-            border-bottom-left-radius: 4px;
-            border: 1px solid #e9eef3;
-        }
-        .chat-bubble .bubble-time {
-            font-size: 0.68rem;
-            opacity: 0.7;
-            margin-top: 4px;
-            display: block;
-            text-align: right;
-        }
-        .chat-bubble .bubble-sender {
-            font-size: 0.72rem;
-            font-weight: 700;
-            margin-bottom: 3px;
-            opacity: 0.85;
-        }
-
-        .chat-input-area {
-            padding: 0.8rem 1.2rem;
-            background: #ffffff;
-            border-top: 1px solid #e9eef3;
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .chat-input-area input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border-radius: 30px;
-            border: 1px solid #cfddee;
-            font-size: 0.9rem;
-            font-family: inherit;
-            background: #f8fbfe;
-        }
-        .chat-input-area input:focus {
-            outline: none;
-            border-color: #1e4a78;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.08);
-        }
-        .chat-send-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            background: #1e4a78;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-            transition: 0.15s;
-        }
-        .chat-send-btn:hover { background: #0b2b4f; transform: scale(1.05); }
-
-        .msg-empty {
-            text-align: center;
-            padding: 2.5rem 1rem;
-            color: #7f95b0;
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-        .msg-empty i {
-            display: block;
-            font-size: 2.5rem;
-            margin-bottom: 0.8rem;
-            color: #cfddee;
-        }
+        .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
 
         /* ПОТРЕБИТЕЛИ */
         .roles-dropdown { position: relative; width: 100%; }
@@ -868,7 +585,7 @@
         .portal-section h3 { font-size: 1.2rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .portal-section h3 i { color: #6b3fa0; }
 
-        @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel { width: 380px; } }
+        @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 380px; } }
         @media (max-width: 800px) {
             .sidebar { width: 80px; }
             .nav-item span, .sidebar-footer .logout-btn span { display: none; }
@@ -881,7 +598,7 @@
             .header-clinic-name { font-size: 1.05rem; }
             .header-clinic-sub { display: none; }
             .header-user .user-name { display: none; }
-            .messages-panel { width: 100vw; }
+            .messages-panel, .notif-panel { width: 100vw; }
         }
         @media (max-width: 480px) {
             .code-inputs { gap: 6px; }
@@ -956,7 +673,6 @@
 
         <!-- HEADER -->
         <header class="app-header">
-            <!-- ЛЯВО -->
             <div class="header-left">
                 <div class="header-logo">
                     <svg><use href="#physio-logo"></use></svg>
@@ -966,7 +682,6 @@
                 </button>
             </div>
 
-            <!-- ЦЕНТЪР - ИМЕ НА КЛИНИКАТА -->
             <div class="header-center">
                 <div class="header-clinic-name" id="headerClinicName">
                     <i class="fas fa-clinic-medical"></i>
@@ -975,14 +690,15 @@
                 <div class="header-clinic-sub" id="headerClinicSub">Медицински център</div>
             </div>
 
-            <!-- ДЯСНО -->
             <div class="header-actions">
                 <button class="header-icon-btn" id="headerMessagesBtn" title="Съобщения">
                     <i class="fas fa-envelope"></i>
                     <span class="notif-badge" id="messagesBadge" style="display:none;">0</span>
                 </button>
-                <button class="header-icon-btn" title="Известия"><i class="fas fa-bell"></i></button>
-                <button class="header-icon-btn" title="Помощ"><i class="fas fa-question-circle"></i></button>
+                <button class="header-icon-btn" id="headerNotifBtn" title="Известия">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge" id="notificationsBadge" style="display:none;">0</span>
+                </button>
                 <div class="header-user" id="headerUser">
                     <div class="user-avatar" id="headerAvatar">?</div>
                     <span class="user-name" id="headerUserName">Потребител</span>
@@ -1007,13 +723,12 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v4.0 · Firebase</div>
+                    <div class="sidebar-version">v4.1 · Firebase</div>
                 </div>
             </aside>
 
             <main class="main">
-
-                <!-- ТАБЛО -->
+                <!-- МОДУЛИТЕ (същите като преди) -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -1036,7 +751,6 @@
                     <div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
                 </section>
 
-                <!-- ПАЦИЕНТИ -->
                 <section id="module-patients" class="module">
                     <div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
                     <div class="card">
@@ -1054,7 +768,6 @@
                     <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
                 </section>
 
-                <!-- ГРАФИК -->
                 <section id="module-schedule" class="module">
                     <div class="module-header"><h1><i class="fas fa-calendar-alt"></i> График</h1></div>
                     <div class="card">
@@ -1079,7 +792,6 @@
                     <div class="week-grid" id="weekGrid"></div>
                 </section>
 
-                <!-- ПРОЦЕДУРИ -->
                 <section id="module-procedures" class="module">
                     <div class="module-header"><h1><i class="fas fa-stethoscope"></i> Процедури</h1></div>
                     <div class="card">
@@ -1096,7 +808,6 @@
                     <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
                 </section>
 
-                <!-- УПРАЖНЕНИЯ -->
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
                     <div class="exercise-tabs">
@@ -1108,8 +819,8 @@
                         <div class="add-exercise-wrapper">
                             <button class="add-exercise-btn" id="addExerciseMainBtn"><i class="fas fa-plus-circle"></i> Добави упражнение <i class="fas fa-chevron-down" style="font-size:0.75rem;"></i></button>
                             <div class="add-exercise-menu" id="addExerciseMenu">
-                                <div class="add-exercise-option short" data-mode="short"><div class="opt-icon"><i class="fas fa-list-ul"></i></div><div class="opt-info"><div class="opt-title">Съкратен режим</div><div class="opt-desc">Бързо въвеждане на няколко упражнения ред по ред</div></div></div>
-                                <div class="add-exercise-option extended" data-mode="extended"><div class="opt-icon"><i class="fas fa-expand-alt"></i></div><div class="opt-info"><div class="opt-title">Разширен режим</div><div class="opt-desc">Подробна форма с видео и метаданни</div></div></div>
+                                <div class="add-exercise-option short" data-mode="short"><div class="opt-icon"><i class="fas fa-list-ul"></i></div><div class="opt-info"><div class="opt-title">Съкратен режим</div><div class="opt-desc">Бързо въвеждане ред по ред</div></div></div>
+                                <div class="add-exercise-option extended" data-mode="extended"><div class="opt-icon"><i class="fas fa-expand-alt"></i></div><div class="opt-info"><div class="opt-title">Разширен режим</div><div class="opt-desc">Подробна форма с видео</div></div></div>
                             </div>
                         </div>
 
@@ -1170,7 +881,6 @@
                     </div>
                 </section>
 
-                <!-- ДОКУМЕНТАЦИЯ -->
                 <section id="module-documentation" class="module">
                     <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
                     <div class="doc-tabs">
@@ -1235,7 +945,6 @@
                     </div>
                 </section>
 
-                <!-- ЦЕНОРАЗПИС -->
                 <section id="module-pricing" class="module">
                     <div class="module-header"><h1><i class="fas fa-euro-sign"></i> Ценоразпис</h1></div>
                     <div class="price-date-bar">
@@ -1251,10 +960,8 @@
                     <div style="margin-top: 2.5rem;"><h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3><div class="day-summary-grid" id="daySummaryGrid"></div></div>
                 </section>
 
-                <!-- НАСТРОЙКИ -->
                 <section id="module-settings" class="module">
                     <div class="module-header"><h1><i class="fas fa-cog"></i> Настройки</h1></div>
-
                     <div class="settings-tabs">
                         <button class="settings-tab active" data-set-tab="clinic"><i class="fas fa-clinic-medical"></i> Данни за клиниката</button>
                         <button class="settings-tab" data-set-tab="services"><i class="fas fa-concierge-bell"></i> Услуги</button>
@@ -1269,8 +976,8 @@
                         <div class="card">
                             <h3><i class="fas fa-clinic-medical"></i> Данни за клиниката</h3>
                             <form id="clinicSettingsForm" class="form-grid">
-                                <div class="form-group" style="grid-column: span 2;"><label>Име на клиниката *</label><input type="text" id="setClinicName" placeholder="напр. Езиков център Deutsche Schule - София" required></div>
-                                <div class="form-group" style="grid-column: span 2;"><label>Подзаглавие / Слоган</label><input type="text" id="setClinicSub" placeholder="напр. Физиотерапия и рехабилитация"></div>
+                                <div class="form-group" style="grid-column: span 2;"><label>Име на клиниката *</label><input type="text" id="setClinicName" required></div>
+                                <div class="form-group" style="grid-column: span 2;"><label>Подзаглавие / Слоган</label><input type="text" id="setClinicSub"></div>
                                 <div class="form-group"><label>Телефон</label><input type="text" id="setClinicPhone"></div>
                                 <div class="form-group"><label>Имейл</label><input type="email" id="setClinicEmail"></div>
                                 <div class="form-group" style="grid-column: span 2;"><label>Адрес</label><input type="text" id="setClinicAddress"></div>
@@ -1359,7 +1066,7 @@
                     </div>
 
                     <div class="settings-pane" data-set-pane="templates">
-                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Шаблони за бързо въвеждане на текст.</div>
+                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Шаблони за бързо въвеждане.</div>
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нов шаблон</h3>
                             <form id="templateForm" class="form-grid">
@@ -1382,13 +1089,11 @@
                     </div>
                 </section>
 
-                <!-- ПРОФИЛ -->
                 <section id="module-patient-profile" class="module patient-profile">
                     <button class="back-btn" id="backToPatientsBtn"><i class="fas fa-arrow-left"></i> Назад</button>
                     <div id="profileContent"></div>
                 </section>
 
-                <!-- ПОРТАЛ -->
                 <section id="module-portal" class="module">
                     <div class="portal-welcome">
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
@@ -1432,25 +1137,20 @@
             <button class="msg-tab" data-msg-tab="new"><i class="fas fa-pen"></i> Ново</button>
         </div>
 
-        <!-- Входящи -->
         <div class="msg-pane active" data-msg-pane="inbox">
             <div class="messages-list" id="inboxList"></div>
         </div>
 
-        <!-- Изпратени -->
         <div class="msg-pane" data-msg-pane="sent">
             <div class="messages-list" id="sentList"></div>
         </div>
 
-        <!-- Ново -->
         <div class="msg-pane" data-msg-pane="new">
             <div class="messages-list" style="flex: 1; display:flex; flex-direction:column;">
                 <h4 style="font-size:1rem; color:#0b2b4f; margin-bottom:1rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-pen"></i> Ново съобщение</h4>
                 <div class="msg-compose" style="border-top:none; padding:0; flex:1;">
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block;">До (получател) *</label>
-                    <select id="msgRecipient" required>
-                        <option value="">-- избери получател --</option>
-                    </select>
+                    <select id="msgRecipient" required><option value="">-- избери получател --</option></select>
 
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block; margin-top:10px;">Относно (опционално)</label>
                     <input type="text" id="msgSubject" placeholder="напр. Относно Иван Петров">
@@ -1466,11 +1166,11 @@
             </div>
         </div>
 
-        <!-- Чат изглед (скрит по подразбиране) -->
         <div class="chat-view" id="chatView">
             <div class="chat-header">
                 <button id="chatBackBtn"><i class="fas fa-arrow-left"></i></button>
                 <div class="chat-with" id="chatWithName">—</div>
+                <button class="chat-delete-btn" id="chatDeleteBtn" title="Изтрий чата"><i class="fas fa-trash-alt"></i> Изтрий</button>
             </div>
             <div class="chat-body" id="chatBody"></div>
             <div class="chat-input-area">
@@ -1478,6 +1178,21 @@
                 <button class="chat-send-btn" id="chatSendBtn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
+    </div>
+
+    <!-- ПАНЕЛ ИЗВЕСТИЯ -->
+    <div class="notif-panel" id="notifPanel">
+        <div class="notif-header">
+            <h2><i class="fas fa-bell"></i> Известия</h2>
+            <button class="notif-close" id="notifClose"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="notif-actions-bar">
+            <button class="notif-mark-btn" id="notifMarkAllBtn"><i class="fas fa-check-double"></i> Маркирай всички като прочетени</button>
+            <button class="notif-mark-btn" id="notifClearAllBtn"><i class="fas fa-trash-alt"></i> Изтрий всички</button>
+        </div>
+
+        <div class="notif-list" id="notifList"></div>
     </div>
 
     <!-- MODAL код -->
@@ -1547,6 +1262,7 @@
         const categoriesRef = ref(db, 'categories');
         const templatesRef = ref(db, 'templates');
         const messagesRef = ref(db, 'messages');
+        const notificationsRef = ref(db, 'notifications');
 
         const toastContainer = document.getElementById('toastContainer');
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -1573,6 +1289,18 @@
         function formatDateLong(d) { if (!d) return '—'; const [y,m,dd]=d.split('-'); const D=['неделя','понеделник','вторник','сряда','четвъртък','петък','събота']; const M=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']; const dt = new Date(d); return `${D[dt.getDay()]}, ${parseInt(dd)} ${M[dt.getMonth()]} ${y}`; }
         function formatTimestamp(ts) { if (!ts) return '—'; const d = new Date(ts); return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
         function formatTimeShort(ts) { if (!ts) return ''; const d = new Date(ts); return d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
+        function formatRelativeTime(ts) {
+            if (!ts) return '';
+            const diff = Date.now() - ts;
+            const min = Math.floor(diff / 60000);
+            if (min < 1) return 'сега';
+            if (min < 60) return `${min} мин`;
+            const hr = Math.floor(min / 60);
+            if (hr < 24) return `${hr} ч`;
+            const days = Math.floor(hr / 24);
+            if (days < 7) return `${days} д`;
+            return formatTimestamp(ts);
+        }
         function formatPrice(n) { const v=parseFloat(n); return isNaN(v)?'0.00':v.toFixed(2); }
         function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
         function isCodeUnique(c,u,p){ return !Object.values(u).some(x=>x.accessCode===c) && !Object.values(p).some(x=>x.accessCode===c); }
@@ -1602,6 +1330,7 @@
         let clinicSettings = { name: 'PhysioBook', sub: 'Медицински център' };
         let services = {}, procedureTemplates = {}, categories = {}, templates = {};
         let messages = {};
+        let notifications = {};
         let currentUser=null, currentPatient=null;
         let dataListenersStarted=false, sessionRestored=false;
         let currentWeekStart = getMonday(new Date());
@@ -1663,13 +1392,11 @@
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             loginBtn.disabled = code.length !== 6;
         }
-
         function clearCodeInputs() {
             codeInputEls.forEach(i => { i.value = ''; i.classList.remove('filled'); });
             codeInputEls[0].focus();
             updateLoginBtn();
         }
-
         function showLoginError(msg) {
             loginErrorText.textContent = msg;
             loginError.classList.add('active');
@@ -1766,12 +1493,10 @@
             }
         }
 
-        // Sidebar toggle
         $('headerNavToggle').addEventListener('click', () => {
             $('sidebar').classList.toggle('collapsed');
         });
 
-        // Clinic settings за хедъра
         function applyClinicSettings() {
             if (clinicSettings.name) {
                 $('headerClinicName').innerHTML = `<i class="fas fa-clinic-medical"></i><span>${escapeHtml(clinicSettings.name)}</span>`;
@@ -1892,13 +1617,18 @@
             onValue(categoriesRef, (s) => { categories = s.val() || {}; renderCategories(); updateCategoryDropdowns(); });
             onValue(templatesRef, (s) => { templates = s.val() || {}; renderTemplates(); });
 
-            // Съобщения
             onValue(messagesRef, (s) => {
                 messages = s.val() || {};
                 renderInbox();
                 renderSent();
                 updateMessagesBadge();
                 if (currentChatUserId) renderChat();
+            });
+
+            onValue(notificationsRef, (s) => {
+                notifications = s.val() || {};
+                renderNotifications();
+                updateNotificationsBadge();
             });
 
             setTimeout(() => showLoading(false), 500);
@@ -2261,13 +1991,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addServiceBtn').disabled = true;
             try {
-                await set(push(servicesRef), {
-                    name, category: $('servCategory').value,
-                    price: parseFloat($('servPrice').value) || 0,
-                    duration: parseInt($('servDuration').value) || 0,
-                    description: $('servDesc').value.trim(),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
+                await set(push(servicesRef), { name, category: $('servCategory').value, price: parseFloat($('servPrice').value) || 0, duration: parseInt($('servDuration').value) || 0, description: $('servDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('serviceForm').reset();
                 showToast('Добавена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2300,13 +2024,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addProcTplBtn').disabled = true;
             try {
-                await set(push(procedureTemplatesRef), {
-                    name, category: $('procTplCategory').value,
-                    price: parseFloat($('procTplPrice').value) || 0,
-                    duration: parseInt($('procTplDuration').value) || 0,
-                    description: $('procTplDesc').value.trim(),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
+                await set(push(procedureTemplatesRef), { name, category: $('procTplCategory').value, price: parseFloat($('procTplPrice').value) || 0, duration: parseInt($('procTplDuration').value) || 0, description: $('procTplDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('procedureTemplateForm').reset();
                 showToast('Добавена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2801,12 +2519,7 @@
             if (!pid || !dt || !txt) { showToast('Попълнете полетата.','error'); return; }
             $('addSessionNoteBtn').disabled = true;
             try {
-                await set(push(sessionNotesRef), {
-                    patientId: pid, date: dt,
-                    therapyType: $('noteTherapyType').value,
-                    duration: parseInt($('noteDuration').value) || 0,
-                    text: txt, createdBy: currentUser.id, createdAt: Date.now()
-                });
+                await set(push(sessionNotesRef), { patientId: pid, date: dt, therapyType: $('noteTherapyType').value, duration: parseInt($('noteDuration').value) || 0, text: txt, createdBy: currentUser.id, createdAt: Date.now() });
                 $('sessionNoteForm').reset();
                 $('noteDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -2858,15 +2571,7 @@
             if (!pid || !dt) { showToast('Попълнете пациент и дата.','error'); return; }
             $('addSoapBtn').disabled = true;
             try {
-                await set(push(soapNotesRef), {
-                    patientId: pid, date: dt,
-                    visitNum: parseInt($('soapVisitNum').value) || 0,
-                    subjective: $('soapS').value.trim(),
-                    objective: $('soapO').value.trim(),
-                    assessment: $('soapA').value.trim(),
-                    plan: $('soapP').value.trim(),
-                    createdBy: currentUser.id, createdAt: Date.now()
-                });
+                await set(push(soapNotesRef), { patientId: pid, date: dt, visitNum: parseInt($('soapVisitNum').value) || 0, subjective: $('soapS').value.trim(), objective: $('soapO').value.trim(), assessment: $('soapA').value.trim(), plan: $('soapP').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
                 $('soapForm').reset();
                 $('soapDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -2922,12 +2627,7 @@
             if (!pid || !name || !url) { showToast('Попълнете полетата.','error'); return; }
             $('addFileBtn').disabled = true;
             try {
-                await set(push(documentsRef), {
-                    patientId: pid, name, type: $('fileType').value,
-                    date: $('fileDate').value || '', url,
-                    notes: $('fileNotes').value.trim(),
-                    createdBy: currentUser.id, createdAt: Date.now()
-                });
+                await set(push(documentsRef), { patientId: pid, name, type: $('fileType').value, date: $('fileDate').value || '', url, notes: $('fileNotes').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
                 $('fileForm').reset();
                 showToast('Добавен.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2968,16 +2668,139 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`documents/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
+        // ИЗВЕСТИЯ
+        $('headerNotifBtn').addEventListener('click', () => {
+            $('notifPanel').classList.toggle('open');
+            $('messagesPanel').classList.remove('open');
+        });
+        $('notifClose').addEventListener('click', () => {
+            $('notifPanel').classList.remove('open');
+        });
+
+        function updateNotificationsBadge() {
+            if (!currentUser) return;
+            const myId = currentUser.id;
+            const unread = Object.values(notifications).filter(n => n.userId === myId && !n.read).length;
+            if (unread > 0) {
+                $('notificationsBadge').textContent = unread;
+                $('notificationsBadge').style.display = 'flex';
+            } else {
+                $('notificationsBadge').style.display = 'none';
+            }
+        }
+
+        function renderNotifications() {
+            if (!currentUser) return;
+            const myId = currentUser.id;
+            const all = Object.entries(notifications)
+                .map(([id, n]) => ({ id, ...n }))
+                .filter(n => n.userId === myId)
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            if (all.length === 0) {
+                $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`;
+                return;
+            }
+
+            $('notifList').innerHTML = all.map(n => {
+                const iconMap = {
+                    'appointment': 'fa-calendar-check',
+                    'procedure': 'fa-stethoscope',
+                    'message': 'fa-envelope',
+                    'task': 'fa-tasks',
+                    'document': 'fa-file-medical-alt',
+                    'default': 'fa-bell'
+                };
+                const icon = iconMap[n.type] || iconMap['default'];
+                return `<div class="notif-item ${n.read ? 'read' : ''}" data-notif-id="${n.id}">
+                    <button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="notif-item-header">
+                        <div class="notif-item-title">
+                            <i class="fas ${icon}"></i>
+                            ${escapeHtml(n.title || 'Известие')}
+                        </div>
+                        <div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div>
+                    </div>
+                    <div class="notif-item-text">${escapeHtml(n.text || '')}</div>
+                </div>`;
+            }).join('');
+        }
+
+        $('notifList').addEventListener('click', async (e) => {
+            // Delete
+            const delBtn = e.target.closest('.notif-item-delete');
+            if (delBtn) {
+                e.stopPropagation();
+                const id = delBtn.dataset.notifId;
+                try { await remove(ref(db, `notifications/${id}`)); showToast('Известието е изтрито.','success'); }
+                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+                return;
+            }
+            // Mark as read
+            const item = e.target.closest('.notif-item');
+            if (item) {
+                const id = item.dataset.notifId;
+                try { await update(ref(db, `notifications/${id}`), { read: true }); }
+                catch(err) { console.error(err); }
+            }
+        });
+
+        $('notifMarkAllBtn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            const myId = currentUser.id;
+            const updates = {};
+            Object.entries(notifications).forEach(([id, n]) => {
+                if (n.userId === myId && !n.read) {
+                    updates[`notifications/${id}/read`] = true;
+                }
+            });
+            if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; }
+            try {
+                await update(ref(db), updates);
+                showToast('Всички са маркирани като прочетени.','success');
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        $('notifClearAllBtn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            if (!confirm('Да изтрия ли всички известия?')) return;
+            const myId = currentUser.id;
+            const updates = {};
+            Object.entries(notifications).forEach(([id, n]) => {
+                if (n.userId === myId) {
+                    updates[`notifications/${id}`] = null;
+                }
+            });
+            if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
+            try {
+                await update(ref(db), updates);
+                showToast('Всички известия са изтрити.','success');
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        // Helper: създаване на известие
+        async function createNotification(userId, title, text, type = 'default') {
+            try {
+                await set(push(notificationsRef), {
+                    userId, title, text, type,
+                    read: false,
+                    createdAt: Date.now()
+                });
+            } catch(err) { console.error('Notif error:', err); }
+        }
+
         // СЪОБЩЕНИЯ
         $('headerMessagesBtn').addEventListener('click', () => {
             $('messagesPanel').classList.toggle('open');
+            $('notifPanel').classList.remove('open');
         });
         $('messagesClose').addEventListener('click', () => {
             $('messagesPanel').classList.remove('open');
             $('chatView').classList.remove('active');
         });
 
-        // Tabs
         document.querySelectorAll('.msg-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.msgTab;
@@ -3003,38 +2826,36 @@
         function renderMessageRecipients() {
             const sel = $('msgRecipient');
             if (!sel) return;
-            // Служители + пациенти
             const staff = Object.entries(users)
                 .filter(([id]) => !currentUser || id !== currentUser.id)
                 .map(([id, u]) => ({ id, name: u.name, type: 'staff' }));
             const pats = Object.entries(patients)
                 .filter(([, p]) => !p.archived)
                 .map(([id, p]) => ({ id, name: p.name, type: 'patient' }));
-            const all = [...staff, ...pats];
 
             const cur = sel.value;
             sel.innerHTML = '<option value="">-- избери получател --</option>';
             if (staff.length > 0) {
-                const group1 = document.createElement('optgroup');
-                group1.label = 'Служители';
+                const g = document.createElement('optgroup');
+                g.label = 'Служители';
                 staff.forEach(s => {
-                    const opt = document.createElement('option');
-                    opt.value = 'staff:' + s.id;
-                    opt.textContent = s.name;
-                    group1.appendChild(opt);
+                    const o = document.createElement('option');
+                    o.value = 'staff:' + s.id;
+                    o.textContent = s.name;
+                    g.appendChild(o);
                 });
-                sel.appendChild(group1);
+                sel.appendChild(g);
             }
             if (pats.length > 0) {
-                const group2 = document.createElement('optgroup');
-                group2.label = 'Пациенти';
+                const g = document.createElement('optgroup');
+                g.label = 'Пациенти';
                 pats.forEach(p => {
-                    const opt = document.createElement('option');
-                    opt.value = 'patient:' + p.id;
-                    opt.textContent = p.name;
-                    group2.appendChild(opt);
+                    const o = document.createElement('option');
+                    o.value = 'patient:' + p.id;
+                    o.textContent = p.name;
+                    g.appendChild(o);
                 });
-                sel.appendChild(group2);
+                sel.appendChild(g);
             }
             if (cur) sel.value = cur;
         }
@@ -3064,6 +2885,7 @@
                 const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from];
                 const senderName = sender ? sender.name : 'Неизвестен';
                 return `<div class="msg-item ${!m.read ? 'unread' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}">
+                    <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
                     <div class="msg-item-header">
                         <div class="msg-item-sender">
                             <div class="msg-avatar">${getUserInitials(senderName)}</div>
@@ -3095,6 +2917,7 @@
                 const recipient = m.toType === 'staff' ? users[m.to] : patients[m.to];
                 const recipientName = recipient ? recipient.name : 'Неизвестен';
                 return `<div class="msg-item" data-msg-id="${m.id}" data-to-id="${m.to}" data-to-type="${m.toType}">
+                    <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
                     <div class="msg-item-header">
                         <div class="msg-item-sender">
                             <div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>
@@ -3108,13 +2931,21 @@
             }).join('');
         }
 
-        // Отваряне на чат при клик
+        // Клик върху съобщение - отваряне на чат
         $('inboxList').addEventListener('click', async (e) => {
+            const delBtn = e.target.closest('.msg-item-delete');
+            if (delBtn) {
+                e.stopPropagation();
+                const id = delBtn.dataset.msgId;
+                if (!confirm('Изтрий това съобщение?')) return;
+                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+                return;
+            }
             const item = e.target.closest('.msg-item');
             if (!item) return;
             const fromId = item.dataset.fromId;
             const fromType = item.dataset.fromType;
-            // Маркирай всички съобщения от този потребител като прочетени
             const myId = currentUser.id;
             const updates = {};
             Object.entries(messages).forEach(([id, m]) => {
@@ -3128,7 +2959,16 @@
             openChat(fromId, fromType);
         });
 
-        $('sentList').addEventListener('click', (e) => {
+        $('sentList').addEventListener('click', async (e) => {
+            const delBtn = e.target.closest('.msg-item-delete');
+            if (delBtn) {
+                e.stopPropagation();
+                const id = delBtn.dataset.msgId;
+                if (!confirm('Изтрий това съобщение?')) return;
+                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+                return;
+            }
             const item = e.target.closest('.msg-item');
             if (!item) return;
             const toId = item.dataset.toId;
@@ -3150,14 +2990,9 @@
             if (!currentChatUserId || !currentUser) return;
             const myId = currentUser.id;
             const otherId = currentChatUserId.id;
-
-            // Вземи всички съобщения между двамата
             const chatMsgs = Object.entries(messages)
                 .map(([id, m]) => ({ id, ...m }))
-                .filter(m =>
-                    (m.from === myId && m.to === otherId) ||
-                    (m.from === otherId && m.to === myId)
-                )
+                .filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId))
                 .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
 
             if (chatMsgs.length === 0) {
@@ -3167,7 +3002,8 @@
 
             $('chatBody').innerHTML = chatMsgs.map(m => {
                 const isMine = m.from === myId;
-                return `<div class="chat-bubble ${isMine ? 'mine' : 'theirs'}">
+                return `<div class="chat-bubble ${isMine ? 'mine' : 'theirs'}" data-msg-id="${m.id}">
+                    ${isMine ? `<button class="bubble-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>` : ''}
                     ${!isMine ? `<div class="bubble-sender">${escapeHtml(m.fromType === 'staff' ? (users[m.from]?.name || '') : (patients[m.from]?.name || ''))}</div>` : ''}
                     ${m.subject ? `<div style="font-weight:700; font-size:0.78rem; margin-bottom:4px; opacity:0.85;">${escapeHtml(m.subject)}</div>` : ''}
                     ${escapeHtml(m.text)}
@@ -3175,14 +3011,45 @@
                 </div>`;
             }).join('');
 
-            // Скрол до долу
             setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50);
         }
+
+        // Изтриване на съобщение от чат
+        $('chatBody').addEventListener('click', async (e) => {
+            const delBtn = e.target.closest('.bubble-delete');
+            if (!delBtn) return;
+            e.stopPropagation();
+            const id = delBtn.dataset.msgId;
+            if (!confirm('Изтрий това съобщение?')) return;
+            try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        $('chatDeleteBtn').addEventListener('click', async () => {
+            if (!currentChatUserId) return;
+            if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител? Това не може да бъде отменено.')) return;
+            const myId = currentUser.id;
+            const otherId = currentChatUserId.id;
+            const updates = {};
+            Object.entries(messages).forEach(([id, m]) => {
+                if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) {
+                    updates[`messages/${id}`] = null;
+                }
+            });
+            if (Object.keys(updates).length === 0) { showToast('Няма съобщения.','info'); return; }
+            try {
+                await update(ref(db), updates);
+                showToast('Всички съобщения са изтрити.','success');
+                $('chatView').classList.remove('active');
+                currentChatUserId = null;
+                const activeTab = document.querySelector('.msg-tab.active');
+                if (activeTab) activeTab.click();
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
 
         $('chatBackBtn').addEventListener('click', () => {
             $('chatView').classList.remove('active');
             currentChatUserId = null;
-            // Върни се към предходния таб
             const activeTab = document.querySelector('.msg-tab.active');
             if (activeTab) activeTab.click();
         });
@@ -3208,6 +3075,9 @@
                     read: false,
                     createdAt: Date.now()
                 });
+                // Създай известие за получателя
+                const myName = currentUser.name;
+                await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${myName}: ${text.substring(0, 50)}${text.length > 50 ? '...' : ''}`, 'message');
                 $('chatInput').value = '';
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -3216,7 +3086,6 @@
             }
         }
 
-        // Изпращане на ново съобщение от формата
         $('msgSendBtn').addEventListener('click', async () => {
             const recipientVal = $('msgRecipient').value;
             const text = $('msgText').value.trim();
@@ -3240,11 +3109,11 @@
                     read: false,
                     createdAt: Date.now()
                 });
+                await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}${text.length > 50 ? '...' : ''}`, 'message');
                 $('msgText').value = '';
                 $('msgSubject').value = '';
                 $('msgRecipient').value = '';
                 showToast('Съобщението е изпратено.', 'success');
-                // Превключи на "Изпратени"
                 document.querySelector('.msg-tab[data-msg-tab="sent"]').click();
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
@@ -3259,7 +3128,7 @@
             $('msgText').value = '';
         });
 
-        // CRUD
+        // CRUD Пациенти и останалите (същите като преди)
         $('patientForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('patientName').value.trim();
@@ -3310,6 +3179,8 @@
                     duration: parseInt($('aptDuration').value),
                     createdAt: Date.now(), createdBy: currentUser.id
                 });
+                const pat = patients[pid];
+                await createNotification(pid, 'Нов час', `Записан час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('appointmentForm').reset();
                 $('aptDate').value = new Date().toISOString().split('T')[0];
                 showToast('Записан.','success');
@@ -3463,6 +3334,7 @@
                     duration: parseInt($('portalAptDuration').value),
                     createdAt: Date.now(), createdBy: currentPatient.id
                 });
+                await createNotification(k, 'Нов час от пациент', `${currentPatient.name} записа час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('portalAppointmentForm').reset();
                 $('portalAptDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазен.','success');
