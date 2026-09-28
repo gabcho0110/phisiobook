@@ -629,7 +629,7 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v4.3 · Firebase</div>
+                    <div class="sidebar-version">v4.4 · Firebase</div>
                 </div>
             </aside>
 
@@ -715,11 +715,9 @@
                     <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
                 </section>
 
-                <!-- ★ ПРОМЯНА: Модул Упражнения - сега работи и за пациенти -->
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
 
-                    <!-- ★ ПРОМЯНА: Табовете и панелите за служители се показват само на служители -->
                     <div class="exercise-tabs" id="exerciseTabsBar">
                         <button class="exercise-tab active" data-ex-tab="library"><i class="fas fa-book"></i> Библиотека</button>
                         <button class="exercise-tab" data-ex-tab="programs"><i class="fas fa-home"></i> Домашни програми</button>
@@ -810,7 +808,6 @@
                         <div id="programsList"></div>
                     </div>
 
-                    <!-- ★ ПРОМЯНА: Този панел се показва САМО на пациенти -->
                     <div class="exercise-pane" data-ex-pane="my-programs" id="patientProgramsPane">
                         <div id="patientExercisesContent"></div>
                     </div>
@@ -1029,7 +1026,6 @@
                     <div id="profileContent"></div>
                 </section>
 
-                <!-- МОДУЛ "МОЯТ ПОРТАЛ" (пациент) -->
                 <section id="module-portal" class="module">
                     <div class="portal-welcome">
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
@@ -1058,8 +1054,6 @@
                         <div id="portalProceduresBody"></div>
                     </div>
                 </section>
-
-                <!-- ★ ПРЕМАХНАТ: Модул "patient-exercises" - вече не е нужен, защото "exercises" работи и за пациенти -->
             </main>
         </div>
     </div>
@@ -1389,7 +1383,6 @@
             showToast(`Добре дошли, ${displayName}!`, 'success');
         }
 
-        // ★ ПРОМЯНА: applyPermissions - сега "Упражнения" е достъпен и за пациенти
         function applyPermissions() {
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
@@ -1397,14 +1390,12 @@
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
-                    // ★ Пациентът вижда: Моят портал, Упражнения (със своите програми)
                     if (mod === 'portal' || mod === 'exercises') {
                         item.classList.remove('hidden');
                     } else {
                         item.classList.add('hidden');
                     }
                 } else {
-                    // Служители - виждат всичко освен "portal"
                     if (mod === 'portal') {
                         item.classList.add('hidden');
                     } else if (mod === 'settings' && !admin) {
@@ -1416,7 +1407,6 @@
             });
 
             if (patientOnly) {
-                // ★ Активираме "Моят портал" като начален
                 navItems.forEach(n => n.classList.remove('active'));
                 const p = document.querySelector('.nav-item[data-module="portal"]');
                 if (p) p.classList.add('active');
@@ -1543,8 +1533,8 @@
             onValue(appointmentsRef, (s) => { appointments = s.val() || {}; renderWeek(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(pricingRef, (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
             onValue(tasksRef, (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
-            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); renderExercisePicker(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
+            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
+            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
             onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) { renderPortal(); renderPatientExercises(); } if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
             onValue(sessionNotesRef, (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); });
             onValue(soapNotesRef, (s) => { soapNotes = s.val() || {}; renderSoapNotes(); });
@@ -2389,18 +2379,16 @@
             if (b2) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ДОБАВЯНЕ НА УПРАЖНЕНИЯ В ПРОГРАМА (ред по ред)
+        // ДОБАВЯНЕ НА УПРАЖНЕНИЯ В ПРОГРАМА
         function addProgramRow(defaultExercise) {
             const rowNum = $('programRowsContainer').children.length + 1;
-
             const allEx = [];
             Object.entries(exercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'extended', source: 'lib', data: ex });
+                allEx.push({ id, name: ex.name, type: 'extended' });
             });
             Object.entries(shortExercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'short', source: 'short', data: ex });
+                allEx.push({ id, name: ex.name, type: 'short' });
             });
-
             const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}" data-name="${escapeHtml(ex.name)}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
 
             const row = document.createElement('div');
@@ -2417,7 +2405,6 @@
                 <button type="button" class="remove-row-btn" title="Премахни"><i class="fas fa-times"></i></button>
             `;
             $('programRowsContainer').appendChild(row);
-
             row.querySelector('.prog-row-library').addEventListener('change', (e) => {
                 const val = e.target.value;
                 if (!val) return;
@@ -2449,52 +2436,33 @@
             const pid = $('progPatient').value;
             const title = $('progTitle').value.trim();
             if (!pid || !title) { showToast('Попълнете пациент и заглавие.','error'); return; }
-
             const rows = Array.from($('programRowsContainer').querySelectorAll('.program-row'));
             if (rows.length === 0) { showToast('Добавете поне едно упражнение.','error'); return; }
 
             const exercisesList = [];
             let hasErrors = false;
-
             rows.forEach((row, idx) => {
                 const name = row.querySelector('.prog-row-name').value.trim();
                 const reps = row.querySelector('.prog-row-reps').value.trim();
                 const sets = row.querySelector('.prog-row-sets').value.trim();
                 const libVal = row.querySelector('.prog-row-library').value;
-
                 if (!name) {
                     row.querySelector('.prog-row-name').classList.add('required-missing');
                     hasErrors = true;
                     return;
                 }
                 row.querySelector('.prog-row-name').classList.remove('required-missing');
-
                 let libId = null, libType = null;
-                if (libVal) {
-                    [libId, libType] = libVal.split('|');
-                }
-
-                exercisesList.push({
-                    name,
-                    reps,
-                    sets: sets ? parseInt(sets) : 0,
-                    libId: libId || null,
-                    libType: libType || null,
-                    order: idx + 1
-                });
+                if (libVal) [libId, libType] = libVal.split('|');
+                exercisesList.push({ name, reps, sets: sets ? parseInt(sets) : 0, libId: libId || null, libType: libType || null, order: idx + 1 });
             });
 
             if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; }
-
             $('addProgramBtn').disabled = true;
             try {
                 await set(push(programsRef), {
-                    patientId: pid,
-                    title,
-                    notes: $('progNotes').value.trim(),
-                    exercises: exercisesList,
-                    createdBy: currentUser.id,
-                    createdAt: Date.now()
+                    patientId: pid, title, notes: $('progNotes').value.trim(),
+                    exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now()
                 });
                 await createNotification(pid, 'Нова домашна програма', `Създадена е програма: ${title}`, 'exercise');
                 $('programForm').reset();
@@ -2511,19 +2479,10 @@
             $('programsList').innerHTML = sorted.map(prog=>{
                 const pat = patients[prog.patientId];
                 const pn = pat?escapeHtml(pat.name):'неизвестен';
-
                 let exList = [];
                 if (prog.exercises && Array.isArray(prog.exercises)) {
                     exList = prog.exercises.map(item => {
-                        if (item.name) {
-                            return {
-                                name: item.name,
-                                reps: item.reps || '',
-                                sets: item.sets || 0,
-                                libId: item.libId,
-                                libType: item.libType
-                            };
-                        }
+                        if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 };
                         if (item.type === 'short') {
                             const ex = shortExercises[item.id];
                             return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null;
@@ -2532,13 +2491,7 @@
                             return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
                         }
                     }).filter(Boolean);
-                } else if (prog.exerciseIds) {
-                    exList = prog.exerciseIds.map(id => {
-                        const ex = exercises[id];
-                        return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
-                    }).filter(Boolean);
                 }
-
                 return `<div class="home-program-card">
                     <div class="home-program-header">
                         <div class="title-block">
@@ -2801,15 +2754,11 @@
             const myId = currentUser.id;
             const updates = {};
             Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId && !n.read) {
-                    updates[`notifications/${id}/read`] = true;
-                }
+                if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true;
             });
             if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; }
-            try {
-                await update(ref(db), updates);
-                showToast('Всички са маркирани като прочетени.','success');
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await update(ref(db), updates); showToast('Всички са маркирани като прочетени.','success'); }
+            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         $('notifClearAllBtn').addEventListener('click', async () => {
@@ -2821,19 +2770,13 @@
                 if (n.userId === myId) updates[`notifications/${id}`] = null;
             });
             if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
-            try {
-                await update(ref(db), updates);
-                showToast('Всички известия са изтрити.','success');
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await update(ref(db), updates); showToast('Всички известия са изтрити.','success'); }
+            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         async function createNotification(userId, title, text, type = 'default') {
             try {
-                await set(push(notificationsRef), {
-                    userId, title, text, type,
-                    read: false,
-                    createdAt: Date.now()
-                });
+                await set(push(notificationsRef), { userId, title, text, type, read: false, createdAt: Date.now() });
             } catch(err) { console.error('Notif error:', err); }
         }
 
@@ -2994,9 +2937,7 @@
             const myId = currentUser.id;
             const updates = {};
             Object.entries(messages).forEach(([id, m]) => {
-                if (m.to === myId && m.from === fromId && !m.read) {
-                    updates[`messages/${id}/read`] = true;
-                }
+                if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true;
             });
             if (Object.keys(updates).length > 0) {
                 try { await update(ref(db), updates); } catch(err) { console.error(err); }
@@ -3074,9 +3015,7 @@
             const otherId = currentChatUserId.id;
             const updates = {};
             Object.entries(messages).forEach(([id, m]) => {
-                if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) {
-                    updates[`messages/${id}`] = null;
-                }
+                if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null;
             });
             if (Object.keys(updates).length === 0) { showToast('Няма съобщения.','info'); return; }
             try {
@@ -3102,7 +3041,6 @@
         async function sendChatMessage() {
             const text = $('chatInput').value.trim();
             if (!text || !currentChatUserId || !currentUser) return;
-
             $('chatSendBtn').disabled = true;
             try {
                 await set(push(messagesRef), {
@@ -3110,42 +3048,29 @@
                     fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
                     to: currentChatUserId.id,
                     toType: currentChatUserId.type,
-                    text: text,
-                    subject: '',
-                    read: false,
-                    createdAt: Date.now()
+                    text: text, subject: '', read: false, createdAt: Date.now()
                 });
                 await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('chatInput').value = '';
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                $('chatSendBtn').disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { $('chatSendBtn').disabled = false; }
         }
 
         $('msgSendBtn').addEventListener('click', async () => {
             const recipientVal = $('msgRecipient').value;
             const text = $('msgText').value.trim();
             const subject = $('msgSubject').value.trim();
-
             if (!recipientVal) { showToast('Изберете получател.', 'error'); return; }
             if (!text) { showToast('Напишете съобщение.', 'error'); return; }
-
             const recipient = getRecipientInfo(recipientVal);
             if (!recipient) { showToast('Невалиден получател.', 'error'); return; }
-
             $('msgSendBtn').disabled = true;
             try {
                 await set(push(messagesRef), {
                     from: currentUser.id,
                     fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: recipient.id,
-                    toType: recipient.type,
-                    subject: subject,
-                    text: text,
-                    read: false,
-                    createdAt: Date.now()
+                    to: recipient.id, toType: recipient.type,
+                    subject, text, read: false, createdAt: Date.now()
                 });
                 await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('msgText').value = '';
@@ -3153,11 +3078,8 @@
                 $('msgRecipient').value = '';
                 showToast('Съобщението е изпратено.', 'success');
                 document.querySelector('.msg-tab[data-msg-tab="sent"]')?.click();
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                $('msgSendBtn').disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { $('msgSendBtn').disabled = false; }
         });
 
         $('msgClearBtn').addEventListener('click', () => {
@@ -3174,12 +3096,7 @@
             $('addPatientBtn').disabled = true;
             try {
                 const code = generateUniqueCode(users, patients);
-                await set(push(patientsRef), {
-                    name, phone: $('patientPhone').value.trim(),
-                    notes: $('patientNotes').value.trim(),
-                    archived: false, createdAt: Date.now(),
-                    createdBy: currentUser.id, accessCode: code
-                });
+                await set(push(patientsRef), { name, phone: $('patientPhone').value.trim(), notes: $('patientNotes').value.trim(), archived: false, createdAt: Date.now(), createdBy: currentUser.id, accessCode: code });
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
@@ -3212,11 +3129,7 @@
             if (!pid || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
             $('addAppointmentBtn').disabled = true;
             try {
-                await set(push(appointmentsRef), {
-                    patientId: pid, date: dt, time: tm, note,
-                    duration: parseInt($('aptDuration').value),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
+                await set(push(appointmentsRef), { patientId: pid, date: dt, time: tm, note, duration: parseInt($('aptDuration').value), createdAt: Date.now(), createdBy: currentUser.id });
                 await createNotification(pid, 'Нов час', `Записан час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('appointmentForm').reset();
                 $('aptDate').value = new Date().toISOString().split('T')[0];
@@ -3245,11 +3158,7 @@
             if (!pid || !desc || !dt || !tm) { showToast('Попълнете полетата.','error'); return; }
             $('addProcedureBtn').disabled = true;
             try {
-                await set(push(proceduresRef), {
-                    patientId: pid, description: desc, date: dt, time: tm,
-                    result: $('procResult').value.trim(),
-                    createdAt: Date.now(), createdBy: currentUser.id
-                });
+                await set(push(proceduresRef), { patientId: pid, description: desc, date: dt, time: tm, result: $('procResult').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('procedureForm').reset();
                 $('procDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -3333,55 +3242,75 @@
             renderPortalKineziSelect();
 
             const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
+            const pShortEx = Object.entries(shortExercises).map(([id,ex])=>({id,...ex})).filter(ex=>ex.patientId===currentPatient.id).sort((a,b)=>(a.number||0)-(b.number||0));
 
-            if (pPrograms.length===0) $('patientHomePrograms').innerHTML = '';
+            // Моята програма
+            if (pPrograms.length===0 && pShortEx.length===0) $('patientHomePrograms').innerHTML = '';
             else {
-                $('patientHomePrograms').innerHTML = `<div class="patient-program-section"><h3><i class="fas fa-home"></i> Моята домашна програма</h3>${pPrograms.map(prog=>{
-                    let exList = [];
-                    if (prog.exercises && Array.isArray(prog.exercises)) {
-                        exList = prog.exercises.map(item => {
-                            if (item.name) return { name: item.name, reps: item.reps, sets: item.sets, libId: item.libId, libType: item.libType };
-                            if (item.type === 'short') {
-                                const ex = shortExercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null;
-                            } else {
-                                const ex = exercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null;
-                            }
-                        }).filter(Boolean);
-                    }
-                    return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
-                        <h4 style="color:#0b2b4f;margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>
-                        ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}
-                        <div style="display:flex;flex-direction:column;gap:10px;">
-                            ${exList.map((ex,i)=>{
-                                let mediaHtml = '';
-                                let exData = null;
-                                if (ex.libId) {
-                                    exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
-                                }
-                                if (exData && exData.videoUrl) {
-                                    const yt = getYouTubeId(exData.videoUrl);
-                                    if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
-                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`;
-                                } else if (exData && exData.imageUrl) {
-                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
-                                }
-                                return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
-                                    ${mediaHtml}
-                                    <div style="flex:1;min-width:0;">
-                                        <div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
-                                        ${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}
-                                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                                            ${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}
-                                            ${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}
-                                        </div>
-                                    </div>
-                                </div>`;
-                            }).join('')}
+                let html = '';
+                if (pShortEx.length > 0) {
+                    html += `<div class="patient-program-section"><h3><i class="fas fa-list-ul"></i> Моите упражнения</h3><div style="display:flex;flex-direction:column;gap:10px;">`;
+                    html += pShortEx.map(ex=>`
+                        <div style="display:flex;align-items:center;background:#fff;padding:0.9rem;border-radius:14px;border-left:4px solid #1a7a3e;">
+                            <div style="width:36px;height:36px;border-radius:50%;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:12px;flex-shrink:0;">${ex.number||'?'}</div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-weight:700;color:#0b2b4f;margin-bottom:3px;">${escapeHtml(ex.name)}</div>
+                                ${ex.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:4px;">${escapeHtml(ex.description)}</div>` : ''}
+                                ${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}
+                            </div>
                         </div>
-                    </div>`;
-                }).join('')}</div>`;
+                    `).join('');
+                    html += `</div></div>`;
+                }
+                if (pPrograms.length > 0) {
+                    html += `<div class="patient-program-section"><h3><i class="fas fa-home"></i> Моята домашна програма</h3>`;
+                    html += pPrograms.map(prog=>{
+                        let exList = [];
+                        if (prog.exercises && Array.isArray(prog.exercises)) {
+                            exList = prog.exercises.map(item => {
+                                if (item.name) return { name: item.name, reps: item.reps, sets: item.sets, libId: item.libId, libType: item.libType };
+                                if (item.type === 'short') {
+                                    const ex = shortExercises[item.id];
+                                    return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null;
+                                } else {
+                                    const ex = exercises[item.id];
+                                    return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null;
+                                }
+                            }).filter(Boolean);
+                        }
+                        return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+                            <h4 style="color:#0b2b4f;margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>
+                            ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}
+                            <div style="display:flex;flex-direction:column;gap:10px;">
+                                ${exList.map((ex,i)=>{
+                                    let mediaHtml = '';
+                                    let exData = null;
+                                    if (ex.libId) exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
+                                    if (exData && exData.videoUrl) {
+                                        const yt = getYouTubeId(exData.videoUrl);
+                                        if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
+                                        else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`;
+                                    } else if (exData && exData.imageUrl) {
+                                        mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
+                                    }
+                                    return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
+                                        ${mediaHtml}
+                                        <div style="flex:1;min-width:0;">
+                                            <div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
+                                            ${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}
+                                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                                ${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}
+                                                ${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        </div>`;
+                    }).join('');
+                    html += `</div>`;
+                }
+                $('patientHomePrograms').innerHTML = html;
             }
 
             const apts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.patientId===currentPatient.id && a.date>=toDateStr(new Date())).sort((a,b)=>`${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
@@ -3398,15 +3327,24 @@
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
         }
 
-        // ★ ПРОМЯНА: renderPatientExercises - сега се използва в "Упражнения" модула за пациенти
+        // ★★★ ПРОМЯНА: renderPatientExercises - СЕГА ПОКАЗВА И shortExercises И programs ★★★
         function renderPatientExercises() {
             if (!currentPatient) return;
+
+            // 1. Съкратени упражнения (shortExercises)
+            const pShortEx = Object.entries(shortExercises)
+                .map(([id, ex]) => ({ id, ...ex }))
+                .filter(ex => ex.patientId === currentPatient.id)
+                .sort((a, b) => (a.number || 0) - (b.number || 0));
+
+            // 2. Домашни програми (programs)
             const pPrograms = Object.entries(programs)
                 .map(([id, p]) => ({ id, ...p }))
                 .filter(p => p.patientId === currentPatient.id)
                 .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-            if (pPrograms.length === 0) {
+            // 3. Ако няма нищо → празно състояние
+            if (pShortEx.length === 0 && pPrograms.length === 0) {
                 $('patientExercisesContent').innerHTML = `
                     <div class="card" style="text-align:center; padding:3rem 2rem;">
                         <i class="fas fa-dumbbell" style="font-size:4rem; color:#cfddee; margin-bottom:1.5rem; display:block;"></i>
@@ -3419,103 +3357,152 @@
                 return;
             }
 
-            const totalEx = pPrograms.reduce((sum, p) => {
-                const ex = p.exercises && Array.isArray(p.exercises) ? p.exercises.length : 0;
-                return sum + ex;
-            }, 0);
+            let html = '';
 
-            let html = `
-                <div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
-                    <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
-                        <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">
-                            <i class="fas fa-clipboard-check"></i>
-                        </div>
-                        <div style="flex:1; min-width:200px;">
-                            <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">
-                                Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}
-                            </h3>
-                            <div style="color:#5a7a9a; font-size:0.9rem;">
-                                <i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            html += pPrograms.map(prog => {
-                let exList = [];
-                if (prog.exercises && Array.isArray(prog.exercises)) {
-                    exList = prog.exercises.map(item => {
-                        let exData = null;
-                        if (item.name) {
-                            if (item.libId) {
-                                exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
-                            }
-                            return { name: item.name, reps: item.reps || '', sets: item.sets || 0, libId: item.libId, libType: item.libType, data: exData };
-                        }
-                        if (item.type === 'short') {
-                            const ex = shortExercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null;
-                        } else {
-                            const ex = exercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null;
-                        }
-                    }).filter(Boolean);
-                }
-
-                return `
-                    <div class="card" style="padding: 1.5rem;">
-                        <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8; flex-wrap:wrap;">
-                            <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;">
-                                <i class="fas fa-clipboard-list"></i>
+            // СЕКЦИЯ 1: Съкратени упражнения
+            if (pShortEx.length > 0) {
+                html += `
+                    <div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
+                        <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+                            <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">
+                                <i class="fas fa-list-ul"></i>
                             </div>
                             <div style="flex:1; min-width:200px;">
-                                <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
-                                <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
+                                <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">
+                                    Моите упражнения
+                                </h3>
+                                <div style="color:#5a7a9a; font-size:0.9rem;">
+                                    <i class="fas fa-dumbbell"></i> Общо ${pShortEx.length} упражнения
+                                </div>
                             </div>
-                        </div>
-
-                        ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a; font-size:0.95rem; line-height:1.5;">
-                            <strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}
-                        </div>` : ''}
-
-                        <div style="display:flex; flex-direction:column; gap:14px;">
-                            ${exList.map((ex, i) => {
-                                const exData = ex.data;
-                                let mediaHtml = '';
-                                if (exData && exData.videoUrl) {
-                                    const yt = getYouTubeId(exData.videoUrl);
-                                    if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>`;
-                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></video>`;
-                                } else if (exData && exData.imageUrl) {
-                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">`;
-                                } else {
-                                    mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
-                                }
-
-                                return `
-                                    <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
-                                        ${mediaHtml}
-                                        <div style="flex:1; min-width:200px;">
-                                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                                                <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
-                                                <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
-                                            </div>
-                                            ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(exData.description)}</div>` : ''}
-                                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                                ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
-                                                ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
-                                                ${exData && exData.weight ? `<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(exData.weight)} кг</span>` : ''}
-                                                ${exData && exData.duration ? `<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${exData.duration} сек</span>` : ''}
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
                         </div>
                     </div>
                 `;
-            }).join('');
+
+                html += `
+                    <div class="card" style="padding: 1.5rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; flex-direction:column; gap:14px;">
+                            ${pShortEx.map((ex, i) => `
+                                <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
+                                    <div style="width:60px;height:60px;border-radius:14px;background:#e8f5e9;color:#1a7a3e;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-right:16px;flex-shrink:0;font-weight:700;">
+                                        ${ex.number || (i + 1)}
+                                    </div>
+                                    <div style="flex:1; min-width:200px;">
+                                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                                            <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
+                                        </div>
+                                        ${ex.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(ex.description)}</div>` : ''}
+                                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                            ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // СЕКЦИЯ 2: Домашни програми
+            if (pPrograms.length > 0) {
+                const totalEx = pPrograms.reduce((sum, p) => {
+                    const ex = p.exercises && Array.isArray(p.exercises) ? p.exercises.length : 0;
+                    return sum + ex;
+                }, 0);
+
+                html += `
+                    <div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
+                        <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+                            <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <div style="flex:1; min-width:200px;">
+                                <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">
+                                    Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}
+                                </h3>
+                                <div style="color:#5a7a9a; font-size:0.9rem;">
+                                    <i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                html += pPrograms.map(prog => {
+                    let exList = [];
+                    if (prog.exercises && Array.isArray(prog.exercises)) {
+                        exList = prog.exercises.map(item => {
+                            let exData = null;
+                            if (item.name) {
+                                if (item.libId) {
+                                    exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
+                                }
+                                return { name: item.name, reps: item.reps || '', sets: item.sets || 0, libId: item.libId, libType: item.libType, data: exData };
+                            }
+                            if (item.type === 'short') {
+                                const ex = shortExercises[item.id];
+                                return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null;
+                            } else {
+                                const ex = exercises[item.id];
+                                return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null;
+                            }
+                        }).filter(Boolean);
+                    }
+
+                    return `
+                        <div class="card" style="padding: 1.5rem;">
+                            <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8; flex-wrap:wrap;">
+                                <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div style="flex:1; min-width:200px;">
+                                    <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
+                                    <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
+                                </div>
+                            </div>
+
+                            ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a; font-size:0.95rem; line-height:1.5;">
+                                <strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}
+                            </div>` : ''}
+
+                            <div style="display:flex; flex-direction:column; gap:14px;">
+                                ${exList.map((ex, i) => {
+                                    const exData = ex.data;
+                                    let mediaHtml = '';
+                                    if (exData && exData.videoUrl) {
+                                        const yt = getYouTubeId(exData.videoUrl);
+                                        if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>`;
+                                        else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></video>`;
+                                    } else if (exData && exData.imageUrl) {
+                                        mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">`;
+                                    } else {
+                                        mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
+                                    }
+
+                                    return `
+                                        <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
+                                            ${mediaHtml}
+                                            <div style="flex:1; min-width:200px;">
+                                                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                                                    <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
+                                                    <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
+                                                </div>
+                                                ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(exData.description)}</div>` : ''}
+                                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                                    ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
+                                                    ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
+                                                    ${exData && exData.weight ? `<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(exData.weight)} кг</span>` : ''}
+                                                    ${exData && exData.duration ? `<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${exData.duration} сек</span>` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
 
             $('patientExercisesContent').innerHTML = html;
         }
@@ -3530,11 +3517,7 @@
             if (!k || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
             $('portalAddAptBtn').disabled = true;
             try {
-                await set(push(appointmentsRef), {
-                    patientId: currentPatient.id, kineziId: k, date: dt, time: tm, note,
-                    duration: parseInt($('portalAptDuration').value),
-                    createdAt: Date.now(), createdBy: currentPatient.id
-                });
+                await set(push(appointmentsRef), { patientId: currentPatient.id, kineziId: k, date: dt, time: tm, note, duration: parseInt($('portalAptDuration').value), createdAt: Date.now(), createdBy: currentPatient.id });
                 await createNotification(k, 'Нов час от пациент', `${currentPatient.name} записа час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('portalAppointmentForm').reset();
                 $('portalAptDate').value = new Date().toISOString().split('T')[0];
@@ -3551,7 +3534,7 @@
             catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
-        // ★ ПРОМЯНА: НАВИГАЦИЯ - "Упражнения" за пациент показва неговите програми
+        // НАВИГАЦИЯ
         navItems.forEach(item=>{
             item.addEventListener('click', ()=>{
                 if (item.classList.contains('hidden')) return;
@@ -3568,10 +3551,7 @@
                 else if (mod === 'schedule') renderWeek();
                 else if (mod === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
                 else if (mod === 'exercises') {
-                    // ★ Ако е пациент → показва само неговите програми
-                    // ★ Ако е служител → показва библиотека + програми
                     if (isPatient(currentUser)) {
-                        // Скриваме табовете и служебните панели
                         $('exerciseTabsBar').style.display = 'none';
                         document.querySelectorAll('.exercise-pane').forEach(p => {
                             p.classList.toggle('active', p.dataset.exPane === 'my-programs');
@@ -3579,10 +3559,8 @@
                         $('patientProgramsPane').style.display = 'block';
                         renderPatientExercises();
                     } else {
-                        // Показваме нормалните табове
                         $('exerciseTabsBar').style.display = 'flex';
                         $('patientProgramsPane').style.display = 'none';
-                        // Връщаме активен таб "library"
                         document.querySelectorAll('.exercise-tab').forEach((x,i) => x.classList.toggle('active', i === 0));
                         document.querySelectorAll('.exercise-pane').forEach(p => {
                             p.classList.toggle('active', p.dataset.exPane === 'library');
