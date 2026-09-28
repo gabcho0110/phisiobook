@@ -198,7 +198,7 @@
         .nav {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
             padding: 0 0.8rem;
         }
 
@@ -206,9 +206,9 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 0.9rem 1.2rem;
+            padding: 0.85rem 1.2rem;
             border-radius: 14px;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-weight: 500;
             color: #e0edff;
             background: transparent;
@@ -219,7 +219,7 @@
             transition: background 0.2s;
         }
 
-        .nav-item i { width: 24px; font-size: 1.15rem; color: #7fb2e5; }
+        .nav-item i { width: 24px; font-size: 1.1rem; color: #7fb2e5; }
         .nav-item:hover { background-color: #1f3f61; color: #ffffff; }
         .nav-item.active {
             background-color: #1e4a78;
@@ -350,7 +350,7 @@
             border: 1px solid #e9eef3;
             position: relative;
             overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
 
         .dash-card:hover {
@@ -527,7 +527,6 @@
             background: #e0f7fa;
             border-color: #0891b2;
             color: #0891b2;
-            transform: translateY(-2px);
         }
 
         .free-slot.busy {
@@ -536,13 +535,6 @@
             cursor: not-allowed;
             border-color: #e0e0e0;
             text-decoration: line-through;
-        }
-
-        .free-slot.busy:hover {
-            background: #f5f5f5;
-            border-color: #e0e0e0;
-            color: #b0b0b0;
-            transform: none;
         }
 
         .task-form {
@@ -615,6 +607,8 @@
             border-color: #0b2b4f;
             box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
         }
+
+        .form-group textarea { resize: vertical; min-height: 80px; }
 
         .btn {
             display: inline-flex;
@@ -1180,7 +1174,7 @@
             margin-top: 0.3rem;
         }
 
-        /* ============ УПРАЖНЕНИЯ ============ */
+        /* Упражнения */
         .exercise-tabs {
             display: flex;
             gap: 8px;
@@ -1203,18 +1197,11 @@
             gap: 8px;
         }
 
-        .exercise-tab:hover {
-            border-color: #1e4a78;
-            background: #f5f9ff;
-        }
-
         .exercise-tab.active {
             background: #1e4a78;
             color: #ffffff;
             border-color: #1e4a78;
         }
-
-        .exercise-tab i { font-size: 1rem; }
 
         .exercise-pane {
             display: none;
@@ -1223,7 +1210,6 @@
 
         .exercise-pane.active { display: block; }
 
-        /* Библиотека с упражнения */
         .exercise-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1236,7 +1222,7 @@
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
             border: 1px solid #e9eef3;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
             display: flex;
             flex-direction: column;
         }
@@ -1272,21 +1258,16 @@
             color: #7fb2e5;
         }
 
-        .exercise-media .media-placeholder i {
-            font-size: 3rem;
-        }
-
+        .exercise-media .media-placeholder i { font-size: 3rem; }
         .exercise-media .media-placeholder span {
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .exercise-category-badge {
             position: absolute;
-            top: 12px;
-            left: 12px;
+            top: 12px; left: 12px;
             background: rgba(11, 43, 79, 0.9);
             color: #ffffff;
             padding: 0.3rem 0.8rem;
@@ -1294,7 +1275,6 @@
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .exercise-body {
@@ -1351,11 +1331,8 @@
             margin-top: auto;
         }
 
-        .exercise-actions button {
-            flex: 1;
-        }
+        .exercise-actions button { flex: 1; }
 
-        /* Форма за упражнение */
         .media-preview-box {
             border: 2px dashed #cfddee;
             border-radius: 14px;
@@ -1385,7 +1362,6 @@
             background: #ffffff;
         }
 
-        /* Домашна програма */
         .home-program-card {
             background: #ffffff;
             border: 1px solid #e9eef3;
@@ -1469,10 +1445,7 @@
             flex-shrink: 0;
         }
 
-        .home-exercise-item .info {
-            flex: 1;
-            min-width: 0;
-        }
+        .home-exercise-item .info { flex: 1; min-width: 0; }
 
         .home-exercise-item .info .name {
             font-weight: 600;
@@ -1486,14 +1459,6 @@
             color: #7f95b0;
         }
 
-        .home-exercise-item .home-meta {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 5px;
-        }
-
-        /* Пациент - Преглед на домашна програма */
         .patient-program-section {
             background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%);
             border: 2px solid #a5d6a7;
@@ -1510,6 +1475,315 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* ============================================
+           МЕДИЦИНСКА ДОКУМЕНТАЦИЯ
+           ============================================ */
+        .doc-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .doc-tab {
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #cfddee;
+            background: #ffffff;
+            color: #1f3f61;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doc-tab.active {
+            background: #1e4a78;
+            color: #ffffff;
+            border-color: #1e4a78;
+        }
+
+        .doc-tab i { font-size: 1rem; }
+
+        .doc-pane {
+            display: none;
+            animation: fade 0.2s ease;
+        }
+
+        .doc-pane.active { display: block; }
+
+        /* SOAP форма */
+        .soap-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .soap-block {
+            background: #f8fbfe;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e9eef3;
+        }
+
+        .soap-block.s { border-left: 4px solid #0891b2; }
+        .soap-block.o { border-left: 4px solid #1e4a78; }
+        .soap-block.a { border-left: 4px solid #d97706; }
+        .soap-block.p { border-left: 4px solid #1a7a3e; }
+
+        .soap-block-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.6rem;
+        }
+
+        .soap-block-header .letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .soap-block.s .letter { background: #0891b2; }
+        .soap-block.o .letter { background: #1e4a78; }
+        .soap-block.a .letter { background: #d97706; }
+        .soap-block.p .letter { background: #1a7a3e; }
+
+        .soap-block-header .label {
+            font-weight: 700;
+            color: #0b2b4f;
+            font-size: 0.9rem;
+        }
+
+        .soap-block-header .sub {
+            font-size: 0.75rem;
+            color: #7f95b0;
+            margin-left: auto;
+        }
+
+        .soap-block textarea {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            border: 1px solid #cfddee;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #ffffff;
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .soap-block textarea:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
+        }
+
+        @media (max-width: 700px) {
+            .soap-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Бележки списък */
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .note-card {
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 18px;
+            padding: 1.4rem 1.6rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: 0.15s;
+        }
+
+        .note-card:hover {
+            box-shadow: 0 8px 20px rgba(11, 43, 79, 0.08);
+        }
+
+        .note-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #edf2f8;
+            flex-wrap: wrap;
+        }
+
+        .note-card-header .who {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .note-card-header .who .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #1e4a78;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .note-card-header .who .details .name {
+            font-weight: 600;
+            color: #0b2b4f;
+            font-size: 0.95rem;
+        }
+
+        .note-card-header .who .details .meta {
+            font-size: 0.78rem;
+            color: #7f95b0;
+        }
+
+        .note-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.35rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .note-type-badge.session {
+            background: #e8f0fe;
+            color: #1e4a78;
+        }
+
+        .note-type-badge.soap {
+            background: #fff5e5;
+            color: #b06d00;
+        }
+
+        .note-type-badge.file {
+            background: #f0e8ff;
+            color: #6b3fa0;
+        }
+
+        .note-card-body {
+            color: #1f3f61;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .note-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 1rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid #edf2f8;
+        }
+
+        /* SOAP view */
+        .soap-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .soap-view-block {
+            background: #f8fbfe;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            border-left: 3px solid #1e4a78;
+            font-size: 0.9rem;
+        }
+
+        .soap-view-block.s { border-left-color: #0891b2; }
+        .soap-view-block.o { border-left-color: #1e4a78; }
+        .soap-view-block.a { border-left-color: #d97706; }
+        .soap-view-block.p { border-left-color: #1a7a3e; }
+
+        .soap-view-block .lbl {
+            font-weight: 700;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            color: #0b2b4f;
+        }
+
+        .soap-view-block.s .lbl { color: #0891b2; }
+        .soap-view-block.o .lbl { color: #1e4a78; }
+        .soap-view-block.a .lbl { color: #d97706; }
+        .soap-view-block.p .lbl { color: #1a7a3e; }
+
+        @media (max-width: 700px) {
+            .soap-view { grid-template-columns: 1fr; }
+        }
+
+        /* Файлове */
+        .file-attachment {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            background: #f0e8ff;
+            color: #6b3fa0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.15s;
+            word-break: break-all;
+        }
+
+        .file-attachment:hover {
+            background: #e0d0ff;
+            transform: translateX(3px);
+        }
+
+        .file-attachment i { font-size: 1.1rem; flex-shrink: 0; }
+
+        /* Пациент филтър */
+        .doc-filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .doc-filter-bar select,
+        .doc-filter-bar input {
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #cfddee;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #ffffff;
+        }
+
+        .doc-filter-bar select:focus,
+        .doc-filter-bar input:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
         }
 
         /* Потребители */
@@ -1669,7 +1943,6 @@
             align-items: center;
             z-index: 10001;
             padding: 1.5rem;
-            overflow-y: auto;
         }
 
         .modal-overlay.active { display: flex; }
@@ -1682,12 +1955,6 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal.large {
-            max-width: 700px;
-            text-align: left;
-            padding: 2rem;
         }
 
         .modal .modal-icon {
@@ -1911,6 +2178,10 @@
                     <i class="fas fa-dumbbell"></i>
                     <span>Упражнения</span>
                 </button>
+                <button class="nav-item" data-module="documentation">
+                    <i class="fas fa-file-medical-alt"></i>
+                    <span>Документация</span>
+                </button>
                 <button class="nav-item" data-module="pricing">
                     <i class="fas fa-euro-sign"></i>
                     <span>Ценоразпис</span>
@@ -1929,7 +2200,7 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v3.1 · Firebase</div>
+                <div class="sidebar-version">v3.2 · Firebase</div>
             </div>
         </aside>
 
@@ -2216,7 +2487,6 @@
                     </button>
                 </div>
 
-                <!-- БИБЛИОТЕКА -->
                 <div class="exercise-pane active" data-ex-pane="library">
                     <div class="card">
                         <h3><i class="fas fa-plus-circle"></i> Ново упражнение</h3>
@@ -2240,30 +2510,30 @@
                             </div>
                             <div class="form-group">
                                 <label>Серии</label>
-                                <input type="number" id="exSets" min="1" value="3" placeholder="3">
+                                <input type="number" id="exSets" min="1" value="3">
                             </div>
                             <div class="form-group">
                                 <label>Повторения</label>
-                                <input type="text" id="exReps" placeholder="напр. 12 или 10-12" value="12">
+                                <input type="text" id="exReps" value="12">
                             </div>
                             <div class="form-group">
                                 <label>Тежест (кг)</label>
-                                <input type="text" id="exWeight" placeholder="напр. 5 или 0">
+                                <input type="text" id="exWeight" placeholder="напр. 5">
                             </div>
                             <div class="form-group">
                                 <label>Време (сек, опционално)</label>
-                                <input type="number" id="exDuration" min="0" placeholder="напр. 30">
+                                <input type="number" id="exDuration" min="0">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Описание / инструкции</label>
-                                <textarea id="exDescription" placeholder="Как се изпълнява, насоки..."></textarea>
+                                <textarea id="exDescription" placeholder="Как се изпълнява..."></textarea>
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Видео URL (YouTube, mp4 или директен линк)</label>
+                                <label>Видео URL (YouTube, mp4)</label>
                                 <input type="url" id="exVideoUrl" placeholder="https://...">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Снимка URL (опционално)</label>
+                                <label>Снимка URL</label>
                                 <input type="url" id="exImageUrl" placeholder="https://...">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
@@ -2288,7 +2558,6 @@
                     <div class="exercise-grid" id="exerciseGrid"></div>
                 </div>
 
-                <!-- ДОМАШНИ ПРОГРАМИ -->
                 <div class="exercise-pane" data-ex-pane="programs">
                     <div class="card">
                         <h3><i class="fas fa-plus-circle"></i> Нова домашна програма</h3>
@@ -2300,18 +2569,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Заглавие на програмата *</label>
-                                <input type="text" id="progTitle" placeholder="напр. Програма за коляно – седмица 1" required>
+                                <label>Заглавие *</label>
+                                <input type="text" id="progTitle" placeholder="напр. Програма за коляно..." required>
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Бележки / инструкции</label>
-                                <textarea id="progNotes" placeholder="Общи насоки за пациента..."></textarea>
+                                <textarea id="progNotes" placeholder="Общи насоки..."></textarea>
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Избери упражнения от библиотеката *</label>
-                                <div id="exercisePickerList" style="border:1px solid #cfddee; border-radius:14px; padding:0.8rem; max-height:280px; overflow-y:auto; background:#ffffff;">
-                                    <!-- попълва се с JS -->
-                                </div>
+                                <label>Избери упражнения *</label>
+                                <div id="exercisePickerList" style="border:1px solid #cfddee; border-radius:14px; padding:0.8rem; max-height:280px; overflow-y:auto; background:#ffffff;"></div>
                             </div>
                             <div class="form-group" style="justify-content: end; grid-column: span 2;">
                                 <button type="submit" class="btn" id="addProgramBtn">
@@ -2325,6 +2592,217 @@
                         <h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3>
                     </div>
                     <div id="programsList"></div>
+                </div>
+            </section>
+
+            <!-- МЕДИЦИНСКА ДОКУМЕНТАЦИЯ -->
+            <section id="module-documentation" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-file-medical-alt"></i> Медицинска документация</h1>
+                </div>
+
+                <div class="doc-tabs">
+                    <button class="doc-tab active" data-doc-tab="sessions">
+                        <i class="fas fa-notes-medical"></i> Бележки от терапия
+                    </button>
+                    <button class="doc-tab" data-doc-tab="soap">
+                        <i class="fas fa-clipboard-list"></i> SOAP бележки
+                    </button>
+                    <button class="doc-tab" data-doc-tab="files">
+                        <i class="fas fa-folder-open"></i> Файлове и документи
+                    </button>
+                </div>
+
+                <!-- Бележки от терапия -->
+                <div class="doc-pane active" data-doc-pane="sessions">
+                    <div class="card">
+                        <h3><i class="fas fa-plus-circle"></i> Нова бележка от терапия</h3>
+                        <form id="sessionNoteForm" class="form-grid">
+                            <div class="form-group">
+                                <label>Пациент *</label>
+                                <select id="notePatient" required>
+                                    <option value="">-- избери пациент --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Дата *</label>
+                                <input type="date" id="noteDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Вид терапия</label>
+                                <select id="noteTherapyType">
+                                    <option value="Физиотерапия">Физиотерапия</option>
+                                    <option value="Кинезитерапия">Кинезитерапия</option>
+                                    <option value="Масаж">Масаж</option>
+                                    <option value="Мануална терапия">Мануална терапия</option>
+                                    <option value="Упражнения">Упражнения</option>
+                                    <option value="Електротерапия">Електротерапия</option>
+                                    <option value="Друго">Друго</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Продължителност (мин)</label>
+                                <input type="number" id="noteDuration" min="0" placeholder="напр. 45">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Бележка / описание *</label>
+                                <textarea id="noteText" placeholder="Какво е направено, наблюдения, оплаквания..." required style="min-height:120px;"></textarea>
+                            </div>
+                            <div class="form-group" style="justify-content: end; grid-column: span 2;">
+                                <button type="submit" class="btn" id="addSessionNoteBtn">
+                                    <i class="fas fa-save"></i> Запази бележка
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="doc-filter-bar">
+                        <select id="sessionFilterPatient">
+                            <option value="">-- Всички пациенти --</option>
+                        </select>
+                        <input type="text" id="sessionSearch" placeholder="Търси в бележките...">
+                    </div>
+
+                    <div class="notes-list" id="sessionNotesList"></div>
+                </div>
+
+                <!-- SOAP бележки -->
+                <div class="doc-pane" data-doc-pane="soap">
+                    <div class="card">
+                        <h3><i class="fas fa-plus-circle"></i> Нова SOAP бележка</h3>
+                        <form id="soapForm">
+                            <div class="form-grid" style="margin-bottom:1.5rem;">
+                                <div class="form-group">
+                                    <label>Пациент *</label>
+                                    <select id="soapPatient" required>
+                                        <option value="">-- избери пациент --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Дата *</label>
+                                    <input type="date" id="soapDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Посещение №</label>
+                                    <input type="number" id="soapVisitNum" min="1" placeholder="напр. 3">
+                                </div>
+                            </div>
+
+                            <div class="soap-grid">
+                                <div class="soap-block s">
+                                    <div class="soap-block-header">
+                                        <div class="letter">S</div>
+                                        <span class="label">Subjective</span>
+                                        <span class="sub">Субективно</span>
+                                    </div>
+                                    <textarea id="soapS" placeholder="Оплаквания на пациента, анамнеза, как се чувства..."></textarea>
+                                </div>
+
+                                <div class="soap-block o">
+                                    <div class="soap-block-header">
+                                        <div class="letter">O</div>
+                                        <span class="label">Objective</span>
+                                        <span class="sub">Обективно</span>
+                                    </div>
+                                    <textarea id="soapO" placeholder="Наблюдения, измервания, тестове, ROM, сила..."></textarea>
+                                </div>
+
+                                <div class="soap-block a">
+                                    <div class="soap-block-header">
+                                        <div class="letter">A</div>
+                                        <span class="label">Assessment</span>
+                                        <span class="sub">Оценка</span>
+                                    </div>
+                                    <textarea id="soapA" placeholder="Диагноза, оценка на състоянието, прогноза..."></textarea>
+                                </div>
+
+                                <div class="soap-block p">
+                                    <div class="soap-block-header">
+                                        <div class="letter">P</div>
+                                        <span class="label">Plan</span>
+                                        <span class="sub">План</span>
+                                    </div>
+                                    <textarea id="soapP" placeholder="План за лечение, следващи стъпки, домашна програма..."></textarea>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:10px; justify-content: flex-end; margin-top:1.5rem;">
+                                <button type="submit" class="btn" id="addSoapBtn">
+                                    <i class="fas fa-save"></i> Запази SOAP
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="doc-filter-bar">
+                        <select id="soapFilterPatient">
+                            <option value="">-- Всички пациенти --</option>
+                        </select>
+                        <input type="text" id="soapSearch" placeholder="Търси в SOAP бележките...">
+                    </div>
+
+                    <div class="notes-list" id="soapNotesList"></div>
+                </div>
+
+                <!-- Файлове -->
+                <div class="doc-pane" data-doc-pane="files">
+                    <div class="card">
+                        <h3><i class="fas fa-plus-circle"></i> Нов документ / файл</h3>
+                        <p style="color:#7f95b0; font-size:0.88rem; margin-bottom:1rem;">
+                            <i class="fas fa-info-circle"></i> Добавете линк към файл (Google Drive, Dropbox, imaging, PDF и др.)
+                        </p>
+                        <form id="fileForm" class="form-grid">
+                            <div class="form-group">
+                                <label>Пациент *</label>
+                                <select id="filePatient" required>
+                                    <option value="">-- избери пациент --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Име на файла *</label>
+                                <input type="text" id="fileName" placeholder="напр. Рентген коляно.pdf" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Тип документ</label>
+                                <select id="fileType">
+                                    <option value="Рентген">Рентген</option>
+                                    <option value="MRI / ЯМР">MRI / ЯМР</option>
+                                    <option value="CT / Скенер">CT / Скенер</option>
+                                    <option value="Епикриза">Епикриза</option>
+                                    <option value="Направление">Направление</option>
+                                    <option value="Изследване">Изследване</option>
+                                    <option value="Договор">Договор</option>
+                                    <option value="Друго">Друго</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Дата на документа</label>
+                                <input type="date" id="fileDate">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>URL на файла *</label>
+                                <input type="url" id="fileUrl" placeholder="https://drive.google.com/... или друг линк" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Бележки</label>
+                                <textarea id="fileNotes" placeholder="Допълнителна информация..."></textarea>
+                            </div>
+                            <div class="form-group" style="justify-content: end; grid-column: span 2;">
+                                <button type="submit" class="btn" id="addFileBtn">
+                                    <i class="fas fa-save"></i> Добави файл
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="doc-filter-bar">
+                        <select id="fileFilterPatient">
+                            <option value="">-- Всички пациенти --</option>
+                        </select>
+                        <input type="text" id="fileSearch" placeholder="Търси по име на файл...">
+                    </div>
+
+                    <div class="notes-list" id="filesList"></div>
                 </div>
             </section>
 
@@ -2445,11 +2923,10 @@
                     </div>
                     <div>
                         <h1>Здравейте, <span id="portalUserName">—</span>!</h1>
-                        <p>Това е вашият личен портал — вижте домашната си програма, запазете час и вижте процедурите си.</p>
+                        <p>Това е вашият личен портал.</p>
                     </div>
                 </div>
 
-                <!-- ДОМАШНА ПРОГРАМА за пациента -->
                 <div id="patientHomePrograms"></div>
 
                 <div class="portal-section">
@@ -2592,6 +3069,9 @@
         const tasksRef = ref(db, 'tasks');
         const exercisesRef = ref(db, 'exercises');
         const programsRef = ref(db, 'programs');
+        const sessionNotesRef = ref(db, 'sessionNotes');
+        const soapNotesRef = ref(db, 'soapNotes');
+        const documentsRef = ref(db, 'documents');
 
         // =====================================================
         // ПОМОЩНИ
@@ -2722,11 +3202,14 @@
             }).join('');
         }
 
-        // Embed YouTube
         function getYouTubeId(url) {
             if (!url) return null;
             const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
             return m ? m[1] : null;
+        }
+
+        function getUserInitials(name) {
+            return (name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
         }
 
         // =====================================================
@@ -2740,6 +3223,9 @@
         let tasks = {};
         let exercises = {};
         let programs = {};
+        let sessionNotes = {};
+        let soapNotes = {};
+        let documents = {};
         let currentUser = null;
         let currentPatient = null;
         let dataListenersStarted = false;
@@ -2772,6 +3258,7 @@
             schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
             exercises: document.getElementById('module-exercises'),
+            documentation: document.getElementById('module-documentation'),
             pricing: document.getElementById('module-pricing'),
             users: document.getElementById('module-users'),
             portal: document.getElementById('module-portal')
@@ -2837,6 +3324,46 @@
         const exercisePickerList = document.getElementById('exercisePickerList');
         const addProgramBtn = document.getElementById('addProgramBtn');
         const programsList = document.getElementById('programsList');
+
+        // Документация
+        const docTabs = document.querySelectorAll('.doc-tab');
+        const docPanes = document.querySelectorAll('.doc-pane');
+
+        const sessionNoteForm = document.getElementById('sessionNoteForm');
+        const notePatient = document.getElementById('notePatient');
+        const noteDate = document.getElementById('noteDate');
+        const noteTherapyType = document.getElementById('noteTherapyType');
+        const noteDuration = document.getElementById('noteDuration');
+        const noteText = document.getElementById('noteText');
+        const addSessionNoteBtn = document.getElementById('addSessionNoteBtn');
+        const sessionNotesList = document.getElementById('sessionNotesList');
+        const sessionFilterPatient = document.getElementById('sessionFilterPatient');
+        const sessionSearch = document.getElementById('sessionSearch');
+
+        const soapForm = document.getElementById('soapForm');
+        const soapPatient = document.getElementById('soapPatient');
+        const soapDate = document.getElementById('soapDate');
+        const soapVisitNum = document.getElementById('soapVisitNum');
+        const soapS = document.getElementById('soapS');
+        const soapO = document.getElementById('soapO');
+        const soapA = document.getElementById('soapA');
+        const soapP = document.getElementById('soapP');
+        const addSoapBtn = document.getElementById('addSoapBtn');
+        const soapNotesList = document.getElementById('soapNotesList');
+        const soapFilterPatient = document.getElementById('soapFilterPatient');
+        const soapSearch = document.getElementById('soapSearch');
+
+        const fileForm = document.getElementById('fileForm');
+        const filePatient = document.getElementById('filePatient');
+        const fileName = document.getElementById('fileName');
+        const fileType = document.getElementById('fileType');
+        const fileDate = document.getElementById('fileDate');
+        const fileUrl = document.getElementById('fileUrl');
+        const fileNotes = document.getElementById('fileNotes');
+        const addFileBtn = document.getElementById('addFileBtn');
+        const filesList = document.getElementById('filesList');
+        const fileFilterPatient = document.getElementById('fileFilterPatient');
+        const fileSearch = document.getElementById('fileSearch');
 
         // Ценоразпис
         const priceDateInput = document.getElementById('priceDateInput');
@@ -2996,8 +3523,7 @@
             showLoading(false);
 
             const displayName = currentUser.name || currentPatient?.name || '?';
-            const initials = displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-            userAvatar.textContent = initials;
+            userAvatar.textContent = getUserInitials(displayName);
             userName.textContent = displayName;
             userRole.textContent = getUserRoles(currentUser).join(' · ') || 'Потребител';
 
@@ -3055,9 +3581,7 @@
             }
         });
 
-        // =====================================================
         // ROLES DROPDOWN
-        // =====================================================
         userRolesTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             userRolesMenu.classList.toggle('open');
@@ -3084,9 +3608,7 @@
             }
         }
 
-        // =====================================================
         // AUTO ADMIN
-        // =====================================================
         async function ensureAdminExists() {
             try {
                 const snapshot = await get(usersRef);
@@ -3105,9 +3627,7 @@
                         createdAt: Date.now()
                     });
                 }
-            } catch (error) {
-                console.error('Грешка при admin:', error);
-            }
+            } catch (error) { console.error('Грешка при admin:', error); }
         }
 
         // =====================================================
@@ -3222,6 +3742,30 @@
                 }
             });
 
+            onValue(sessionNotesRef, (snapshot) => {
+                sessionNotes = snapshot.val() || {};
+                renderSessionNotes();
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
+                    openPatientProfile(window.currentProfilePatientId);
+                }
+            });
+
+            onValue(soapNotesRef, (snapshot) => {
+                soapNotes = snapshot.val() || {};
+                renderSoapNotes();
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
+                    openPatientProfile(window.currentProfilePatientId);
+                }
+            });
+
+            onValue(documentsRef, (snapshot) => {
+                documents = snapshot.val() || {};
+                renderDocuments();
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
+                    openPatientProfile(window.currentProfilePatientId);
+                }
+            });
+
             setTimeout(() => showLoading(false), 500);
         }
 
@@ -3329,8 +3873,7 @@
 
             dashIncome.textContent = formatPrice(todayIncome) + ' €';
             dashIncomeSub.textContent = `от ${incomePatientCount} ${incomePatientCount === 1 ? 'пациент' : 'пациента'}`;
-            const goal = 200;
-            dashIncomeBar.style.width = Math.min((todayIncome / goal) * 100, 100) + '%';
+            dashIncomeBar.style.width = Math.min((todayIncome / 200) * 100, 100) + '%';
 
             const busyHours = new Set();
             todayApts.forEach(a => {
@@ -3364,7 +3907,6 @@
             });
         }
 
-        // Клик на dash item → профил
         document.addEventListener('click', (e) => {
             const item = e.target.closest('.dash-list-item[data-patient-id]');
             if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) {
@@ -3458,10 +4000,18 @@
                 .map(([id, p]) => ({ id, name: p.name }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
-            [procPatient, aptPatient, progPatient].forEach(select => {
+            [procPatient, aptPatient, progPatient, notePatient, soapPatient, filePatient].forEach(select => {
                 if (!select) return;
                 const cur = select.value;
                 select.innerHTML = '<option value="">-- избери пациент --</option>' +
+                    active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+                if (active.some(p => p.id === cur)) select.value = cur;
+            });
+
+            [sessionFilterPatient, soapFilterPatient, fileFilterPatient].forEach(select => {
+                if (!select) return;
+                const cur = select.value;
+                select.innerHTML = '<option value="">-- Всички пациенти --</option>' +
                     active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
                 if (active.some(p => p.id === cur)) select.value = cur;
             });
@@ -3491,11 +4041,10 @@
             });
         });
 
-        // Preview на медия при писане в URL-ите
         function updateMediaPreview() {
             const videoUrl = exVideoUrl.value.trim();
             const imageUrl = exImageUrl.value.trim();
-            
+
             if (!videoUrl && !imageUrl) {
                 exMediaPreview.classList.remove('has-media');
                 exMediaPreview.innerHTML = `<i class="fas fa-image" style="font-size:2rem;"></i><span>Преглед на медия</span>`;
@@ -3504,13 +4053,13 @@
 
             exMediaPreview.classList.add('has-media');
             const ytId = getYouTubeId(videoUrl);
-            
+
             if (ytId) {
                 exMediaPreview.innerHTML = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${ytId}" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>`;
             } else if (videoUrl) {
                 exMediaPreview.innerHTML = `<video src="${escapeHtml(videoUrl)}" controls style="max-height:200px; border-radius:10px;"></video>`;
             } else if (imageUrl) {
-                exMediaPreview.innerHTML = `<img src="${escapeHtml(imageUrl)}" alt="preview" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-exclamation-triangle\\' style=\\'font-size:2rem; color:#d97706;\\'></i><span>Не може да се зареди</span>';">`;
+                exMediaPreview.innerHTML = `<img src="${escapeHtml(imageUrl)}" alt="preview" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-exclamation-triangle\\' style=\\'font-size:2rem; color:#d97706;\\'></i><span>Не може да се зареди</span>';">`;
             }
         }
 
@@ -3550,7 +4099,7 @@
         function renderExerciseLibrary() {
             const search = (exSearchInput.value || '').toLowerCase().trim();
             const all = Object.entries(exercises).map(([id, ex]) => ({ id, ...ex }));
-            const filtered = search 
+            const filtered = search
                 ? all.filter(ex => ex.name.toLowerCase().includes(search) || (ex.category || '').toLowerCase().includes(search))
                 : all;
 
@@ -3563,7 +4112,7 @@
 
             exerciseGrid.innerHTML = sorted.map(ex => {
                 let mediaHtml = `<div class="media-placeholder"><i class="fas fa-dumbbell"></i><span>${escapeHtml(ex.category || 'Упражнение')}</span></div>`;
-                
+
                 if (ex.videoUrl) {
                     const ytId = getYouTubeId(ex.videoUrl);
                     if (ytId) {
@@ -3584,7 +4133,7 @@
                         <div class="exercise-body">
                             <h3>${escapeHtml(ex.name)}</h3>
                             ${ex.description ? `<p class="description">${escapeHtml(ex.description)}</p>` : '<p class="description" style="color:#b0c1d4; font-style:italic;">Няма описание</p>'}
-                            
+
                             <div class="exercise-meta">
                                 ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
                                 ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повт.</span>` : ''}
@@ -3616,19 +4165,16 @@
             }
         });
 
-        // =====================================================
-        // ДОМАШНИ ПРОГРАМИ
-        // =====================================================
         function renderExercisePicker() {
             const all = Object.entries(exercises).map(([id, ex]) => ({ id, ...ex }));
 
             if (all.length === 0) {
-                exercisePickerList.innerHTML = `<div style="text-align:center; color:#7f95b0; padding:1rem; font-style:italic;">Няма упражнения в библиотеката</div>`;
+                exercisePickerList.innerHTML = `<div style="text-align:center; color:#7f95b0; padding:1rem; font-style:italic;">Няма упражнения</div>`;
                 return;
             }
 
             exercisePickerList.innerHTML = all.map(ex => `
-                <label style="display:flex; align-items:center; gap:10px; padding:0.6rem 0.8rem; border-radius:8px; cursor:pointer; transition:0.15s; hover:background:#f5f9ff;" onmouseover="this.style.background='#f5f9ff'" onmouseout="this.style.background='transparent'">
+                <label style="display:flex; align-items:center; gap:10px; padding:0.6rem 0.8rem; border-radius:8px; cursor:pointer;">
                     <input type="checkbox" value="${ex.id}" style="width:18px; height:18px; cursor:pointer;">
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:600; color:#0b2b4f; font-size:0.9rem;">${escapeHtml(ex.name)}</div>
@@ -3653,8 +4199,7 @@
             try {
                 const newRef = push(programsRef);
                 await set(newRef, {
-                    patientId,
-                    title,
+                    patientId, title,
                     notes: progNotes.value.trim(),
                     exerciseIds: selectedExIds,
                     createdBy: currentUser.id,
@@ -3689,8 +4234,8 @@
                                 <div>
                                     <h3>${escapeHtml(prog.title)}</h3>
                                     <div class="meta">
-                                        <i class="fas fa-user"></i> ${patName} · 
-                                        <i class="fas fa-dumbbell"></i> ${exList.length} упражнения · 
+                                        <i class="fas fa-user"></i> ${patName} ·
+                                        <i class="fas fa-dumbbell"></i> ${exList.length} упражнения ·
                                         <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}
                                     </div>
                                 </div>
@@ -3710,12 +4255,7 @@
                                     <div class="num">${i + 1}</div>
                                     <div class="info">
                                         <div class="name">${escapeHtml(ex.name)}</div>
-                                        <div class="meta">${escapeHtml(ex.category || '')} ${ex.description ? '· ' + escapeHtml(ex.description.slice(0, 60)) + (ex.description.length > 60 ? '...' : '') : ''}</div>
-                                        <div class="home-meta">
-                                            ${ex.sets ? `<span class="exercise-meta-chip sets">${ex.sets} серии</span>` : ''}
-                                            ${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}
-                                            ${ex.weight ? `<span class="exercise-meta-chip weight">${escapeHtml(ex.weight)} кг</span>` : ''}
-                                        </div>
+                                        <div class="meta">${escapeHtml(ex.category || '')}</div>
                                     </div>
                                 </div>
                             `).join('')}
@@ -3819,6 +4359,310 @@
                 `;
             }).join('');
         }
+
+        // =====================================================
+        // ДОКУМЕНТАЦИЯ
+        // =====================================================
+        docTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.docTab;
+                docTabs.forEach(t => t.classList.toggle('active', t === tab));
+                docPanes.forEach(p => p.classList.toggle('active', p.dataset.docPane === target));
+            });
+        });
+
+        // --- Бележки от терапия ---
+        sessionNoteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = notePatient.value;
+            const date = noteDate.value;
+            const text = noteText.value.trim();
+            if (!patientId || !date || !text) { showToast('Попълнете задължителните полета.', 'error'); return; }
+
+            addSessionNoteBtn.disabled = true;
+            try {
+                const newRef = push(sessionNotesRef);
+                await set(newRef, {
+                    patientId,
+                    date,
+                    therapyType: noteTherapyType.value,
+                    duration: parseInt(noteDuration.value) || 0,
+                    text,
+                    createdBy: currentUser.id,
+                    createdAt: Date.now()
+                });
+                sessionNoteForm.reset();
+                noteDate.value = new Date().toISOString().split('T')[0];
+                showToast('Бележката е запазена.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addSessionNoteBtn.disabled = false; }
+        });
+
+        function renderSessionNotes() {
+            const filterPatient = sessionFilterPatient.value;
+            const search = (sessionSearch.value || '').toLowerCase().trim();
+
+            let all = Object.entries(sessionNotes).map(([id, n]) => ({ id, ...n }));
+            if (filterPatient) all = all.filter(n => n.patientId === filterPatient);
+            if (search) all = all.filter(n => (n.text || '').toLowerCase().includes(search) || (n.therapyType || '').toLowerCase().includes(search));
+
+            if (all.length === 0) {
+                sessionNotesList.innerHTML = `<div class="card"><div class="empty-message">Няма бележки</div></div>`;
+                return;
+            }
+
+            const sorted = all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            sessionNotesList.innerHTML = sorted.map(note => {
+                const pat = patients[note.patientId];
+                const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                const initials = getUserInitials(patName);
+                const author = users[note.createdBy];
+                const authorName = author ? author.name : '—';
+
+                return `
+                    <div class="note-card">
+                        <div class="note-card-header">
+                            <div class="who">
+                                <div class="avatar">${initials}</div>
+                                <div class="details">
+                                    <div class="name">${patName}</div>
+                                    <div class="meta">${authorName} · ${formatTimestamp(note.createdAt)}</div>
+                                </div>
+                            </div>
+                            <span class="note-type-badge session">
+                                <i class="fas fa-notes-medical"></i>
+                                ${escapeHtml(note.therapyType || 'Терапия')} · ${formatDate(note.date)}${note.duration ? ' · ' + note.duration + 'мин' : ''}
+                            </span>
+                        </div>
+                        <div class="note-card-body">${escapeHtml(note.text)}</div>
+                        <div class="note-card-actions">
+                            <button class="btn-outline btn btn-sm view-patient-btn" data-patient-id="${note.patientId}">
+                                <i class="fas fa-user"></i> Профил
+                            </button>
+                            <button class="btn-danger-outline btn btn-sm delete-session-note" data-id="${note.id}">
+                                <i class="fas fa-trash-alt"></i> Изтрий
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        sessionFilterPatient.addEventListener('change', renderSessionNotes);
+        sessionSearch.addEventListener('input', renderSessionNotes);
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.delete-session-note');
+            if (btn) {
+                if (!confirm('Изтрий бележката?')) return;
+                try {
+                    await remove(ref(db, `sessionNotes/${btn.dataset.id}`));
+                    showToast('Изтрита.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            }
+
+            const viewBtn = e.target.closest('.view-patient-btn');
+            if (viewBtn) {
+                openPatientProfile(viewBtn.dataset.patientId);
+            }
+        });
+
+        // --- SOAP ---
+        soapForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = soapPatient.value;
+            const date = soapDate.value;
+            if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; }
+
+            addSoapBtn.disabled = true;
+            try {
+                const newRef = push(soapNotesRef);
+                await set(newRef, {
+                    patientId,
+                    date,
+                    visitNum: parseInt(soapVisitNum.value) || 0,
+                    subjective: soapS.value.trim(),
+                    objective: soapO.value.trim(),
+                    assessment: soapA.value.trim(),
+                    plan: soapP.value.trim(),
+                    createdBy: currentUser.id,
+                    createdAt: Date.now()
+                });
+                soapForm.reset();
+                soapDate.value = new Date().toISOString().split('T')[0];
+                showToast('SOAP бележката е запазена.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addSoapBtn.disabled = false; }
+        });
+
+        function renderSoapNotes() {
+            const filterPatient = soapFilterPatient.value;
+            const search = (soapSearch.value || '').toLowerCase().trim();
+
+            let all = Object.entries(soapNotes).map(([id, n]) => ({ id, ...n }));
+            if (filterPatient) all = all.filter(n => n.patientId === filterPatient);
+            if (search) {
+                all = all.filter(n =>
+                    (n.subjective || '').toLowerCase().includes(search) ||
+                    (n.objective || '').toLowerCase().includes(search) ||
+                    (n.assessment || '').toLowerCase().includes(search) ||
+                    (n.plan || '').toLowerCase().includes(search)
+                );
+            }
+
+            if (all.length === 0) {
+                soapNotesList.innerHTML = `<div class="card"><div class="empty-message">Няма SOAP бележки</div></div>`;
+                return;
+            }
+
+            const sorted = all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            soapNotesList.innerHTML = sorted.map(note => {
+                const pat = patients[note.patientId];
+                const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                const initials = getUserInitials(patName);
+                const author = users[note.createdBy];
+                const authorName = author ? author.name : '—';
+
+                return `
+                    <div class="note-card">
+                        <div class="note-card-header">
+                            <div class="who">
+                                <div class="avatar">${initials}</div>
+                                <div class="details">
+                                    <div class="name">${patName}</div>
+                                    <div class="meta">${authorName} · ${formatTimestamp(note.createdAt)}</div>
+                                </div>
+                            </div>
+                            <span class="note-type-badge soap">
+                                <i class="fas fa-clipboard-list"></i> SOAP · ${formatDate(note.date)}${note.visitNum ? ' · №' + note.visitNum : ''}
+                            </span>
+                        </div>
+                        <div class="soap-view">
+                            ${note.subjective ? `<div class="soap-view-block s"><div class="lbl">S — Subjective</div>${escapeHtml(note.subjective)}</div>` : ''}
+                            ${note.objective ? `<div class="soap-view-block o"><div class="lbl">O — Objective</div>${escapeHtml(note.objective)}</div>` : ''}
+                            ${note.assessment ? `<div class="soap-view-block a"><div class="lbl">A — Assessment</div>${escapeHtml(note.assessment)}</div>` : ''}
+                            ${note.plan ? `<div class="soap-view-block p"><div class="lbl">P — Plan</div>${escapeHtml(note.plan)}</div>` : ''}
+                        </div>
+                        <div class="note-card-actions">
+                            <button class="btn-outline btn btn-sm view-patient-btn" data-patient-id="${note.patientId}">
+                                <i class="fas fa-user"></i> Профил
+                            </button>
+                            <button class="btn-danger-outline btn btn-sm delete-soap-note" data-id="${note.id}">
+                                <i class="fas fa-trash-alt"></i> Изтрий
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        soapFilterPatient.addEventListener('change', renderSoapNotes);
+        soapSearch.addEventListener('input', renderSoapNotes);
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.delete-soap-note');
+            if (btn) {
+                if (!confirm('Изтрий SOAP бележката?')) return;
+                try {
+                    await remove(ref(db, `soapNotes/${btn.dataset.id}`));
+                    showToast('Изтрита.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            }
+        });
+
+        // --- Файлове ---
+        fileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = filePatient.value;
+            const name = fileName.value.trim();
+            const url = fileUrl.value.trim();
+            if (!patientId || !name || !url) { showToast('Попълнете задължителните полета.', 'error'); return; }
+
+            addFileBtn.disabled = true;
+            try {
+                const newRef = push(documentsRef);
+                await set(newRef, {
+                    patientId,
+                    name,
+                    type: fileType.value,
+                    date: fileDate.value || '',
+                    url,
+                    notes: fileNotes.value.trim(),
+                    createdBy: currentUser.id,
+                    createdAt: Date.now()
+                });
+                fileForm.reset();
+                showToast('Файлът е добавен.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addFileBtn.disabled = false; }
+        });
+
+        function renderDocuments() {
+            const filterPatient = fileFilterPatient.value;
+            const search = (fileSearch.value || '').toLowerCase().trim();
+
+            let all = Object.entries(documents).map(([id, d]) => ({ id, ...d }));
+            if (filterPatient) all = all.filter(d => d.patientId === filterPatient);
+            if (search) all = all.filter(d => (d.name || '').toLowerCase().includes(search) || (d.type || '').toLowerCase().includes(search));
+
+            if (all.length === 0) {
+                filesList.innerHTML = `<div class="card"><div class="empty-message">Няма документи</div></div>`;
+                return;
+            }
+
+            const sorted = all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            filesList.innerHTML = sorted.map(doc => {
+                const pat = patients[doc.patientId];
+                const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                const initials = getUserInitials(patName);
+
+                return `
+                    <div class="note-card">
+                        <div class="note-card-header">
+                            <div class="who">
+                                <div class="avatar" style="background:#6b3fa0;">${initials}</div>
+                                <div class="details">
+                                    <div class="name">${escapeHtml(doc.name)}</div>
+                                    <div class="meta">${patName} · ${formatTimestamp(doc.createdAt)}</div>
+                                </div>
+                            </div>
+                            <span class="note-type-badge file">
+                                <i class="fas fa-folder"></i> ${escapeHtml(doc.type || 'Документ')}${doc.date ? ' · ' + formatDate(doc.date) : ''}
+                            </span>
+                        </div>
+                        ${doc.notes ? `<div class="note-card-body">${escapeHtml(doc.notes)}</div>` : ''}
+                        <div class="note-card-actions">
+                            <a href="${escapeHtml(doc.url)}" target="_blank" rel="noopener" class="file-attachment">
+                                <i class="fas fa-external-link-alt"></i> Отвори файла
+                            </a>
+                            <button class="btn-outline btn btn-sm view-patient-btn" data-patient-id="${doc.patientId}">
+                                <i class="fas fa-user"></i> Профил
+                            </button>
+                            <button class="btn-danger-outline btn btn-sm delete-file" data-id="${doc.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        fileFilterPatient.addEventListener('change', renderDocuments);
+        fileSearch.addEventListener('input', renderDocuments);
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.delete-file');
+            if (btn) {
+                if (!confirm('Изтрий този файл?')) return;
+                try {
+                    await remove(ref(db, `documents/${btn.dataset.id}`));
+                    showToast('Файлът е изтрит.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            }
+        });
 
         // =====================================================
         // ЦЕНОРАЗПИС
@@ -3976,7 +4820,7 @@
                 return;
             }
             usersBody.innerHTML = all.map(u => {
-                const initials = (u.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+                const initials = getUserInitials(u.name);
                 const isCurrent = currentUser && currentUser.id === u.id && !currentPatient;
                 return `
                     <tr>
@@ -4091,20 +4935,26 @@
                 .filter(p => p.patientId === patientId)
                 .sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
 
-            const apts = Object.entries(appointments).map(([id, a]) => ({ id, ...a }))
-                .filter(a => a.patientId === patientId && a.date >= toDateStr(new Date()))
-                .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
-
             const prices = Object.entries(pricing).map(([key, item]) => ({ key, ...item }))
-                .filter(item => item.patientId === patientId)
-                .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+                .filter(item => item.patientId === patientId);
 
             const patientPrograms = Object.entries(programs).map(([id, p]) => ({ id, ...p }))
-                .filter(p => p.patientId === patientId)
+                .filter(p => p.patientId === patientId);
+
+            const patientSessionNotes = Object.entries(sessionNotes).map(([id, n]) => ({ id, ...n }))
+                .filter(n => n.patientId === patientId)
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            const patientSoapNotes = Object.entries(soapNotes).map(([id, n]) => ({ id, ...n }))
+                .filter(n => n.patientId === patientId)
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            const patientDocs = Object.entries(documents).map(([id, d]) => ({ id, ...d }))
+                .filter(d => d.patientId === patientId)
                 .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
             const total = prices.reduce((s, p) => s + (parseFloat(p.price) || 0), 0);
-            const initials = (patient.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            const initials = getUserInitials(patient.name);
 
             profileContent.innerHTML = `
                 <div class="profile-header">
@@ -4120,10 +4970,63 @@
 
                 <div class="stats-row">
                     <div class="stat-card"><div class="label">Процедури</div><div class="value">${procs.length}</div></div>
-                    <div class="stat-card"><div class="label">Часове</div><div class="value">${apts.length}</div></div>
-                    <div class="stat-card"><div class="label">Програми</div><div class="value">${patientPrograms.length}</div></div>
-                    <div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(total)} €</div></div>
+                    <div class="stat-card"><div class="label">Бележки</div><div class="value">${patientSessionNotes.length}</div></div>
+                    <div class="stat-card"><div class="label">SOAP</div><div class="value">${patientSoapNotes.length}</div></div>
+                    <div class="stat-card"><div class="label">Файлове</div><div class="value">${patientDocs.length}</div></div>
+                    <div class="stat-card"><div class="label">Платено</div><div class="value">${formatPrice(total)} €</div></div>
                 </div>
+
+                ${patientSoapNotes.length > 0 ? `
+                    <div class="card">
+                        <h3><i class="fas fa-clipboard-list"></i> SOAP бележки (${patientSoapNotes.length})</h3>
+                        <div class="notes-list">
+                            ${patientSoapNotes.slice(0, 3).map(note => `
+                                <div class="note-card" style="margin-bottom:0;">
+                                    <div class="note-card-header">
+                                        <span class="note-type-badge soap">
+                                            <i class="fas fa-clipboard-list"></i> ${formatDate(note.date)}${note.visitNum ? ' · №' + note.visitNum : ''}
+                                        </span>
+                                    </div>
+                                    <div class="soap-view">
+                                        ${note.subjective ? `<div class="soap-view-block s"><div class="lbl">S</div>${escapeHtml(note.subjective.slice(0, 100))}${note.subjective.length > 100 ? '...' : ''}</div>` : ''}
+                                        ${note.objective ? `<div class="soap-view-block o"><div class="lbl">O</div>${escapeHtml(note.objective.slice(0, 100))}${note.objective.length > 100 ? '...' : ''}</div>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${patientSessionNotes.length > 0 ? `
+                    <div class="card">
+                        <h3><i class="fas fa-notes-medical"></i> Последни бележки (${patientSessionNotes.length})</h3>
+                        <div class="notes-list">
+                            ${patientSessionNotes.slice(0, 3).map(note => `
+                                <div class="note-card" style="margin-bottom:0;">
+                                    <div class="note-card-header">
+                                        <span class="note-type-badge session">
+                                            <i class="fas fa-notes-medical"></i> ${escapeHtml(note.therapyType || '')} · ${formatDate(note.date)}
+                                        </span>
+                                    </div>
+                                    <div class="note-card-body">${escapeHtml(note.text.slice(0, 200))}${note.text.length > 200 ? '...' : ''}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${patientDocs.length > 0 ? `
+                    <div class="card">
+                        <h3><i class="fas fa-folder-open"></i> Документи (${patientDocs.length})</h3>
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            ${patientDocs.slice(0, 5).map(doc => `
+                                <a href="${escapeHtml(doc.url)}" target="_blank" rel="noopener" class="file-attachment">
+                                    <i class="fas fa-file"></i> ${escapeHtml(doc.name)} — <small>${escapeHtml(doc.type || '')}</small>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
 
                 ${patientPrograms.length > 0 ? `
                     <div class="patient-program-section">
@@ -4132,24 +5035,8 @@
                             const exList = (prog.exerciseIds || []).map(exId => exercises[exId]).filter(Boolean);
                             return `
                                 <div style="background:#ffffff; border-radius:16px; padding:1.2rem 1.5rem; margin-bottom:1rem; border:1px solid #a5d6a7;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                                        <h4 style="color:#0b2b4f; font-weight:600;">${escapeHtml(prog.title)}</h4>
-                                        <span style="font-size:0.8rem; color:#7f95b0;">${formatTimestamp(prog.createdAt)}</span>
-                                    </div>
-                                    ${prog.notes ? `<div style="background:#f8fbfe; padding:0.7rem 1rem; border-radius:10px; border-left:3px solid #1a7a3e; margin-bottom:0.8rem; font-size:0.88rem; color:#5a7a9a;">${escapeHtml(prog.notes)}</div>` : ''}
-                                    <div style="display:flex; flex-direction:column; gap:6px;">
-                                        ${exList.map((ex, i) => `
-                                            <div style="display:flex; align-items:center; gap:10px; padding:0.6rem 0.9rem; background:#f0f9f1; border-radius:10px; font-size:0.88rem;">
-                                                <div style="width:26px; height:26px; border-radius:50%; background:#1a7a3e; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.78rem; flex-shrink:0;">${i+1}</div>
-                                                <div style="flex:1;">
-                                                    <strong style="color:#0b2b4f;">${escapeHtml(ex.name)}</strong>
-                                                    <span style="color:#7f95b0; margin-left:8px;">
-                                                        ${ex.sets || 0}x${escapeHtml(ex.reps || '')} ${ex.weight ? '· ' + escapeHtml(ex.weight) + 'кг' : ''}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        `).join('')}
-                                    </div>
+                                    <h4 style="color:#0b2b4f; margin-bottom:0.5rem;">${escapeHtml(prog.title)}</h4>
+                                    <div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.8rem;">${exList.length} упражнения · ${formatTimestamp(prog.createdAt)}</div>
                                 </div>
                             `;
                         }).join('')}
@@ -4157,7 +5044,7 @@
                 ` : ''}
 
                 <div class="card">
-                    <h3><i class="fas fa-history"></i> История (${procs.length})</h3>
+                    <h3><i class="fas fa-history"></i> История на процедурите (${procs.length})</h3>
                     ${procs.length === 0 ? '<div class="empty-message">Няма процедури</div>' : `
                         <div class="timeline">
                             ${procs.map(p => `
@@ -4191,7 +5078,7 @@
         });
 
         // =====================================================
-        // CRUD
+        // CRUD Пациенти/Часове/Процедури
         // =====================================================
         patientForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -4329,7 +5216,6 @@
             portalUserName.textContent = currentPatient.name;
             renderPortalKineziSelect();
 
-            // Домашни програми за пациента
             const myPrograms = Object.entries(programs).map(([id, p]) => ({ id, ...p }))
                 .filter(p => p.patientId === currentPatient.id)
                 .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -4344,39 +5230,20 @@
                             const exList = (prog.exerciseIds || []).map(exId => exercises[exId]).filter(Boolean);
                             return `
                                 <div style="background:#ffffff; border-radius:16px; padding:1.2rem 1.5rem; margin-bottom:1rem;">
-                                    <h4 style="color:#0b2b4f; margin-bottom:0.5rem; font-weight:700; font-size:1.15rem;">${escapeHtml(prog.title)}</h4>
+                                    <h4 style="color:#0b2b4f; margin-bottom:0.5rem; font-weight:700;">${escapeHtml(prog.title)}</h4>
                                     <div style="font-size:0.8rem; color:#7f95b0; margin-bottom:1rem;">${formatTimestamp(prog.createdAt)}</div>
                                     ${prog.notes ? `<div style="background:#f8fbfe; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #1a7a3e; margin-bottom:1rem; font-size:0.9rem; color:#5a7a9a;">${escapeHtml(prog.notes)}</div>` : ''}
                                     <div style="display:flex; flex-direction:column; gap:10px;">
-                                        ${exList.map((ex, i) => {
-                                            let mediaHtml = '';
-                                            if (ex.videoUrl) {
-                                                const ytId = getYouTubeId(ex.videoUrl);
-                                                if (ytId) {
-                                                    mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${ytId}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
-                                                } else {
-                                                    mediaHtml = `<video src="${escapeHtml(ex.videoUrl)}" controls style="width:200px; height:120px; object-fit:cover; border-radius:10px; margin-right:12px; flex-shrink:0;"></video>`;
-                                                }
-                                            } else if (ex.imageUrl) {
-                                                mediaHtml = `<img src="${escapeHtml(ex.imageUrl)}" alt="${escapeHtml(ex.name)}" style="width:100px; height:100px; object-fit:cover; border-radius:10px; margin-right:12px; flex-shrink:0;">`;
-                                            }
-                                            return `
-                                                <div style="display:flex; align-items:center; background:#f0f9f1; padding:0.8rem; border-radius:14px; border-left:4px solid #1a7a3e;">
-                                                    ${mediaHtml}
-                                                    <div style="flex:1; min-width:0;">
-                                                        <div style="font-weight:700; color:#0b2b4f; margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
-                                                        <div style="font-size:0.82rem; color:#7f95b0; margin-bottom:6px;">${escapeHtml(ex.category || '')}</div>
-                                                        ${ex.description ? `<div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:6px;">${escapeHtml(ex.description)}</div>` : ''}
-                                                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                                                            ${ex.sets ? `<span class="exercise-meta-chip sets">${ex.sets} серии</span>` : ''}
-                                                            ${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}
-                                                            ${ex.weight ? `<span class="exercise-meta-chip weight">${escapeHtml(ex.weight)} кг</span>` : ''}
-                                                            ${ex.duration ? `<span class="exercise-meta-chip duration">${ex.duration} сек</span>` : ''}
-                                                        </div>
-                                                    </div>
+                                        ${exList.map((ex, i) => `
+                                            <div style="background:#f0f9f1; padding:0.8rem; border-radius:14px; border-left:4px solid #1a7a3e;">
+                                                <div style="font-weight:700; color:#0b2b4f; margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
+                                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                                    ${ex.sets ? `<span class="exercise-meta-chip sets">${ex.sets} серии</span>` : ''}
+                                                    ${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}
+                                                    ${ex.weight ? `<span class="exercise-meta-chip weight">${escapeHtml(ex.weight)} кг</span>` : ''}
                                                 </div>
-                                            `;
-                        }).join('')}
+                                            </div>
+                                        `).join('')}
                                     </div>
                                 </div>
                             `;
@@ -4488,6 +5355,7 @@
                 else if (moduleName === 'schedule') renderWeek();
                 else if (moduleName === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
                 else if (moduleName === 'exercises') { renderExerciseLibrary(); renderProgramsList(); renderExercisePicker(); }
+                else if (moduleName === 'documentation') { updatePatientDropdowns(); renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
                 else if (moduleName === 'pricing') { renderPricing(); renderDaySummary(); }
                 else if (moduleName === 'users') renderUsers();
                 else if (moduleName === 'portal') renderPortal();
@@ -4501,6 +5369,8 @@
             const today = new Date().toISOString().split('T')[0];
             procDate.value = today;
             aptDate.value = today;
+            noteDate.value = today;
+            soapDate.value = today;
             priceDateInput.value = today;
             portalAptDate.value = today;
             currentPriceDate = today;
