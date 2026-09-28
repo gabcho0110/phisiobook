@@ -19,7 +19,7 @@
             min-height: 100vh;
         }
 
-        /* ЛОГИН */
+        /* ============ ЛОГИН ============ */
         .login-screen {
             position: fixed;
             inset: 0;
@@ -55,20 +55,15 @@
             box-shadow: 0 15px 35px rgba(11, 43, 79, 0.35);
             border: 4px solid #ffffff;
             overflow: hidden;
-            position: relative;
         }
 
-        .login-logo-wrapper svg {
-            width: 85%;
-            height: 85%;
-        }
+        .login-logo-wrapper svg { width: 85%; height: 85%; }
 
         .login-card h1 {
             font-size: 1.8rem;
             color: #0b2b4f;
             font-weight: 700;
             margin-bottom: 0.4rem;
-            letter-spacing: -0.5px;
         }
 
         .login-card p.subtitle {
@@ -132,7 +127,6 @@
         .login-btn:hover:not(:disabled) {
             background: #1e4a78;
             transform: translateY(-1px);
-            box-shadow: 0 14px 24px rgba(11, 43, 79, 0.28);
         }
 
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -147,7 +141,6 @@
             display: none;
             align-items: center;
             gap: 8px;
-            text-align: left;
         }
 
         .login-error.active { display: flex; }
@@ -160,7 +153,7 @@
             color: #7f95b0;
         }
 
-        /* ОСНОВНО */
+        /* ============ ОСНОВНО ============ */
         .app { display: flex; width: 100%; min-height: 100vh; }
         .app.hidden { display: none !important; }
 
@@ -171,17 +164,16 @@
             display: flex;
             flex-direction: column;
             padding: 2rem 0.5rem;
-            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .sidebar h2 {
             font-size: 1.5rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
             padding: 0 1rem 1.2rem 1rem;
             border-bottom: 1px solid #2a4b6e;
             margin-bottom: 1.2rem;
@@ -194,19 +186,15 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ffffff 0%, #e8f0fe 100%);
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
 
-        .sidebar-logo svg {
-            width: 90%;
-            height: 90%;
-        }
+        .sidebar-logo svg { width: 90%; height: 90%; }
 
         .nav {
             display: flex;
@@ -229,7 +217,7 @@
             width: 100%;
             text-align: left;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s;
         }
 
         .nav-item i { width: 24px; font-size: 1.2rem; color: #7fb2e5; }
@@ -240,8 +228,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
         .nav-item.active i { color: #ffffff; }
-
-        .nav-item.hidden { display: none; }
+        .nav-item.hidden { display: none !important; }
 
         .user-info {
             padding: 1rem 1.2rem;
@@ -275,13 +262,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .user-details .role { 
-            font-size: 0.75rem; 
-            color: #8aa9cc;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .user-details .role { font-size: 0.75rem; color: #8aa9cc; }
 
         .sidebar-footer {
             margin-top: auto;
@@ -321,10 +302,9 @@
 
         .main {
             flex: 1;
-            background-color: #ffffff;
+            background-color: #f8fbfe;
             padding: 2rem 2.5rem;
             overflow-y: auto;
-            max-width: calc(100% - 280px);
         }
 
         .module { display: none; animation: fade 0.2s ease; }
@@ -355,11 +335,254 @@
 
         .module-header h1 i { color: #1e4a78; }
 
+        /* ============ ТАБЛО ============ */
+        .dash-top-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dash-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e9eef3;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .dash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(11, 43, 79, 0.1);
+        }
+
+        .dash-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+        }
+
+        .dash-card.today::before { background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .dash-card.upcoming::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
+        .dash-card.tasks::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .dash-card.income::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .dash-card.free::before { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+
+        .dash-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .dash-card-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #7f95b0;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .dash-card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .dash-card.today .dash-card-icon { background: #e8f0fe; color: #1e4a78; }
+        .dash-card.upcoming .dash-card-icon { background: #f0e8ff; color: #6b3fa0; }
+        .dash-card.tasks .dash-card-icon { background: #fff5e5; color: #d97706; }
+        .dash-card.income .dash-card-icon { background: #e8f5e9; color: #1a7a3e; }
+        .dash-card.free .dash-card-icon { background: #e0f7fa; color: #0891b2; }
+
+        .dash-card-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0b2b4f;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .dash-card-sub {
+            font-size: 0.85rem;
+            color: #7f95b0;
+        }
+
+        .income-progress {
+            margin-top: 0.6rem;
+            height: 8px;
+            background: #e9eef3;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .income-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #1a7a3e, #4ade80);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .dash-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e9eef3;
+            margin-bottom: 1.5rem;
+        }
+
+        .dash-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b2b4f;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dash-section h3 i { color: #1e4a78; }
+
+        .dash-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dash-list-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 0.8rem 1rem;
+            background: #f8fbfe;
+            border-radius: 12px;
+            border-left: 4px solid #1e4a78;
+            transition: 0.15s;
+            cursor: pointer;
+        }
+
+        .dash-list-item:hover {
+            background: #e8f0fe;
+            transform: translateX(4px);
+        }
+
+        .dash-list-item .time-box {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 0.4rem 0.7rem;
+            font-weight: 700;
+            color: #1e4a78;
+            font-size: 0.9rem;
+            min-width: 60px;
+            text-align: center;
+            border: 1px solid #cfddee;
+            flex-shrink: 0;
+        }
+
+        .dash-list-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dash-list-item .info .name {
+            font-weight: 600;
+            color: #0b2b4f;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .dash-list-item .info .meta {
+            font-size: 0.8rem;
+            color: #7f95b0;
+        }
+
+        .dash-empty {
+            text-align: center;
+            padding: 1.5rem;
+            color: #7f95b0;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .free-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+        }
+
+        .free-slot {
+            padding: 0.6rem 0.4rem;
+            background: #f8fbfe;
+            border: 2px solid #cfddee;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            color: #0b2b4f;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .free-slot:hover {
+            background: #e0f7fa;
+            border-color: #0891b2;
+            color: #0891b2;
+            transform: translateY(-2px);
+        }
+
+        .free-slot.busy {
+            background: #f5f5f5;
+            color: #b0b0b0;
+            cursor: not-allowed;
+            border-color: #e0e0e0;
+            text-decoration: line-through;
+        }
+
+        .free-slot.busy:hover {
+            background: #f5f5f5;
+            border-color: #e0e0e0;
+            color: #b0b0b0;
+            transform: none;
+        }
+
+        .task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .task-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            border: 1px solid #cfddee;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .task-form input:focus {
+            outline: none;
+            border-color: #0b2b4f;
+            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
+        }
+
+        /* ============ ОБЩИ ============ */
         .card {
             background: #ffffff;
             border-radius: 24px;
             padding: 1.8rem 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
             border: 1px solid #e9eef3;
             margin-bottom: 2rem;
         }
@@ -387,7 +610,6 @@
             font-size: 0.9rem;
             font-weight: 500;
             color: #1f3f61;
-            letter-spacing: 0.3px;
         }
 
         .form-group input,
@@ -398,7 +620,6 @@
             border: 1px solid #cfddee;
             font-size: 0.95rem;
             background: #ffffff;
-            transition: 0.2s;
             font-family: inherit;
         }
 
@@ -409,152 +630,6 @@
             border-color: #0b2b4f;
             box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
         }
-
-        .form-group textarea { resize: vertical; min-height: 70px; }
-
-        /* ROLES DROPDOWN */
-        .roles-dropdown { position: relative; width: 100%; }
-
-        .roles-dropdown-trigger {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 14px;
-            border: 1px solid #cfddee;
-            font-size: 0.95rem;
-            background: #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            transition: 0.2s;
-            font-family: inherit;
-            color: #1f3f61;
-            text-align: left;
-        }
-
-        .roles-dropdown-trigger:hover { border-color: #1e4a78; }
-        .roles-dropdown-trigger.open {
-            border-color: #0b2b4f;
-            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
-        }
-
-        .roles-dropdown-trigger .selected-text {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #0b2b4f;
-            font-weight: 500;
-        }
-
-        .roles-dropdown-trigger .selected-text.placeholder {
-            color: #7f95b0;
-            font-weight: 400;
-        }
-
-        .roles-dropdown-trigger .arrow {
-            transition: transform 0.2s;
-            color: #7f95b0;
-            font-size: 0.85rem;
-        }
-
-        .roles-dropdown-trigger.open .arrow { transform: rotate(180deg); }
-
-        .roles-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border: 1px solid #e9eef3;
-            border-radius: 14px;
-            box-shadow: 0 15px 35px rgba(11, 43, 79, 0.12);
-            padding: 0.5rem;
-            z-index: 100;
-            max-height: 260px;
-            overflow-y: auto;
-            opacity: 0;
-            transform: translateY(-8px);
-            pointer-events: none;
-            transition: opacity 0.15s, transform 0.15s;
-        }
-
-        .roles-dropdown-menu.open {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .role-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0.7rem 0.9rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.15s;
-            user-select: none;
-            font-size: 0.92rem;
-            color: #1f3f61;
-        }
-
-        .role-option:hover { background: #f5f9ff; }
-
-        .role-option .checkbox {
-            width: 20px;
-            height: 20px;
-            border-radius: 6px;
-            border: 2px solid #cfddee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: 0.15s;
-            color: transparent;
-            font-size: 0.7rem;
-        }
-
-        .role-option input[type="checkbox"] { display: none; }
-
-        .role-option input:checked + .checkbox {
-            background: #1e4a78;
-            border-color: #1e4a78;
-            color: #ffffff;
-        }
-
-        .role-option.selected {
-            background: #e8f0fe;
-            color: #0b2b4f;
-            font-weight: 600;
-        }
-
-        .role-option .role-icon { color: #7fb2e5; width: 18px; text-align: center; }
-        .role-option.selected .role-icon { color: #1e4a78; }
-
-        .selected-roles-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .role-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            background: #e8f0fe;
-            color: #0b2b4f;
-            margin: 2px 4px 2px 0;
-        }
-
-        .role-badge.admin { background: #fff5e5; color: #b06d00; }
-        .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
-        .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
 
         .btn {
             display: inline-flex;
@@ -570,17 +645,17 @@
             transition: 0.2s;
             background-color: #0b2b4f;
             color: #ffffff;
-            box-shadow: 0 8px 16px rgba(11, 43, 79, 0.15);
+            box-shadow: 0 6px 14px rgba(11, 43, 79, 0.15);
             white-space: nowrap;
         }
 
         .btn:hover:not(:disabled) {
             background-color: #1e4a78;
             transform: translateY(-1px);
-            box-shadow: 0 12px 20px rgba(11, 43, 79, 0.2);
         }
 
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-sm { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
 
         .btn-outline {
             background: transparent;
@@ -592,11 +667,8 @@
         .btn-outline:hover:not(:disabled) {
             background: #f5f9ff;
             border-color: #0b2b4f;
-            box-shadow: none;
             transform: none;
         }
-
-        .btn-sm { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
 
         .btn-danger-outline {
             background: transparent;
@@ -608,7 +680,6 @@
         .btn-danger-outline:hover:not(:disabled) {
             background: #fff5f5;
             border-color: #b22234;
-            box-shadow: none;
             transform: none;
         }
 
@@ -633,9 +704,8 @@
             color: #0b2b4f;
             font-weight: 600;
             border-bottom: 1px solid #dee9f2;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
         td {
@@ -644,8 +714,6 @@
             color: #1f3f61;
             vertical-align: middle;
         }
-
-        tr:last-child td { border-bottom: none; }
 
         .empty-message {
             text-align: center;
@@ -662,8 +730,6 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
-        .filter-bar .btn-group { display: flex; gap: 10px; }
 
         .code-badge {
             display: inline-flex;
@@ -684,12 +750,8 @@
             border: none;
             color: #1e4a78;
             cursor: pointer;
-            padding: 0;
             font-size: 0.85rem;
-            transition: 0.15s;
         }
-
-        .code-badge button:hover { color: #0b2b4f; }
 
         .patient-link {
             color: #0b2b4f;
@@ -701,13 +763,12 @@
             gap: 6px;
             padding: 4px 8px;
             border-radius: 8px;
-            transition: 0.15s;
             border: 1px solid transparent;
+            transition: 0.15s;
         }
 
         .patient-link:hover {
             background: #e8f0fe;
-            color: #1e4a78;
             border-color: #cfddee;
         }
 
@@ -743,7 +804,6 @@
             background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%);
             border-radius: 24px;
             color: #ffffff;
-            box-shadow: 0 10px 25px rgba(11, 43, 79, 0.15);
         }
 
         .profile-avatar {
@@ -758,7 +818,6 @@
             font-size: 1.8rem;
             font-weight: 700;
             flex-shrink: 0;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .profile-info h2 {
@@ -775,8 +834,6 @@
             color: #c8ddf0;
         }
 
-        .profile-info .contact span { display: inline-flex; align-items: center; gap: 6px; }
-
         .stats-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -789,14 +846,12 @@
             border: 1px solid #e9eef3;
             border-radius: 18px;
             padding: 1.2rem 1.4rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .stat-card .label {
             font-size: 0.8rem;
             color: #7f95b0;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 0.4rem;
         }
 
@@ -811,9 +866,7 @@
         .timeline::before {
             content: '';
             position: absolute;
-            left: 8px;
-            top: 0;
-            bottom: 0;
+            left: 8px; top: 0; bottom: 0;
             width: 2px;
             background: #e9eef3;
         }
@@ -825,13 +878,6 @@
             border: 1px solid #e9eef3;
             border-radius: 16px;
             margin-bottom: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            transition: 0.2s;
-        }
-
-        .timeline-item:hover {
-            box-shadow: 0 8px 20px rgba(11, 43, 79, 0.08);
-            transform: translateX(4px);
         }
 
         .timeline-item::before {
@@ -852,9 +898,6 @@
             color: #1e4a78;
             font-weight: 600;
             margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .timeline-item .title {
@@ -873,8 +916,6 @@
             border-left: 3px solid #1e4a78;
             margin-top: 0.6rem;
         }
-
-        .timeline-item .result strong { color: #0b2b4f; }
 
         /* График */
         .schedule-controls {
@@ -896,18 +937,14 @@
             background: #ffffff;
             color: #0b2b4f;
             cursor: pointer;
-            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .week-nav button:hover { background: #f5f9ff; border-color: #0b2b4f; }
-
         .week-nav .week-label {
             font-weight: 600;
             color: #0b2b4f;
-            font-size: 1rem;
             min-width: 220px;
             text-align: center;
         }
@@ -919,7 +956,7 @@
         }
 
         .day-column {
-            background: #f8fbfe;
+            background: #ffffff;
             border-radius: 16px;
             overflow: hidden;
             min-height: 400px;
@@ -928,10 +965,7 @@
             border: 1px solid #e9eef3;
         }
 
-        .day-column.today {
-            border: 2px solid #1e4a78;
-            background: #ffffff;
-        }
+        .day-column.today { border: 2px solid #1e4a78; }
 
         .day-header {
             padding: 0.8rem 0.6rem;
@@ -943,18 +977,14 @@
         .day-column.today .day-header {
             background: #1e4a78;
             color: #ffffff;
-            border-bottom-color: #1e4a78;
         }
 
         .day-header .day-name {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             font-weight: 600;
             opacity: 0.7;
         }
-
-        .day-column.today .day-header .day-name { opacity: 0.85; }
 
         .day-header .day-number {
             font-size: 1.3rem;
@@ -971,7 +1001,6 @@
             flex-direction: column;
             gap: 6px;
             flex: 1;
-            overflow-y: auto;
         }
 
         .appointment {
@@ -982,65 +1011,41 @@
             padding: 0.6rem 0.7rem;
             font-size: 0.82rem;
             cursor: pointer;
-            transition: 0.15s;
             position: relative;
         }
 
-        .appointment.mine {
-            border-left-color: #6b3fa0;
-            background: #f9f4ff;
-        }
-
-        .appointment:hover {
-            background: #e8f0fe;
-            transform: translateX(2px);
-            box-shadow: 0 4px 10px rgba(11, 43, 79, 0.1);
-        }
+        .appointment:hover { background: #e8f0fe; }
 
         .appointment .time {
             font-weight: 700;
             color: #1e4a78;
             font-size: 0.78rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .appointment .patient-name {
             font-weight: 600;
             color: #0b2b4f;
             margin-top: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .appointment .note {
             color: #7f95b0;
             font-size: 0.75rem;
             margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .appointment .delete-apt {
             position: absolute;
-            top: 4px;
-            right: 4px;
+            top: 4px; right: 4px;
             background: transparent;
             border: none;
             color: #b22234;
             cursor: pointer;
             opacity: 0;
-            transition: 0.15s;
-            padding: 2px 4px;
-            border-radius: 4px;
             font-size: 0.75rem;
         }
 
         .appointment:hover .delete-apt { opacity: 1; }
-        .appointment .delete-apt:hover { background: #fff5f5; }
 
         .no-appointments {
             text-align: center;
@@ -1061,12 +1066,10 @@
             border-radius: 20px;
             color: #ffffff;
             margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px rgba(11, 43, 79, 0.15);
         }
 
         .price-date-bar label {
             font-weight: 600;
-            font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1076,23 +1079,14 @@
             padding: 0.7rem 1rem;
             border-radius: 12px;
             border: none;
-            font-size: 1rem;
             font-weight: 600;
             color: #0b2b4f;
-            background: #ffffff;
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        .price-date-bar input[type="date"]:focus {
-            outline: 3px solid rgba(255, 255, 255, 0.4);
         }
 
         .price-date-bar .summary {
             margin-left: auto;
             display: flex;
             gap: 1.5rem;
-            font-size: 0.95rem;
         }
 
         .price-date-bar .summary div {
@@ -1105,7 +1099,6 @@
             font-size: 0.75rem;
             opacity: 0.8;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .price-date-bar .summary .big-value {
@@ -1119,48 +1112,33 @@
             border: 1px solid rgba(255, 255, 255, 0.35);
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            white-space: nowrap;
         }
 
         .clear-all-btn:hover:not(:disabled) {
             background: #b22234;
             border-color: #b22234;
-            transform: translateY(-1px);
         }
-
-        .clear-all-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .price-table input.price-input {
             width: 120px;
             padding: 0.5rem 0.8rem;
             border-radius: 10px;
             border: 1px solid #cfddee;
-            font-size: 0.95rem;
             font-weight: 600;
             color: #0b2b4f;
-            background: #ffffff;
             text-align: right;
             font-family: inherit;
-        }
-
-        .price-input:focus {
-            outline: none;
-            border-color: #0b2b4f;
-            box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1);
         }
 
         .price-cell {
             display: flex;
             align-items: center;
             gap: 6px;
-            justify-content: flex-start;
         }
 
         .price-cell .currency {
@@ -1178,21 +1156,9 @@
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
-            transition: 0.15s;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-        }
-
-        .save-price-btn:hover:not(:disabled) {
-            background: #0b2b4f;
-            transform: translateY(-1px);
-        }
-
-        .save-price-btn:disabled {
-            background: #cfddee;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .save-price-btn.saved { background: #1a7a3e; }
@@ -1206,20 +1172,6 @@
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
-            transition: 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .delete-price-btn:hover:not(:disabled) {
-            background: #fff5f5;
-            border-color: #b22234;
-        }
-
-        .delete-price-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .day-summary-grid {
@@ -1249,9 +1201,6 @@
             font-weight: 700;
             color: #1e4a78;
             margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .day-summary-card .day-total {
@@ -1266,130 +1215,113 @@
             margin-top: 0.3rem;
         }
 
-        /* Активност модул */
-        .user-activity-card {
-            background: #ffffff;
-            border: 1px solid #e9eef3;
-            border-radius: 20px;
-            padding: 1.5rem 1.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-        }
+        /* Потребители */
+        .roles-dropdown { position: relative; width: 100%; }
 
-        .user-activity-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 1.2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #edf2f8;
-        }
-
-        .user-activity-header .user-avatar {
-            width: 55px;
-            height: 55px;
-            font-size: 1.2rem;
-            background: #1e4a78;
-        }
-
-        .user-activity-header .info h3 {
-            font-size: 1.2rem;
-            color: #0b2b4f;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-
-        .user-activity-header .info .badges {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .activity-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .activity-stat {
-            text-align: center;
-            padding: 0.9rem;
-            background: #f8fbfe;
+        .roles-dropdown-trigger {
+            width: 100%;
+            padding: 0.8rem 1rem;
             border-radius: 14px;
-            border: 1px solid #e9eef3;
-        }
-
-        .activity-stat .num {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0b2b4f;
-        }
-
-        .activity-stat .lbl {
-            font-size: 0.78rem;
-            color: #7f95b0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.2rem;
-        }
-
-        .activity-section-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #1e4a78;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 1rem 0 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .activity-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .activity-item {
+            border: 1px solid #cfddee;
+            background: #ffffff;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.7rem 1rem;
-            background: #f8fbfe;
-            border-radius: 10px;
-            font-size: 0.88rem;
-            border-left: 3px solid #1e4a78;
+            gap: 10px;
+            font-family: inherit;
+            color: #1f3f61;
+            text-align: left;
         }
 
-        .activity-item .main {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
+        .roles-dropdown-trigger .selected-text {
+            flex: 1;
+            color: #0b2b4f;
+            font-weight: 500;
         }
 
-        .activity-item .name { color: #0b2b4f; font-weight: 600; }
-        .activity-item .meta { font-size: 0.78rem; color: #7f95b0; }
-        .activity-item .when {
-            font-size: 0.78rem;
+        .roles-dropdown-trigger .selected-text.placeholder {
             color: #7f95b0;
-            white-space: nowrap;
-            margin-left: 10px;
+            font-weight: 400;
         }
 
-        /* Loading, toasts, modal */
+        .roles-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0; right: 0;
+            background: #ffffff;
+            border: 1px solid #e9eef3;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(11, 43, 79, 0.12);
+            padding: 0.5rem;
+            z-index: 100;
+            display: none;
+        }
+
+        .roles-dropdown-menu.open { display: block; }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            color: #1f3f61;
+        }
+
+        .role-option:hover { background: #f5f9ff; }
+
+        .role-option input[type="checkbox"] { display: none; }
+
+        .role-option .checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #cfddee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .role-option input:checked + .checkbox {
+            background: #1e4a78;
+            border-color: #1e4a78;
+            color: #ffffff;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            background: #e8f0fe;
+            color: #0b2b4f;
+            margin: 2px 4px 2px 0;
+        }
+
+        .role-badge.admin { background: #fff5e5; color: #b06d00; }
+        .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
+        .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
+
+        /* Модали, тостове, loading */
         .loading-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            font-size: 1.2rem;
             color: #0b2b4f;
+            font-size: 1.2rem;
         }
 
         .loading-overlay.active { display: flex; }
@@ -1425,17 +1357,11 @@
             align-items: center;
             gap: 10px;
             font-weight: 500;
-            animation: slideIn 0.3s ease;
             max-width: 380px;
         }
 
         .toast.error { background: #b22234; }
         .toast.success { background: #1a7a3e; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
 
         .modal-overlay {
             position: fixed;
@@ -1458,12 +1384,6 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-            animation: modalIn 0.25s ease;
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .modal .modal-icon {
@@ -1501,7 +1421,6 @@
             padding: 1rem 1.5rem;
             border-radius: 16px;
             margin-bottom: 1.5rem;
-            user-select: all;
         }
 
         .modal-actions { display: flex; gap: 10px; justify-content: center; }
@@ -1512,8 +1431,6 @@
             padding: 2.2rem;
             max-width: 460px;
             width: 100%;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-            animation: modalIn 0.25s ease;
         }
 
         .edit-roles-modal h3 {
@@ -1545,16 +1462,9 @@
             border-radius: 14px;
             border: 2px solid #cfddee;
             cursor: pointer;
-            transition: 0.15s;
-            user-select: none;
             font-size: 0.95rem;
             color: #1f3f61;
             font-weight: 500;
-        }
-
-        .edit-role-item:hover {
-            border-color: #1e4a78;
-            background: #f5f9ff;
         }
 
         .edit-role-item.selected {
@@ -1573,7 +1483,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.15s;
             color: transparent;
             font-size: 0.75rem;
             flex-shrink: 0;
@@ -1585,23 +1494,13 @@
             color: #ffffff;
         }
 
-        .edit-role-item .r-icon {
-            color: #7fb2e5;
-            font-size: 1.1rem;
-            width: 22px;
-            text-align: center;
-        }
-
-        .edit-role-item.selected .r-icon { color: #1e4a78; }
-
-        /* Пациентски портал */
+        /* Портал */
         .portal-welcome {
             background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%);
             color: #ffffff;
             border-radius: 24px;
             padding: 2rem 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 25px rgba(107, 63, 160, 0.25);
             display: flex;
             align-items: center;
             gap: 1.5rem;
@@ -1615,25 +1514,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
-            overflow: hidden;
         }
 
-        .portal-logo svg {
-            width: 90%;
-            height: 90%;
-        }
+        .portal-logo svg { width: 90%; height: 90%; }
 
         .portal-welcome h1 {
             font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
-        }
-
-        .portal-welcome p {
-            font-size: 0.95rem;
-            opacity: 0.9;
         }
 
         .portal-section {
@@ -1657,75 +1546,41 @@
 
         .portal-section h3 i { color: #6b3fa0; }
 
-        .kinezi-select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 14px;
-            border: 1px solid #cfddee;
-            font-size: 0.95rem;
-            background: #ffffff;
-            font-family: inherit;
-            cursor: pointer;
-        }
-
         @media (max-width: 1100px) {
             .week-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         @media (max-width: 800px) {
-            .sidebar { width: 90px; padding: 1.5rem 0.3rem; }
-            .sidebar h2 span,
-            .nav-item span,
-            .sidebar-footer .logout-btn span,
-            .user-details { display: none; }
-            .sidebar h2 { padding: 0 0 1rem; justify-content: center; }
-            .sidebar-logo { width: 40px; height: 40px; }
+            .sidebar { width: 80px; }
+            .sidebar h2 span, .nav-item span, .sidebar-footer .logout-btn span, .user-details { display: none; }
+            .sidebar h2 { justify-content: center; padding: 0 0 1rem; }
             .nav-item { justify-content: center; padding: 0.9rem; }
-            .nav-item i { width: auto; font-size: 1.4rem; }
+            .nav-item i { width: auto; }
             .user-info { justify-content: center; padding: 0.7rem; margin: 0 0.3rem 1rem; }
-            .main { max-width: calc(100% - 90px); padding: 1.5rem; }
-            .module-header h1 { font-size: 1.6rem; }
-            .code-inputs input { width: 44px; height: 54px; font-size: 1.3rem; }
+            .main { padding: 1.5rem; }
             .week-grid { grid-template-columns: repeat(2, 1fr); }
             .profile-header { flex-direction: column; text-align: center; }
             .price-date-bar .summary { margin-left: 0; }
-            .clear-all-btn { width: 100%; justify-content: center; }
-            .portal-welcome { flex-direction: column; text-align: center; }
         }
 
         @media (max-width: 480px) {
             .code-inputs { gap: 6px; }
-            .code-inputs input {
-                width: 38px;
-                height: 48px;
-                font-size: 1.15rem;
-                border-radius: 10px;
-            }
+            .code-inputs input { width: 38px; height: 48px; font-size: 1.15rem; border-radius: 10px; }
             .login-card { padding: 2rem 1.5rem; }
-            .modal .new-code { font-size: 2rem; letter-spacing: 5px; }
             .week-grid { grid-template-columns: 1fr; }
+            .dash-card-value { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- SVG ЛОГО (използва се многократно) -->
+    <!-- SVG ЛОГО -->
     <svg width="0" height="0" style="position:absolute;">
         <defs>
-            <!-- Символ: човешка фигура в медитация с гръбначен стълб и ръка -->
             <symbol id="physio-logo" viewBox="0 0 200 200">
-                <!-- Външен кръг -->
                 <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
-                
-                <!-- Тяло/гръбнак - човешка фигура в седнало положение -->
-                <!-- Глава -->
                 <circle cx="100" cy="55" r="18" fill="#1e4a78"/>
-                
-                <!-- Рамо/тяло - вдлъбната форма -->
-                <path d="M 82,73 Q 75,90 75,110 Q 75,135 85,150 L 115,150 Q 125,135 125,110 Q 125,90 118,73 Z" 
-                      fill="#1e4a78"/>
-                
-                <!-- Гръбначен стълб - точки надолу по тялото -->
+                <path d="M 82,73 Q 75,90 75,110 Q 75,135 85,150 L 115,150 Q 125,135 125,110 Q 125,90 118,73 Z" fill="#1e4a78"/>
                 <circle cx="100" cy="82" r="3.2" fill="#3fb8b0"/>
                 <circle cx="100" cy="92" r="3.2" fill="#3fb8b0"/>
                 <circle cx="100" cy="102" r="3.2" fill="#3fb8b0"/>
@@ -1733,14 +1588,8 @@
                 <circle cx="100" cy="122" r="3.2" fill="#3fb8b0"/>
                 <circle cx="100" cy="132" r="3.2" fill="#3fb8b0"/>
                 <circle cx="100" cy="142" r="3.2" fill="#3fb8b0"/>
-                
-                <!-- Ръка, подпираща отдолу -->
-                <path d="M 55,150 Q 70,160 100,165 Q 130,160 145,150 Q 155,145 150,138 Q 145,132 135,140 Q 120,152 100,152 Q 80,152 65,140 Q 55,132 50,138 Q 45,145 55,150 Z" 
-                      fill="#3fb8b0"/>
-                
-                <!-- Дъга отгоре (движение) -->
-                <path d="M 60,40 Q 80,20 100,18 Q 120,20 140,40" 
-                      fill="none" stroke="#3fb8b0" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M 55,150 Q 70,160 100,165 Q 130,160 145,150 Q 155,145 150,138 Q 145,132 135,140 Q 120,152 100,152 Q 80,152 65,140 Q 55,132 50,138 Q 45,145 55,150 Z" fill="#3fb8b0"/>
+                <path d="M 60,40 Q 80,20 100,18 Q 120,20 140,40" fill="none" stroke="#3fb8b0" stroke-width="3.5" stroke-linecap="round"/>
             </symbol>
         </defs>
     </svg>
@@ -1779,7 +1628,7 @@
         </div>
     </div>
 
-    <!-- ОСНОВНО ПРИЛОЖЕНИЕ -->
+    <!-- ОСНОВНО -->
     <div class="app hidden" id="app">
 
         <div class="loading-overlay" id="loadingOverlay">
@@ -1797,7 +1646,7 @@
                 <span>PhysioBook</span>
             </h2>
 
-            <div class="user-info" id="currentUserInfo">
+            <div class="user-info">
                 <div class="user-avatar" id="userAvatar">?</div>
                 <div class="user-details">
                     <span class="name" id="userName">Потребител</span>
@@ -1806,7 +1655,11 @@
             </div>
 
             <nav class="nav">
-                <button class="nav-item active" data-module="patients">
+                <button class="nav-item" data-module="dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Табло</span>
+                </button>
+                <button class="nav-item" data-module="patients">
                     <i class="fas fa-users"></i>
                     <span>Пациенти</span>
                 </button>
@@ -1826,10 +1679,6 @@
                     <i class="fas fa-user-shield"></i>
                     <span>Потребители</span>
                 </button>
-                <button class="nav-item admin-only" data-module="activity">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Активност</span>
-                </button>
                 <button class="nav-item" data-module="portal">
                     <i class="fas fa-user-circle"></i>
                     <span>Моят портал</span>
@@ -1840,34 +1689,123 @@
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> <span>Изход</span>
                 </button>
-                <div class="sidebar-version">v2.1 · Firebase</div>
+                <div class="sidebar-version">v3.0 · Firebase</div>
             </div>
         </aside>
 
         <main class="main">
 
+            <!-- ТАБЛО -->
+            <section id="module-dashboard" class="module">
+                <div class="module-header">
+                    <h1><i class="fas fa-chart-pie"></i> Табло</h1>
+                    <div style="color:#7f95b0; font-size:0.9rem;">
+                        <i class="fas fa-calendar"></i> <span id="dashboardDate"></span>
+                    </div>
+                </div>
+
+                <div class="dash-top-grid">
+                    <div class="dash-card today">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">Днешни пациенти</span>
+                            <div class="dash-card-icon"><i class="fas fa-user-check"></i></div>
+                        </div>
+                        <div class="dash-card-value" id="dashTodayPatients">0</div>
+                        <div class="dash-card-sub" id="dashTodaySub">за днес</div>
+                    </div>
+
+                    <div class="dash-card upcoming">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">Предстоящи процедури</span>
+                            <div class="dash-card-icon"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="dash-card-value" id="dashUpcoming">0</div>
+                        <div class="dash-card-sub">в следващите 7 дни</div>
+                    </div>
+
+                    <div class="dash-card tasks">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">Задачи</span>
+                            <div class="dash-card-icon"><i class="fas fa-tasks"></i></div>
+                        </div>
+                        <div class="dash-card-value" id="dashTasks">0</div>
+                        <div class="dash-card-sub" id="dashTasksSub">незавършени</div>
+                    </div>
+
+                    <div class="dash-card income">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">Приходи (днес)</span>
+                            <div class="dash-card-icon"><i class="fas fa-euro-sign"></i></div>
+                        </div>
+                        <div class="dash-card-value" id="dashIncome">0.00 €</div>
+                        <div class="dash-card-sub" id="dashIncomeSub">от 0 пациента</div>
+                        <div class="income-progress">
+                            <div class="income-progress-bar" id="dashIncomeBar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="dash-card free">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">Свободни часове</span>
+                            <div class="dash-card-icon"><i class="fas fa-calendar-plus"></i></div>
+                        </div>
+                        <div class="dash-card-value" id="dashFreeSlots">0</div>
+                        <div class="dash-card-sub">днес (9:00 – 18:00)</div>
+                    </div>
+                </div>
+
+                <div class="dash-section">
+                    <h3><i class="fas fa-user-clock"></i> Днешни пациенти</h3>
+                    <div class="dash-list" id="dashTodayList">
+                        <div class="dash-empty">Няма записани часове за днес</div>
+                    </div>
+                </div>
+
+                <div class="dash-section">
+                    <h3><i class="fas fa-hourglass-half"></i> Предстоящи процедури (следващите 7 дни)</h3>
+                    <div class="dash-list" id="dashUpcomingList">
+                        <div class="dash-empty">Няма предстоящи процедури</div>
+                    </div>
+                </div>
+
+                <div class="dash-section">
+                    <h3><i class="fas fa-tasks"></i> Задачи</h3>
+                    <form class="task-form" id="taskForm">
+                        <input type="text" id="taskInput" placeholder="Напр. Обади се на Иван Петров...">
+                        <button type="submit" class="btn" id="addTaskBtn">
+                            <i class="fas fa-plus"></i> Добави
+                        </button>
+                    </form>
+                    <div class="dash-list" id="dashTasksList">
+                        <div class="dash-empty">Няма задачи</div>
+                    </div>
+                </div>
+
+                <div class="dash-section">
+                    <h3><i class="fas fa-calendar-day"></i> Свободни часове днес (9:00 – 18:00)</h3>
+                    <div class="free-slots-grid" id="dashFreeSlotsGrid"></div>
+                </div>
+            </section>
+
             <!-- ПАЦИЕНТИ -->
-            <section id="module-patients" class="module active">
+            <section id="module-patients" class="module">
                 <div class="module-header">
                     <h1><i class="fas fa-users"></i> Пациенти</h1>
                 </div>
 
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
-                    <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Към всеки пациент автоматично се създава 6-цифрен код за вход.
-                    </p>
                     <form id="patientForm" class="form-grid">
                         <div class="form-group">
-                            <label for="patientName">Име и фамилия *</label>
+                            <label>Име и фамилия *</label>
                             <input type="text" id="patientName" placeholder="Иван Петров" required>
                         </div>
                         <div class="form-group">
-                            <label for="patientPhone">Телефон</label>
+                            <label>Телефон</label>
                             <input type="text" id="patientPhone" placeholder="0888 123 456">
                         </div>
                         <div class="form-group">
-                            <label for="patientNotes">Бележки</label>
+                            <label>Бележки</label>
                             <input type="text" id="patientNotes" placeholder="алергии, диагнози...">
                         </div>
                         <div class="form-group" style="justify-content: end;">
@@ -1880,17 +1818,11 @@
 
                 <div class="filter-bar">
                     <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
-                    <div class="btn-group">
-                        <button class="btn-outline btn-sm" id="archiveSelectedBtn">
-                            <i class="fas fa-archive"></i> Архивирай избраните
-                        </button>
-                    </div>
                 </div>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <th style="width: 40px;"><input type="checkbox" id="selectAllPatients"></th>
                                 <th>Име</th>
                                 <th>Телефон</th>
                                 <th>Код за вход</th>
@@ -1931,21 +1863,21 @@
                     <h3><i class="fas fa-plus-circle"></i> Нов час</h3>
                     <form id="appointmentForm" class="form-grid">
                         <div class="form-group">
-                            <label for="aptPatient">Пациент *</label>
+                            <label>Пациент *</label>
                             <select id="aptPatient" required>
                                 <option value="">-- избери пациент --</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="aptDate">Дата *</label>
+                            <label>Дата *</label>
                             <input type="date" id="aptDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="aptTime">Час *</label>
+                            <label>Час *</label>
                             <input type="time" id="aptTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="aptDuration">Продължителност (мин)</label>
+                            <label>Продължителност</label>
                             <select id="aptDuration">
                                 <option value="30">30 мин</option>
                                 <option value="45">45 мин</option>
@@ -1955,8 +1887,8 @@
                             </select>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label for="aptNote">За какво е часът / процедура *</label>
-                            <input type="text" id="aptNote" placeholder="напр. Болки в коляното, рехабилитация..." required>
+                            <label>За какво е часът *</label>
+                            <input type="text" id="aptNote" placeholder="напр. Болки в коляното..." required>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="addAppointmentBtn">
@@ -1968,15 +1900,11 @@
 
                 <div class="schedule-controls">
                     <div class="week-nav">
-                        <button id="prevWeekBtn" title="Предишна седмица">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
+                        <button id="prevWeekBtn"><i class="fas fa-chevron-left"></i></button>
                         <div class="week-label" id="weekLabel">—</div>
-                        <button id="nextWeekBtn" title="Следваща седмица">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
+                        <button id="nextWeekBtn"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <button class="btn-outline btn-sm" id="todayBtn">
+                    <button class="btn-outline btn btn-sm" id="todayBtn">
                         <i class="fas fa-calendar-day"></i> Днес
                     </button>
                 </div>
@@ -1994,25 +1922,25 @@
                     <h3><i class="fas fa-plus-circle"></i> Нова процедура</h3>
                     <form id="procedureForm" class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
                         <div class="form-group">
-                            <label for="procPatient">Пациент *</label>
+                            <label>Пациент *</label>
                             <select id="procPatient" required>
                                 <option value="">-- избери пациент --</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="procDescription">Описание на процедурата *</label>
+                            <label>Описание *</label>
                             <input type="text" id="procDescription" placeholder="напр. Физиотерапия" required>
                         </div>
                         <div class="form-group">
-                            <label for="procDate">Дата *</label>
+                            <label>Дата *</label>
                             <input type="date" id="procDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="procTime">Час *</label>
+                            <label>Час *</label>
                             <input type="time" id="procTime" required>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label for="procResult">Краен резултат</label>
+                            <label>Краен резултат</label>
                             <textarea id="procResult" placeholder="описание на резултата..."></textarea>
                         </div>
                         <div class="form-group" style="justify-content: end;">
@@ -2023,9 +1951,6 @@
                     </form>
                 </div>
 
-                <div class="filter-bar">
-                    <h3 style="margin:0;"><i class="fas fa-list"></i> Извършени процедури</h3>
-                </div>
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -2033,7 +1958,6 @@
                                 <th>Пациент</th>
                                 <th>Процедура</th>
                                 <th>Дата / Час</th>
-                                <th>Извършил</th>
                                 <th>Краен резултат</th>
                                 <th></th>
                             </tr>
@@ -2050,9 +1974,7 @@
                 </div>
 
                 <div class="price-date-bar">
-                    <label for="priceDateInput">
-                        <i class="fas fa-calendar-day"></i> Дата:
-                    </label>
+                    <label for="priceDateInput"><i class="fas fa-calendar-day"></i> Дата:</label>
                     <input type="date" id="priceDateInput">
                     <div class="summary">
                         <div>
@@ -2060,29 +1982,22 @@
                             <span class="big-value" id="priceCountSummary">0</span>
                         </div>
                         <div>
-                            <span class="small-label">Общо за деня</span>
+                            <span class="small-label">Общо</span>
                             <span class="big-value" id="priceTotalSummary">0.00 €</span>
                         </div>
                     </div>
-                    <button class="clear-all-btn" id="clearAllPricingBtn" title="Изтрий всички цени">
-                        <i class="fas fa-trash-alt"></i> Изтрий всички цени
+                    <button class="clear-all-btn" id="clearAllPricingBtn">
+                        <i class="fas fa-trash-alt"></i> Изтрий всички
                     </button>
-                </div>
-
-                <div class="card" style="padding: 1.2rem 1.5rem;">
-                    <h3><i class="fas fa-search"></i> Търсене</h3>
-                    <input type="text" id="priceSearchInput" placeholder="Търси пациент по име..." 
-                           style="width: 100%; padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit;">
                 </div>
 
                 <div class="table-wrapper">
                     <table class="price-table">
                         <thead>
                             <tr>
-                                <th style="width: 25%;">Пациент</th>
-                                <th>Процедура (описание)</th>
-                                <th>Цена за деня</th>
-                                <th>Въвел</th>
+                                <th>Пациент</th>
+                                <th>Процедура</th>
+                                <th>Цена</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -2091,7 +2006,7 @@
                 </div>
 
                 <div style="margin-top: 2.5rem;">
-                    <h3><i class="fas fa-chart-line"></i> Обобщение по дни (последните 30 дни)</h3>
+                    <h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3>
                     <div class="day-summary-grid" id="daySummaryGrid"></div>
                 </div>
             </section>
@@ -2104,37 +2019,31 @@
 
                 <div class="card">
                     <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
-                    <p style="color: #7f95b0; font-size: 0.9rem; margin-bottom: 1.2rem;">
-                        <i class="fas fa-info-circle"></i> Изберете една или повече роли.
-                    </p>
                     <form id="userForm" class="form-grid">
                         <div class="form-group">
-                            <label for="userNameInput">Име и фамилия *</label>
+                            <label>Име и фамилия *</label>
                             <input type="text" id="userNameInput" placeholder="Алекс Тодоров" required>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
                             <label>Роли *</label>
-                            <div class="roles-dropdown" id="userRolesDropdown">
+                            <div class="roles-dropdown">
                                 <div class="roles-dropdown-trigger" id="userRolesTrigger">
                                     <span class="selected-text placeholder" id="userRolesText">Изберете роли...</span>
-                                    <i class="fas fa-chevron-down arrow"></i>
+                                    <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="roles-dropdown-menu" id="userRolesMenu">
-                                    <label class="role-option" data-role="Кинезитерапевт">
+                                    <label class="role-option">
                                         <input type="checkbox" value="Кинезитерапевт">
                                         <span class="checkbox"><i class="fas fa-check"></i></span>
-                                        <i class="fas fa-hands role-icon"></i>
-                                        <span>Кинезитерапевт</span>
+                                        <i class="fas fa-hands"></i> Кинезитерапевт
                                     </label>
-                                    <label class="role-option" data-role="Администратор">
+                                    <label class="role-option">
                                         <input type="checkbox" value="Администратор">
                                         <span class="checkbox"><i class="fas fa-check"></i></span>
-                                        <i class="fas fa-user-shield role-icon"></i>
-                                        <span>Администратор</span>
+                                        <i class="fas fa-user-shield"></i> Администратор
                                     </label>
                                 </div>
                             </div>
-                            <div class="selected-roles-badges" id="userRolesBadges"></div>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="addUserBtn">
@@ -2144,17 +2053,13 @@
                     </form>
                 </div>
 
-                <div class="filter-bar">
-                    <h3 style="margin:0;"><i class="fas fa-users-cog"></i> Списък с потребители</h3>
-                </div>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
                                 <th>Име</th>
                                 <th>Роли</th>
-                                <th>Код за достъп</th>
-                                <th>Създаден на</th>
+                                <th>Код</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -2163,24 +2068,15 @@
                 </div>
             </section>
 
-            <!-- АКТИВНОСТ -->
-            <section id="module-activity" class="module">
-                <div class="module-header">
-                    <h1><i class="fas fa-chart-bar"></i> Активност на кинезитерапевтите</h1>
-                </div>
-
-                <div id="activityContent"></div>
-            </section>
-
             <!-- ПРОФИЛ -->
             <section id="module-patient-profile" class="module patient-profile">
                 <button class="back-btn" id="backToPatientsBtn">
-                    <i class="fas fa-arrow-left"></i> Назад към пациенти
+                    <i class="fas fa-arrow-left"></i> Назад
                 </button>
                 <div id="profileContent"></div>
             </section>
 
-            <!-- ПОРТАЛ ЗА ПАЦИЕНТ -->
+            <!-- ПОРТАЛ -->
             <section id="module-portal" class="module">
                 <div class="portal-welcome">
                     <div class="portal-logo">
@@ -2188,7 +2084,7 @@
                     </div>
                     <div>
                         <h1>Здравейте, <span id="portalUserName">—</span>!</h1>
-                        <p>Това е вашият личен портал — тук можете да си запазите час, да видите процедурите си и ценоразписа.</p>
+                        <p>Това е вашият личен портал.</p>
                     </div>
                 </div>
 
@@ -2196,21 +2092,21 @@
                     <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
                     <form id="portalAppointmentForm" class="form-grid">
                         <div class="form-group">
-                            <label for="portalAptKinezi">Кинезитерапевт *</label>
-                            <select id="portalAptKinezi" class="kinezi-select" required>
-                                <option value="">-- избери кинезитерапевт --</option>
+                            <label>Кинезитерапевт *</label>
+                            <select id="portalAptKinezi" required>
+                                <option value="">-- избери --</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="portalAptDate">Дата *</label>
+                            <label>Дата *</label>
                             <input type="date" id="portalAptDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="portalAptTime">Час *</label>
+                            <label>Час *</label>
                             <input type="time" id="portalAptTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="portalAptDuration">Продължителност (мин)</label>
+                            <label>Продължителност</label>
                             <select id="portalAptDuration">
                                 <option value="30">30 мин</option>
                                 <option value="45">45 мин</option>
@@ -2220,19 +2116,19 @@
                             </select>
                         </div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label for="portalAptNote">За каква процедура / оплакване *</label>
-                            <input type="text" id="portalAptNote" placeholder="напр. Болки в кръста, рехабилитация след операция..." required>
+                            <label>Оплакване / процедура *</label>
+                            <input type="text" id="portalAptNote" placeholder="напр. Болки в кръста..." required>
                         </div>
                         <div class="form-group" style="justify-content: end;">
                             <button type="submit" class="btn" id="portalAddAptBtn" style="background:#6b3fa0;">
-                                <i class="fas fa-calendar-check"></i> Запази час
+                                <i class="fas fa-calendar-check"></i> Запази
                             </button>
                         </div>
                     </form>
                 </div>
 
                 <div class="portal-section">
-                    <h3><i class="fas fa-calendar-check"></i> Моите предстоящи часове</h3>
+                    <h3><i class="fas fa-calendar-check"></i> Моите часове</h3>
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -2253,40 +2149,18 @@
                     <h3><i class="fas fa-history"></i> Моите процедури</h3>
                     <div id="portalProceduresBody"></div>
                 </div>
-
-                <div class="portal-section">
-                    <h3><i class="fas fa-euro-sign"></i> Ценоразпис</h3>
-                    <div class="table-wrapper">
-                        <table class="price-table">
-                            <thead>
-                                <tr>
-                                    <th>Дата</th>
-                                    <th>Процедура</th>
-                                    <th>Цена</th>
-                                </tr>
-                            </thead>
-                            <tbody id="portalPricingBody"></tbody>
-                        </table>
-                    </div>
-                </div>
             </section>
 
         </main>
     </div>
 
-    <!-- MODAL за код -->
+    <!-- MODAL код -->
     <div class="modal-overlay" id="codeModal">
         <div class="modal">
-            <div class="modal-icon">
-                <i class="fas fa-key"></i>
-            </div>
+            <div class="modal-icon"><i class="fas fa-key"></i></div>
             <h3>Код за достъп</h3>
-            <p id="modalUserName">Алекс Тодоров</p>
-            <div class="new-code" id="modalNewCode">010610</div>
-            <p style="font-size: 0.85rem;">
-                <i class="fas fa-exclamation-triangle" style="color: #d97706;"></i>
-                Запазете този код!
-            </p>
+            <p id="modalUserName">—</p>
+            <div class="new-code" id="modalNewCode">000000</div>
             <div class="modal-actions">
                 <button class="btn" id="modalCopyBtn"><i class="fas fa-copy"></i> Копирай</button>
                 <button class="btn-outline btn" id="modalCloseBtn">Затвори</button>
@@ -2294,29 +2168,26 @@
         </div>
     </div>
 
-    <!-- MODAL за редакция на роли -->
+    <!-- MODAL роли -->
     <div class="modal-overlay" id="editRolesModal">
         <div class="edit-roles-modal">
             <h3>Редакция на роли</h3>
             <p class="sub" id="editRolesUserName">—</p>
             <div class="roles-list" id="editRolesList">
-                <label class="edit-role-item" data-role="Кинезитерапевт">
+                <label class="edit-role-item">
                     <input type="checkbox" value="Кинезитерапевт">
                     <span class="checkbox"><i class="fas fa-check"></i></span>
-                    <i class="fas fa-hands r-icon"></i>
-                    <span>Кинезитерапевт</span>
+                    <i class="fas fa-hands"></i> Кинезитерапевт
                 </label>
-                <label class="edit-role-item" data-role="Администратор">
+                <label class="edit-role-item">
                     <input type="checkbox" value="Администратор">
                     <span class="checkbox"><i class="fas fa-check"></i></span>
-                    <i class="fas fa-user-shield r-icon"></i>
-                    <span>Администратор</span>
+                    <i class="fas fa-user-shield"></i> Администратор
                 </label>
-                <label class="edit-role-item" data-role="Пациент">
+                <label class="edit-role-item">
                     <input type="checkbox" value="Пациент">
                     <span class="checkbox"><i class="fas fa-check"></i></span>
-                    <i class="fas fa-user r-icon"></i>
-                    <span>Пациент</span>
+                    <i class="fas fa-user"></i> Пациент
                 </label>
             </div>
             <div class="modal-actions">
@@ -2354,6 +2225,7 @@
         const usersRef = ref(db, 'users');
         const appointmentsRef = ref(db, 'appointments');
         const pricingRef = ref(db, 'pricing');
+        const tasksRef = ref(db, 'tasks');
 
         // =====================================================
         // ПОМОЩНИ
@@ -2389,6 +2261,15 @@
             if (!dateStr) return '—';
             const [y, m, d] = dateStr.split('-');
             return `${d}.${m}.${y}`;
+        }
+
+        function formatDateLong(dateStr) {
+            if (!dateStr) return '—';
+            const [y, m, d] = dateStr.split('-');
+            const BG_DAYS_FULL = ['неделя','понеделник','вторник','сряда','четвъртък','петък','събота'];
+            const BG_MONTHS_FULL = ['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември'];
+            const date = new Date(dateStr);
+            return `${BG_DAYS_FULL[date.getDay()]}, ${parseInt(d)} ${BG_MONTHS_FULL[date.getMonth()]} ${y}`;
         }
 
         function formatTimestamp(ts) {
@@ -2458,14 +2339,7 @@
             return getUserRoles(user).includes(role);
         }
 
-        function isAdmin(user) {
-            return hasRole(user, 'Администратор');
-        }
-
-        function isPatient(user) {
-            return hasRole(user, 'Пациент');
-        }
-
+        function isAdmin(user) { return hasRole(user, 'Администратор'); }
         function isOnlyPatient(user) {
             const roles = getUserRoles(user);
             return roles.length === 1 && roles[0] === 'Пациент';
@@ -2493,6 +2367,7 @@
         let users = {};
         let appointments = {};
         let pricing = {};
+        let tasks = {};
         let currentUser = null;
         let currentPatient = null;
         let dataListenersStarted = false;
@@ -2520,16 +2395,17 @@
 
         const navItems = document.querySelectorAll('.nav-item');
         const modules = {
+            dashboard: document.getElementById('module-dashboard'),
             patients: document.getElementById('module-patients'),
             schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
             pricing: document.getElementById('module-pricing'),
             users: document.getElementById('module-users'),
-            activity: document.getElementById('module-activity'),
             portal: document.getElementById('module-portal')
         };
         const patientProfileModule = document.getElementById('module-patient-profile');
 
+        // Пациенти
         const patientForm = document.getElementById('patientForm');
         const patientName = document.getElementById('patientName');
         const patientPhone = document.getElementById('patientPhone');
@@ -2537,9 +2413,8 @@
         const addPatientBtn = document.getElementById('addPatientBtn');
         const activePatientsBody = document.getElementById('activePatientsBody');
         const archivedPatientsBody = document.getElementById('archivedPatientsBody');
-        const selectAllPatients = document.getElementById('selectAllPatients');
-        const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
 
+        // График
         const appointmentForm = document.getElementById('appointmentForm');
         const aptPatient = document.getElementById('aptPatient');
         const aptDate = document.getElementById('aptDate');
@@ -2553,6 +2428,7 @@
         const nextWeekBtn = document.getElementById('nextWeekBtn');
         const todayBtn = document.getElementById('todayBtn');
 
+        // Процедури
         const procedureForm = document.getElementById('procedureForm');
         const procPatient = document.getElementById('procPatient');
         const procDescription = document.getElementById('procDescription');
@@ -2562,41 +2438,42 @@
         const addProcedureBtn = document.getElementById('addProcedureBtn');
         const proceduresBody = document.getElementById('proceduresBody');
 
+        // Ценоразпис
         const priceDateInput = document.getElementById('priceDateInput');
-        const priceSearchInput = document.getElementById('priceSearchInput');
         const pricingBody = document.getElementById('pricingBody');
         const priceTotalSummary = document.getElementById('priceTotalSummary');
         const priceCountSummary = document.getElementById('priceCountSummary');
         const daySummaryGrid = document.getElementById('daySummaryGrid');
         const clearAllPricingBtn = document.getElementById('clearAllPricingBtn');
 
+        // Потребители
         const userForm = document.getElementById('userForm');
         const userNameInput = document.getElementById('userNameInput');
         const addUserBtn = document.getElementById('addUserBtn');
         const usersBody = document.getElementById('usersBody');
-
-        const userRolesDropdown = document.getElementById('userRolesDropdown');
         const userRolesTrigger = document.getElementById('userRolesTrigger');
         const userRolesMenu = document.getElementById('userRolesMenu');
         const userRolesText = document.getElementById('userRolesText');
-        const userRolesBadges = document.getElementById('userRolesBadges');
 
+        // Edit roles
         const editRolesModal = document.getElementById('editRolesModal');
         const editRolesUserName = document.getElementById('editRolesUserName');
         const editRolesList = document.getElementById('editRolesList');
         const saveRolesBtn = document.getElementById('saveRolesBtn');
         const cancelRolesBtn = document.getElementById('cancelRolesBtn');
 
-        const activityContent = document.getElementById('activityContent');
+        // Профил
         const profileContent = document.getElementById('profileContent');
         const backToPatientsBtn = document.getElementById('backToPatientsBtn');
 
+        // Modal
         const codeModal = document.getElementById('codeModal');
         const modalUserName = document.getElementById('modalUserName');
         const modalNewCode = document.getElementById('modalNewCode');
         const modalCopyBtn = document.getElementById('modalCopyBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
+        // Портал
         const portalUserName = document.getElementById('portalUserName');
         const portalAppointmentForm = document.getElementById('portalAppointmentForm');
         const portalAptKinezi = document.getElementById('portalAptKinezi');
@@ -2607,7 +2484,25 @@
         const portalAddAptBtn = document.getElementById('portalAddAptBtn');
         const portalAppointmentsBody = document.getElementById('portalAppointmentsBody');
         const portalProceduresBody = document.getElementById('portalProceduresBody');
-        const portalPricingBody = document.getElementById('portalPricingBody');
+
+        // Табло
+        const dashboardDate = document.getElementById('dashboardDate');
+        const dashTodayPatients = document.getElementById('dashTodayPatients');
+        const dashTodaySub = document.getElementById('dashTodaySub');
+        const dashUpcoming = document.getElementById('dashUpcoming');
+        const dashTasks = document.getElementById('dashTasks');
+        const dashTasksSub = document.getElementById('dashTasksSub');
+        const dashIncome = document.getElementById('dashIncome');
+        const dashIncomeSub = document.getElementById('dashIncomeSub');
+        const dashIncomeBar = document.getElementById('dashIncomeBar');
+        const dashFreeSlots = document.getElementById('dashFreeSlots');
+        const dashTodayList = document.getElementById('dashTodayList');
+        const dashUpcomingList = document.getElementById('dashUpcomingList');
+        const dashTasksList = document.getElementById('dashTasksList');
+        const dashFreeSlotsGrid = document.getElementById('dashFreeSlotsGrid');
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const addTaskBtn = document.getElementById('addTaskBtn');
 
         // =====================================================
         // ЛОГИН
@@ -2714,18 +2609,33 @@
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
 
+            console.log('=== Permissions ===');
+            console.log('Admin:', admin, 'Patient only:', patientOnly);
+
             navItems.forEach(item => {
                 const mod = item.dataset.module;
 
                 if (patientOnly) {
-                    item.classList.toggle('hidden', mod !== 'portal');
-                } else if (admin) {
-                    item.classList.remove('hidden');
+                    // Пациент - само портал
+                    if (mod === 'portal') item.classList.remove('hidden');
+                    else item.classList.add('hidden');
                 } else {
-                    item.classList.toggle('hidden', item.classList.contains('admin-only'));
+                    // Служител (админ или кинезитерапевт)
+                    if (item.classList.contains('admin-only')) {
+                        // admin-only модули (Потребители) - само за админ
+                        if (admin) item.classList.remove('hidden');
+                        else item.classList.add('hidden');
+                    } else if (mod === 'portal') {
+                        // Портала не се показва на служители
+                        item.classList.add('hidden');
+                    } else {
+                        // Всичко останало (Табло, Пациенти, График, Процедури, Ценоразпис)
+                        item.classList.remove('hidden');
+                    }
                 }
             });
 
+            // Активиране на начален модул
             if (patientOnly) {
                 navItems.forEach(n => n.classList.remove('active'));
                 const portalNav = document.querySelector('.nav-item[data-module="portal"]');
@@ -2733,6 +2643,14 @@
                 Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
                 if (modules.portal) modules.portal.classList.add('active');
                 renderPortal();
+            } else {
+                // Служител - стартира с Табло
+                navItems.forEach(n => n.classList.remove('active'));
+                const dashNav = document.querySelector('.nav-item[data-module="dashboard"]');
+                if (dashNav) dashNav.classList.add('active');
+                Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+                if (modules.dashboard) modules.dashboard.classList.add('active');
+                renderDashboard();
             }
         }
 
@@ -2751,15 +2669,11 @@
         // =====================================================
         userRolesTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            userRolesDropdown.classList.toggle('open');
-            userRolesTrigger.classList.toggle('open');
             userRolesMenu.classList.toggle('open');
         });
 
         document.addEventListener('click', (e) => {
-            if (!userRolesDropdown.contains(e.target)) {
-                userRolesDropdown.classList.remove('open');
-                userRolesTrigger.classList.remove('open');
+            if (!userRolesTrigger.parentElement.contains(e.target)) {
                 userRolesMenu.classList.remove('open');
             }
         });
@@ -2770,12 +2684,6 @@
 
         function updateNewUserRolesUI() {
             const selected = Array.from(userRolesMenu.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
-
-            userRolesMenu.querySelectorAll('.role-option').forEach(opt => {
-                const cb = opt.querySelector('input');
-                opt.classList.toggle('selected', cb.checked);
-            });
-
             if (selected.length === 0) {
                 userRolesText.textContent = 'Изберете роли...';
                 userRolesText.classList.add('placeholder');
@@ -2783,12 +2691,6 @@
                 userRolesText.textContent = selected.join(', ');
                 userRolesText.classList.remove('placeholder');
             }
-
-            userRolesBadges.innerHTML = selected.map(r => {
-                const cls = r === 'Администратор' ? 'admin' : 'kinezi';
-                const icon = r === 'Администратор' ? 'fa-user-shield' : 'fa-hands';
-                return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
-            }).join('');
         }
 
         // =====================================================
@@ -2825,6 +2727,7 @@
                 users = snapshot.val() || {};
                 renderUsers();
                 renderPortalKineziSelect();
+                if (currentUser && !currentPatient) renderDashboard();
 
                 if (!adminCreated) {
                     adminCreated = true;
@@ -2846,8 +2749,8 @@
                 renderWeek();
                 renderPricing();
                 renderDaySummary();
-                if (isAdmin(currentUser)) renderActivity();
                 if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
 
                 if (!sessionRestored) tryRestoreSession();
                 showLoading(false);
@@ -2891,27 +2794,245 @@
                 if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) {
                     openPatientProfile(window.currentProfilePatientId);
                 }
-                if (isAdmin(currentUser)) renderActivity();
                 if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
             });
 
             onValue(appointmentsRef, (snapshot) => {
                 appointments = snapshot.val() || {};
                 renderWeek();
-                if (isAdmin(currentUser)) renderActivity();
                 if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
             });
 
             onValue(pricingRef, (snapshot) => {
                 pricing = snapshot.val() || {};
                 renderPricing();
                 renderDaySummary();
-                if (isAdmin(currentUser)) renderActivity();
                 if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
+            });
+
+            onValue(tasksRef, (snapshot) => {
+                tasks = snapshot.val() || {};
+                if (currentUser && !currentPatient) renderDashboard();
             });
 
             setTimeout(() => showLoading(false), 500);
         }
+
+        // =====================================================
+        // ТАБЛО
+        // =====================================================
+        function renderDashboard() {
+            if (!currentUser || currentPatient) return;
+            
+            console.log('Rendering dashboard...');
+
+            const todayStr = toDateStr(new Date());
+            dashboardDate.textContent = formatDateLong(todayStr);
+
+            // 1. ДНЕШНИ ПАЦИЕНТИ
+            const todayApts = Object.entries(appointments)
+                .map(([id, a]) => ({ id, ...a }))
+                .filter(a => a.date === todayStr)
+                .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+            const uniquePatientIds = new Set(todayApts.map(a => a.patientId));
+            dashTodayPatients.textContent = uniquePatientIds.size;
+            dashTodaySub.textContent = `${todayApts.length} ${todayApts.length === 1 ? 'запис' : 'записа'} за деня`;
+
+            if (todayApts.length === 0) {
+                dashTodayList.innerHTML = `<div class="dash-empty">Няма записани часове за днес</div>`;
+            } else {
+                dashTodayList.innerHTML = todayApts.map(a => {
+                    const pat = patients[a.patientId];
+                    const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                    const kineziName = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
+                    return `
+                        <div class="dash-list-item" data-patient-id="${a.patientId}">
+                            <div class="time-box">${a.time || '—'}</div>
+                            <div class="info">
+                                <div class="name">${patName}</div>
+                                <div class="meta">
+                                    ${a.note ? `📋 ${escapeHtml(a.note)}` : ''}
+                                    ${kineziName ? ` · 👨‍⚕️ ${escapeHtml(kineziName)}` : ''}
+                                    · ${a.duration || 60} мин
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 2. ПРЕДСТОЯЩИ (7 дни)
+            const in7Days = toDateStr(addDays(new Date(), 7));
+            const upcomingApts = Object.entries(appointments)
+                .map(([id, a]) => ({ id, ...a }))
+                .filter(a => a.date > todayStr && a.date <= in7Days)
+                .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+
+            dashUpcoming.textContent = upcomingApts.length;
+
+            if (upcomingApts.length === 0) {
+                dashUpcomingList.innerHTML = `<div class="dash-empty">Няма предстоящи процедури</div>`;
+            } else {
+                dashUpcomingList.innerHTML = upcomingApts.slice(0, 10).map(a => {
+                    const pat = patients[a.patientId];
+                    const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
+                    return `
+                        <div class="dash-list-item" data-patient-id="${a.patientId}">
+                            <div class="time-box">${formatDate(a.date).slice(0, 5)}<br><small style="font-size:0.7rem;">${a.time || ''}</small></div>
+                            <div class="info">
+                                <div class="name">${patName}</div>
+                                <div class="meta">${a.note ? escapeHtml(a.note) : '—'}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 3. ЗАДАЧИ
+            const allTasks = Object.entries(tasks)
+                .map(([id, t]) => ({ id, ...t }))
+                .filter(t => !t.done)
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            dashTasks.textContent = allTasks.length;
+            dashTasksSub.textContent = allTasks.length === 0 ? 'всичко е готово ✓' : 'незавършени';
+
+            if (allTasks.length === 0) {
+                dashTasksList.innerHTML = `<div class="dash-empty">Няма задачи</div>`;
+            } else {
+                dashTasksList.innerHTML = allTasks.map(t => `
+                    <div class="dash-list-item" style="border-left-color:#d97706; cursor:default;">
+                        <div class="time-box" style="color:#d97706; border-color:#fde68a; cursor:pointer;" data-task-done="${t.id}" title="Маркирай като готово">
+                            <i class="fas fa-square"></i>
+                        </div>
+                        <div class="info">
+                            <div class="name">${escapeHtml(t.text)}</div>
+                            <div class="meta">${t.createdAt ? formatTimestamp(t.createdAt) : ''}</div>
+                        </div>
+                        <button class="btn-danger-outline btn btn-sm" data-task-delete="${t.id}" title="Изтрий" style="padding:0.4rem 0.7rem;">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // 4. ПРИХОДИ
+            let todayIncome = 0;
+            let incomePatientCount = 0;
+            Object.entries(pricing).forEach(([key, item]) => {
+                if (item.date === todayStr && item.price !== '' && item.price !== null && item.price !== undefined) {
+                    const v = parseFloat(item.price);
+                    if (!isNaN(v)) {
+                        todayIncome += v;
+                        incomePatientCount++;
+                    }
+                }
+            });
+
+            dashIncome.textContent = formatPrice(todayIncome) + ' €';
+            dashIncomeSub.textContent = `от ${incomePatientCount} ${incomePatientCount === 1 ? 'пациент' : 'пациента'}`;
+
+            const goal = 200;
+            const percent = Math.min((todayIncome / goal) * 100, 100);
+            dashIncomeBar.style.width = percent + '%';
+
+            // 5. СВОБОДНИ ЧАСОВЕ
+            const WORK_START = 9;
+            const WORK_END = 18;
+
+            const busyHours = new Set();
+            todayApts.forEach(a => {
+                if (!a.time) return;
+                const hour = parseInt(a.time.split(':')[0]);
+                busyHours.add(hour);
+            });
+
+            const slotsGrid = [];
+            let freeCount = 0;
+
+            for (let h = WORK_START; h < WORK_END; h++) {
+                const isBusy = busyHours.has(h);
+                if (!isBusy) freeCount++;
+                slotsGrid.push(`
+                    <div class="free-slot ${isBusy ? 'busy' : ''}" data-hour="${h}">
+                        ${String(h).padStart(2, '0')}:00
+                    </div>
+                `);
+            }
+
+            dashFreeSlots.textContent = freeCount;
+            dashFreeSlotsGrid.innerHTML = slotsGrid.join('');
+
+            dashFreeSlotsGrid.querySelectorAll('.free-slot:not(.busy)').forEach(slot => {
+                slot.addEventListener('click', () => {
+                    const hour = slot.dataset.hour;
+                    navItems.forEach(n => n.classList.remove('active'));
+                    const scheduleNav = document.querySelector('.nav-item[data-module="schedule"]');
+                    if (scheduleNav) scheduleNav.classList.add('active');
+                    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+                    modules.schedule.classList.add('active');
+                    aptDate.value = todayStr;
+                    aptTime.value = `${String(hour).padStart(2, '0')}:00`;
+                    aptPatient.focus();
+                });
+            });
+        }
+
+        // Клик на dash item → профил
+        document.addEventListener('click', (e) => {
+            const item = e.target.closest('.dash-list-item[data-patient-id]');
+            if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) {
+                openPatientProfile(item.dataset.patientId);
+            }
+        });
+
+        // Задачи
+        document.addEventListener('click', async (e) => {
+            const doneBtn = e.target.closest('[data-task-done]');
+            if (doneBtn) {
+                try {
+                    await update(ref(db, `tasks/${doneBtn.dataset.taskDone}`), { done: true });
+                    showToast('Задачата е изпълнена.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+                return;
+            }
+
+            const delBtn = e.target.closest('[data-task-delete]');
+            if (delBtn) {
+                if (!confirm('Изтрий тази задача?')) return;
+                try {
+                    await remove(ref(db, `tasks/${delBtn.dataset.taskDelete}`));
+                    showToast('Задачата е изтрита.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            }
+        });
+
+        taskForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = taskInput.value.trim();
+            if (!text) return;
+
+            addTaskBtn.disabled = true;
+            try {
+                const newRef = push(tasksRef);
+                await set(newRef, {
+                    text: text,
+                    done: false,
+                    createdBy: currentUser.id,
+                    createdAt: Date.now()
+                });
+                taskInput.value = '';
+                showToast('Задачата е добавена.', 'success');
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                addTaskBtn.disabled = false;
+            }
+        });
 
         // =====================================================
         // ПАЦИЕНТИ
@@ -2922,31 +3043,16 @@
             const archived = allPatients.filter(p => p.archived).sort((a, b) => a.name.localeCompare(b.name));
 
             if (active.length === 0) {
-                activePatientsBody.innerHTML = `<tr><td colspan="6" class="empty-message">
-                    <i class="fas fa-user-slash"></i> Няма активни пациенти</td></tr>`;
+                activePatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">Няма активни пациенти</td></tr>`;
             } else {
                 activePatientsBody.innerHTML = active.map(p => `
                     <tr>
-                        <td><input type="checkbox" class="patient-checkbox" value="${p.id}"></td>
-                        <td>
-                            <a class="patient-link" data-id="${p.id}">
-                                <i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}
-                            </a>
-                        </td>
+                        <td><a class="patient-link" data-id="${p.id}"><i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}</a></td>
                         <td>${escapeHtml(p.phone || '—')}</td>
-                        <td>
-                            ${p.accessCode ? `
-                                <span class="code-badge">
-                                    ${p.accessCode}
-                                    <button class="copy-patient-code" data-code="${p.accessCode}" title="Копирай">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </span>
-                            ` : '<span style="color:#7f95b0;">—</span>'}
-                        </td>
+                        <td>${p.accessCode ? `<span class="code-badge">${p.accessCode}</span>` : '—'}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm archive-single" data-id="${p.id}">
+                            <button class="btn-outline btn btn-sm archive-single" data-id="${p.id}">
                                 <i class="fas fa-archive"></i> Архив
                             </button>
                         </td>
@@ -2955,55 +3061,28 @@
             }
 
             if (archived.length === 0) {
-                archivedPatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
-                    <i class="fas fa-archive"></i> Няма архивирани пациенти</td></tr>`;
+                archivedPatientsBody.innerHTML = `<tr><td colspan="5" class="empty-message">Няма архивирани пациенти</td></tr>`;
             } else {
                 archivedPatientsBody.innerHTML = archived.map(p => `
                     <tr>
-                        <td>
-                            <a class="patient-link" data-id="${p.id}">
-                                <i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}
-                            </a>
-                        </td>
+                        <td><a class="patient-link" data-id="${p.id}"><i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}</a></td>
                         <td>${escapeHtml(p.phone || '—')}</td>
-                        <td>
-                            ${p.accessCode ? `
-                                <span class="code-badge">
-                                    ${p.accessCode}
-                                    <button class="copy-patient-code" data-code="${p.accessCode}">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </span>
-                            ` : '—'}
-                        </td>
+                        <td>${p.accessCode || '—'}</td>
                         <td>${escapeHtml(p.notes || '—')}</td>
                         <td>
-                            <div class="actions">
-                                <button class="btn-outline btn-sm restore-patient" data-id="${p.id}">
-                                    <i class="fas fa-undo-alt"></i> Върни
-                                </button>
-                                <button class="btn-danger-outline btn-sm delete-patient" data-id="${p.id}">
-                                    <i class="fas fa-trash-alt"></i> Изтрий
-                                </button>
-                            </div>
+                            <button class="btn-outline btn btn-sm restore-patient" data-id="${p.id}">
+                                <i class="fas fa-undo-alt"></i> Върни
+                            </button>
+                            <button class="btn-danger-outline btn btn-sm delete-patient" data-id="${p.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </td>
                     </tr>
                 `).join('');
             }
 
-            selectAllPatients.checked = false;
             updatePatientDropdowns();
         }
-
-        document.addEventListener('click', async (e) => {
-            const btn = e.target.closest('.copy-patient-code');
-            if (btn) {
-                try {
-                    await navigator.clipboard.writeText(btn.dataset.code);
-                    showToast('Кодът е копиран.', 'success');
-                } catch { showToast('Не е разрешено.', 'error'); }
-            }
-        });
 
         function updatePatientDropdowns() {
             const active = Object.entries(patients)
@@ -3013,10 +3092,10 @@
 
             [procPatient, aptPatient].forEach(select => {
                 if (!select) return;
-                const currentValue = select.value;
+                const cur = select.value;
                 select.innerHTML = '<option value="">-- избери пациент --</option>' +
                     active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
-                if (active.some(p => p.id === currentValue)) select.value = currentValue;
+                if (active.some(p => p.id === cur)) select.value = cur;
             });
         }
 
@@ -3027,47 +3106,33 @@
                 .map(([id, u]) => ({ id, name: u.name }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
-            const currentValue = portalAptKinezi.value;
+            const cur = portalAptKinezi.value;
             portalAptKinezi.innerHTML = '<option value="">-- избери кинезитерапевт --</option>' +
                 kinezi.map(k => `<option value="${k.id}">${escapeHtml(k.name)}</option>`).join('');
-            if (kinezi.some(k => k.id === currentValue)) portalAptKinezi.value = currentValue;
+            if (kinezi.some(k => k.id === cur)) portalAptKinezi.value = cur;
         }
 
         // =====================================================
         // ПРОЦЕДУРИ
         // =====================================================
-        function getCreatorName(item) {
-            if (!item.createdBy) return '—';
-            const creator = users[item.createdBy];
-            return creator ? escapeHtml(creator.name) : '—';
-        }
-
         function renderProcedures() {
-            const allProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }));
-            if (allProcs.length === 0) {
-                proceduresBody.innerHTML = `<tr><td colspan="6" class="empty-message">
-                    <i class="fas fa-stethoscope"></i> Няма въведени процедури</td></tr>`;
+            const all = Object.entries(procedures).map(([id, p]) => ({ id, ...p }));
+            if (all.length === 0) {
+                proceduresBody.innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`;
                 return;
             }
-            const sorted = [...allProcs].sort((a, b) => {
-                const da = `${a.date || ''} ${a.time || ''}`;
-                const dbb = `${b.date || ''} ${b.time || ''}`;
-                return dbb.localeCompare(da);
-            });
+            const sorted = all.sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
             proceduresBody.innerHTML = sorted.map(proc => {
                 const pat = patients[proc.patientId];
-                const patientName = pat
-                    ? `<a class="patient-link" data-id="${pat.id}"><i class="fas fa-user-circle"></i> ${escapeHtml(pat.name)}</a>`
-                    : '<i>неизвестен пациент</i>';
+                const pName = pat ? `<a class="patient-link" data-id="${pat.id}">${escapeHtml(pat.name)}</a>` : '<i>неизвестен</i>';
                 return `
                     <tr>
-                        <td>${patientName}</td>
+                        <td>${pName}</td>
                         <td>${escapeHtml(proc.description)}</td>
                         <td>${formatDate(proc.date)} ${proc.time || ''}</td>
-                        <td><small style="color:#7f95b0;">${getCreatorName(proc)}</small></td>
                         <td>${escapeHtml(proc.result || '—')}</td>
                         <td>
-                            <button class="btn-outline btn-sm delete-procedure" data-id="${proc.id}">
+                            <button class="btn-outline btn btn-sm delete-procedure" data-id="${proc.id}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -3093,7 +3158,6 @@
             }
 
             const todayStr = toDateStr(new Date());
-            const myPatientId = currentPatient ? currentPatient.id : null;
 
             weekGrid.innerHTML = days.map((day, i) => {
                 const dateStr = toDateStr(day);
@@ -3108,14 +3172,11 @@
                     : dayApts.map(a => {
                         const pat = patients[a.patientId];
                         const patName = pat ? escapeHtml(pat.name) : 'неизвестен';
-                        const isMine = myPatientId && a.patientId === myPatientId;
                         const kineziName = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
                         return `
-                            <div class="appointment ${isMine ? 'mine' : ''}" data-id="${a.id}">
-                                <button class="delete-apt" data-id="${a.id}" title="Изтрий">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                                <div class="time"><i class="fas fa-clock"></i> ${a.time || ''} · ${a.duration || 60}мин</div>
+                            <div class="appointment" data-id="${a.id}">
+                                <button class="delete-apt" data-id="${a.id}"><i class="fas fa-times"></i></button>
+                                <div class="time"><i class="fas fa-clock"></i> ${a.time || ''}</div>
                                 <div class="patient-name">${patName}</div>
                                 ${a.note ? `<div class="note">📋 ${escapeHtml(a.note)}</div>` : ''}
                                 ${kineziName ? `<div class="note">👨‍⚕️ ${escapeHtml(kineziName)}</div>` : ''}
@@ -3138,79 +3199,47 @@
         // =====================================================
         // ЦЕНОРАЗПИС
         // =====================================================
-        function getPricingKey(patientId, date) {
-            return `${patientId}_${date}`;
-        }
-
-        function getPriceForDate(patientId, date) {
-            return pricing[getPricingKey(patientId, date)] || null;
-        }
+        function getPricingKey(patientId, date) { return `${patientId}_${date}`; }
 
         function renderPricing() {
-            if (!priceDateInput.value) {
-                priceDateInput.value = currentPriceDate;
-            } else {
-                currentPriceDate = priceDateInput.value;
-            }
+            if (!priceDateInput.value) priceDateInput.value = currentPriceDate;
+            else currentPriceDate = priceDateInput.value;
 
             const active = Object.entries(patients)
                 .filter(([, p]) => !p.archived)
                 .map(([id, p]) => ({ id, ...p }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
-            const searchTerm = (priceSearchInput.value || '').toLowerCase().trim();
-            const filtered = searchTerm
-                ? active.filter(p => p.name.toLowerCase().includes(searchTerm))
-                : active;
-
-            if (filtered.length === 0) {
-                pricingBody.innerHTML = `<tr><td colspan="5" class="empty-message">
-                    <i class="fas fa-users"></i> Няма намерени пациенти</td></tr>`;
-                updatePriceSummary();
+            if (active.length === 0) {
+                pricingBody.innerHTML = `<tr><td colspan="4" class="empty-message">Няма пациенти</td></tr>`;
                 return;
             }
 
-            pricingBody.innerHTML = filtered.map(p => {
-                const existing = getPriceForDate(p.id, currentPriceDate);
+            pricingBody.innerHTML = active.map(p => {
+                const key = getPricingKey(p.id, currentPriceDate);
+                const existing = pricing[key];
                 const priceVal = existing ? existing.price : '';
                 const descVal = existing ? (existing.description || '') : '';
-                const hasPrice = existing && existing.price !== '' && existing.price !== null && existing.price !== undefined;
-                const createdBy = existing ? getCreatorName(existing) : '—';
+                const hasPrice = existing && existing.price !== '' && existing.price != null;
 
                 return `
                     <tr data-patient-id="${p.id}">
+                        <td><a class="patient-link" data-id="${p.id}">${escapeHtml(p.name)}</a></td>
                         <td>
-                            <a class="patient-link" data-id="${p.id}">
-                                <i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}
-                            </a>
-                        </td>
-                        <td>
-                            <input type="text" class="proc-desc-input" 
-                                   placeholder="напр. Физиотерапия..."
-                                   value="${escapeHtml(descVal)}"
-                                   style="width: 100%; padding: 0.6rem 0.8rem; border-radius: 10px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit;">
+                            <input type="text" class="proc-desc-input" value="${escapeHtml(descVal)}" 
+                                   placeholder="Процедура..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #cfddee; font-family:inherit;">
                         </td>
                         <td>
                             <div class="price-cell">
-                                <input type="number" class="price-input" step="0.01" min="0"
-                                       placeholder="0.00"
-                                       value="${priceVal !== '' ? priceVal : ''}">
+                                <input type="number" class="price-input" step="0.01" min="0" value="${priceVal}" placeholder="0.00">
                                 <span class="currency">€</span>
                             </div>
                         </td>
-                        <td><small style="color:#7f95b0;">${createdBy}</small></td>
                         <td>
-                            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-                                <button class="save-price-btn ${hasPrice ? 'saved' : ''}" data-patient-id="${p.id}">
-                                    <i class="fas ${hasPrice ? 'fa-check' : 'fa-save'}"></i>
-                                    <span>${hasPrice ? 'Запазено' : 'Запази'}</span>
-                                </button>
-                                ${hasPrice ? `
-                                    <button class="delete-price-btn" data-patient-id="${p.id}" title="Изтрий цената">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                ` : ''}
-                            </div>
+                            <button class="save-price-btn ${hasPrice ? 'saved' : ''}" data-patient-id="${p.id}">
+                                <i class="fas ${hasPrice ? 'fa-check' : 'fa-save'}"></i>
+                                ${hasPrice ? 'Запазено' : 'Запази'}
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -3220,18 +3249,15 @@
         }
 
         function updatePriceSummary() {
-            const patientIdsWithPrice = new Set();
             let total = 0;
+            let count = 0;
             Object.entries(pricing).forEach(([, item]) => {
-                if (item.date === currentPriceDate && item.price !== '' && item.price !== null && item.price !== undefined) {
-                    const price = parseFloat(item.price);
-                    if (!isNaN(price)) {
-                        total += price;
-                        patientIdsWithPrice.add(item.patientId);
-                    }
+                if (item.date === currentPriceDate && item.price) {
+                    const v = parseFloat(item.price);
+                    if (!isNaN(v)) { total += v; count++; }
                 }
             });
-            priceCountSummary.textContent = patientIdsWithPrice.size;
+            priceCountSummary.textContent = count;
             priceTotalSummary.textContent = formatPrice(total) + ' €';
         }
 
@@ -3239,10 +3265,10 @@
             const byDate = {};
             Object.entries(pricing).forEach(([, item]) => {
                 if (!item.date) return;
-                if (!byDate[item.date]) byDate[item.date] = { total: 0, count: 0, patients: new Set() };
-                const price = parseFloat(item.price);
-                if (!isNaN(price)) {
-                    byDate[item.date].total += price;
+                if (!byDate[item.date]) byDate[item.date] = { total: 0, patients: new Set() };
+                const v = parseFloat(item.price);
+                if (!isNaN(v)) {
+                    byDate[item.date].total += v;
                     byDate[item.date].patients.add(item.patientId);
                 }
             });
@@ -3250,29 +3276,22 @@
             const sortedDates = Object.keys(byDate).sort((a, b) => b.localeCompare(a)).slice(0, 30);
 
             if (sortedDates.length === 0) {
-                daySummaryGrid.innerHTML = `<div class="empty-message" style="grid-column: 1 / -1;">
-                    <i class="fas fa-chart-line"></i> Все още няма въведени цени
-                </div>`;
+                daySummaryGrid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма въведени цени</div>`;
                 return;
             }
 
-            daySummaryGrid.innerHTML = sortedDates.map(date => {
-                const data = byDate[date];
-                return `
-                    <div class="day-summary-card" data-date="${date}">
-                        <div class="day-title">
-                            <i class="fas fa-calendar-day"></i> ${formatDate(date)}
-                        </div>
-                        <div class="day-total">${formatPrice(data.total)} €</div>
-                        <div class="day-count">${data.patients.size} пациента</div>
-                    </div>
-                `;
-            }).join('');
+            daySummaryGrid.innerHTML = sortedDates.map(date => `
+                <div class="day-summary-card" data-date="${date}">
+                    <div class="day-title"><i class="fas fa-calendar-day"></i> ${formatDate(date)}</div>
+                    <div class="day-total">${formatPrice(byDate[date].total)} €</div>
+                    <div class="day-count">${byDate[date].patients.size} пациента</div>
+                </div>
+            `).join('');
 
-            daySummaryGrid.querySelectorAll('.day-summary-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    priceDateInput.value = card.dataset.date;
-                    currentPriceDate = card.dataset.date;
+            daySummaryGrid.querySelectorAll('.day-summary-card').forEach(c => {
+                c.addEventListener('click', () => {
+                    priceDateInput.value = c.dataset.date;
+                    currentPriceDate = c.dataset.date;
                     renderPricing();
                 });
             });
@@ -3281,84 +3300,31 @@
         pricingBody.addEventListener('click', async (e) => {
             const saveBtn = e.target.closest('.save-price-btn');
             if (!saveBtn) return;
-
             const row = saveBtn.closest('tr');
             const patientId = saveBtn.dataset.patientId;
-            const priceInput = row.querySelector('.price-input');
-            const descInput = row.querySelector('.proc-desc-input');
-
-            const priceVal = priceInput.value.trim();
-            const descVal = descInput.value.trim();
-
-            if (priceVal === '' && descVal === '') {
-                const key = getPricingKey(patientId, currentPriceDate);
-                if (pricing[key]) {
-                    saveBtn.disabled = true;
-                    try {
-                        await remove(ref(db, `pricing/${key}`));
-                        showToast('Записът е изтрит.', 'success');
-                    } catch (err) {
-                        showToast('Грешка: ' + err.message, 'error');
-                    } finally {
-                        saveBtn.disabled = false;
-                    }
-                }
-                return;
-            }
+            const priceVal = row.querySelector('.price-input').value.trim();
+            const descVal = row.querySelector('.proc-desc-input').value.trim();
+            const key = getPricingKey(patientId, currentPriceDate);
 
             saveBtn.disabled = true;
             try {
-                const key = getPricingKey(patientId, currentPriceDate);
-                const existing = pricing[key];
-                const data = {
-                    patientId: patientId,
-                    date: currentPriceDate,
-                    price: priceVal === '' ? '' : parseFloat(priceVal),
-                    description: descVal,
-                    updatedAt: Date.now(),
-                    updatedBy: currentUser.id
-                };
-                if (!existing || !existing.createdBy) {
-                    data.createdBy = currentUser.id;
+                if (priceVal === '' && descVal === '') {
+                    await remove(ref(db, `pricing/${key}`));
+                    showToast('Записът е изтрит.', 'success');
                 } else {
-                    data.createdBy = existing.createdBy;
+                    await set(ref(db, `pricing/${key}`), {
+                        patientId, date: currentPriceDate,
+                        price: priceVal === '' ? '' : parseFloat(priceVal),
+                        description: descVal,
+                        createdBy: currentUser.id,
+                        updatedAt: Date.now()
+                    });
+                    showToast('Цената е запазена.', 'success');
                 }
-                await set(ref(db, `pricing/${key}`), data);
-                showToast('Цената е запазена.', 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
                 saveBtn.disabled = false;
-            }
-        });
-
-        pricingBody.addEventListener('click', async (e) => {
-            const deleteBtn = e.target.closest('.delete-price-btn');
-            if (!deleteBtn) return;
-
-            const patientId = deleteBtn.dataset.patientId;
-            const patient = patients[patientId];
-            const patientName = patient ? patient.name : 'пациент';
-
-            if (!confirm(`Сигурни ли сте, че искате да изтриете цената за ${patientName} на ${formatDate(currentPriceDate)}?`)) return;
-
-            deleteBtn.disabled = true;
-            try {
-                const key = getPricingKey(patientId, currentPriceDate);
-                await remove(ref(db, `pricing/${key}`));
-                showToast('Цената е изтрита.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-                deleteBtn.disabled = false;
-            }
-        });
-
-        pricingBody.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && (e.target.classList.contains('price-input') || e.target.classList.contains('proc-desc-input'))) {
-                e.preventDefault();
-                const row = e.target.closest('tr');
-                const saveBtn = row.querySelector('.save-price-btn');
-                if (saveBtn) saveBtn.click();
             }
         });
 
@@ -3367,40 +3333,20 @@
             renderPricing();
         });
 
-        priceSearchInput.addEventListener('input', () => {
-            renderPricing();
-        });
-
         clearAllPricingBtn.addEventListener('click', async () => {
-            const totalRecords = Object.keys(pricing).length;
-
-            if (totalRecords === 0) {
-                showToast('Няма въведени цени за изтриване.', 'error');
-                return;
-            }
-
-            const confirmed = confirm(
-                `⚠️ ВНИМАНИЕ!\n\n` +
-                `Ще изтриете ВСИЧКИ ${totalRecords} записа с цени.\n` +
-                `Това действие е НЕОБРАТИМО.\n\nСигурни ли сте?`
-            );
-            if (!confirmed) return;
-
-            const doubleCheck = confirm('Последно потвърждение: да изтрия ли ВСИЧКИ цени?');
-            if (!doubleCheck) return;
+            const total = Object.keys(pricing).length;
+            if (total === 0) { showToast('Няма цени.', 'error'); return; }
+            if (!confirm(`Ще изтриете ВСИЧКИ ${total} записа. Сигурни?`)) return;
+            if (!confirm('Последно: да изтрия ли ВСИЧКИ цени?')) return;
 
             clearAllPricingBtn.disabled = true;
-            const originalText = clearAllPricingBtn.innerHTML;
-            clearAllPricingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изтриване...';
-
             try {
                 await remove(pricingRef);
-                showToast(`Всички ${totalRecords} записа с цени са изтрити.`, 'success');
+                showToast('Всички цени са изтрити.', 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
                 clearAllPricingBtn.disabled = false;
-                clearAllPricingBtn.innerHTML = originalText;
             }
         });
 
@@ -3408,51 +3354,33 @@
         // ПОТРЕБИТЕЛИ
         // =====================================================
         function renderUsers() {
-            const allUsers = Object.entries(users).map(([id, u]) => ({ id, ...u }));
-            if (allUsers.length === 0) {
-                usersBody.innerHTML = `<tr><td colspan="5" class="empty-message">
-                    <i class="fas fa-users"></i> Няма създадени потребители</td></tr>`;
+            const all = Object.entries(users).map(([id, u]) => ({ id, ...u }));
+            if (all.length === 0) {
+                usersBody.innerHTML = `<tr><td colspan="4" class="empty-message">Няма потребители</td></tr>`;
                 return;
             }
-            usersBody.innerHTML = allUsers.map(u => {
+            usersBody.innerHTML = all.map(u => {
                 const initials = (u.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
                 const isCurrent = currentUser && currentUser.id === u.id && !currentPatient;
-                const roles = getUserRoles(u);
-                const hasAdmin = roles.includes('Администратор');
-                const totalAdmins = Object.values(users).filter(x => getUserRoles(x).includes('Администратор')).length;
-                const showDelete = !isCurrent && !(hasAdmin && totalAdmins === 1);
                 return `
                     <tr>
                         <td>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <div class="user-avatar" style="background: #1e4a78;">${initials}</div>
-                                <strong>${escapeHtml(u.name)}${isCurrent ? ' <span style="color:#1a7a3e; font-size:0.8rem;">(вие)</span>' : ''}</strong>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="user-avatar" style="background:#1e4a78;">${initials}</div>
+                                <strong>${escapeHtml(u.name)}${isCurrent ? ' (вие)' : ''}</strong>
                             </div>
                         </td>
                         <td>${getRolesBadgesHtml(u)}</td>
+                        <td><span class="code-badge">${u.accessCode}</span></td>
                         <td>
-                            <span class="code-badge">
-                                ${u.accessCode}
-                                <button class="copy-code" data-code="${u.accessCode}">
-                                    <i class="fas fa-copy"></i>
+                            <button class="btn-outline btn btn-sm edit-user" data-id="${u.id}">
+                                <i class="fas fa-edit"></i> Роли
+                            </button>
+                            ${!isCurrent ? `
+                                <button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
-                            </span>
-                        </td>
-                        <td>${formatTimestamp(u.createdAt)}</td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-outline btn-sm edit-user" data-id="${u.id}">
-                                    <i class="fas fa-edit"></i> Роли
-                                </button>
-                                <button class="btn-outline btn-sm regenerate-code" data-id="${u.id}">
-                                    <i class="fas fa-sync-alt"></i> Нов код
-                                </button>
-                                ${showDelete ? `
-                                    <button class="btn-danger-outline btn-sm delete-user" data-id="${u.id}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                ` : ''}
-                            </div>
+                            ` : ''}
                         </td>
                     </tr>
                 `;
@@ -3464,33 +3392,21 @@
             const name = userNameInput.value.trim();
             if (!name) { showToast('Въведете име.', 'error'); return; }
 
-            const selectedRoles = Array.from(userRolesMenu.querySelectorAll('input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-
-            if (selectedRoles.length === 0) {
-                showToast('Изберете поне една роля.', 'error');
-                return;
-            }
+            const roles = Array.from(userRolesMenu.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
+            if (roles.length === 0) { showToast('Изберете роля.', 'error'); return; }
 
             addUserBtn.disabled = true;
             try {
-                const newCode = generateUniqueCode(users, patients);
+                const code = generateUniqueCode(users, patients);
                 const newRef = push(usersRef);
-                await set(newRef, {
-                    name,
-                    roles: selectedRoles,
-                    accessCode: newCode,
-                    createdAt: Date.now()
-                });
+                await set(newRef, { name, roles, accessCode: code, createdAt: Date.now() });
                 modalUserName.textContent = name;
-                modalNewCode.textContent = newCode;
+                modalNewCode.textContent = code;
                 codeModal.classList.add('active');
-
                 userForm.reset();
                 userRolesMenu.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
                 updateNewUserRolesUI();
-
-                showToast(`Потребител ${name} е създаден.`, 'success');
+                showToast('Потребителят е създаден.', 'success');
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
@@ -3499,119 +3415,54 @@
         });
 
         usersBody.addEventListener('click', async (e) => {
-            const copyBtn = e.target.closest('.copy-code');
-            if (copyBtn) {
-                try {
-                    await navigator.clipboard.writeText(copyBtn.dataset.code);
-                    showToast(`Код ${copyBtn.dataset.code} е копиран.`, 'success');
-                } catch { showToast('Не е разрешено.', 'error'); }
-                return;
-            }
-
-            const regenBtn = e.target.closest('.regenerate-code');
-            if (regenBtn) {
-                if (!confirm('Нов код? Старият ще спре да работи.')) return;
-                regenBtn.disabled = true;
-                try {
-                    const newCode = generateUniqueCode(users, patients);
-                    await update(ref(db, `users/${regenBtn.dataset.id}`), { accessCode: newCode });
-                    showToast(`Нов код: ${newCode}`, 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    regenBtn.disabled = false;
-                }
-                return;
-            }
-
             const editBtn = e.target.closest('.edit-user');
             if (editBtn) {
-                openEditRolesModal(editBtn.dataset.id);
+                const u = users[editBtn.dataset.id];
+                if (!u) return;
+                editingUserId = editBtn.dataset.id;
+                editRolesUserName.textContent = u.name;
+                const roles = getUserRoles(u);
+                editRolesList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = roles.includes(cb.value);
+                    cb.closest('.edit-role-item').classList.toggle('selected', cb.checked);
+                });
+                editRolesModal.classList.add('active');
                 return;
             }
 
             const delBtn = e.target.closest('.delete-user');
             if (delBtn) {
                 if (!confirm('Изтрий този потребител?')) return;
-                delBtn.disabled = true;
                 try {
                     await remove(ref(db, `users/${delBtn.dataset.id}`));
-                    showToast('Потребителят е изтрит.', 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    delBtn.disabled = false;
-                }
+                    showToast('Изтрит.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
             }
         });
-
-        // =====================================================
-        // EDIT ROLES MODAL
-        // =====================================================
-        function openEditRolesModal(userId) {
-            const user = users[userId];
-            if (!user) return;
-
-            editingUserId = userId;
-            editRolesUserName.textContent = user.name;
-
-            const currentRoles = getUserRoles(user);
-            editRolesList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = currentRoles.includes(cb.value);
-            });
-            updateEditRolesUI();
-
-            editRolesModal.classList.add('active');
-        }
 
         editRolesList.querySelectorAll('.edit-role-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 if (e.target.tagName === 'INPUT') return;
                 e.preventDefault();
-                const cb = item.querySelector('input[type="checkbox"]');
+                const cb = item.querySelector('input');
                 cb.checked = !cb.checked;
-                updateEditRolesUI();
+                item.classList.toggle('selected', cb.checked);
             });
         });
 
-        function updateEditRolesUI() {
-            editRolesList.querySelectorAll('.edit-role-item').forEach(item => {
-                const cb = item.querySelector('input[type="checkbox"]');
-                item.classList.toggle('selected', cb.checked);
-            });
-        }
-
         saveRolesBtn.addEventListener('click', async () => {
             if (!editingUserId) return;
-
-            const selectedRoles = Array.from(editRolesList.querySelectorAll('input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-
-            if (selectedRoles.length === 0) {
-                showToast('Изберете поне една роля.', 'error');
-                return;
-            }
-
-            const otherAdmins = Object.entries(users).filter(([id, u]) =>
-                id !== editingUserId && getUserRoles(u).includes('Администратор')
-            );
-            if (!selectedRoles.includes('Администратор') && otherAdmins.length === 0) {
-                showToast('Не може да премахнете последния администратор!', 'error');
-                return;
-            }
+            const roles = Array.from(editRolesList.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
+            if (roles.length === 0) { showToast('Изберете роля.', 'error'); return; }
 
             saveRolesBtn.disabled = true;
             try {
-                await update(ref(db, `users/${editingUserId}`), {
-                    roles: selectedRoles,
-                    role: null
-                });
+                await update(ref(db, `users/${editingUserId}`), { roles, role: null });
                 showToast('Ролите са обновени.', 'success');
                 editRolesModal.classList.remove('active');
                 editingUserId = null;
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                saveRolesBtn.disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { saveRolesBtn.disabled = false; }
         });
 
         cancelRolesBtn.addEventListener('click', () => {
@@ -3619,178 +3470,40 @@
             editingUserId = null;
         });
 
-        editRolesModal.addEventListener('click', (e) => {
-            if (e.target === editRolesModal) {
-                editRolesModal.classList.remove('active');
-                editingUserId = null;
-            }
+        modalCopyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(modalNewCode.textContent);
+                showToast('Кодът е копиран.', 'success');
+            } catch { showToast('Не е разрешено.', 'error'); }
         });
 
-        // =====================================================
-        // АКТИВНОСТ
-        // =====================================================
-        function renderActivity() {
-            if (!isAdmin(currentUser)) return;
-
-            const kineziUsers = Object.entries(users).filter(([, u]) => hasRole(u, 'Кинезитерапевт'));
-
-            if (kineziUsers.length === 0) {
-                activityContent.innerHTML = `<div class="card">
-                    <div class="empty-message">
-                        <i class="fas fa-users"></i><br>
-                        Все още няма потребители с роля „Кинезитерапевт“.
-                    </div>
-                </div>`;
-                return;
-            }
-
-            activityContent.innerHTML = kineziUsers.map(([userId, user]) => {
-                const initials = (user.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-
-                const userPatients = Object.entries(patients).filter(([, p]) => p.createdBy === userId);
-                const userProcedures = Object.entries(procedures).filter(([, p]) => p.createdBy === userId);
-                const userAppointments = Object.entries(appointments).filter(([, a]) => a.kineziId === userId || a.createdBy === userId);
-                const userPricing = Object.entries(pricing).filter(([, p]) => p.createdBy === userId);
-
-                const totalSum = userPricing.reduce((sum, [, item]) => {
-                    const v = parseFloat(item.price);
-                    return sum + (isNaN(v) ? 0 : v);
-                }, 0);
-
-                return `
-                    <div class="user-activity-card">
-                        <div class="user-activity-header">
-                            <div class="user-avatar">${initials}</div>
-                            <div class="info">
-                                <h3>${escapeHtml(user.name)}</h3>
-                                <div class="badges">${getRolesBadgesHtml(user)}</div>
-                            </div>
-                        </div>
-
-                        <div class="activity-stats">
-                            <div class="activity-stat">
-                                <div class="num">${userPatients.length}</div>
-                                <div class="lbl">Пациенти</div>
-                            </div>
-                            <div class="activity-stat">
-                                <div class="num">${userProcedures.length}</div>
-                                <div class="lbl">Процедури</div>
-                            </div>
-                            <div class="activity-stat">
-                                <div class="num">${userAppointments.length}</div>
-                                <div class="lbl">Часове</div>
-                            </div>
-                            <div class="activity-stat">
-                                <div class="num">${userPricing.length}</div>
-                                <div class="lbl">Цени</div>
-                            </div>
-                            <div class="activity-stat">
-                                <div class="num">${formatPrice(totalSum)} €</div>
-                                <div class="lbl">Сума</div>
-                            </div>
-                        </div>
-
-                        ${userAppointments.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-calendar-alt"></i> Записани часове</div>
-                            <div class="activity-list">
-                                ${userAppointments.slice(0, 5).map(([id, a]) => {
-                                    const pat = patients[a.patientId];
-                                    return `
-                                        <div class="activity-item">
-                                            <div class="main">
-                                                <span class="name">${pat ? escapeHtml(pat.name) : '—'}</span>
-                                                <span class="meta">${formatDate(a.date)} в ${a.time || ''} · ${a.duration || 60}мин${a.note ? ' · ' + escapeHtml(a.note) : ''}</span>
-                                            </div>
-                                            <span class="when">${formatTimestamp(a.createdAt)}</span>
-                                        </div>
-                                    `;
-                                }).join('')}
-                                ${userAppointments.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userAppointments.length - 5}</div>` : ''}
-                            </div>
-                        ` : ''}
-
-                        ${userProcedures.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-stethoscope"></i> Извършени процедури</div>
-                            <div class="activity-list">
-                                ${userProcedures.slice(0, 5).map(([id, p]) => {
-                                    const pat = patients[p.patientId];
-                                    return `
-                                        <div class="activity-item">
-                                            <div class="main">
-                                                <span class="name">${escapeHtml(p.description)}</span>
-                                                <span class="meta">${pat ? escapeHtml(pat.name) : '—'} · ${formatDate(p.date)} ${p.time || ''}</span>
-                                            </div>
-                                            <span class="when">${formatTimestamp(p.createdAt)}</span>
-                                        </div>
-                                    `;
-                                }).join('')}
-                                ${userProcedures.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userProcedures.length - 5}</div>` : ''}
-                            </div>
-                        ` : ''}
-
-                        ${userPatients.length > 0 ? `
-                            <div class="activity-section-title"><i class="fas fa-users"></i> Добавени пациенти</div>
-                            <div class="activity-list">
-                                ${userPatients.slice(0, 5).map(([id, p]) => `
-                                    <div class="activity-item">
-                                        <div class="main">
-                                            <span class="name">${escapeHtml(p.name)}</span>
-                                            <span class="meta">${escapeHtml(p.phone || 'без телефон')}</span>
-                                        </div>
-                                        <span class="when">${formatTimestamp(p.createdAt)}</span>
-                                    </div>
-                                `).join('')}
-                                ${userPatients.length > 5 ? `<div style="text-align:center; color:#7f95b0; font-size:0.85rem; padding:0.4rem;">... и още ${userPatients.length - 5}</div>` : ''}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
+        modalCloseBtn.addEventListener('click', () => codeModal.classList.remove('active'));
 
         // =====================================================
-        // ПРОФИЛ НА ПАЦИЕНТ
+        // ПРОФИЛ
         // =====================================================
         function openPatientProfile(patientId) {
             const patient = patients[patientId];
-            if (!patient) {
-                showToast('Пациентът не е намерен.', 'error');
-                return;
-            }
+            if (!patient) { showToast('Пациентът не е намерен.', 'error'); return; }
 
             window.currentProfilePatientId = patientId;
             Object.values(modules).forEach(m => m.classList.remove('active'));
             patientProfileModule.classList.add('active');
             navItems.forEach(n => n.classList.remove('active'));
 
-            const patientProcs = Object.entries(procedures)
-                .map(([id, p]) => ({ id, ...p }))
+            const procs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }))
                 .filter(p => p.patientId === patientId)
-                .sort((a, b) => {
-                    const da = `${a.date || ''} ${a.time || ''}`;
-                    const dbb = `${b.date || ''} ${b.time || ''}`;
-                    return dbb.localeCompare(da);
-                });
+                .sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
 
-            const patientApts = Object.entries(appointments)
-                .map(([id, a]) => ({ id, ...a }))
+            const apts = Object.entries(appointments).map(([id, a]) => ({ id, ...a }))
                 .filter(a => a.patientId === patientId && a.date >= toDateStr(new Date()))
-                .sort((a, b) => {
-                    const da = `${a.date || ''} ${a.time || ''}`;
-                    const dbb = `${b.date || ''} ${b.time || ''}`;
-                    return da.localeCompare(dbb);
-                });
+                .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
 
-            const patientPrices = Object.entries(pricing)
-                .map(([key, item]) => ({ key, ...item }))
+            const prices = Object.entries(pricing).map(([key, item]) => ({ key, ...item }))
                 .filter(item => item.patientId === patientId)
                 .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
-            const patientTotal = patientPrices.reduce((sum, p) => {
-                const v = parseFloat(p.price);
-                return sum + (isNaN(v) ? 0 : v);
-            }, 0);
-
+            const total = prices.reduce((s, p) => s + (parseFloat(p.price) || 0), 0);
             const initials = (patient.name || '?').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
             profileContent.innerHTML = `
@@ -3800,7 +3513,6 @@
                         <h2>${escapeHtml(patient.name)}</h2>
                         <div class="contact">
                             ${patient.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(patient.phone)}</span>` : ''}
-                            ${patient.notes ? `<span><i class="fas fa-info-circle"></i> ${escapeHtml(patient.notes)}</span>` : ''}
                             ${patient.accessCode ? `<span><i class="fas fa-key"></i> Код: <strong>${patient.accessCode}</strong></span>` : ''}
                             ${patient.archived ? `<span><i class="fas fa-archive"></i> Архивиран</span>` : ''}
                         </div>
@@ -3808,75 +3520,24 @@
                 </div>
 
                 <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="label">Общо процедури</div>
-                        <div class="value">${patientProcs.length}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="label">Предстоящи часове</div>
-                        <div class="value">${patientApts.length}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="label">Дни с цена</div>
-                        <div class="value">${patientPrices.length}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="label">Общо платено</div>
-                        <div class="value" style="font-size: 1.3rem;">${formatPrice(patientTotal)} €</div>
-                    </div>
+                    <div class="stat-card"><div class="label">Процедури</div><div class="value">${procs.length}</div></div>
+                    <div class="stat-card"><div class="label">Часове</div><div class="value">${apts.length}</div></div>
+                    <div class="stat-card"><div class="label">Дни с цена</div><div class="value">${prices.length}</div></div>
+                    <div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(total)} €</div></div>
                 </div>
 
-                ${patientApts.length > 0 ? `
+                ${apts.length > 0 ? `
                     <div class="card">
-                        <h3><i class="fas fa-calendar-check"></i> Предстоящи часове в графика</h3>
+                        <h3><i class="fas fa-calendar-check"></i> Предстоящи часове</h3>
                         <div class="table-wrapper">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th>Дата</th>
-                                        <th>Час</th>
-                                        <th>Кинезитерапевт</th>
-                                        <th>Процедура</th>
-                                    </tr>
-                                </thead>
+                                <thead><tr><th>Дата</th><th>Час</th><th>Процедура</th></tr></thead>
                                 <tbody>
-                                    ${patientApts.map(a => {
-                                        const kinezi = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
-                                        return `
-                                            <tr>
-                                                <td>${formatDate(a.date)}</td>
-                                                <td>${a.time || '—'}</td>
-                                                <td>${escapeHtml(kinezi)}</td>
-                                                <td>${escapeHtml(a.note || '—')}</td>
-                                            </tr>
-                                        `;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                ` : ''}
-
-                ${patientPrices.length > 0 ? `
-                    <div class="card">
-                        <h3><i class="fas fa-euro-sign"></i> Цени по дни (${patientPrices.length})</h3>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Дата</th>
-                                        <th>Процедура</th>
-                                        <th>Цена</th>
-                                        <th>Въвел</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${patientPrices.map(p => `
+                                    ${apts.map(a => `
                                         <tr>
-                                            <td>${formatDate(p.date)}</td>
-                                            <td>${escapeHtml(p.description || '—')}</td>
-                                            <td><strong>${formatPrice(p.price)} €</strong></td>
-                                            <td><small style="color:#7f95b0;">${getCreatorName(p)}</small></td>
+                                            <td>${formatDate(a.date)}</td>
+                                            <td>${a.time || '—'}</td>
+                                            <td>${escapeHtml(a.note || '—')}</td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -3886,25 +3547,14 @@
                 ` : ''}
 
                 <div class="card">
-                    <h3><i class="fas fa-history"></i> История на процедурите (${patientProcs.length})</h3>
-                    ${patientProcs.length === 0 ? `
-                        <div class="empty-message">
-                            <i class="fas fa-stethoscope"></i><br>
-                            Все още няма процедури с този пациент
-                        </div>
-                    ` : `
+                    <h3><i class="fas fa-history"></i> История (${procs.length})</h3>
+                    ${procs.length === 0 ? '<div class="empty-message">Няма процедури</div>' : `
                         <div class="timeline">
-                            ${patientProcs.map(p => `
+                            ${procs.map(p => `
                                 <div class="timeline-item">
-                                    <div class="date">
-                                        <i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time || '—'}
-                                    </div>
+                                    <div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time || '—'}</div>
                                     <div class="title">${escapeHtml(p.description)}</div>
-                                    ${p.result ? `
-                                        <div class="result">
-                                            <strong>Резултат:</strong> ${escapeHtml(p.result)}
-                                        </div>
-                                    ` : ''}
+                                    ${p.result ? `<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>` : ''}
                                 </div>
                             `).join('')}
                         </div>
@@ -3919,9 +3569,7 @@
             window.currentProfilePatientId = null;
             patientProfileModule.classList.remove('active');
             modules.patients.classList.add('active');
-            navItems.forEach(n => {
-                n.classList.toggle('active', n.dataset.module === 'patients');
-            });
+            navItems.forEach(n => n.classList.toggle('active', n.dataset.module === 'patients'));
         });
 
         document.addEventListener('click', (e) => {
@@ -3933,180 +3581,110 @@
         });
 
         // =====================================================
-        // CRUD ПАЦИЕНТИ
+        // CRUD
         // =====================================================
         patientForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = patientName.value.trim();
-            if (!name) { showToast('Въведете име.', 'error'); return; }
+            if (!name) return;
             addPatientBtn.disabled = true;
             try {
-                const patientCode = generateUniqueCode(users, patients);
+                const code = generateUniqueCode(users, patients);
                 const newRef = push(patientsRef);
                 await set(newRef, {
-                    name,
-                    phone: patientPhone.value.trim(),
-                    notes: patientNotes.value.trim(),
-                    archived: false,
-                    createdAt: Date.now(),
-                    createdBy: currentUser.id,
-                    accessCode: patientCode
+                    name, phone: patientPhone.value.trim(), notes: patientNotes.value.trim(),
+                    archived: false, createdAt: Date.now(), createdBy: currentUser.id,
+                    accessCode: code
                 });
-
                 modalUserName.textContent = name;
-                modalNewCode.textContent = patientCode;
+                modalNewCode.textContent = code;
                 codeModal.classList.add('active');
-
                 patientForm.reset();
                 showToast('Пациентът е добавен.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                addPatientBtn.disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addPatientBtn.disabled = false; }
         });
 
         activePatientsBody.addEventListener('click', async (e) => {
             const btn = e.target.closest('.archive-single');
             if (!btn) return;
-            btn.disabled = true;
             try {
                 await update(ref(db, `patients/${btn.dataset.id}`), { archived: true });
-                showToast('Пациентът е архивиран.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-                btn.disabled = false;
-            }
-        });
-
-        archiveSelectedBtn.addEventListener('click', async () => {
-            const checked = document.querySelectorAll('.patient-checkbox:checked');
-            if (checked.length === 0) { showToast('Изберете поне един пациент.', 'error'); return; }
-            archiveSelectedBtn.disabled = true;
-            try {
-                const updates = {};
-                checked.forEach(cb => { updates[`patients/${cb.value}/archived`] = true; });
-                await update(ref(db), updates);
-                showToast(`Архивирани ${checked.length} пациента.`, 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                archiveSelectedBtn.disabled = false;
-            }
+                showToast('Архивиран.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         archivedPatientsBody.addEventListener('click', async (e) => {
-            const restoreBtn = e.target.closest('.restore-patient');
-            const deleteBtn = e.target.closest('.delete-patient');
-
-            if (restoreBtn) {
-                restoreBtn.disabled = true;
+            const rBtn = e.target.closest('.restore-patient');
+            if (rBtn) {
                 try {
-                    await update(ref(db, `patients/${restoreBtn.dataset.id}`), { archived: false });
-                    showToast('Пациентът е възстановен.', 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    restoreBtn.disabled = false;
-                }
+                    await update(ref(db, `patients/${rBtn.dataset.id}`), { archived: false });
+                    showToast('Възстановен.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
-
-            if (deleteBtn) {
-                if (!confirm('Изтрий пациента ЗАВИНАГИ?')) return;
-                deleteBtn.disabled = true;
+            const dBtn = e.target.closest('.delete-patient');
+            if (dBtn) {
+                if (!confirm('Изтрий ЗАВИНАГИ?')) return;
                 try {
-                    await remove(ref(db, `patients/${deleteBtn.dataset.id}`));
-                    showToast('Пациентът е изтрит.', 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                    deleteBtn.disabled = false;
-                }
+                    await remove(ref(db, `patients/${dBtn.dataset.id}`));
+                    showToast('Изтрит.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
             }
         });
 
-        selectAllPatients.addEventListener('change', (e) => {
-            document.querySelectorAll('.patient-checkbox').forEach(cb => cb.checked = e.target.checked);
-        });
-
-        // =====================================================
-        // CRUD ГРАФИК
-        // =====================================================
         appointmentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const patientId = aptPatient.value;
             const date = aptDate.value;
             const time = aptTime.value;
             const note = aptNote.value.trim();
-            if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
-            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
-            if (!note) { showToast('Напишете за каква процедура е часът.', 'error'); return; }
+            if (!patientId || !date || !time || !note) { showToast('Попълнете всички полета.', 'error'); return; }
 
             addAppointmentBtn.disabled = true;
             try {
                 const newRef = push(appointmentsRef);
                 await set(newRef, {
-                    patientId, date, time,
+                    patientId, date, time, note,
                     duration: parseInt(aptDuration.value),
-                    note: note,
-                    createdAt: Date.now(),
-                    createdBy: currentUser.id
+                    createdAt: Date.now(), createdBy: currentUser.id
                 });
                 appointmentForm.reset();
                 aptDate.value = new Date().toISOString().split('T')[0];
-                aptDuration.value = '60';
                 showToast('Часът е записан.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                addAppointmentBtn.disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addAppointmentBtn.disabled = false; }
         });
 
         weekGrid.addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.delete-apt');
             if (delBtn) {
                 e.stopPropagation();
-                if (!confirm('Изтрий този час?')) return;
+                if (!confirm('Изтрий?')) return;
                 try {
                     await remove(ref(db, `appointments/${delBtn.dataset.id}`));
-                    showToast('Часът е изтрит.', 'success');
-                } catch (err) {
-                    showToast('Грешка: ' + err.message, 'error');
-                }
+                    showToast('Изтрит.', 'success');
+                } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
             const apt = e.target.closest('.appointment');
             if (apt) {
-                const aptData = appointments[apt.dataset.id];
-                if (aptData && aptData.patientId) openPatientProfile(aptData.patientId);
+                const a = appointments[apt.dataset.id];
+                if (a && a.patientId) openPatientProfile(a.patientId);
             }
         });
 
-        prevWeekBtn.addEventListener('click', () => {
-            currentWeekStart = addDays(currentWeekStart, -7);
-            renderWeek();
-        });
-        nextWeekBtn.addEventListener('click', () => {
-            currentWeekStart = addDays(currentWeekStart, 7);
-            renderWeek();
-        });
-        todayBtn.addEventListener('click', () => {
-            currentWeekStart = getMonday(new Date());
-            renderWeek();
-        });
+        prevWeekBtn.addEventListener('click', () => { currentWeekStart = addDays(currentWeekStart, -7); renderWeek(); });
+        nextWeekBtn.addEventListener('click', () => { currentWeekStart = addDays(currentWeekStart, 7); renderWeek(); });
+        todayBtn.addEventListener('click', () => { currentWeekStart = getMonday(new Date()); renderWeek(); });
 
-        // =====================================================
-        // CRUD ПРОЦЕДУРИ
-        // =====================================================
         procedureForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const patientId = procPatient.value;
             const description = procDescription.value.trim();
             const date = procDate.value;
             const time = procTime.value;
-            if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
-            if (!description) { showToast('Въведете описание.', 'error'); return; }
-            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
+            if (!patientId || !description || !date || !time) { showToast('Попълнете всички полета.', 'error'); return; }
 
             addProcedureBtn.disabled = true;
             try {
@@ -4114,80 +3692,51 @@
                 await set(newRef, {
                     patientId, description, date, time,
                     result: procResult.value.trim(),
-                    createdAt: Date.now(),
-                    createdBy: currentUser.id
+                    createdAt: Date.now(), createdBy: currentUser.id
                 });
                 procedureForm.reset();
                 procDate.value = new Date().toISOString().split('T')[0];
-                updatePatientDropdowns();
                 showToast('Процедурата е запазена.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                addProcedureBtn.disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { addProcedureBtn.disabled = false; }
         });
 
         proceduresBody.addEventListener('click', async (e) => {
             const btn = e.target.closest('.delete-procedure');
             if (!btn) return;
-            if (!confirm('Изтрий тази процедура?')) return;
-            btn.disabled = true;
+            if (!confirm('Изтрий?')) return;
             try {
                 await remove(ref(db, `procedures/${btn.dataset.id}`));
-                showToast('Процедурата е изтрита.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-                btn.disabled = false;
-            }
-        });
-
-        modalCopyBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(modalNewCode.textContent);
-                showToast('Кодът е копиран.', 'success');
-            } catch { showToast('Не е разрешено.', 'error'); }
-        });
-
-        modalCloseBtn.addEventListener('click', () => codeModal.classList.remove('active'));
-        codeModal.addEventListener('click', (e) => {
-            if (e.target === codeModal) codeModal.classList.remove('active');
+                showToast('Изтрита.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         // =====================================================
-        // ПОРТАЛ ЗА ПАЦИЕНТ
+        // ПОРТАЛ
         // =====================================================
         function renderPortal() {
             if (!currentPatient) return;
-
             portalUserName.textContent = currentPatient.name;
             renderPortalKineziSelect();
 
-            const myApts = Object.entries(appointments)
-                .map(([id, a]) => ({ id, ...a }))
+            const apts = Object.entries(appointments).map(([id, a]) => ({ id, ...a }))
                 .filter(a => a.patientId === currentPatient.id && a.date >= toDateStr(new Date()))
-                .sort((a, b) => {
-                    const da = `${a.date || ''} ${a.time || ''}`;
-                    const dbb = `${b.date || ''} ${b.time || ''}`;
-                    return da.localeCompare(dbb);
-                });
+                .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
 
-            if (myApts.length === 0) {
-                portalAppointmentsBody.innerHTML = `<tr><td colspan="5" class="empty-message">
-                    <i class="fas fa-calendar-times"></i> Нямате предстоящи часове
-                </td></tr>`;
+            if (apts.length === 0) {
+                portalAppointmentsBody.innerHTML = `<tr><td colspan="5" class="empty-message">Няма часове</td></tr>`;
             } else {
-                portalAppointmentsBody.innerHTML = myApts.map(a => {
-                    const kineziName = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
+                portalAppointmentsBody.innerHTML = apts.map(a => {
+                    const k = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '—';
                     return `
                         <tr>
                             <td>${formatDate(a.date)}</td>
                             <td>${a.time || '—'}</td>
-                            <td>${escapeHtml(kineziName)}</td>
+                            <td>${escapeHtml(k)}</td>
                             <td>${escapeHtml(a.note || '—')}</td>
                             <td>
-                                <button class="btn-danger-outline btn-sm portal-delete-apt" data-id="${a.id}">
-                                    <i class="fas fa-trash-alt"></i> Отмени
+                                <button class="btn-danger-outline btn btn-sm portal-delete-apt" data-id="${a.id}">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>
@@ -4195,50 +3744,22 @@
                 }).join('');
             }
 
-            const myProcs = Object.entries(procedures)
-                .map(([id, p]) => ({ id, ...p }))
+            const procs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }))
                 .filter(p => p.patientId === currentPatient.id)
-                .sort((a, b) => {
-                    const da = `${a.date || ''} ${a.time || ''}`;
-                    const dbb = `${b.date || ''} ${b.time || ''}`;
-                    return dbb.localeCompare(da);
-                });
+                .sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
 
-            if (myProcs.length === 0) {
-                portalProceduresBody.innerHTML = `<div class="empty-message">
-                    <i class="fas fa-stethoscope"></i> Все още няма процедури
-                </div>`;
+            if (procs.length === 0) {
+                portalProceduresBody.innerHTML = '<div class="empty-message">Няма процедури</div>';
             } else {
                 portalProceduresBody.innerHTML = `<div class="timeline">
-                    ${myProcs.map(p => `
+                    ${procs.map(p => `
                         <div class="timeline-item">
-                            <div class="date">
-                                <i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time || '—'}
-                            </div>
+                            <div class="date">${formatDate(p.date)} в ${p.time || '—'}</div>
                             <div class="title">${escapeHtml(p.description)}</div>
                             ${p.result ? `<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>` : ''}
                         </div>
                     `).join('')}
                 </div>`;
-            }
-
-            const myPrices = Object.entries(pricing)
-                .map(([key, item]) => ({ key, ...item }))
-                .filter(item => item.patientId === currentPatient.id)
-                .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
-            if (myPrices.length === 0) {
-                portalPricingBody.innerHTML = `<tr><td colspan="3" class="empty-message">
-                    <i class="fas fa-euro-sign"></i> Все още няма въведени цени
-                </td></tr>`;
-            } else {
-                portalPricingBody.innerHTML = myPrices.map(p => `
-                    <tr>
-                        <td>${formatDate(p.date)}</td>
-                        <td>${escapeHtml(p.description || '—')}</td>
-                        <td><strong>${formatPrice(p.price)} €</strong></td>
-                    </tr>
-                `).join('');
             }
         }
 
@@ -4251,47 +3772,31 @@
             const time = portalAptTime.value;
             const note = portalAptNote.value.trim();
 
-            if (!kineziId) { showToast('Изберете кинезитерапевт.', 'error'); return; }
-            if (!date || !time) { showToast('Попълнете дата и час.', 'error'); return; }
-            if (!note) { showToast('Напишете за каква процедура е часът.', 'error'); return; }
+            if (!kineziId || !date || !time || !note) { showToast('Попълнете всички полета.', 'error'); return; }
 
             portalAddAptBtn.disabled = true;
             try {
                 const newRef = push(appointmentsRef);
                 await set(newRef, {
-                    patientId: currentPatient.id,
-                    kineziId: kineziId,
-                    date,
-                    time,
+                    patientId: currentPatient.id, kineziId, date, time, note,
                     duration: parseInt(portalAptDuration.value),
-                    note: note,
-                    createdAt: Date.now(),
-                    createdBy: currentPatient.id,
-                    createdByPatient: true
+                    createdAt: Date.now(), createdBy: currentPatient.id
                 });
                 portalAppointmentForm.reset();
                 portalAptDate.value = new Date().toISOString().split('T')[0];
-                portalAptDuration.value = '60';
                 showToast('Часът е запазен.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-            } finally {
-                portalAddAptBtn.disabled = false;
-            }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { portalAddAptBtn.disabled = false; }
         });
 
         portalAppointmentsBody.addEventListener('click', async (e) => {
             const btn = e.target.closest('.portal-delete-apt');
             if (!btn) return;
-            if (!confirm('Сигурни ли сте, че искате да отмените този час?')) return;
-            btn.disabled = true;
+            if (!confirm('Отмени този час?')) return;
             try {
                 await remove(ref(db, `appointments/${btn.dataset.id}`));
-                showToast('Часът е отменен.', 'success');
-            } catch (err) {
-                showToast('Грешка: ' + err.message, 'error');
-                btn.disabled = false;
-            }
+                showToast('Отменен.', 'success');
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         // =====================================================
@@ -4312,23 +3817,13 @@
                     modules[key].classList.toggle('active', key === moduleName);
                 });
 
-                if (moduleName === 'procedures') {
-                    updatePatientDropdowns();
-                    renderProcedures();
-                } else if (moduleName === 'patients') {
-                    renderPatients();
-                } else if (moduleName === 'users') {
-                    renderUsers();
-                } else if (moduleName === 'schedule') {
-                    renderWeek();
-                } else if (moduleName === 'pricing') {
-                    renderPricing();
-                    renderDaySummary();
-                } else if (moduleName === 'activity') {
-                    renderActivity();
-                } else if (moduleName === 'portal') {
-                    renderPortal();
-                }
+                if (moduleName === 'dashboard') renderDashboard();
+                else if (moduleName === 'patients') renderPatients();
+                else if (moduleName === 'schedule') renderWeek();
+                else if (moduleName === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
+                else if (moduleName === 'pricing') { renderPricing(); renderDaySummary(); }
+                else if (moduleName === 'users') renderUsers();
+                else if (moduleName === 'portal') renderPortal();
             });
         });
 
@@ -4344,7 +3839,6 @@
             currentPriceDate = today;
             codeInputEls[0].focus();
 
-            // Показваме overlay за кратко
             showLoading(true);
             setTimeout(() => showLoading(false), 2000);
 
@@ -4353,11 +3847,6 @@
         }
 
         init();
-
-        // Fallback: скриваме overlay след 3 секунди винаги
-        window.addEventListener('load', () => {
-            setTimeout(() => showLoading(false), 3000);
-        });
     </script>
 </body>
 </html>
