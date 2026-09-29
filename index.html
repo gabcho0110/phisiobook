@@ -57,7 +57,7 @@
         .header-clinic-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; letter-spacing: 0.5px; }
         .header-actions { display: flex; align-items: center; gap: 10px; }
 
-        /* ★ КЛИНИКА SWITCHER ★ */
+        /* КЛИНИКА SWITCHER */
         .clinic-switcher { position: relative; }
         .clinic-switcher-btn {
             display: flex; align-items: center; gap: 8px;
@@ -218,7 +218,6 @@
         .empty-message { text-align: center; padding: 2rem; color: #7f95b0; font-style: italic; }
         .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
         .code-badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f0fe; color: #0b2b4f; padding: 0.4rem 0.9rem; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; letter-spacing: 2px; }
-        /* ★ СКРИТ КОД ЗА LOCKED ПОТРЕБИТЕЛИ ★ */
         .code-badge.code-hidden {
             background: #ede9fe;
             color: #5b21b6;
@@ -437,6 +436,61 @@
         @media (max-width: 800px) { .settings-grid-2 { grid-template-columns: 1fr; } }
         .service-category-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: #e8f0fe; color: #1e4a78; }
 
+        /* ★ РОЛИ CHECKBOXES - ИСТИНСКИ, РАБОТЕЩИ ★ */
+        .roles-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0.6rem;
+            background: #f8fbfe;
+            border: 1px solid #cfddee;
+            border-radius: 14px;
+        }
+        .role-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1rem;
+            background: #ffffff;
+            border: 2px solid #cfddee;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1f3f61;
+            transition: 0.15s;
+            user-select: none;
+        }
+        .role-checkbox:hover {
+            border-color: #1e4a78;
+            background: #f5f9ff;
+        }
+        .role-checkbox input[type="checkbox"] {
+            display: none;
+        }
+        .role-checkbox-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #cfddee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            transition: 0.15s;
+        }
+        .role-checkbox input:checked ~ .role-checkbox-box {
+            background: #1e4a78;
+            border-color: #1e4a78;
+            color: #ffffff;
+        }
+        .role-checkbox:has(input:checked) {
+            border-color: #1e4a78;
+            background: #e8f0fe;
+        }
+
         /* ПАНЕЛ СЪОБЩЕНИЯ */
         .messages-panel { position: fixed; top: 70px; right: 0; width: 440px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
         .messages-panel.open { transform: translateX(0); }
@@ -519,18 +573,7 @@
         .notif-mark-btn { background: transparent; border: 1px solid #cfddee; color: #1e4a78; cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
         .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
 
-        /* ПОТРЕБИТЕЛИ */
-        .roles-dropdown { position: relative; width: 100%; }
-        .roles-dropdown-trigger { width: 100%; padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; background: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: inherit; color: #1f3f61; text-align: left; }
-        .roles-dropdown-trigger .selected-text { flex: 1; color: #0b2b4f; font-weight: 500; }
-        .roles-dropdown-trigger .selected-text.placeholder { color: #7f95b0; font-weight: 400; }
-        .roles-dropdown-menu { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #ffffff; border: 1px solid #e9eef3; border-radius: 14px; box-shadow: 0 15px 35px rgba(11, 43, 79, 0.12); padding: 0.5rem; z-index: 100; display: none; }
-        .roles-dropdown-menu.open { display: block; }
-        .role-option { display: flex; align-items: center; gap: 12px; padding: 0.7rem 0.9rem; border-radius: 10px; cursor: pointer; font-size: 0.92rem; color: #1f3f61; }
-        .role-option:hover { background: #f5f9ff; }
-        .role-option input[type="checkbox"] { display: none; }
-        .role-option .checkbox { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cfddee; display: flex; align-items: center; justify-content: center; color: transparent; font-size: 0.7rem; flex-shrink: 0; }
-        .role-option input:checked + .checkbox { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
+        /* РОЛИ BADGES */
         .role-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; background: #e8f0fe; color: #0b2b4f; margin: 2px 4px 2px 0; }
         .role-badge.admin { background: #fff5e5; color: #b06d00; }
         .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
@@ -671,7 +714,6 @@
             </div>
 
             <div class="header-actions">
-                <!-- ★ CLINIC SWITCHER (показва се само ако потребителят има 2+ клиники) -->
                 <div class="clinic-switcher" id="clinicSwitcher" style="display:none;">
                     <button class="clinic-switcher-btn" id="clinicSwitcherBtn">
                         <i class="fas fa-hospital"></i>
@@ -716,7 +758,7 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v5.1 · Multi-Clinic</div>
+                    <div class="sidebar-version">v6.0 · Multi-Clinic + Phone</div>
                 </div>
             </aside>
 
@@ -750,7 +792,7 @@
                         <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
                         <form id="patientForm" class="form-grid">
                             <div class="form-group"><label>Име *</label><input type="text" id="patientName" required></div>
-                            <div class="form-group"><label>Телефон</label><input type="text" id="patientPhone"></div>
+                            <div class="form-group"><label>Телефон *</label><input type="tel" id="patientPhone" required placeholder="0888123456"></div>
                             <div class="form-group"><label>Бележки</label><input type="text" id="patientNotes"></div>
                             <div class="form-group" style="justify-content: end;"><button type="submit" class="btn" id="addPatientBtn"><i class="fas fa-save"></i> Добави</button></div>
                         </form>
@@ -1040,28 +1082,33 @@
                         </div>
                     </div>
                     <div class="settings-pane" data-set-pane="users-settings">
-                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Управление на потребители.</div>
+                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Управление на потребители. Телефонът е задължителен - един телефон = един човек навсякъде.</div>
                         <div class="card">
                             <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
                             <form id="userForm" class="form-grid">
                                 <div class="form-group"><label>Име *</label><input type="text" id="userNameInput" required></div>
+                                <div class="form-group"><label>Телефон *</label><input type="tel" id="userPhoneInput" required placeholder="0888123456"></div>
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label>Роли *</label>
-                                    <div class="roles-dropdown">
-                                        <div class="roles-dropdown-trigger" id="userRolesTrigger">
-                                            <span class="selected-text placeholder" id="userRolesText">Изберете роли...</span>
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                        <div class="roles-dropdown-menu" id="userRolesMenu">
-                                            <label class="role-option"><input type="checkbox" value="Кинезитерапевт"><span class="checkbox"><i class="fas fa-check"></i></span><i class="fas fa-hands"></i> Кинезитерапевт</label>
-                                            <label class="role-option"><input type="checkbox" value="Администратор"><span class="checkbox"><i class="fas fa-check"></i></span><i class="fas fa-user-shield"></i> Администратор</label>
-                                        </div>
+                                    <div class="roles-checkboxes" id="userRolesCheckboxes">
+                                        <label class="role-checkbox">
+                                            <input type="checkbox" value="Кинезитерапевт">
+                                            <span class="role-checkbox-box"><i class="fas fa-check"></i></span>
+                                            <i class="fas fa-hands"></i>
+                                            <span>Кинезитерапевт</span>
+                                        </label>
+                                        <label class="role-checkbox">
+                                            <input type="checkbox" value="Администратор">
+                                            <span class="role-checkbox-box"><i class="fas fa-check"></i></span>
+                                            <i class="fas fa-user-shield"></i>
+                                            <span>Администратор</span>
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="form-group" style="justify-content: end;"><button type="submit" class="btn" id="addUserBtn"><i class="fas fa-key"></i> Създай</button></div>
+                                <div class="form-group" style="justify-content: end; grid-column: span 2;"><button type="submit" class="btn" id="addUserBtn"><i class="fas fa-key"></i> Създай</button></div>
                             </form>
                         </div>
-                        <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Роли</th><th>Код</th><th>Действия</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+                        <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Роли</th><th>Код</th><th>Действия</th></tr></thead><tbody id="usersBody"></tbody></table></div>
                     </div>
                     <div class="settings-pane" data-set-pane="templates">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Шаблони за бързо въвеждане.</div>
@@ -1199,9 +1246,24 @@
             <h3 style="text-align:center;">Редакция на роли</h3>
             <p id="editRolesUserName" style="text-align:center;">—</p>
             <div id="editRolesList" style="display:flex; flex-direction:column; gap:10px; margin-bottom:1.5rem;">
-                <label class="role-option"><input type="checkbox" value="Кинезитерапевт"><span class="checkbox"><i class="fas fa-check"></i></span><i class="fas fa-hands"></i> Кинезитерапевт</label>
-                <label class="role-option"><input type="checkbox" value="Администратор"><span class="checkbox"><i class="fas fa-check"></i></span><i class="fas fa-user-shield"></i> Администратор</label>
-                <label class="role-option"><input type="checkbox" value="Пациент"><span class="checkbox"><i class="fas fa-check"></i></span><i class="fas fa-user"></i> Пациент</label>
+                <label class="role-checkbox" style="width:100%;">
+                    <input type="checkbox" value="Кинезитерапевт">
+                    <span class="role-checkbox-box"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-hands"></i>
+                    <span>Кинезитерапевт</span>
+                </label>
+                <label class="role-checkbox" style="width:100%;">
+                    <input type="checkbox" value="Администратор">
+                    <span class="role-checkbox-box"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-user-shield"></i>
+                    <span>Администратор</span>
+                </label>
+                <label class="role-checkbox" style="width:100%;">
+                    <input type="checkbox" value="Пациент">
+                    <span class="role-checkbox-box"><i class="fas fa-check"></i></span>
+                    <i class="fas fa-user"></i>
+                    <span>Пациент</span>
+                </label>
             </div>
             <div class="modal-actions">
                 <button class="btn" id="saveRolesBtn"><i class="fas fa-save"></i> Запази</button>
@@ -1212,7 +1274,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, push, set, update, remove, onValue, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -1228,14 +1290,10 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ★★★ ГЛАВНА РЕФЕРЕНЦИЯ - клиниките ★★★
         const clinicsRootRef = ref(db, 'clinics');
-
-        // ★★★ ОБРАТНА СЪВМЕСТИМОСТ - стари ref-ове за миграция ★★★
         const LEGACY_PATIENTS_REF = ref(db, 'patients');
         const LEGACY_USERS_REF = ref(db, 'users');
 
-        // State
         let clinics = {};
         let activeClinicId = null;
         let activeClinic = null;
@@ -1251,7 +1309,7 @@
         let dataListenersStarted=false, sessionRestored=false;
         let currentWeekStart = getMonday(new Date());
         let currentPriceDate = new Date().toISOString().split('T')[0];
-        let adminCreated=false, editingUserId=null;
+        let editingUserId=null;
         let currentChatUserId = null;
         let unsubscribers = [];
 
@@ -1279,7 +1337,6 @@
 
         const $ = id => document.getElementById(id);
 
-        // ★★★ ХЕЛПЪРИ ЗА ПЪТИЩА В БАЗАТА ★★★
         function clinicPath(subPath = '') {
             if (!activeClinicId) return null;
             return `clinics/${activeClinicId}${subPath ? '/' + subPath : ''}`;
@@ -1288,7 +1345,6 @@
             return ref(db, clinicPath(subPath));
         }
 
-        // ★★★ ФОРМАТ И ХЕЛПЪРИ ★★★
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -1322,6 +1378,10 @@
         }
         function formatPrice(n) { const v=parseFloat(n); return isNaN(v)?'0.00':v.toFixed(2); }
         function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
+        function normalizePhone(phone) {
+            if (!phone) return '';
+            return String(phone).replace(/\D/g, '');
+        }
         function getMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=dt.getDate()-day+(day===0?-6:1); return new Date(dt.setDate(diff)); }
         function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
         function toDateStr(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
@@ -1349,7 +1409,24 @@
         function getYouTubeId(url){ if(!url)return null; const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/); return m?m[1]:null; }
         function getUserInitials(n){ return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
 
-        // ★★★ ЛОГИН С КОДОВЕ ★★★
+        // ★★★ НАМИРАНЕ НА КОД ЗА ТЕЛЕФОН ВЪВ ВСИЧКИ КЛИНИКИ ★★★
+        function findCodeByPhone(phone) {
+            const normalized = normalizePhone(phone);
+            if (!normalized) return null;
+            for (const [cid, clinic] of Object.entries(clinics)) {
+                const us = clinic.users || {};
+                for (const u of Object.values(us)) {
+                    if (normalizePhone(u.phone) === normalized) return u.accessCode;
+                }
+                const ps = clinic.patients || {};
+                for (const p of Object.values(ps)) {
+                    if (normalizePhone(p.phone) === normalized) return p.accessCode;
+                }
+            }
+            return null;
+        }
+
+        // ★★★ ЛОГИН ★★★
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
@@ -1449,19 +1526,26 @@
 
                 if (found.isPatient) {
                     currentPatient = found.patient;
-                    currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode };
+                    currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode, phone: found.patient.phone };
                 } else {
                     currentUser = found.user;
                     currentPatient = null;
                 }
 
+                // Намери всички клиники, в които този потребител има достъп
+                // Търсим по КОД + ТЕЛЕФОН
                 userClinics = [];
+                const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
                 for (const [cid, clinic] of Object.entries(clinics)) {
-                    const users = clinic.users || {};
-                    const patients = clinic.patients || {};
-                    const hasAccess = Object.values(users).some(u => u.accessCode === code) ||
-                                      Object.values(patients).some(p => p.accessCode === code);
-                    if (hasAccess) userClinics.push(cid);
+                    const us = clinic.users || {};
+                    const ps = clinic.patients || {};
+                    const hasByCode = Object.values(us).some(u => u.accessCode === code) ||
+                                      Object.values(ps).some(p => p.accessCode === code);
+                    const hasByPhone = userPhone && (
+                        Object.values(us).some(u => normalizePhone(u.phone) === userPhone) ||
+                        Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)
+                    );
+                    if (hasByCode || hasByPhone) userClinics.push(cid);
                 }
 
                 sessionStorage.setItem('activeClinicId', clinicId);
@@ -1505,7 +1589,6 @@
             document.title = (activeClinic.name || 'PhysioBook') + ' · PhysioBook';
         }
 
-        // ★★★ CLINIC SWITCHER ★★★
         function renderClinicSwitcher() {
             const switcher = $('clinicSwitcher');
             if (userClinics.length < 2) {
@@ -1581,7 +1664,7 @@
 
             if (foundPatient) {
                 currentPatient = foundPatient;
-                currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode };
+                currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone };
                 sessionStorage.setItem('currentPatientId', foundPatient.id);
                 sessionStorage.removeItem('currentUserId');
             } else {
@@ -1708,19 +1791,24 @@
                 sessionRestored = true;
                 if (foundPatient) {
                     currentPatient = foundPatient;
-                    currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode };
+                    currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone };
                 } else {
                     currentUser = foundUser;
                     currentPatient = null;
                 }
 
                 userClinics = [];
+                const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
                 for (const [cId, clinic] of Object.entries(clinics)) {
                     const us = clinic.users || {};
                     const ps = clinic.patients || {};
-                    const has = Object.values(us).some(u => u.accessCode === authCode) ||
-                                Object.values(ps).some(p => p.accessCode === authCode);
-                    if (has) userClinics.push(cId);
+                    const hasByCode = Object.values(us).some(u => u.accessCode === authCode) ||
+                                      Object.values(ps).some(p => p.accessCode === authCode);
+                    const hasByPhone = userPhone && (
+                        Object.values(us).some(u => normalizePhone(u.phone) === userPhone) ||
+                        Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)
+                    );
+                    if (hasByCode || hasByPhone) userClinics.push(cId);
                 }
 
                 loginSuccess();
@@ -2337,15 +2425,16 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`templates/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ★★★ ПОТРЕБИТЕЛИ - КОДЪТ НА PHYSIOBOOK ADMIN Е СКРИТ ★★★
+        // ★★★ ПОТРЕБИТЕЛИ ★★★
         function renderUsers() {
             const all = Object.entries(users).map(([id,u])=>({id,...u}));
-            if (all.length===0) { $('usersBody').innerHTML = `<tr><td colspan="4" class="empty-message">Няма потребители</td></tr>`; return; }
+            if (all.length===0) { $('usersBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма потребители</td></tr>`; return; }
             $('usersBody').innerHTML = all.map(u=>{
                 const isCur = currentUser && currentUser.id === u.id && !currentPatient;
                 const locked = isLockedUser(u);
                 return `<tr>
                     <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:${locked ? '#6b3fa0' : '#1e4a78'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${locked ? '<i class="fas fa-shield-alt"></i>' : getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
+                    <td>${escapeHtml(u.phone||'—')}</td>
                     <td>${getRolesBadgesHtml(u)}</td>
                     <td>${locked 
                         ? `<span class="code-badge code-hidden" title="Кодът е защитен - достъпен само в Super Admin панела">
@@ -2362,30 +2451,58 @@
             }).join('');
         }
 
+        // ★★★ СЪЗДАВАНЕ НА ПОТРЕБИТЕЛ С ОБВЪРЗВАНЕ ПО ТЕЛЕФОН ★★★
         $('userForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('userNameInput').value.trim();
+            const phone = $('userPhoneInput').value.trim();
             if (!name) { showToast('Въведете име.','error'); return; }
-            const roles = Array.from($('userRolesMenu').querySelectorAll('input:checked')).map(c=>c.value);
-            if (roles.length===0) { showToast('Изберете роля.','error'); return; }
+            if (!phone) { showToast('Въведете телефон.','error'); return; }
+            
+            // Валидация на телефон (поне 9 цифри)
+            const normalizedPhone = normalizePhone(phone);
+            if (normalizedPhone.length < 9) { showToast('Телефонът трябва да е поне 9 цифри.', 'error'); return; }
+
+            const roles = Array.from($('userRolesCheckboxes').querySelectorAll('input:checked')).map(c=>c.value);
+            if (roles.length===0) { showToast('Изберете поне една роля.','error'); return; }
+
             $('addUserBtn').disabled = true;
             try {
-                const existingUsers = Object.values(users).map(u => u.accessCode);
-                const existingPatients = Object.values(patients).map(p => p.accessCode);
-                let code, attempts = 0;
-                do {
-                    code = generate6DigitCode();
-                    attempts++;
-                } while ((existingUsers.includes(code) || existingPatients.includes(code)) && attempts < 500);
+                // ★★★ ПРОВЕРКА ЗА СЪЩЕСТВУВАЩ ТЕЛЕФОН ВЪВ ВСИЧКИ КЛИНИКИ ★★★
+                const existingCode = findCodeByPhone(phone);
+                
+                let code;
+                if (existingCode) {
+                    // Ползваме съществуващия код
+                    code = existingCode;
+                    showToast(`Телефонът вече е регистриран. Ползва се същият код: ${code}`, 'info');
+                } else {
+                    // Генерираме нов код (уникален във всички клиники)
+                    const allCodes = new Set();
+                    for (const clinic of Object.values(clinics)) {
+                        Object.values(clinic.users || {}).forEach(u => allCodes.add(u.accessCode));
+                        Object.values(clinic.patients || {}).forEach(p => allCodes.add(p.accessCode));
+                    }
+                    let attempts = 0;
+                    do { code = generate6DigitCode(); attempts++; } while (allCodes.has(code) && attempts < 500);
+                }
 
-                await set(push(clinicRef('users')), { name, roles, accessCode: code, createdAt: Date.now() });
+                await set(push(clinicRef('users')), { 
+                    name, 
+                    phone: phone,
+                    phoneNormalized: normalizedPhone,
+                    roles, 
+                    accessCode: code, 
+                    createdAt: Date.now(),
+                    createdBy: currentUser.id
+                });
+                
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
                 $('userForm').reset();
-                $('userRolesMenu').querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
-                updateNewUserRolesUI();
-                showToast('Създаден.','success');
+                $('userRolesCheckboxes').querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
+                showToast('Потребителят е създаден.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
             finally { $('addUserBtn').disabled = false; }
         });
@@ -2424,7 +2541,7 @@
             const u = users[editingUserId];
             if (u && isLockedUser(u)) { showToast('🔒 Заключен потребител.', 'error'); return; }
             const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value);
-            if (roles.length===0) { showToast('Изберете роля.','error'); return; }
+            if (roles.length===0) { showToast('Изберете поне една роля.','error'); return; }
             $('saveRolesBtn').disabled = true;
             try {
                 await update(clinicRef(`users/${editingUserId}`), { roles, role: null });
@@ -3280,19 +3397,45 @@
             $('msgText').value = '';
         });
 
-        // CRUD
+        // ★★★ CRUD - ПАЦИЕНТИ С ТЕЛЕФОН ★★★
         $('patientForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('patientName').value.trim();
+            const phone = $('patientPhone').value.trim();
             if (!name) return;
+            if (!phone) { showToast('Въведете телефон.', 'error'); return; }
+            
+            const normalizedPhone = normalizePhone(phone);
+            if (normalizedPhone.length < 9) { showToast('Телефонът трябва да е поне 9 цифри.', 'error'); return; }
+
             $('addPatientBtn').disabled = true;
             try {
-                const existingUsers = Object.values(users).map(u => u.accessCode);
-                const existingPatients = Object.values(patients).map(p => p.accessCode);
-                let code, attempts = 0;
-                do { code = generate6DigitCode(); attempts++; } while ((existingUsers.includes(code) || existingPatients.includes(code)) && attempts < 500);
+                // Провери дали телефонът съществува
+                const existingCode = findCodeByPhone(phone);
+                let code;
+                if (existingCode) {
+                    code = existingCode;
+                } else {
+                    const allCodes = new Set();
+                    for (const clinic of Object.values(clinics)) {
+                        Object.values(clinic.users || {}).forEach(u => allCodes.add(u.accessCode));
+                        Object.values(clinic.patients || {}).forEach(p => allCodes.add(p.accessCode));
+                    }
+                    let attempts = 0;
+                    do { code = generate6DigitCode(); attempts++; } while (allCodes.has(code) && attempts < 500);
+                }
 
-                await set(push(clinicRef('patients')), { name, phone: $('patientPhone').value.trim(), notes: $('patientNotes').value.trim(), archived: false, createdAt: Date.now(), createdBy: currentUser.id, accessCode: code });
+                await set(push(clinicRef('patients')), { 
+                    name, 
+                    phone: phone, 
+                    phoneNormalized: normalizedPhone,
+                    notes: $('patientNotes').value.trim(), 
+                    archived: false, 
+                    createdAt: Date.now(), 
+                    createdBy: currentUser.id, 
+                    accessCode: code 
+                });
+                
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
