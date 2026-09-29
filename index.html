@@ -218,6 +218,14 @@
         .empty-message { text-align: center; padding: 2rem; color: #7f95b0; font-style: italic; }
         .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
         .code-badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f0fe; color: #0b2b4f; padding: 0.4rem 0.9rem; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; letter-spacing: 2px; }
+        /* ★ СКРИТ КОД ЗА LOCKED ПОТРЕБИТЕЛИ ★ */
+        .code-badge.code-hidden {
+            background: #ede9fe;
+            color: #5b21b6;
+            letter-spacing: 0;
+            cursor: not-allowed;
+            user-select: none;
+        }
         .patient-link { color: #0b2b4f; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 8px; }
         .patient-link:hover { background: #e8f0fe; }
         .patient-link i { color: #7fb2e5; font-size: 0.85rem; }
@@ -708,12 +716,12 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v5.0 · Multi-Clinic</div>
+                    <div class="sidebar-version">v5.1 · Multi-Clinic</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- МОДУЛИ (същите като преди) -->
+                <!-- МОДУЛИ -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -1228,12 +1236,11 @@
         const LEGACY_USERS_REF = ref(db, 'users');
 
         // State
-        let clinics = {};                    // Всички клиники
-        let activeClinicId = null;           // Активна клиника
-        let activeClinic = null;             // Данни за активната клиника
-        let userClinics = [];                // Клиники, в които текущият потребител има достъп
+        let clinics = {};
+        let activeClinicId = null;
+        let activeClinic = null;
+        let userClinics = [];
 
-        // Данни на активната клиника
         let patients={}, procedures={}, users={}, appointments={}, pricing={}, tasks={}, exercises={}, programs={}, sessionNotes={}, soapNotes={}, documents={}, shortExercises={};
         let clinicSettings = { name: 'PhysioBook', sub: 'Медицински център' };
         let services = {}, procedureTemplates = {}, categories = {}, templates = {};
@@ -1246,7 +1253,7 @@
         let currentPriceDate = new Date().toISOString().split('T')[0];
         let adminCreated=false, editingUserId=null;
         let currentChatUserId = null;
-        let unsubscribers = [];              // За да махаме слушателите при смяна на клиника
+        let unsubscribers = [];
 
         const loginScreen = document.getElementById('loginScreen');
         const loginForm = document.getElementById('loginForm');
@@ -1273,12 +1280,10 @@
         const $ = id => document.getElementById(id);
 
         // ★★★ ХЕЛПЪРИ ЗА ПЪТИЩА В БАЗАТА ★★★
-        // Връща пълен път до дадена колекция в активната клиника
         function clinicPath(subPath = '') {
             if (!activeClinicId) return null;
             return `clinics/${activeClinicId}${subPath ? '/' + subPath : ''}`;
         }
-        // Създава ref към колекция в активната клиника
         function clinicRef(subPath = '') {
             return ref(db, clinicPath(subPath));
         }
@@ -1327,7 +1332,7 @@
         function isAdmin(u){ return hasRole(u,'Администратор'); }
         function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
         function isPatient(u){ return hasRole(u, 'Пациент'); }
-        function isLockedUser(u){ return u && u.locked === true; }  // ★ Заключен потребител (PhysioBook Admin)
+        function isLockedUser(u){ return u && u.locked === true; }
         function getRolesBadgesHtml(u){
             const roles = getUserRoles(u);
             if (roles.length===0) return '<span style="color:#7f95b0;">—</span>';
@@ -1337,7 +1342,7 @@
                 return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
             }).join('');
             if (isLockedUser(u)) {
-                html += `<span class="role-badge locked" title="Заключен - не може да се редактира"><i class="fas fa-lock"></i> Заключен</span>`;
+                html += `<span class="role-badge locked" title="Защитен от системата"><i class="fas fa-shield-alt"></i> Защитен</span>`;
             }
             return html;
         }
@@ -1384,8 +1389,6 @@
             setTimeout(() => loginError.classList.remove('active'), 4000);
         }
 
-        // ★★★ ТЪРСЕНЕ НА КОД ВЪВ ВСИЧКИ КЛИНИКИ ★★★
-        // Връща { clinicId, user } или null
         function findUserByCodeInAllClinics(code, clinicsData) {
             for (const [clinicId, clinic] of Object.entries(clinicsData)) {
                 const users = clinic.users || {};
@@ -1404,7 +1407,6 @@
             return null;
         }
 
-        // Търсене и в legacy (старата структура), за обратна съвместимост
         async function findInLegacy(code) {
             try {
                 const usersSnap = await get(LEGACY_USERS_REF);
@@ -1428,14 +1430,11 @@
 
             showLoading(true);
 
-            // 1. Търси в /clinics/{clinicId}/users и /clinics/{clinicId}/patients
             let found = findUserByCodeInAllClinics(code, clinics);
 
-            // 2. Ако не е намерен - търси в legacy
             if (!found) {
                 const legacy = await findInLegacy(code);
                 if (legacy) {
-                    // Намерен в старата структура - покажи съобщение
                     showLoading(false);
                     showLoginError('Този код е от старата система. Моля, свържете се с администратора за миграция.');
                     clearCodeInputs();
@@ -1456,7 +1455,6 @@
                     currentPatient = null;
                 }
 
-                // Намери всички клиники, в които този потребител има достъп (по същия accessCode)
                 userClinics = [];
                 for (const [cid, clinic] of Object.entries(clinics)) {
                     const users = clinic.users || {};
@@ -1466,7 +1464,6 @@
                     if (hasAccess) userClinics.push(cid);
                 }
 
-                // Запази в sessionStorage
                 sessionStorage.setItem('activeClinicId', clinicId);
                 sessionStorage.setItem('authCode', code);
                 if (currentPatient) {
@@ -1486,7 +1483,6 @@
             clearCodeInputs();
         });
 
-        // ★★★ ВХОД УСПЕШЕН ★★★
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
@@ -1502,7 +1498,6 @@
             showToast(`Добре дошли, ${displayName}!`, 'success');
         }
 
-        // ★★★ ХЕДЪР С ИМЕ НА КЛИНИКА ★★★
         function applyClinicHeader() {
             if (!activeClinic) return;
             $('headerClinicName').innerHTML = `<i class="fas fa-clinic-medical"></i><span>${escapeHtml(activeClinic.name || 'Клиника')}</span>`;
@@ -1533,7 +1528,6 @@
             }).join('');
         }
 
-        // Toggle dropdown
         $('clinicSwitcherBtn').addEventListener('click', (e) => {
             e.stopPropagation();
             $('clinicSwitcherMenu').classList.toggle('open');
@@ -1543,7 +1537,6 @@
             if (!sw.contains(e.target)) $('clinicSwitcherMenu').classList.remove('open');
         });
 
-        // Смяна на клиника
         $('clinicSwitcherItems').addEventListener('click', async (e) => {
             const item = e.target.closest('.clinic-switcher-item');
             if (!item) return;
@@ -1561,7 +1554,6 @@
             const clinic = clinics[newClinicId];
             if (!clinic) return;
 
-            // Провери дали текущият потребител има достъп
             const users = clinic.users || {};
             const patients = clinic.patients || {};
             let foundUser = null, foundPatient = null;
@@ -1581,10 +1573,8 @@
             showLoading(true);
             showToast('Смяна на клиника...', 'info');
 
-            // Спри старите слушатели
             stopDataListeners();
 
-            // Смени активната клиника
             activeClinicId = newClinicId;
             activeClinic = clinic;
             sessionStorage.setItem('activeClinicId', newClinicId);
@@ -1601,26 +1591,22 @@
                 sessionStorage.removeItem('currentPatientId');
             }
 
-            // Нулирай данните
             patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
             exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
             services={}; procedureTemplates={}; categories={}; templates={};
             messages={}; notifications={};
 
-            // Обнови UI
             applyPermissions();
             applyClinicHeader();
             renderClinicSwitcher();
             $('clinicSwitcherMenu').classList.remove('open');
 
-            // Стартирай новите слушатели
             startDataListeners();
 
             showToast(`Преминахте в "${clinic.name}"`, 'success');
             showLoading(false);
         }
 
-        // ★★★ APPLY PERMISSIONS ★★★
         function applyPermissions() {
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
@@ -1671,26 +1657,21 @@
             $('sidebar').classList.toggle('collapsed');
         });
 
-        // ★★★ ЗАРЕЖДАНЕ НА КЛИНИКИ ★★★
         function startClinicsListener() {
             onValue(clinicsRootRef, (snapshot) => {
                 clinics = snapshot.val() || {};
-                // Ако сме влезли и клиниката е изтрита - logout
                 if (activeClinicId && !clinics[activeClinicId]) {
                     showToast('Клиниката е изтрита от администратор.', 'error');
                     setTimeout(() => doLogout(), 1500);
                     return;
                 }
-                // Обнови данните
                 if (activeClinicId) {
                     activeClinic = clinics[activeClinicId];
                 }
-                // Опит за възстановяване на сесия
                 if (!sessionRestored) tryRestoreSession();
             }, (err) => { console.error(err); showLoading(false); });
         }
 
-        // ★★★ ВЪЗСТАНОВЯВАНЕ НА СЕСИЯ ★★★
         async function tryRestoreSession() {
             if (sessionRestored) return;
             const sid = sessionStorage.getItem('currentUserId');
@@ -1713,7 +1694,6 @@
             if (pid && patients[pid]) foundPatient = { id: pid, ...patients[pid] };
 
             if (!foundUser && !foundPatient) {
-                // Опитай по код
                 for (const [id, u] of Object.entries(users)) {
                     if (u.accessCode === authCode) { foundUser = { id, ...u }; break; }
                 }
@@ -1734,7 +1714,6 @@
                     currentPatient = null;
                 }
 
-                // Определи клиниките на този потребител
                 userClinics = [];
                 for (const [cId, clinic] of Object.entries(clinics)) {
                     const us = clinic.users || {};
@@ -1748,7 +1727,6 @@
             }
         }
 
-        // ★★★ DATA LISTENERS ЗА АКТИВНАТА КЛИНИКА ★★★
         function stopDataListeners() {
             unsubscribers.forEach(unsub => { try { unsub(); } catch(e){} });
             unsubscribers = [];
@@ -1762,13 +1740,11 @@
 
             const base = `clinics/${activeClinicId}`;
 
-            // Услуги, процедури, категории, шаблони
             unsubscribers.push(onValue(ref(db, `${base}/services`), (s) => { services = s.val() || {}; renderServices(); }));
             unsubscribers.push(onValue(ref(db, `${base}/procedureTemplates`), (s) => { procedureTemplates = s.val() || {}; renderProcedureTemplates(); }));
             unsubscribers.push(onValue(ref(db, `${base}/categories`), (s) => { categories = s.val() || {}; renderCategories(); updateCategoryDropdowns(); }));
             unsubscribers.push(onValue(ref(db, `${base}/templates`), (s) => { templates = s.val() || {}; renderTemplates(); }));
 
-            // Клиника settings
             unsubscribers.push(onValue(ref(db, `${base}/settings`), (s) => {
                 clinicSettings = s.val() || { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
                 applyClinicHeader();
@@ -1784,7 +1760,6 @@
                 }
             }));
 
-            // Пациенти
             unsubscribers.push(onValue(ref(db, `${base}/patients`), (snapshot) => {
                 patients = snapshot.val() || {};
                 renderPatients();
@@ -1798,7 +1773,6 @@
                 showLoading(false);
             }, () => showLoading(false)));
 
-            // Процедури
             unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => {
                 procedures = s.val() || {};
                 renderProcedures();
@@ -1807,7 +1781,6 @@
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
-            // Потребители
             unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => {
                 users = snapshot.val() || {};
                 renderUsers();
@@ -1816,7 +1789,6 @@
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
-            // Часове
             unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => {
                 appointments = s.val() || {};
                 renderWeek();
@@ -1824,7 +1796,6 @@
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
-            // Цени
             unsubscribers.push(onValue(ref(db, `${base}/pricing`), (s) => {
                 pricing = s.val() || {};
                 renderPricing();
@@ -1833,13 +1804,11 @@
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
-            // Задачи
             unsubscribers.push(onValue(ref(db, `${base}/tasks`), (s) => {
                 tasks = s.val() || {};
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
-            // Упражнения
             unsubscribers.push(onValue(ref(db, `${base}/exercises`), (s) => {
                 exercises = s.val() || {};
                 renderExerciseLibrary();
@@ -1857,12 +1826,10 @@
                 if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId);
             }));
 
-            // Документация
             unsubscribers.push(onValue(ref(db, `${base}/sessionNotes`), (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); }));
             unsubscribers.push(onValue(ref(db, `${base}/soapNotes`), (s) => { soapNotes = s.val() || {}; renderSoapNotes(); }));
             unsubscribers.push(onValue(ref(db, `${base}/documents`), (s) => { documents = s.val() || {}; renderDocuments(); }));
 
-            // Съобщения и известия (глобални за потребителя, не за клиниката)
             unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => {
                 messages = s.val() || {};
                 renderInbox();
@@ -1878,8 +1845,6 @@
 
             setTimeout(() => showLoading(false), 500);
         }
-
-        // ★★★ ВСИЧКИ CRUD ФУНКЦИИ ПО-ДОЛУ ПОЛЗВАТ clinicRef() ★★★
 
         // ТАБЛО
         function renderDashboard() {
@@ -2372,7 +2337,7 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`templates/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ПОТРЕБИТЕЛИ (със защита за заключени)
+        // ★★★ ПОТРЕБИТЕЛИ - КОДЪТ НА PHYSIOBOOK ADMIN Е СКРИТ ★★★
         function renderUsers() {
             const all = Object.entries(users).map(([id,u])=>({id,...u}));
             if (all.length===0) { $('usersBody').innerHTML = `<tr><td colspan="4" class="empty-message">Няма потребители</td></tr>`; return; }
@@ -2380,11 +2345,16 @@
                 const isCur = currentUser && currentUser.id === u.id && !currentPatient;
                 const locked = isLockedUser(u);
                 return `<tr>
-                    <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:${locked ? '#6b3fa0' : '#1e4a78'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
+                    <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:${locked ? '#6b3fa0' : '#1e4a78'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${locked ? '<i class="fas fa-shield-alt"></i>' : getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
                     <td>${getRolesBadgesHtml(u)}</td>
-                    <td><span class="code-badge">${u.accessCode}</span></td>
                     <td>${locked 
-                        ? `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-lock"></i> Заключен</span>`
+                        ? `<span class="code-badge code-hidden" title="Кодът е защитен - достъпен само в Super Admin панела">
+                               <i class="fas fa-lock"></i> ••••••
+                           </span>`
+                        : `<span class="code-badge">${u.accessCode}</span>`
+                    }</td>
+                    <td>${locked 
+                        ? `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-shield-alt"></i> Защитен</span>`
                         : `<button class="btn-outline btn btn-sm edit-user" data-id="${u.id}"><i class="fas fa-edit"></i> Роли</button>
                            ${!isCur?`<button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}"><i class="fas fa-trash-alt"></i></button>`:''}`
                     }</td>
@@ -2400,7 +2370,6 @@
             if (roles.length===0) { showToast('Изберете роля.','error'); return; }
             $('addUserBtn').disabled = true;
             try {
-                // Генерирай уникален код сред потребителите и пациентите в ТАЗИ клиника
                 const existingUsers = Object.values(users).map(u => u.accessCode);
                 const existingPatients = Object.values(patients).map(p => p.accessCode);
                 let code, attempts = 0;
@@ -2426,7 +2395,10 @@
             if (eb) {
                 const u = users[eb.dataset.id];
                 if (!u) return;
-                if (isLockedUser(u)) { showToast('Този потребител е заключен и не може да се редактира.', 'error'); return; }
+                if (isLockedUser(u)) { 
+                    showToast('🔒 Този потребител е защитен от системата и не може да се редактира.', 'error'); 
+                    return; 
+                }
                 editingUserId = eb.dataset.id;
                 $('editRolesUserName').textContent = u.name;
                 const roles = getUserRoles(u);
@@ -2437,7 +2409,10 @@
             const db2 = e.target.closest('.delete-user');
             if (db2) {
                 const u = users[db2.dataset.id];
-                if (u && isLockedUser(u)) { showToast('Този потребител е заключен и не може да се изтрива.', 'error'); return; }
+                if (u && isLockedUser(u)) { 
+                    showToast('🔒 Този потребител е защитен от системата и не може да се изтрива.', 'error'); 
+                    return; 
+                }
                 if (!confirm('Изтрий този потребител?')) return;
                 try { await remove(clinicRef(`users/${db2.dataset.id}`)); showToast('Изтрит.','success'); }
                 catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2447,7 +2422,7 @@
         $('saveRolesBtn').addEventListener('click', async ()=>{
             if (!editingUserId) return;
             const u = users[editingUserId];
-            if (u && isLockedUser(u)) { showToast('Заключен потребител.', 'error'); return; }
+            if (u && isLockedUser(u)) { showToast('🔒 Заключен потребител.', 'error'); return; }
             const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value);
             if (roles.length===0) { showToast('Изберете роля.','error'); return; }
             $('saveRolesBtn').disabled = true;
@@ -2697,7 +2672,6 @@
             if (b2) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ПРОГРАМИ
         function addProgramRow(defaultExercise) {
             const rowNum = $('programRowsContainer').children.length + 1;
             const allEx = [];
@@ -3548,7 +3522,6 @@
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
         }
 
-        // УПРАЖНЕНИЯ ЗА ПАЦИЕНТ
         function renderPatientExercises() {
             if (!currentPatient) return;
             const pShortEx = Object.entries(shortExercises).map(([id, ex]) => ({ id, ...ex })).filter(ex => ex.patientId === currentPatient.id).sort((a, b) => (a.number || 0) - (b.number || 0));
