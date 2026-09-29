@@ -140,6 +140,7 @@
         .nav-item.active { background-color: #1e4a78; color: #ffffff; }
         .nav-item.active i { color: #ffffff; }
         .nav-item.hidden { display: none !important; }
+        .nav-item.hidden-by-clinic { display: none !important; }
         .sidebar-footer { margin-top: auto; padding: 1rem 0.8rem 0.5rem; border-top: 1px solid #1d3a57; }
         .logout-btn { width: 100%; padding: 0.8rem 1rem; border: 1px solid #2a4b6e; border-radius: 14px; background: transparent; color: #e0edff; font-size: 0.9rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 0.8rem; }
         .logout-btn:hover { background: #b22234; border-color: #b22234; }
@@ -218,13 +219,7 @@
         .empty-message { text-align: center; padding: 2rem; color: #7f95b0; font-style: italic; }
         .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
         .code-badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f0fe; color: #0b2b4f; padding: 0.4rem 0.9rem; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; letter-spacing: 2px; }
-        .code-badge.code-hidden {
-            background: #ede9fe;
-            color: #5b21b6;
-            letter-spacing: 0;
-            cursor: not-allowed;
-            user-select: none;
-        }
+        .code-badge.code-hidden { background: #ede9fe; color: #5b21b6; letter-spacing: 0; cursor: not-allowed; user-select: none; }
         .patient-link { color: #0b2b4f; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 8px; }
         .patient-link:hover { background: #e8f0fe; }
         .patient-link i { color: #7fb2e5; font-size: 0.85rem; }
@@ -436,7 +431,7 @@
         @media (max-width: 800px) { .settings-grid-2 { grid-template-columns: 1fr; } }
         .service-category-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: #e8f0fe; color: #1e4a78; }
 
-        /* ★ РОЛИ CHECKBOXES - ИСТИНСКИ, РАБОТЕЩИ ★ */
+        /* РОЛИ CHECKBOXES */
         .roles-checkboxes {
             display: flex;
             flex-wrap: wrap;
@@ -461,16 +456,10 @@
             transition: 0.15s;
             user-select: none;
         }
-        .role-checkbox:hover {
-            border-color: #1e4a78;
-            background: #f5f9ff;
-        }
-        .role-checkbox input[type="checkbox"] {
-            display: none;
-        }
+        .role-checkbox:hover { border-color: #1e4a78; background: #f5f9ff; }
+        .role-checkbox input[type="checkbox"] { display: none; }
         .role-checkbox-box {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border-radius: 6px;
             border: 2px solid #cfddee;
             display: flex;
@@ -658,17 +647,13 @@
     <!-- ЛОГИН -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
-            <div class="login-logo-wrapper">
-                <svg><use href="#physio-logo"></use></svg>
-            </div>
+            <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
             <h1 id="loginBrandName">PhysioBook</h1>
             <p class="subtitle">Въведете вашия 6-цифрен код за достъп</p>
-
             <div class="login-error" id="loginError">
                 <i class="fas fa-exclamation-circle"></i>
                 <span id="loginErrorText">Грешен код. Опитайте отново.</span>
             </div>
-
             <form id="loginForm">
                 <div class="code-inputs" id="codeInputs">
                     <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
@@ -682,10 +667,7 @@
                     <i class="fas fa-sign-in-alt"></i> Вход в системата
                 </button>
             </form>
-
-            <div class="login-footer">
-                <i class="fas fa-lock"></i> Защитен достъп
-            </div>
+            <div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп</div>
         </div>
     </div>
 
@@ -694,17 +676,11 @@
         <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
         <div class="toast-container" id="toastContainer"></div>
 
-        <!-- HEADER -->
         <header class="app-header">
             <div class="header-left">
-                <div class="header-logo">
-                    <svg><use href="#physio-logo"></use></svg>
-                </div>
-                <button class="header-nav-toggle" id="headerNavToggle" title="Скрий/покажи менюто">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="header-logo"><svg><use href="#physio-logo"></use></svg></div>
+                <button class="header-nav-toggle" id="headerNavToggle" title="Скрий/покажи менюто"><i class="fas fa-bars"></i></button>
             </div>
-
             <div class="header-center">
                 <div class="header-clinic-name" id="headerClinicName">
                     <i class="fas fa-clinic-medical"></i>
@@ -712,7 +688,6 @@
                 </div>
                 <div class="header-clinic-sub" id="headerClinicSub">Медицински център</div>
             </div>
-
             <div class="header-actions">
                 <div class="clinic-switcher" id="clinicSwitcher" style="display:none;">
                     <button class="clinic-switcher-btn" id="clinicSwitcherBtn">
@@ -725,7 +700,6 @@
                         <div id="clinicSwitcherItems"></div>
                     </div>
                 </div>
-
                 <button class="header-icon-btn" id="headerMessagesBtn" title="Съобщения">
                     <i class="fas fa-envelope"></i>
                     <span class="notif-badge" id="messagesBadge" style="display:none;">0</span>
@@ -755,15 +729,13 @@
                     <button class="nav-item" data-module="settings"><i class="fas fa-cog"></i><span>Настройки</span></button>
                     <button class="nav-item" data-module="portal"><i class="fas fa-user-circle"></i><span>Моят портал</span></button>
                 </nav>
-
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v6.0 · Multi-Clinic + Phone</div>
+                    <div class="sidebar-version">v6.1 · Multi-Clinic</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- МОДУЛИ -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -792,7 +764,7 @@
                         <h3><i class="fas fa-user-plus"></i> Нов пациент</h3>
                         <form id="patientForm" class="form-grid">
                             <div class="form-group"><label>Име *</label><input type="text" id="patientName" required></div>
-                            <div class="form-group"><label>Телефон *</label><input type="tel" id="patientPhone" required placeholder="0888123456"></div>
+                            <div class="form-group"><label>Телефон</label><input type="text" id="patientPhone"></div>
                             <div class="form-group"><label>Бележки</label><input type="text" id="patientNotes"></div>
                             <div class="form-group" style="justify-content: end;"><button type="submit" class="btn" id="addPatientBtn"><i class="fas fa-save"></i> Добави</button></div>
                         </form>
@@ -1082,12 +1054,12 @@
                         </div>
                     </div>
                     <div class="settings-pane" data-set-pane="users-settings">
-                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Управление на потребители. Телефонът е задължителен - един телефон = един човек навсякъде.</div>
+                        <div class="settings-info-box"><i class="fas fa-info-circle"></i> Управление на потребители.</div>
                         <div class="card">
                             <h3><i class="fas fa-user-plus"></i> Нов потребител</h3>
                             <form id="userForm" class="form-grid">
                                 <div class="form-group"><label>Име *</label><input type="text" id="userNameInput" required></div>
-                                <div class="form-group"><label>Телефон *</label><input type="tel" id="userPhoneInput" required placeholder="0888123456"></div>
+                                <div class="form-group"><label>Телефон</label><input type="tel" id="userPhoneInput" placeholder="0888123456"></div>
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label>Роли *</label>
                                     <div class="roles-checkboxes" id="userRolesCheckboxes">
@@ -1313,6 +1285,54 @@
         let currentChatUserId = null;
         let unsubscribers = [];
 
+        // ★★★ КОИ МОДУЛИ СА ВКЛЮЧЕНИ ЗА ТАЗИ КЛИНИКА ★★★
+        const DEFAULT_MODULES = {
+            dashboard: true,
+            patients: true,
+            schedule: true,
+            procedures: true,
+            exercises: true,
+            documentation: true,
+            pricing: true,
+            settings: true,
+            portal: true
+        };
+
+        function getEnabledModules() {
+            const saved = clinicSettings?.enabledModules || {};
+            const result = { ...DEFAULT_MODULES, ...saved };
+            result.settings = true; // Настройки винаги включен
+            return result;
+        }
+
+        function applyModuleVisibility() {
+            const enabled = getEnabledModules();
+            navItems.forEach(item => {
+                const mod = item.dataset.module;
+                if (mod in enabled) {
+                    if (enabled[mod] === false) {
+                        item.classList.add('hidden-by-clinic');
+                    } else {
+                        item.classList.remove('hidden-by-clinic');
+                    }
+                }
+            });
+            // Ако активният модул е изключен → превключи към "Табло"
+            const activeNav = document.querySelector('.nav-item.active');
+            if (activeNav) {
+                const activeMod = activeNav.dataset.module;
+                if (enabled[activeMod] === false) {
+                    navItems.forEach(n => n.classList.remove('active'));
+                    const dashBtn = document.querySelector('.nav-item[data-module="dashboard"]');
+                    if (dashBtn) dashBtn.classList.add('active');
+                    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+                    if (modules.dashboard) modules.dashboard.classList.add('active');
+                    if (currentUser && !currentPatient) renderDashboard();
+                    else if (currentPatient) renderPortal();
+                }
+            }
+        }
+
         const loginScreen = document.getElementById('loginScreen');
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
@@ -1378,10 +1398,7 @@
         }
         function formatPrice(n) { const v=parseFloat(n); return isNaN(v)?'0.00':v.toFixed(2); }
         function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
-        function normalizePhone(phone) {
-            if (!phone) return '';
-            return String(phone).replace(/\D/g, '');
-        }
+        function normalizePhone(phone) { if (!phone) return ''; return String(phone).replace(/\D/g, ''); }
         function getMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=dt.getDate()-day+(day===0?-6:1); return new Date(dt.setDate(diff)); }
         function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
         function toDateStr(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
@@ -1409,7 +1426,6 @@
         function getYouTubeId(url){ if(!url)return null; const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/); return m?m[1]:null; }
         function getUserInitials(n){ return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
 
-        // ★★★ НАМИРАНЕ НА КОД ЗА ТЕЛЕФОН ВЪВ ВСИЧКИ КЛИНИКИ ★★★
         function findCodeByPhone(phone) {
             const normalized = normalizePhone(phone);
             if (!normalized) return null;
@@ -1426,7 +1442,6 @@
             return null;
         }
 
-        // ★★★ ЛОГИН ★★★
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
@@ -1470,15 +1485,11 @@
             for (const [clinicId, clinic] of Object.entries(clinicsData)) {
                 const users = clinic.users || {};
                 for (const [userId, user] of Object.entries(users)) {
-                    if (user.accessCode === code) {
-                        return { clinicId, user: { id: userId, ...user } };
-                    }
+                    if (user.accessCode === code) return { clinicId, user: { id: userId, ...user } };
                 }
                 const patients = clinic.patients || {};
                 for (const [patientId, patient] of Object.entries(patients)) {
-                    if (patient.accessCode === code) {
-                        return { clinicId, patient: { id: patientId, ...patient }, isPatient: true };
-                    }
+                    if (patient.accessCode === code) return { clinicId, patient: { id: patientId, ...patient }, isPatient: true };
                 }
             }
             return null;
@@ -1532,19 +1543,13 @@
                     currentPatient = null;
                 }
 
-                // Намери всички клиники, в които този потребител има достъп
-                // Търсим по КОД + ТЕЛЕФОН
                 userClinics = [];
                 const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
                 for (const [cid, clinic] of Object.entries(clinics)) {
                     const us = clinic.users || {};
                     const ps = clinic.patients || {};
-                    const hasByCode = Object.values(us).some(u => u.accessCode === code) ||
-                                      Object.values(ps).some(p => p.accessCode === code);
-                    const hasByPhone = userPhone && (
-                        Object.values(us).some(u => normalizePhone(u.phone) === userPhone) ||
-                        Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)
-                    );
+                    const hasByCode = Object.values(us).some(u => u.accessCode === code) || Object.values(ps).some(p => p.accessCode === code);
+                    const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
                     if (hasByCode || hasByPhone) userClinics.push(cid);
                 }
 
@@ -1577,6 +1582,7 @@
 
             applyPermissions();
             applyClinicHeader();
+            applyModuleVisibility();
             renderClinicSwitcher();
             startDataListeners();
             showToast(`Добре дошли, ${displayName}!`, 'success');
@@ -1591,14 +1597,10 @@
 
         function renderClinicSwitcher() {
             const switcher = $('clinicSwitcher');
-            if (userClinics.length < 2) {
-                switcher.style.display = 'none';
-                return;
-            }
+            if (userClinics.length < 2) { switcher.style.display = 'none'; return; }
             switcher.style.display = 'block';
             const activeClinicObj = clinics[activeClinicId];
             $('clinicSwitcherLabel').textContent = activeClinicObj?.name || 'Клиника';
-
             $('clinicSwitcherItems').innerHTML = userClinics.map(cid => {
                 const c = clinics[cid];
                 if (!c) return '';
@@ -1624,10 +1626,7 @@
             const item = e.target.closest('.clinic-switcher-item');
             if (!item) return;
             const newClinicId = item.dataset.clinicId;
-            if (newClinicId === activeClinicId) {
-                $('clinicSwitcherMenu').classList.remove('open');
-                return;
-            }
+            if (newClinicId === activeClinicId) { $('clinicSwitcherMenu').classList.remove('open'); return; }
             await switchClinic(newClinicId);
         });
 
@@ -1636,32 +1635,18 @@
             if (!authCode) return;
             const clinic = clinics[newClinicId];
             if (!clinic) return;
-
             const users = clinic.users || {};
             const patients = clinic.patients || {};
             let foundUser = null, foundPatient = null;
-            for (const [id, u] of Object.entries(users)) {
-                if (u.accessCode === authCode) { foundUser = { id, ...u }; break; }
-            }
-            if (!foundUser) {
-                for (const [id, p] of Object.entries(patients)) {
-                    if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; }
-                }
-            }
-            if (!foundUser && !foundPatient) {
-                showToast('Нямате достъп до тази клиника.', 'error');
-                return;
-            }
-
+            for (const [id, u] of Object.entries(users)) { if (u.accessCode === authCode) { foundUser = { id, ...u }; break; } }
+            if (!foundUser) { for (const [id, p] of Object.entries(patients)) { if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; } } }
+            if (!foundUser && !foundPatient) { showToast('Нямате достъп до тази клиника.', 'error'); return; }
             showLoading(true);
             showToast('Смяна на клиника...', 'info');
-
             stopDataListeners();
-
             activeClinicId = newClinicId;
             activeClinic = clinic;
             sessionStorage.setItem('activeClinicId', newClinicId);
-
             if (foundPatient) {
                 currentPatient = foundPatient;
                 currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone };
@@ -1673,19 +1658,17 @@
                 sessionStorage.setItem('currentUserId', foundUser.id);
                 sessionStorage.removeItem('currentPatientId');
             }
-
             patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
             exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
             services={}; procedureTemplates={}; categories={}; templates={};
             messages={}; notifications={};
-
+            clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
             applyPermissions();
             applyClinicHeader();
+            applyModuleVisibility();
             renderClinicSwitcher();
             $('clinicSwitcherMenu').classList.remove('open');
-
             startDataListeners();
-
             showToast(`Преминахте в "${clinic.name}"`, 'success');
             showLoading(false);
         }
@@ -1693,7 +1676,6 @@
         function applyPermissions() {
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
-
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
@@ -1705,7 +1687,6 @@
                     else item.classList.remove('hidden');
                 }
             });
-
             if (patientOnly) {
                 navItems.forEach(n => n.classList.remove('active'));
                 const p = document.querySelector('.nav-item[data-module="portal"]');
@@ -1736,9 +1717,7 @@
             }
         }
 
-        $('headerNavToggle').addEventListener('click', () => {
-            $('sidebar').classList.toggle('collapsed');
-        });
+        $('headerNavToggle').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); });
 
         function startClinicsListener() {
             onValue(clinicsRootRef, (snapshot) => {
@@ -1748,9 +1727,7 @@
                     setTimeout(() => doLogout(), 1500);
                     return;
                 }
-                if (activeClinicId) {
-                    activeClinic = clinics[activeClinicId];
-                }
+                if (activeClinicId) { activeClinic = clinics[activeClinicId]; }
                 if (!sessionRestored) tryRestoreSession();
             }, (err) => { console.error(err); showLoading(false); });
         }
@@ -1761,56 +1738,35 @@
             const pid = sessionStorage.getItem('currentPatientId');
             const cid = sessionStorage.getItem('activeClinicId');
             const authCode = sessionStorage.getItem('authCode');
-
             if (!cid || !authCode) return;
             if (!clinics[cid]) return;
-
             activeClinicId = cid;
             activeClinic = clinics[cid];
-
             const clinic = clinics[cid];
             const users = clinic.users || {};
             const patients = clinic.patients || {};
-
             let foundUser = null, foundPatient = null;
             if (sid && users[sid]) foundUser = { id: sid, ...users[sid] };
             if (pid && patients[pid]) foundPatient = { id: pid, ...patients[pid] };
-
             if (!foundUser && !foundPatient) {
-                for (const [id, u] of Object.entries(users)) {
-                    if (u.accessCode === authCode) { foundUser = { id, ...u }; break; }
-                }
-                if (!foundUser) {
-                    for (const [id, p] of Object.entries(patients)) {
-                        if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; }
-                    }
-                }
+                for (const [id, u] of Object.entries(users)) { if (u.accessCode === authCode) { foundUser = { id, ...u }; break; } }
+                if (!foundUser) { for (const [id, p] of Object.entries(patients)) { if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; } } }
             }
-
             if (foundUser || foundPatient) {
                 sessionRestored = true;
                 if (foundPatient) {
                     currentPatient = foundPatient;
                     currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone };
-                } else {
-                    currentUser = foundUser;
-                    currentPatient = null;
-                }
-
+                } else { currentUser = foundUser; currentPatient = null; }
                 userClinics = [];
                 const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
                 for (const [cId, clinic] of Object.entries(clinics)) {
                     const us = clinic.users || {};
                     const ps = clinic.patients || {};
-                    const hasByCode = Object.values(us).some(u => u.accessCode === authCode) ||
-                                      Object.values(ps).some(p => p.accessCode === authCode);
-                    const hasByPhone = userPhone && (
-                        Object.values(us).some(u => normalizePhone(u.phone) === userPhone) ||
-                        Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)
-                    );
+                    const hasByCode = Object.values(us).some(u => u.accessCode === authCode) || Object.values(ps).some(p => p.accessCode === authCode);
+                    const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
                     if (hasByCode || hasByPhone) userClinics.push(cId);
                 }
-
                 loginSuccess();
             }
         }
@@ -1825,7 +1781,6 @@
             if (dataListenersStarted) return;
             if (!activeClinicId) return;
             dataListenersStarted = true;
-
             const base = `clinics/${activeClinicId}`;
 
             unsubscribers.push(onValue(ref(db, `${base}/services`), (s) => { services = s.val() || {}; renderServices(); }));
@@ -1834,8 +1789,14 @@
             unsubscribers.push(onValue(ref(db, `${base}/templates`), (s) => { templates = s.val() || {}; renderTemplates(); }));
 
             unsubscribers.push(onValue(ref(db, `${base}/settings`), (s) => {
-                clinicSettings = s.val() || { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
+                const raw = s.val();
+                if (raw) {
+                    clinicSettings = raw;
+                } else {
+                    clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
+                }
                 applyClinicHeader();
+                applyModuleVisibility();
                 if ($('setClinicName')) {
                     $('setClinicName').value = clinicSettings.name || '';
                     $('setClinicSub').value = clinicSettings.sub || '';
@@ -1934,17 +1895,14 @@
             setTimeout(() => showLoading(false), 500);
         }
 
-        // ТАБЛО
         function renderDashboard() {
             if (!currentUser || currentPatient) return;
             const todayStr = toDateStr(new Date());
             $('dashboardDate').textContent = formatDateLong(todayStr);
-
             const todayApts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.date===todayStr).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
             const uniqueP = new Set(todayApts.map(a=>a.patientId));
             $('dashTodayPatients').textContent = uniqueP.size;
             $('dashTodaySub').textContent = `${todayApts.length} ${todayApts.length===1?'запис':'записа'}`;
-
             if (todayApts.length===0) $('dashTodayList').innerHTML = `<div class="dash-empty">Няма часове за днес</div>`;
             else {
                 $('dashTodayList').innerHTML = todayApts.map(a=>{
@@ -1954,7 +1912,6 @@
                     return `<div class="dash-list-item" data-patient-id="${a.patientId}"><div class="time-box">${a.time||'—'}</div><div class="info"><div class="name">${pn}</div><div class="meta">${a.note?'📋 '+escapeHtml(a.note):''} ${kn?' · 👨‍⚕️ '+escapeHtml(kn):''}</div></div></div>`;
                 }).join('');
             }
-
             const in7 = toDateStr(addDays(new Date(),7));
             const upcoming = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.date>todayStr && a.date<=in7).sort((a,b)=>`${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
             $('dashUpcoming').textContent = upcoming.length;
@@ -1966,7 +1923,6 @@
                     return `<div class="dash-list-item" data-patient-id="${a.patientId}"><div class="time-box">${formatDate(a.date).slice(0,5)}<br><small style="font-size:0.7rem;">${a.time||''}</small></div><div class="info"><div class="name">${pn}</div><div class="meta">${a.note?escapeHtml(a.note):'—'}</div></div></div>`;
                 }).join('');
             }
-
             const allTasks = Object.entries(tasks).map(([id,t])=>({id,...t})).filter(t=>!t.done).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             $('dashTasks').textContent = allTasks.length;
             $('dashTasksSub').textContent = allTasks.length===0?'всичко е готово ✓':'незавършени';
@@ -1980,30 +1936,17 @@
                     </div>
                 `).join('');
             }
-
             let todayIncome = 0, incomeCount = 0;
-            Object.entries(pricing).forEach(([,item])=>{
-                if (item.date===todayStr && item.price) {
-                    const v = parseFloat(item.price);
-                    if (!isNaN(v)) { todayIncome += v; incomeCount++; }
-                }
-            });
+            Object.entries(pricing).forEach(([,item])=>{ if (item.date===todayStr && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) { todayIncome += v; incomeCount++; } } });
             $('dashIncome').textContent = formatPrice(todayIncome) + ' €';
             $('dashIncomeSub').textContent = `от ${incomeCount} ${incomeCount===1?'пациент':'пациента'}`;
             $('dashIncomeBar').style.width = Math.min((todayIncome/200)*100,100) + '%';
-
             const busyHours = new Set();
             todayApts.forEach(a=>{ if(a.time) busyHours.add(parseInt(a.time.split(':')[0])); });
-
             const slots = []; let free = 0;
-            for (let h = 9; h < 18; h++) {
-                const isBusy = busyHours.has(h);
-                if (!isBusy) free++;
-                slots.push(`<div class="free-slot ${isBusy?'busy':''}" data-hour="${h}">${String(h).padStart(2,'0')}:00</div>`);
-            }
+            for (let h = 9; h < 18; h++) { const isBusy = busyHours.has(h); if (!isBusy) free++; slots.push(`<div class="free-slot ${isBusy?'busy':''}" data-hour="${h}">${String(h).padStart(2,'0')}:00</div>`); }
             $('dashFreeSlots').textContent = free;
             $('dashFreeSlotsGrid').innerHTML = slots.join('');
-
             $('dashFreeSlotsGrid').querySelectorAll('.free-slot:not(.busy)').forEach(slot=>{
                 slot.addEventListener('click', () => {
                     const hour = slot.dataset.hour;
@@ -2021,9 +1964,7 @@
 
         document.addEventListener('click', (e)=>{
             const item = e.target.closest('.dash-list-item[data-patient-id]');
-            if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) {
-                openPatientProfile(item.dataset.patientId);
-            }
+            if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) { openPatientProfile(item.dataset.patientId); }
         });
 
         document.addEventListener('click', async (e)=>{
@@ -2046,12 +1987,10 @@
             finally { $('addTaskBtn').disabled = false; }
         });
 
-        // ПАЦИЕНТИ
         function renderPatients() {
             const all = Object.entries(patients).map(([id,p])=>({id,...p}));
             const active = all.filter(p=>!p.archived).sort((a,b)=>a.name.localeCompare(b.name));
             const archived = all.filter(p=>p.archived).sort((a,b)=>a.name.localeCompare(b.name));
-
             if (active.length===0) $('activePatientsBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма активни</td></tr>`;
             else {
                 $('activePatientsBody').innerHTML = active.map(p=>`
@@ -2085,16 +2024,12 @@
         function updatePatientDropdowns() {
             const active = Object.entries(patients).filter(([,p])=>!p.archived).map(([id,p])=>({id,name:p.name})).sort((a,b)=>a.name.localeCompare(b.name));
             ['procPatient','aptPatient','progPatient','notePatient','soapPatient','filePatient'].forEach(id=>{
-                const sel = $(id);
-                if (!sel) return;
-                const cur = sel.value;
+                const sel = $(id); if (!sel) return; const cur = sel.value;
                 sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
                 if (active.some(p=>p.id===cur)) sel.value = cur;
             });
             ['sessionFilterPatient','soapFilterPatient','fileFilterPatient'].forEach(id=>{
-                const sel = $(id);
-                if (!sel) return;
-                const cur = sel.value;
+                const sel = $(id); if (!sel) return; const cur = sel.value;
                 sel.innerHTML = '<option value="">-- Всички пациенти --</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
                 if (active.some(p=>p.id===cur)) sel.value = cur;
             });
@@ -2113,7 +2048,6 @@
             if (k.some(x=>x.id===cur)) $('portalAptKinezi').value = cur;
         }
 
-        // ПРОЦЕДУРИ
         function renderProcedures() {
             const all = Object.entries(procedures).map(([id,p])=>({id,...p}));
             if (all.length===0) { $('proceduresBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; }
@@ -2125,7 +2059,6 @@
             }).join('');
         }
 
-        // ГРАФИК
         function renderWeek() {
             const days = [];
             for (let i=0;i<7;i++) days.push(addDays(currentWeekStart,i));
@@ -2133,26 +2066,23 @@
             const monthName = BG_MONTHS[sD.getMonth()];
             if (sD.getMonth()===eD.getMonth()) $('weekLabel').textContent = `${sD.getDate()} – ${eD.getDate()} ${monthName} ${sD.getFullYear()}`;
             else $('weekLabel').textContent = `${sD.getDate()} ${BG_MONTHS[sD.getMonth()]} – ${eD.getDate()} ${BG_MONTHS[eD.getMonth()]} ${eD.getFullYear()}`;
-
             const todayStr = toDateStr(new Date());
             $('weekGrid').innerHTML = days.map((day,i)=>{
                 const dateStr = toDateStr(day);
                 const isToday = dateStr===todayStr;
                 const dayApts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.date===dateStr).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
-                const aptsHtml = dayApts.length===0
-                    ? `<div class="no-appointments">няма часове</div>`
-                    : dayApts.map(a=>{
-                        const pat = patients[a.patientId];
-                        const pn = pat?escapeHtml(pat.name):'неизвестен';
-                        const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
-                        return `<div class="appointment" data-id="${a.id}">
-                            <button class="delete-apt" data-id="${a.id}"><i class="fas fa-times"></i></button>
-                            <div class="time"><i class="fas fa-clock"></i> ${a.time||''}</div>
-                            <div class="patient-name">${pn}</div>
-                            ${a.note?`<div class="note">📋 ${escapeHtml(a.note)}</div>`:''}
-                            ${kn?`<div class="note">👨‍⚕️ ${escapeHtml(kn)}</div>`:''}
-                        </div>`;
-                    }).join('');
+                const aptsHtml = dayApts.length===0 ? `<div class="no-appointments">няма часове</div>` : dayApts.map(a=>{
+                    const pat = patients[a.patientId];
+                    const pn = pat?escapeHtml(pat.name):'неизвестен';
+                    const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
+                    return `<div class="appointment" data-id="${a.id}">
+                        <button class="delete-apt" data-id="${a.id}"><i class="fas fa-times"></i></button>
+                        <div class="time"><i class="fas fa-clock"></i> ${a.time||''}</div>
+                        <div class="patient-name">${pn}</div>
+                        ${a.note?`<div class="note">📋 ${escapeHtml(a.note)}</div>`:''}
+                        ${kn?`<div class="note">👨‍⚕️ ${escapeHtml(kn)}</div>`:''}
+                    </div>`;
+                }).join('');
                 return `<div class="day-column ${isToday?'today':''}">
                     <div class="day-header"><div class="day-name">${BG_DAYS[i]}</div><div class="day-number">${day.getDate()}</div></div>
                     <div class="day-body">${aptsHtml}</div>
@@ -2160,7 +2090,6 @@
             }).join('');
         }
 
-        // ЦЕНОРАЗПИС
         function getPricingKey(p,d){ return `${p}_${d}`; }
         function renderPricing() {
             if (!$('priceDateInput').value) $('priceDateInput').value = currentPriceDate;
@@ -2185,12 +2114,7 @@
 
         function updatePriceSummary() {
             let total = 0, count = 0;
-            Object.entries(pricing).forEach(([,item])=>{
-                if (item.date===currentPriceDate && item.price) {
-                    const v = parseFloat(item.price);
-                    if (!isNaN(v)) { total += v; count++; }
-                }
-            });
+            Object.entries(pricing).forEach(([,item])=>{ if (item.date===currentPriceDate && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) { total += v; count++; } } });
             $('priceCountSummary').textContent = count;
             $('priceTotalSummary').textContent = formatPrice(total) + ' €';
         }
@@ -2213,17 +2137,12 @@
                 </div>
             `).join('');
             $('daySummaryGrid').querySelectorAll('.day-summary-card').forEach(c=>{
-                c.addEventListener('click', ()=>{
-                    $('priceDateInput').value = c.dataset.date;
-                    currentPriceDate = c.dataset.date;
-                    renderPricing();
-                });
+                c.addEventListener('click', ()=>{ $('priceDateInput').value = c.dataset.date; currentPriceDate = c.dataset.date; renderPricing(); });
             });
         }
 
         $('pricingBody').addEventListener('click', async (e)=>{
-            const btn = e.target.closest('.save-price-btn');
-            if (!btn) return;
+            const btn = e.target.closest('.save-price-btn'); if (!btn) return;
             const row = btn.closest('tr');
             const pid = btn.dataset.patientId;
             const pv = row.querySelector('.price-input').value.trim();
@@ -2231,13 +2150,8 @@
             const key = getPricingKey(pid, currentPriceDate);
             btn.disabled = true;
             try {
-                if (pv==='' && dv==='') {
-                    await remove(clinicRef(`pricing/${key}`));
-                    showToast('Изтрит.','success');
-                } else {
-                    await set(clinicRef(`pricing/${key}`), { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, createdBy: currentUser.id, updatedAt: Date.now() });
-                    showToast('Запазено.','success');
-                }
+                if (pv==='' && dv==='') { await remove(clinicRef(`pricing/${key}`)); showToast('Изтрит.','success'); }
+                else { await set(clinicRef(`pricing/${key}`), { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, createdBy: currentUser.id, updatedAt: Date.now() }); showToast('Запазено.','success'); }
             } catch(err){showToast('Грешка: '+err.message,'error');}
             finally { btn.disabled = false; }
         });
@@ -2255,7 +2169,6 @@
             finally { $('clearAllPricingBtn').disabled = false; }
         });
 
-        // НАСТРОЙКИ
         document.querySelectorAll('.settings-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.setTab;
@@ -2270,7 +2183,9 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('saveClinicSettingsBtn').disabled = true;
             try {
-                await set(clinicRef('settings'), {
+                const currentSettings = clinicSettings || {};
+                const updated = {
+                    ...currentSettings,
                     name, sub: $('setClinicSub').value.trim(),
                     phone: $('setClinicPhone').value.trim(),
                     email: $('setClinicEmail').value.trim(),
@@ -2279,7 +2194,8 @@
                     mol: $('setClinicMol').value.trim(),
                     extra: $('setClinicExtra').value.trim(),
                     updatedAt: Date.now()
-                });
+                };
+                await set(clinicRef('settings'), updated);
                 showToast('Запазени.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
             finally { $('saveClinicSettingsBtn').disabled = false; }
@@ -2384,9 +2300,7 @@
         function updateCategoryDropdowns() {
             const all = Object.entries(categories).map(([id,c])=>({id,name:c.name,type:c.type}));
             ['servCategory','procTplCategory'].forEach(id=>{
-                const sel = $(id);
-                if (!sel) return;
-                const cur = sel.value;
+                const sel = $(id); if (!sel) return; const cur = sel.value;
                 sel.innerHTML = '<option value="">-- без категория --</option>' + all.map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
                 if (all.some(c=>c.name===cur)) sel.value = cur;
             });
@@ -2425,7 +2339,6 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`templates/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ★★★ ПОТРЕБИТЕЛИ ★★★
         function renderUsers() {
             const all = Object.entries(users).map(([id,u])=>({id,...u}));
             if (all.length===0) { $('usersBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма потребители</td></tr>`; return; }
@@ -2436,48 +2349,29 @@
                     <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:${locked ? '#6b3fa0' : '#1e4a78'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${locked ? '<i class="fas fa-shield-alt"></i>' : getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
                     <td>${escapeHtml(u.phone||'—')}</td>
                     <td>${getRolesBadgesHtml(u)}</td>
-                    <td>${locked 
-                        ? `<span class="code-badge code-hidden" title="Кодът е защитен - достъпен само в Super Admin панела">
-                               <i class="fas fa-lock"></i> ••••••
-                           </span>`
-                        : `<span class="code-badge">${u.accessCode}</span>`
-                    }</td>
-                    <td>${locked 
-                        ? `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-shield-alt"></i> Защитен</span>`
-                        : `<button class="btn-outline btn btn-sm edit-user" data-id="${u.id}"><i class="fas fa-edit"></i> Роли</button>
-                           ${!isCur?`<button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}"><i class="fas fa-trash-alt"></i></button>`:''}`
-                    }</td>
+                    <td>${locked ? `<span class="code-badge code-hidden" title="Кодът е защитен"><i class="fas fa-lock"></i> ••••••</span>` : `<span class="code-badge">${u.accessCode}</span>`}</td>
+                    <td>${locked ? `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-shield-alt"></i> Защитен</span>` : `<button class="btn-outline btn btn-sm edit-user" data-id="${u.id}"><i class="fas fa-edit"></i> Роли</button>${!isCur?`<button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}"><i class="fas fa-trash-alt"></i></button>`:''}`}</td>
                 </tr>`;
             }).join('');
         }
 
-        // ★★★ СЪЗДАВАНЕ НА ПОТРЕБИТЕЛ С ОБВЪРЗВАНЕ ПО ТЕЛЕФОН ★★★
         $('userForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('userNameInput').value.trim();
             const phone = $('userPhoneInput').value.trim();
             if (!name) { showToast('Въведете име.','error'); return; }
-            if (!phone) { showToast('Въведете телефон.','error'); return; }
-            
-            // Валидация на телефон (поне 9 цифри)
             const normalizedPhone = normalizePhone(phone);
-            if (normalizedPhone.length < 9) { showToast('Телефонът трябва да е поне 9 цифри.', 'error'); return; }
-
+            if (normalizedPhone && normalizedPhone.length < 9) { showToast('Телефонът трябва да е поне 9 цифри.', 'error'); return; }
             const roles = Array.from($('userRolesCheckboxes').querySelectorAll('input:checked')).map(c=>c.value);
             if (roles.length===0) { showToast('Изберете поне една роля.','error'); return; }
-
             $('addUserBtn').disabled = true;
             try {
-                // ★★★ ПРОВЕРКА ЗА СЪЩЕСТВУВАЩ ТЕЛЕФОН ВЪВ ВСИЧКИ КЛИНИКИ ★★★
                 const existingCode = findCodeByPhone(phone);
-                
                 let code;
                 if (existingCode) {
-                    // Ползваме съществуващия код
                     code = existingCode;
-                    showToast(`Телефонът вече е регистриран. Ползва се същият код: ${code}`, 'info');
+                    showToast(`Телефонът е регистриран. Ползва се код: ${code}`, 'info');
                 } else {
-                    // Генерираме нов код (уникален във всички клиники)
                     const allCodes = new Set();
                     for (const clinic of Object.values(clinics)) {
                         Object.values(clinic.users || {}).forEach(u => allCodes.add(u.accessCode));
@@ -2486,23 +2380,13 @@
                     let attempts = 0;
                     do { code = generate6DigitCode(); attempts++; } while (allCodes.has(code) && attempts < 500);
                 }
-
-                await set(push(clinicRef('users')), { 
-                    name, 
-                    phone: phone,
-                    phoneNormalized: normalizedPhone,
-                    roles, 
-                    accessCode: code, 
-                    createdAt: Date.now(),
-                    createdBy: currentUser.id
-                });
-                
+                await set(push(clinicRef('users')), { name, phone, phoneNormalized: normalizedPhone, roles, accessCode: code, createdAt: Date.now(), createdBy: currentUser.id });
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
                 $('userForm').reset();
                 $('userRolesCheckboxes').querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
-                showToast('Потребителят е създаден.','success');
+                showToast('Създаден.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
             finally { $('addUserBtn').disabled = false; }
         });
@@ -2512,10 +2396,7 @@
             if (eb) {
                 const u = users[eb.dataset.id];
                 if (!u) return;
-                if (isLockedUser(u)) { 
-                    showToast('🔒 Този потребител е защитен от системата и не може да се редактира.', 'error'); 
-                    return; 
-                }
+                if (isLockedUser(u)) { showToast('🔒 Този потребител е защитен.', 'error'); return; }
                 editingUserId = eb.dataset.id;
                 $('editRolesUserName').textContent = u.name;
                 const roles = getUserRoles(u);
@@ -2526,10 +2407,7 @@
             const db2 = e.target.closest('.delete-user');
             if (db2) {
                 const u = users[db2.dataset.id];
-                if (u && isLockedUser(u)) { 
-                    showToast('🔒 Този потребител е защитен от системата и не може да се изтрива.', 'error'); 
-                    return; 
-                }
+                if (u && isLockedUser(u)) { showToast('🔒 Защитен потребител.', 'error'); return; }
                 if (!confirm('Изтрий този потребител?')) return;
                 try { await remove(clinicRef(`users/${db2.dataset.id}`)); showToast('Изтрит.','success'); }
                 catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2539,9 +2417,9 @@
         $('saveRolesBtn').addEventListener('click', async ()=>{
             if (!editingUserId) return;
             const u = users[editingUserId];
-            if (u && isLockedUser(u)) { showToast('🔒 Заключен потребител.', 'error'); return; }
+            if (u && isLockedUser(u)) { showToast('🔒 Заключен.', 'error'); return; }
             const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value);
-            if (roles.length===0) { showToast('Изберете поне една роля.','error'); return; }
+            if (roles.length===0) { showToast('Изберете роля.','error'); return; }
             $('saveRolesBtn').disabled = true;
             try {
                 await update(clinicRef(`users/${editingUserId}`), { roles, role: null });
@@ -2560,7 +2438,6 @@
         });
         $('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
 
-        // УПРАЖНЕНИЯ
         document.querySelectorAll('.exercise-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.exTab;
@@ -2585,14 +2462,8 @@
                 $('addExerciseMenu').classList.remove('open');
                 $('exerciseShortPanel').classList.remove('active');
                 $('exerciseExtendedPanel').classList.remove('active');
-                if (mode === 'short') {
-                    $('exerciseShortPanel').classList.add('active');
-                    if ($('shortRowsContainer').children.length === 0) addShortRow();
-                    $('exerciseShortPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    $('exerciseExtendedPanel').classList.add('active');
-                    $('exerciseExtendedPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (mode === 'short') { $('exerciseShortPanel').classList.add('active'); if ($('shortRowsContainer').children.length === 0) addShortRow(); $('exerciseShortPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                else { $('exerciseExtendedPanel').classList.add('active'); $('exerciseExtendedPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
 
@@ -2615,34 +2486,21 @@
             row.querySelector('.short-row-name').focus();
         }
 
-        $('shortRowsContainer').addEventListener('click', (e)=>{
-            const btn = e.target.closest('.remove-row-btn');
-            if (!btn) return;
-            btn.closest('.short-row').remove();
-        });
-
+        $('shortRowsContainer').addEventListener('click', (e)=>{ const btn = e.target.closest('.remove-row-btn'); if (!btn) return; btn.closest('.short-row').remove(); });
         $('shortRowsContainer').addEventListener('input', (e)=>{
             const row = e.target.closest('.short-row');
             if (!row) return;
             const last = $('shortRowsContainer').lastElementChild;
             if (row === last) {
-                const hasData = row.querySelector('.short-row-patient').value ||
-                                row.querySelector('.short-row-name').value.trim() ||
-                                row.querySelector('.short-row-reps').value.trim();
+                const hasData = row.querySelector('.short-row-patient').value || row.querySelector('.short-row-name').value.trim() || row.querySelector('.short-row-reps').value.trim();
                 if (hasData) {
                     clearTimeout(window._shortRowTimeout);
-                    window._shortRowTimeout = setTimeout(()=>{
-                        if ($('shortRowsContainer').lastElementChild === row) addShortRow();
-                    }, 700);
+                    window._shortRowTimeout = setTimeout(()=>{ if ($('shortRowsContainer').lastElementChild === row) addShortRow(); }, 700);
                 }
             }
         });
 
-        $('cancelShortBtn').addEventListener('click', ()=>{
-            if ($('shortRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return;
-            $('shortRowsContainer').innerHTML = '';
-            $('exerciseShortPanel').classList.remove('active');
-        });
+        $('cancelShortBtn').addEventListener('click', ()=>{ if ($('shortRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return; $('shortRowsContainer').innerHTML = ''; $('exerciseShortPanel').classList.remove('active'); });
         $('cancelExtendedBtn').addEventListener('click', ()=>{ $('exerciseExtendedPanel').classList.remove('active'); });
 
         $('saveShortBtn').addEventListener('click', async ()=>{
@@ -2660,8 +2518,7 @@
                 let valid = true;
                 [['short-row-patient', p], ['short-row-name', name], ['short-row-reps', reps]].forEach(([cls, v])=>{
                     const inp = row.querySelector('.' + cls);
-                    if (!v) { inp.classList.add('required-missing'); valid = false; }
-                    else inp.classList.remove('required-missing');
+                    if (!v) { inp.classList.add('required-missing'); valid = false; } else inp.classList.remove('required-missing');
                 });
                 if (!valid) hasErrors = true;
                 validRows.push({ patientId: p, num: n, name, reps, desc });
@@ -2672,13 +2529,7 @@
             const orig = $('saveShortBtn').innerHTML;
             $('saveShortBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Запазване...';
             try {
-                for (const r of validRows) {
-                    await set(push(clinicRef('shortExercises')), {
-                        patientId: r.patientId, number: parseInt(r.num) || 0,
-                        name: r.name, reps: r.reps, description: r.desc,
-                        createdBy: currentUser.id, createdAt: Date.now()
-                    });
-                }
+                for (const r of validRows) { await set(push(clinicRef('shortExercises')), { patientId: r.patientId, number: parseInt(r.num) || 0, name: r.name, reps: r.reps, description: r.desc, createdBy: currentUser.id, createdAt: Date.now() }); }
                 showToast(`Запазени ${validRows.length}.`, 'success');
                 $('shortRowsContainer').innerHTML = '';
                 $('exerciseShortPanel').classList.remove('active');
@@ -2707,17 +2558,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addExerciseBtn').disabled = true;
             try {
-                await set(push(clinicRef('exercises')), {
-                    name, category: $('exCategory').value,
-                    sets: parseInt($('exSets').value) || 0,
-                    reps: $('exReps').value.trim(),
-                    weight: $('exWeight').value.trim(),
-                    duration: parseInt($('exDuration').value) || 0,
-                    description: $('exDescription').value.trim(),
-                    videoUrl: $('exVideoUrl').value.trim(),
-                    imageUrl: $('exImageUrl').value.trim(),
-                    createdBy: currentUser.id, createdAt: Date.now()
-                });
+                await set(push(clinicRef('exercises')), { name, category: $('exCategory').value, sets: parseInt($('exSets').value) || 0, reps: $('exReps').value.trim(), weight: $('exWeight').value.trim(), duration: parseInt($('exDuration').value) || 0, description: $('exDescription').value.trim(), videoUrl: $('exVideoUrl').value.trim(), imageUrl: $('exImageUrl').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
                 $('exerciseForm').reset();
                 $('exSets').value = 3; $('exReps').value = 12;
                 updateMediaPreview();
@@ -2757,11 +2598,8 @@
                     </div>`;
                 } else {
                     let mediaHtml = `<div class="media-placeholder"><i class="fas fa-dumbbell"></i><span>${escapeHtml(ex.category||'Упражнение')}</span></div>`;
-                    if (ex.videoUrl) {
-                        const yt = getYouTubeId(ex.videoUrl);
-                        if (yt) mediaHtml = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen></iframe>`;
-                        else mediaHtml = `<video src="${escapeHtml(ex.videoUrl)}" controls style="width:100%; height:100%; object-fit:cover;"></video>`;
-                    } else if (ex.imageUrl) mediaHtml = `<img src="${escapeHtml(ex.imageUrl)}" alt="">`;
+                    if (ex.videoUrl) { const yt = getYouTubeId(ex.videoUrl); if (yt) mediaHtml = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen></iframe>`; else mediaHtml = `<video src="${escapeHtml(ex.videoUrl)}" controls style="width:100%; height:100%; object-fit:cover;"></video>`; }
+                    else if (ex.imageUrl) mediaHtml = `<img src="${escapeHtml(ex.imageUrl)}" alt="">`;
                     return `<div class="exercise-card">
                         <div class="exercise-media">${mediaHtml}${ex.category?`<span class="exercise-category-badge">${escapeHtml(ex.category)}</span>`:''}</div>
                         <div class="exercise-body">
@@ -2789,13 +2627,12 @@
             if (b2) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        function addProgramRow(defaultExercise) {
+        function addProgramRow() {
             const rowNum = $('programRowsContainer').children.length + 1;
             const allEx = [];
             Object.entries(exercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'extended' }));
             Object.entries(shortExercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'short' }));
             const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
-
             const row = document.createElement('div');
             row.className = 'program-row';
             row.innerHTML = `
@@ -2811,8 +2648,7 @@
             `;
             $('programRowsContainer').appendChild(row);
             row.querySelector('.prog-row-library').addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (!val) return;
+                const val = e.target.value; if (!val) return;
                 const [libId, libType] = val.split('|');
                 const ex = libType === 'short' ? shortExercises[libId] : exercises[libId];
                 if (ex) {
@@ -2824,17 +2660,8 @@
         }
 
         $('addProgramRowBtn').addEventListener('click', () => addProgramRow());
-        $('programRowsContainer').addEventListener('click', (e) => {
-            const btn = e.target.closest('.remove-row-btn');
-            if (!btn) return;
-            btn.closest('.program-row').remove();
-        });
-
-        $('cancelProgramBtn').addEventListener('click', () => {
-            if ($('programRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return;
-            $('programRowsContainer').innerHTML = '';
-            $('programForm').reset();
-        });
+        $('programRowsContainer').addEventListener('click', (e) => { const btn = e.target.closest('.remove-row-btn'); if (!btn) return; btn.closest('.program-row').remove(); });
+        $('cancelProgramBtn').addEventListener('click', () => { if ($('programRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return; $('programRowsContainer').innerHTML = ''; $('programForm').reset(); });
 
         $('programForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
@@ -2859,10 +2686,7 @@
             if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; }
             $('addProgramBtn').disabled = true;
             try {
-                await set(push(clinicRef('programs')), {
-                    patientId: pid, title, notes: $('progNotes').value.trim(),
-                    exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now()
-                });
+                await set(push(clinicRef('programs')), { patientId: pid, title, notes: $('progNotes').value.trim(), exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now() });
                 await createNotification(pid, 'Нова домашна програма', `Създадена е програма: ${title}`, 'exercise');
                 $('programForm').reset();
                 $('programRowsContainer').innerHTML = '';
@@ -2882,13 +2706,8 @@
                 if (prog.exercises && Array.isArray(prog.exercises)) {
                     exList = prog.exercises.map(item => {
                         if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 };
-                        if (item.type === 'short') {
-                            const ex = shortExercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null;
-                        } else {
-                            const ex = exercises[item.id];
-                            return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null;
-                        }
+                        if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null; }
+                        else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null; }
                     }).filter(Boolean);
                 }
                 return `<div class="home-program-card">
@@ -2912,7 +2731,6 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ДОКУМЕНТАЦИЯ
         $('sessionNoteForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const pid = $('notePatient').value;
@@ -3070,19 +2888,14 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`documents/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ИЗВЕСТИЯ
-        $('headerNotifBtn').addEventListener('click', () => {
-            $('notifPanel').classList.toggle('open');
-            $('messagesPanel').classList.remove('open');
-        });
+        $('headerNotifBtn').addEventListener('click', () => { $('notifPanel').classList.toggle('open'); $('messagesPanel').classList.remove('open'); });
         $('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
 
         function updateNotificationsBadge() {
             if (!currentUser) return;
             const myId = currentUser.id;
             const unread = Object.values(notifications).filter(n => n.userId === myId && !n.read).length;
-            if (unread > 0) { $('notificationsBadge').textContent = unread; $('notificationsBadge').style.display = 'flex'; }
-            else { $('notificationsBadge').style.display = 'none'; }
+            if (unread > 0) { $('notificationsBadge').textContent = unread; $('notificationsBadge').style.display = 'flex'; } else { $('notificationsBadge').style.display = 'none'; }
         }
 
         function renderNotifications() {
@@ -3106,19 +2919,9 @@
 
         $('notifList').addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.notif-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.notifId;
-                try { await remove(clinicRef(`notifications/${id}`)); showToast('Известието е изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
+            if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.notifId; try { await remove(clinicRef(`notifications/${id}`)); showToast('Известието е изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
             const item = e.target.closest('.notif-item');
-            if (item) {
-                const id = item.dataset.notifId;
-                try { await update(clinicRef(`notifications/${id}`), { read: true }); }
-                catch(err) { console.error(err); }
-            }
+            if (item) { const id = item.dataset.notifId; try { await update(clinicRef(`notifications/${id}`), { read: true }); } catch(err) { console.error(err); } }
         });
 
         $('notifMarkAllBtn').addEventListener('click', async () => {
@@ -3127,8 +2930,7 @@
             const updates = {};
             Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true; });
             if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; }
-            try { await update(clinicRef(), updates); showToast('Всички са маркирани като прочетени.','success'); }
-            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await update(clinicRef(), updates); showToast('Всички са маркирани като прочетени.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         $('notifClearAllBtn').addEventListener('click', async () => {
@@ -3138,25 +2940,15 @@
             const updates = {};
             Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId) updates[`notifications/${id}`] = null; });
             if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
-            try { await update(clinicRef(), updates); showToast('Всички известия са изтрити.','success'); }
-            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await update(clinicRef(), updates); showToast('Всички известия са изтрити.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         async function createNotification(userId, title, text, type = 'default') {
-            try {
-                await set(push(clinicRef('notifications')), { userId, title, text, type, read: false, createdAt: Date.now() });
-            } catch(err) { console.error('Notif error:', err); }
+            try { await set(push(clinicRef('notifications')), { userId, title, text, type, read: false, createdAt: Date.now() }); } catch(err) { console.error('Notif error:', err); }
         }
 
-        // СЪОБЩЕНИЯ
-        $('headerMessagesBtn').addEventListener('click', () => {
-            $('messagesPanel').classList.toggle('open');
-            $('notifPanel').classList.remove('open');
-        });
-        $('messagesClose').addEventListener('click', () => {
-            $('messagesPanel').classList.remove('open');
-            $('chatView').classList.remove('active');
-        });
+        $('headerMessagesBtn').addEventListener('click', () => { $('messagesPanel').classList.toggle('open'); $('notifPanel').classList.remove('open'); });
+        $('messagesClose').addEventListener('click', () => { $('messagesPanel').classList.remove('open'); $('chatView').classList.remove('active'); });
 
         document.querySelectorAll('.msg-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
@@ -3172,28 +2964,17 @@
             if (!currentUser) return;
             const myId = currentUser.id;
             const unread = Object.values(messages).filter(m => m.to === myId && !m.read).length;
-            if (unread > 0) { $('messagesBadge').textContent = unread; $('messagesBadge').style.display = 'flex'; }
-            else { $('messagesBadge').style.display = 'none'; }
+            if (unread > 0) { $('messagesBadge').textContent = unread; $('messagesBadge').style.display = 'flex'; } else { $('messagesBadge').style.display = 'none'; }
         }
 
         function renderMessageRecipients() {
-            const sel = $('msgRecipient');
-            if (!sel) return;
+            const sel = $('msgRecipient'); if (!sel) return;
             const staff = Object.entries(users).filter(([id]) => !currentUser || id !== currentUser.id).map(([id, u]) => ({ id, name: u.name, type: 'staff' }));
             const pats = Object.entries(patients).filter(([, p]) => !p.archived).map(([id, p]) => ({ id, name: p.name, type: 'patient' }));
-
             const cur = sel.value;
             sel.innerHTML = '<option value="">-- избери получател --</option>';
-            if (staff.length > 0) {
-                const g = document.createElement('optgroup'); g.label = 'Служители';
-                staff.forEach(s => { const o = document.createElement('option'); o.value = 'staff:' + s.id; o.textContent = s.name; g.appendChild(o); });
-                sel.appendChild(g);
-            }
-            if (pats.length > 0) {
-                const g = document.createElement('optgroup'); g.label = 'Пациенти';
-                pats.forEach(p => { const o = document.createElement('option'); o.value = 'patient:' + p.id; o.textContent = p.name; g.appendChild(o); });
-                sel.appendChild(g);
-            }
+            if (staff.length > 0) { const g = document.createElement('optgroup'); g.label = 'Служители'; staff.forEach(s => { const o = document.createElement('option'); o.value = 'staff:' + s.id; o.textContent = s.name; g.appendChild(o); }); sel.appendChild(g); }
+            if (pats.length > 0) { const g = document.createElement('optgroup'); g.label = 'Пациенти'; pats.forEach(p => { const o = document.createElement('option'); o.value = 'patient:' + p.id; o.textContent = p.name; g.appendChild(o); }); sel.appendChild(g); }
             if (cur) sel.value = cur;
         }
 
@@ -3247,19 +3028,9 @@
 
         $('inboxList').addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.msg-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.msgId;
-                if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
-            const item = e.target.closest('.msg-item');
-            if (!item) return;
-            const fromId = item.dataset.fromId;
-            const fromType = item.dataset.fromType;
-            const myId = currentUser.id;
+            if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий това съобщение?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
+            const item = e.target.closest('.msg-item'); if (!item) return;
+            const fromId = item.dataset.fromId; const fromType = item.dataset.fromType; const myId = currentUser.id;
             const updates = {};
             Object.entries(messages).forEach(([id, m]) => { if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true; });
             if (Object.keys(updates).length > 0) { try { await update(clinicRef(), updates); } catch(err) { console.error(err); } }
@@ -3268,16 +3039,8 @@
 
         $('sentList').addEventListener('click', async (e) => {
             const delBtn = e.target.closest('.msg-item-delete');
-            if (delBtn) {
-                e.stopPropagation();
-                const id = delBtn.dataset.msgId;
-                if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
-                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
-                return;
-            }
-            const item = e.target.closest('.msg-item');
-            if (!item) return;
+            if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий това съобщение?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
+            const item = e.target.closest('.msg-item'); if (!item) return;
             openChat(item.dataset.toId, item.dataset.toType);
         });
 
@@ -3311,39 +3074,24 @@
         }
 
         $('chatBody').addEventListener('click', async (e) => {
-            const delBtn = e.target.closest('.bubble-delete');
-            if (!delBtn) return;
+            const delBtn = e.target.closest('.bubble-delete'); if (!delBtn) return;
             e.stopPropagation();
             const id = delBtn.dataset.msgId;
             if (!confirm('Изтрий това съобщение?')) return;
-            try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
-            catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         $('chatDeleteBtn').addEventListener('click', async () => {
             if (!currentChatUserId) return;
             if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител?')) return;
-            const myId = currentUser.id;
-            const otherId = currentChatUserId.id;
+            const myId = currentUser.id; const otherId = currentChatUserId.id;
             const updates = {};
-            Object.entries(messages).forEach(([id, m]) => {
-                if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null;
-            });
+            Object.entries(messages).forEach(([id, m]) => { if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null; });
             if (Object.keys(updates).length === 0) { showToast('Няма съобщения.','info'); return; }
-            try {
-                await update(clinicRef(), updates);
-                showToast('Всички съобщения са изтрити.','success');
-                $('chatView').classList.remove('active');
-                currentChatUserId = null;
-                document.querySelector('.msg-tab.active')?.click();
-            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            try { await update(clinicRef(), updates); showToast('Всички съобщения са изтрити.','success'); $('chatView').classList.remove('active'); currentChatUserId = null; document.querySelector('.msg-tab.active')?.click(); } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
-        $('chatBackBtn').addEventListener('click', () => {
-            $('chatView').classList.remove('active');
-            currentChatUserId = null;
-            document.querySelector('.msg-tab.active')?.click();
-        });
+        $('chatBackBtn').addEventListener('click', () => { $('chatView').classList.remove('active'); currentChatUserId = null; document.querySelector('.msg-tab.active')?.click(); });
 
         $('chatSendBtn').addEventListener('click', sendChatMessage);
         $('chatInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendChatMessage(); } });
@@ -3353,16 +3101,10 @@
             if (!text || !currentChatUserId || !currentUser) return;
             $('chatSendBtn').disabled = true;
             try {
-                await set(push(clinicRef('messages')), {
-                    from: currentUser.id,
-                    fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: currentChatUserId.id, toType: currentChatUserId.type,
-                    text, subject: '', read: false, createdAt: Date.now()
-                });
+                await set(push(clinicRef('messages')), { from: currentUser.id, fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff', to: currentChatUserId.id, toType: currentChatUserId.type, text, subject: '', read: false, createdAt: Date.now() });
                 await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('chatInput').value = '';
-            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
-            finally { $('chatSendBtn').disabled = false; }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('chatSendBtn').disabled = false; }
         }
 
         $('msgSendBtn').addEventListener('click', async () => {
@@ -3375,47 +3117,27 @@
             if (!recipient) { showToast('Невалиден получател.', 'error'); return; }
             $('msgSendBtn').disabled = true;
             try {
-                await set(push(clinicRef('messages')), {
-                    from: currentUser.id,
-                    fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: recipient.id, toType: recipient.type,
-                    subject, text, read: false, createdAt: Date.now()
-                });
+                await set(push(clinicRef('messages')), { from: currentUser.id, fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff', to: recipient.id, toType: recipient.type, subject, text, read: false, createdAt: Date.now() });
                 await createNotification(recipient.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
-                $('msgText').value = '';
-                $('msgSubject').value = '';
-                $('msgRecipient').value = '';
+                $('msgText').value = ''; $('msgSubject').value = ''; $('msgRecipient').value = '';
                 showToast('Съобщението е изпратено.', 'success');
                 document.querySelector('.msg-tab[data-msg-tab="sent"]')?.click();
-            } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
-            finally { $('msgSendBtn').disabled = false; }
+            } catch (err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('msgSendBtn').disabled = false; }
         });
 
-        $('msgClearBtn').addEventListener('click', () => {
-            $('msgRecipient').value = '';
-            $('msgSubject').value = '';
-            $('msgText').value = '';
-        });
+        $('msgClearBtn').addEventListener('click', () => { $('msgRecipient').value = ''; $('msgSubject').value = ''; $('msgText').value = ''; });
 
-        // ★★★ CRUD - ПАЦИЕНТИ С ТЕЛЕФОН ★★★
         $('patientForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('patientName').value.trim();
             const phone = $('patientPhone').value.trim();
             if (!name) return;
-            if (!phone) { showToast('Въведете телефон.', 'error'); return; }
-            
-            const normalizedPhone = normalizePhone(phone);
-            if (normalizedPhone.length < 9) { showToast('Телефонът трябва да е поне 9 цифри.', 'error'); return; }
-
             $('addPatientBtn').disabled = true;
             try {
-                // Провери дали телефонът съществува
                 const existingCode = findCodeByPhone(phone);
                 let code;
-                if (existingCode) {
-                    code = existingCode;
-                } else {
+                if (existingCode) { code = existingCode; }
+                else {
                     const allCodes = new Set();
                     for (const clinic of Object.values(clinics)) {
                         Object.values(clinic.users || {}).forEach(u => allCodes.add(u.accessCode));
@@ -3424,18 +3146,7 @@
                     let attempts = 0;
                     do { code = generate6DigitCode(); attempts++; } while (allCodes.has(code) && attempts < 500);
                 }
-
-                await set(push(clinicRef('patients')), { 
-                    name, 
-                    phone: phone, 
-                    phoneNormalized: normalizedPhone,
-                    notes: $('patientNotes').value.trim(), 
-                    archived: false, 
-                    createdAt: Date.now(), 
-                    createdBy: currentUser.id, 
-                    accessCode: code 
-                });
-                
+                await set(push(clinicRef('patients')), { name, phone, phoneNormalized: normalizePhone(phone), notes: $('patientNotes').value.trim(), archived: false, createdAt: Date.now(), createdBy: currentUser.id, accessCode: code });
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
@@ -3446,10 +3157,8 @@
         });
 
         $('activePatientsBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.archive-single');
-            if (!b) return;
-            try { await update(clinicRef(`patients/${b.dataset.id}`),{archived:true}); showToast('Архивиран.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
+            const b = e.target.closest('.archive-single'); if (!b) return;
+            try { await update(clinicRef(`patients/${b.dataset.id}`),{archived:true}); showToast('Архивиран.','success'); } catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
         $('archivedPatientsBody').addEventListener('click', async (e)=>{
@@ -3506,14 +3215,11 @@
         });
 
         $('proceduresBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.delete-procedure');
-            if (!b) return;
+            const b = e.target.closest('.delete-procedure'); if (!b) return;
             if (!confirm('Изтрий?')) return;
-            try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
+            try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
-        // ПРОФИЛ
         function openPatientProfile(patientId) {
             const patient = patients[patientId];
             if (!patient) { showToast('Не е намерен.','error'); return; }
@@ -3521,14 +3227,12 @@
             Object.values(modules).forEach(m=>m.classList.remove('active'));
             patientProfileModule.classList.add('active');
             navItems.forEach(n=>n.classList.remove('active'));
-
             const procs = Object.entries(procedures).map(([id,p])=>({id,...p})).filter(p=>p.patientId===patientId).sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
             const prices = Object.entries(pricing).map(([k,i])=>({k,...i})).filter(i=>i.patientId===patientId);
             const pSession = Object.entries(sessionNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const pSoap = Object.entries(soapNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const pDocs = Object.entries(documents).map(([id,d])=>({id,...d})).filter(d=>d.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const total = prices.reduce((s,p)=>s+(parseFloat(p.price)||0),0);
-
             $('profileContent').innerHTML = `
                 <div class="profile-header">
                     <div class="profile-avatar">${getUserInitials(patient.name)}</div>
@@ -3549,14 +3253,7 @@
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-history"></i> Процедури (${procs.length})</h3>
-                    ${procs.length===0?'<div class="empty-message">Няма процедури</div>':`
-                        <div class="timeline">${procs.map(p=>`
-                            <div class="timeline-item">
-                                <div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time||'—'}</div>
-                                <div class="title">${escapeHtml(p.description)}</div>
-                                ${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}
-                            </div>
-                        `).join('')}</div>`}
+                    ${procs.length===0?'<div class="empty-message">Няма процедури</div>':`<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`}
                 </div>
             `;
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -3574,30 +3271,18 @@
             if (link) { e.preventDefault(); openPatientProfile(link.dataset.id); }
         });
 
-        // ПОРТАЛ
         function renderPortal() {
             if (!currentPatient) return;
             $('portalUserName').textContent = currentPatient.name;
             renderPortalKineziSelect();
-
             const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
             const pShortEx = Object.entries(shortExercises).map(([id,ex])=>({id,...ex})).filter(ex=>ex.patientId===currentPatient.id).sort((a,b)=>(a.number||0)-(b.number||0));
-
             if (pPrograms.length===0 && pShortEx.length===0) $('patientHomePrograms').innerHTML = '';
             else {
                 let html = '';
                 if (pShortEx.length > 0) {
                     html += `<div class="patient-program-section"><h3><i class="fas fa-list-ul"></i> Моите упражнения</h3><div style="display:flex;flex-direction:column;gap:10px;">`;
-                    html += pShortEx.map(ex=>`
-                        <div style="display:flex;align-items:center;background:#fff;padding:0.9rem;border-radius:14px;border-left:4px solid #1a7a3e;">
-                            <div style="width:36px;height:36px;border-radius:50%;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:12px;flex-shrink:0;">${ex.number||'?'}</div>
-                            <div style="flex:1;min-width:0;">
-                                <div style="font-weight:700;color:#0b2b4f;margin-bottom:3px;">${escapeHtml(ex.name)}</div>
-                                ${ex.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:4px;">${escapeHtml(ex.description)}</div>` : ''}
-                                ${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}
-                            </div>
-                        </div>
-                    `).join('');
+                    html += pShortEx.map(ex=>`<div style="display:flex;align-items:center;background:#fff;padding:0.9rem;border-radius:14px;border-left:4px solid #1a7a3e;"><div style="width:36px;height:36px;border-radius:50%;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:12px;flex-shrink:0;">${ex.number||'?'}</div><div style="flex:1;min-width:0;"><div style="font-weight:700;color:#0b2b4f;margin-bottom:3px;">${escapeHtml(ex.name)}</div>${ex.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:4px;">${escapeHtml(ex.description)}</div>` : ''}${ex.reps ? `<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>` : ''}</div></div>`).join('');
                     html += `</div></div>`;
                 }
                 if (pPrograms.length > 0) {
@@ -3607,13 +3292,8 @@
                         if (prog.exercises && Array.isArray(prog.exercises)) {
                             exList = prog.exercises.map(item => {
                                 if (item.name) return { name: item.name, reps: item.reps, sets: item.sets, libId: item.libId, libType: item.libType };
-                                if (item.type === 'short') {
-                                    const ex = shortExercises[item.id];
-                                    return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null;
-                                } else {
-                                    const ex = exercises[item.id];
-                                    return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null;
-                                }
+                                if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps, sets: 0 } : null; }
+                                else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps, sets: ex.sets } : null; }
                             }).filter(Boolean);
                         }
                         return `<div style="background:#fff;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
@@ -3621,16 +3301,10 @@
                             ${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:10px;border-left:3px solid #1a7a3e;margin-bottom:1rem;font-size:0.9rem;color:#5a7a9a;">${escapeHtml(prog.notes)}</div>`:''}
                             <div style="display:flex;flex-direction:column;gap:10px;">
                                 ${exList.map((ex,i)=>{
-                                    let mediaHtml = '';
-                                    let exData = null;
+                                    let mediaHtml = ''; let exData = null;
                                     if (ex.libId) exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
-                                    if (exData && exData.videoUrl) {
-                                        const yt = getYouTubeId(exData.videoUrl);
-                                        if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`;
-                                        else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`;
-                                    } else if (exData && exData.imageUrl) {
-                                        mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
-                                    }
+                                    if (exData && exData.videoUrl) { const yt = getYouTubeId(exData.videoUrl); if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`; else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`; }
+                                    else if (exData && exData.imageUrl) mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
                                     return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
                                         ${mediaHtml}
                                         <div style="flex:1;min-width:0;">
@@ -3650,7 +3324,6 @@
                 }
                 $('patientHomePrograms').innerHTML = html;
             }
-
             const apts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.patientId===currentPatient.id && a.date>=toDateStr(new Date())).sort((a,b)=>`${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
             if (apts.length===0) $('portalAppointmentsBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма часове</td></tr>`;
             else {
@@ -3659,7 +3332,6 @@
                     return `<tr><td>${formatDate(a.date)}</td><td>${a.time||'—'}</td><td>${escapeHtml(k)}</td><td>${escapeHtml(a.note||'—')}</td><td><button class="btn-danger-outline btn btn-sm portal-delete-apt" data-id="${a.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`;
                 }).join('');
             }
-
             const procs = Object.entries(procedures).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id).sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
             if (procs.length===0) $('portalProceduresBody').innerHTML = '<div class="empty-message">Няма процедури</div>';
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
@@ -3669,29 +3341,21 @@
             if (!currentPatient) return;
             const pShortEx = Object.entries(shortExercises).map(([id, ex]) => ({ id, ...ex })).filter(ex => ex.patientId === currentPatient.id).sort((a, b) => (a.number || 0) - (b.number || 0));
             const pPrograms = Object.entries(programs).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === currentPatient.id).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
             if (pShortEx.length === 0 && pPrograms.length === 0) {
                 $('patientExercisesContent').innerHTML = `
                     <div class="card" style="text-align:center; padding:3rem 2rem;">
                         <i class="fas fa-dumbbell" style="font-size:4rem; color:#cfddee; margin-bottom:1.5rem; display:block;"></i>
                         <h3 style="color:#0b2b4f; font-size:1.3rem; margin-bottom:0.8rem;">Все още нямате зададени упражнения</h3>
-                        <p style="color:#7f95b0; font-size:0.95rem; max-width:400px; margin:0 auto;">
-                            Вашият кинезитерапевт ще ви добави домашна програма скоро.
-                        </p>
+                        <p style="color:#7f95b0; font-size:0.95rem; max-width:400px; margin:0 auto;">Вашият кинезитерапевт ще ви добави домашна програма скоро.</p>
                     </div>`;
                 return;
             }
-
             let html = '';
-
             if (pShortEx.length > 0) {
                 html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
                     <div style="display:flex; align-items:center; gap:15px;">
                         <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;"><i class="fas fa-list-ul"></i></div>
-                        <div style="flex:1;">
-                            <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Моите упражнения</h3>
-                            <div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${pShortEx.length} упражнения</div>
-                        </div>
+                        <div style="flex:1;"><h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Моите упражнения</h3><div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${pShortEx.length} упражнения</div></div>
                     </div>
                 </div>`;
                 html += `<div class="card" style="padding: 1.5rem; margin-bottom:1.5rem;"><div style="display:flex; flex-direction:column; gap:14px;">
@@ -3709,16 +3373,12 @@
                     `).join('')}
                 </div></div>`;
             }
-
             if (pPrograms.length > 0) {
                 const totalEx = pPrograms.reduce((sum, p) => sum + (p.exercises && Array.isArray(p.exercises) ? p.exercises.length : 0), 0);
                 html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
                     <div style="display:flex; align-items:center; gap:15px;">
                         <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;"><i class="fas fa-clipboard-check"></i></div>
-                        <div style="flex:1;">
-                            <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}</h3>
-                            <div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения</div>
-                        </div>
+                        <div style="flex:1;"><h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}</h3><div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения</div></div>
                     </div>
                 </div>`;
                 html += pPrograms.map(prog => {
@@ -3726,17 +3386,9 @@
                     if (prog.exercises && Array.isArray(prog.exercises)) {
                         exList = prog.exercises.map(item => {
                             let exData = null;
-                            if (item.name) {
-                                if (item.libId) exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
-                                return { name: item.name, reps: item.reps || '', sets: item.sets || 0, data: exData };
-                            }
-                            if (item.type === 'short') {
-                                const ex = shortExercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null;
-                            } else {
-                                const ex = exercises[item.id];
-                                return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null;
-                            }
+                            if (item.name) { if (item.libId) exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId]; return { name: item.name, reps: item.reps || '', sets: item.sets || 0, data: exData }; }
+                            if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0, data: ex } : null; }
+                            else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0, data: ex } : null; }
                         }).filter(Boolean);
                     }
                     return `<div class="card" style="padding: 1.5rem;">
@@ -3752,15 +3404,9 @@
                             ${exList.map((ex, i) => {
                                 const exData = ex.data;
                                 let mediaHtml = '';
-                                if (exData && exData.videoUrl) {
-                                    const yt = getYouTubeId(exData.videoUrl);
-                                    if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0;"></iframe>`;
-                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;"></video>`;
-                                } else if (exData && exData.imageUrl) {
-                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;">`;
-                                } else {
-                                    mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
-                                }
+                                if (exData && exData.videoUrl) { const yt = getYouTubeId(exData.videoUrl); if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0;"></iframe>`; else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;"></video>`; }
+                                else if (exData && exData.imageUrl) mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;">`;
+                                else mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
                                 return `<div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
                                     ${mediaHtml}
                                     <div style="flex:1; min-width:200px;">
@@ -3780,7 +3426,6 @@
                     </div>`;
                 }).join('');
             }
-
             $('patientExercisesContent').innerHTML = html;
         }
 
@@ -3804,25 +3449,21 @@
         });
 
         $('portalAppointmentsBody').addEventListener('click', async (e)=>{
-            const b = e.target.closest('.portal-delete-apt');
-            if (!b) return;
+            const b = e.target.closest('.portal-delete-apt'); if (!b) return;
             if (!confirm('Отмени?')) return;
-            try { await remove(clinicRef(`appointments/${b.dataset.id}`)); showToast('Отменен.','success'); }
-            catch(err){showToast('Грешка: '+err.message,'error');}
+            try { await remove(clinicRef(`appointments/${b.dataset.id}`)); showToast('Отменен.','success'); } catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
-        // НАВИГАЦИЯ
         navItems.forEach(item=>{
             item.addEventListener('click', ()=>{
                 if (item.classList.contains('hidden')) return;
+                if (item.classList.contains('hidden-by-clinic')) return;
                 const mod = item.dataset.module;
                 window.currentProfilePatientId = null;
                 patientProfileModule.classList.remove('active');
-
                 navItems.forEach(n=>n.classList.remove('active'));
                 item.classList.add('active');
                 Object.keys(modules).forEach(k=>modules[k].classList.toggle('active', k === mod));
-
                 if (mod === 'dashboard') renderDashboard();
                 else if (mod === 'patients') renderPatients();
                 else if (mod === 'schedule') renderWeek();
@@ -3849,13 +3490,11 @@
             });
         });
 
-        // INIT
         function init() {
             const today = new Date().toISOString().split('T')[0];
             ['procDate','aptDate','noteDate','soapDate','priceDateInput','portalAptDate'].forEach(id=>{ if($(id)) $(id).value = today; });
             currentPriceDate = today;
             codeInputEls[0].focus();
-
             showLoading(true);
             startClinicsListener();
             setTimeout(() => showLoading(false), 2000);
