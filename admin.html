@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhysioBook · Super Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+        body { background-color: #f8fbfe; min-height: 100vh; }
+
+        /* ЛОГИН */
+        .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
+        .login-screen.hidden { display: none !important; }
+        .login-card { background: #ffffff; border-radius: 28px; padding: 2.5rem 2.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); text-align: center; }
+        .login-logo-wrapper { width: 130px; height: 130px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; align-items: center; justify-content: center; border: 4px solid #ffffff; overflow: hidden; }
+        .login-logo-wrapper svg { width: 85%; height: 85%; }
+        .login-card h1 { font-size: 1.7rem; color: #0b2b4f; font-weight: 700; margin-bottom: 0.4rem; }
+        .login-card p.subtitle { color: #7f95b0; font-size: 0.9rem; margin-bottom: 2rem; }
+        .code-inputs { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
+        .code-inputs input { width: 52px; height: 62px; font-size: 1.6rem; font-weight: 700; text-align: center; border: 2px solid #cfddee; border-radius: 14px; color: #0b2b4f; background: #f8fbfe; font-family: 'Courier New', monospace; }
+        .code-inputs input:focus { outline: none; border-color: #0b2b4f; background: #ffffff; box-shadow: 0 0 0 4px rgba(11, 43, 79, 0.12); }
+        .code-inputs input.filled { background: #e8f0fe; border-color: #1e4a78; }
+        .login-btn { width: 100%; padding: 1rem; border: none; border-radius: 40px; background: #0b2b4f; color: #ffffff; font-size: 1.05rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .login-btn:hover:not(:disabled) { background: #1e4a78; }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .login-error { background: #fff5f5; color: #b22234; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1.2rem; font-size: 0.9rem; display: none; align-items: center; gap: 8px; }
+        .login-error.active { display: flex; }
+        .login-footer { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #edf2f8; font-size: 0.75rem; color: #7f95b0; }
+
+        /* APP */
+        .app { display: none; min-height: 100vh; flex-direction: column; }
+        .app.active { display: flex; }
+
+        /* HEADER */
+        .app-header {
+            background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-logo { width: 42px; height: 42px; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .header-logo svg { width: 90%; height: 90%; }
+        .header-title { display: flex; flex-direction: column; }
+        .header-title h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+        .header-title .sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .header-user { display: flex; align-items: center; gap: 10px; padding: 0.4rem 1rem 0.4rem 0.4rem; background: rgba(255, 255, 255, 0.1); border-radius: 40px; }
+        .header-user .avatar { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+        .header-user .name { font-size: 0.9rem; font-weight: 600; color: #ffffff; }
+        .logout-btn { padding: 0.55rem 1.1rem; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #ffffff; border-radius: 30px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .logout-btn:hover { background: #b22234; border-color: #b22234; }
+
+        /* MAIN */
+        .main { flex: 1; padding: 2rem 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: #ffffff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; }
+        .stat-card.clinics::before { background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .stat-card.codes::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
+        .stat-card.users::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .stat-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .stat-card-title { font-size: 0.8rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; }
+        .stat-card-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .stat-card.clinics .stat-card-icon { background: #e8f0fe; color: #1e4a78; }
+        .stat-card.codes .stat-card-icon { background: #f0e8ff; color: #6b3fa0; }
+        .stat-card.users .stat-card-icon { background: #e8f5e9; color: #1a7a3e; }
+        .stat-card-value { font-size: 2.2rem; font-weight: 700; color: #0b2b4f; line-height: 1; margin-bottom: 0.4rem; }
+        .stat-card-sub { font-size: 0.85rem; color: #7f95b0; }
+
+        .card { background: #ffffff; border-radius: 24px; padding: 2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; margin-bottom: 2rem; }
+        .card h2 { font-size: 1.3rem; color: #0b2b4f; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .card h2 i { color: #1e4a78; }
+
+        .create-form { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.9rem; font-weight: 600; color: #1f3f61; }
+        .form-group input { padding: 0.9rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit; background: #f8fbfe; }
+        .form-group input:focus { outline: none; border-color: #0b2b4f; background: #ffffff; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1); }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.9rem 1.8rem; border-radius: 40px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: #0b2b4f; color: #ffffff; box-shadow: 0 6px 14px rgba(11, 43, 79, 0.15); white-space: nowrap; }
+        .btn:hover:not(:disabled) { background-color: #1e4a78; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.82rem; }
+        .btn-outline { background: transparent; color: #0b2b4f; border: 1px solid #cfddee; box-shadow: none; }
+        .btn-outline:hover:not(:disabled) { background: #f5f9ff; border-color: #0b2b4f; }
+        .btn-danger-outline { background: transparent; color: #b22234; border: 1px solid #f0c0c0; box-shadow: none; }
+        .btn-danger-outline:hover:not(:disabled) { background: #fff5f5; border-color: #b22234; }
+        .btn-success { background: #1a7a3e; }
+        .btn-success:hover:not(:disabled) { background: #15642f; }
+
+        .clinics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; }
+        .clinic-card { background: #ffffff; border-radius: 20px; padding: 1.8rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 2px solid #e9eef3; transition: 0.2s; position: relative; }
+        .clinic-card:hover { border-color: #1e4a78; box-shadow: 0 10px 30px rgba(11, 43, 79, 0.08); }
+        .clinic-card-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.5rem; }
+        .clinic-icon { width: 55px; height: 55px; border-radius: 14px; background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f8 100%); color: #1e4a78; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+        .clinic-info { flex: 1; min-width: 0; }
+        .clinic-info h3 { font-size: 1.15rem; color: #0b2b4f; font-weight: 700; margin-bottom: 0.4rem; word-break: break-word; }
+        .clinic-info .meta { font-size: 0.8rem; color: #7f95b0; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+
+        .admin-code-box { background: linear-gradient(135deg, #f0e8ff 0%, #faf5ff 100%); border: 2px solid #d4b8ff; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 1.2rem; }
+        .admin-code-label { font-size: 0.72rem; color: #6b3fa0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .admin-code-value { display: flex; align-items: center; gap: 10px; }
+        .admin-code-value .code { font-family: 'Courier New', monospace; font-size: 1.6rem; font-weight: 700; letter-spacing: 4px; color: #0b2b4f; flex: 1; }
+        .code-action-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #d4b8ff; background: #ffffff; color: #6b3fa0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; flex-shrink: 0; }
+        .code-action-btn:hover { background: #6b3fa0; color: #ffffff; border-color: #6b3fa0; }
+
+        .clinic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .clinic-actions .btn { flex: 1; min-width: 100px; padding: 0.6rem 0.9rem; font-size: 0.82rem; }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; }
+        .empty-state i { font-size: 4rem; color: #cfddee; display: block; margin-bottom: 1.5rem; }
+        .empty-state h3 { color: #0b2b4f; font-size: 1.3rem; margin-bottom: 0.6rem; }
+        .empty-state p { color: #7f95b0; font-size: 0.95rem; max-width: 400px; margin: 0 auto; }
+
+        /* МОДАЛИ */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.6); display: none; justify-content: center; align-items: center; z-index: 10001; padding: 1.5rem; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #ffffff; border-radius: 24px; padding: 2.5rem; max-width: 480px; width: 100%; text-align: center; }
+        .modal .modal-icon { width: 80px; height: 80px; margin: 0 auto 1.2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .modal .modal-icon.success { background: #e8f5e9; }
+        .modal .modal-icon.success i { color: #1a7a3e; }
+        .modal .modal-icon.danger { background: #fff5f5; }
+        .modal .modal-icon.danger i { color: #b22234; }
+        .modal .modal-icon i { font-size: 2.5rem; }
+        .modal h3 { color: #0b2b4f; font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .modal p { color: #7f95b0; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .modal .big-code { font-family: 'Courier New', monospace; font-size: 2.5rem; font-weight: 700; letter-spacing: 8px; color: #0b2b4f; background: #f0e8ff; padding: 1rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; border: 2px solid #d4b8ff; }
+        .modal .modal-warning { background: #fff9ee; border-left: 4px solid #d97706; padding: 0.9rem 1.2rem; border-radius: 12px; text-align: left; margin-bottom: 1.5rem; font-size: 0.88rem; color: #8a5a00; }
+        .modal .modal-warning strong { color: #b45309; }
+        .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .modal-actions .btn { min-width: 120px; }
+
+        .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 1rem 1.5rem; border-radius: 14px; background: #0b2b4f; color: #ffffff; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: flex; align-items: center; gap: 10px; font-weight: 500; max-width: 380px; animation: slideIn 0.3s ease; }
+        .toast.error { background: #b22234; }
+        .toast.success { background: #1a7a3e; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .loading-overlay { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; font-weight: 600; }
+        .loading-overlay.active { display: flex; }
+        .loading-overlay i { font-size: 2.5rem; margin-right: 1rem; animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 700px) {
+            .main { padding: 1.5rem; }
+            .create-form { grid-template-columns: 1fr; }
+            .app-header { padding: 0.8rem 1rem; }
+            .header-title h1 { font-size: 0.95rem; }
+            .header-title .sub { display: none; }
+            .header-user .name { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <symbol id="physio-logo" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
+                <circle cx="100" cy="55" r="18" fill="#1e4a78"/>
+                <path d="M 82,73 Q 75,90 75,110 Q 75,135 85,150 L 115,150 Q 125,135 125,110 Q 125,90 118,73 Z" fill="#1e4a78"/>
+                <circle cx="100" cy="82" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="92" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="102" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="112" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="122" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="132" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="142" r="3.2" fill="#3fb8b0"/>
+                <path d="M 55,150 Q 70,160 100,165 Q 130,160 145,150 Q 155,145 150,138 Q 145,132 135,140 Q 120,152 100,152 Q 80,152 65,140 Q 55,132 50,138 Q 45,145 55,150 Z" fill="#3fb8b0"/>
+                <path d="M 60,40 Q 80,20 100,18 Q 120,20 140,40" fill="none" stroke="#3fb8b0" stroke-width="3.5" stroke-linecap="round"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- ЛОГИН -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo-wrapper">
+                <svg><use href="#physio-logo"></use></svg>
+            </div>
+            <h1>Super Admin</h1>
+            <p class="subtitle">Въведете вашия код за достъп</p>
+
+            <div class="login-error" id="loginError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="loginErrorText">Грешен код. Опитайте отново.</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="code-inputs" id="codeInputs">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn" disabled>
+                    <i class="fas fa-sign-in-alt"></i> Вход
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <i class="fas fa-lock"></i> Само за Super Admin
+            </div>
+        </div>
+    </div>
+
+    <!-- APP -->
+    <div class="app" id="app">
+        <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
+        <div class="toast-container" id="toastContainer"></div>
+
+        <header class="app-header">
+            <div class="header-left">
+                <div class="header-logo"><svg><use href="#physio-logo"></use></svg></div>
+                <div class="header-title">
+                    <h1>PhysioBook · Super Admin</h1>
+                    <div class="sub">Управление на клиники</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-user">
+                    <div class="avatar">SA</div>
+                    <span class="name">Super Admin</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Изход</button>
+            </div>
+        </header>
+
+        <main class="main">
+
+            <!-- Статистики -->
+            <div class="stats-grid">
+                <div class="stat-card clinics">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Клиники</span>
+                        <div class="stat-card-icon"><i class="fas fa-hospital"></i></div>
+                    </div>
+                    <div class="stat-card-value" id="statClinics">0</div>
+                    <div class="stat-card-sub">общо създадени</div>
+                </div>
+                <div class="stat-card codes">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Активни кодове</span>
+                        <div class="stat-card-icon"><i class="fas fa-key"></i></div>
+                    </div>
+                    <div class="stat-card-value" id="statCodes">0</div>
+                    <div class="stat-card-sub">за Phisyobook Admin</div>
+                </div>
+                <div class="stat-card users">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Потребители</span>
+                        <div class="stat-card-icon"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="stat-card-value" id="statUsers">0</div>
+                    <div class="stat-card-sub">във всички клиники</div>
+                </div>
+            </div>
+
+            <!-- Създаване на клиника -->
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> Нова клиника</h2>
+                <form class="create-form" id="createClinicForm">
+                    <div class="form-group">
+                        <label for="clinicNameInput">Име на клиниката *</label>
+                        <input type="text" id="clinicNameInput" placeholder="Напр. Рехабилитационен център Здраве" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn" id="createClinicBtn">
+                        <i class="fas fa-plus"></i> Създай клиника
+                    </button>
+                </form>
+            </div>
+
+            <!-- Списък с клиники -->
+            <div class="card">
+                <h2><i class="fas fa-list"></i> Всички клиники (<span id="clinicsCount">0</span>)</h2>
+                <div id="clinicsList"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- МОДАЛ: Успешно създадена клиника -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon success"><i class="fas fa-check-circle"></i></div>
+            <h3>Клиниката е създадена!</h3>
+            <p id="successClinicName">—</p>
+            <div style="font-size:0.85rem; color:#6b3fa0; font-weight:700; text-transform:uppercase; margin-bottom:8px;">
+                <i class="fas fa-key"></i> Код за Phisyobook Admin
+            </div>
+            <div class="big-code" id="successAdminCode">000000</div>
+            <div class="modal-warning">
+                <strong><i class="fas fa-exclamation-triangle"></i> Запазете този код!</strong><br>
+                С него ще влизате като главен администратор на тази клиника. Кодът не може да бъде променян.
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-success" id="successCopyBtn"><i class="fas fa-copy"></i> Копирай кода</button>
+                <button class="btn-outline btn" id="successCloseBtn">Затвори</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: Изтриване на клиника -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>Изтриване на клиника</h3>
+            <p id="deleteClinicName">—</p>
+            <div class="modal-warning">
+                <strong>ВНИМАНИЕ!</strong> Това ще изтрие <strong>ВСИЧКИ</strong> данни на клиниката:
+                пациенти, потребители, часове, процедури, упражнения, документи и др.
+                <br><br>
+                Това действие <strong>НЕ МОЖЕ</strong> да бъде отменено!
+            </div>
+            <div class="modal-actions">
+                <button class="btn-danger-outline btn" id="deleteConfirmBtn"><i class="fas fa-trash-alt"></i> Да, изтрий</button>
+                <button class="btn-outline btn" id="deleteCancelBtn">Отказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: Редакция на клиника -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-icon" style="background:#e8f0fe;"><i class="fas fa-edit" style="color:#1e4a78;"></i></div>
+            <h3>Редакция на клиника</h3>
+            <p>Променете името на клиниката</p>
+            <div class="form-group" style="text-align:left; margin-bottom:1.5rem;">
+                <label>Име на клиниката *</label>
+                <input type="text" id="editClinicName" required>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="editSaveBtn"><i class="fas fa-save"></i> Запази</button>
+                <button class="btn-outline btn" id="editCancelBtn">Отказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, push, set, update, remove, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
+            authDomain: "physiobook-d6eff.firebaseapp.com",
+            databaseURL: "https://physiobook-d6eff-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "physiobook-d6eff",
+            storageBucket: "physiobook-d6eff.firebasestorage.app",
+            messagingSenderId: "72682142520",
+            appId: "1:72682142520:web:ef39ae0e5ca3d48f5cdfcd",
+            measurementId: "G-S3S31S72B0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ★★★ SUPER ADMIN КОД ★★★
+        // ПРОМЕНИ ТОВА с твой личен код преди да качиш сайта!
+        const SUPER_ADMIN_CODE = '999999';
+
+        const clinicsRef = ref(db, 'clinics');
+
+        // DOM
+        const $ = id => document.getElementById(id);
+        const loginScreen = $('loginScreen');
+        const appEl = $('app');
+        const loginForm = $('loginForm');
+        const loginBtn = $('loginBtn');
+        const loginError = $('loginError');
+        const loginErrorText = $('loginErrorText');
+        const codeInputEls = document.querySelectorAll('#codeInputs input');
+        const toastContainer = $('toastContainer');
+        const loadingOverlay = $('loadingOverlay');
+
+        // State
+        let clinics = {};
+        let isAuthed = false;
+        let deleteTargetId = null;
+        let editTargetId = null;
+
+        // Helpers
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
+        }
+        function showLoading(show = true) { loadingOverlay.classList.toggle('active', show); }
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        function formatDate(ts) {
+            if (!ts) return '—';
+            const d = new Date(ts);
+            return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG', { hour: '2-digit', minute: '2-digit' });
+        }
+        function generate6DigitCode() {
+            return String(Math.floor(100000 + Math.random() * 900000));
+        }
+        // Уникален код сред всички клиники (проверява adminCode на всяка клиника)
+        function generateUniqueClinicAdminCode(existingClinics) {
+            let code, attempts = 0;
+            do {
+                code = generate6DigitCode();
+                attempts++;
+                if (attempts > 500) throw new Error('Не може да се генерира уникален код');
+            } while (
+                Object.values(existingClinics).some(c => c.adminCode === code) ||
+                code === SUPER_ADMIN_CODE
+            );
+            return code;
+        }
+
+        // ★★★ ЛОГИН С КОДОВЕ ★★★
+        codeInputEls.forEach((input, idx) => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.replace(/\D/g, '');
+                e.target.value = val.slice(0, 1);
+                e.target.classList.toggle('filled', !!e.target.value);
+                if (val && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
+                updateLoginBtn();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && idx > 0) codeInputEls[idx - 1].focus();
+                if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
+                if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
+            });
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+                if (paste) {
+                    codeInputEls.forEach((inp, i) => { inp.value = paste[i] || ''; inp.classList.toggle('filled', !!inp.value); });
+                    codeInputEls[Math.min(paste.length, 5)].focus();
+                    updateLoginBtn();
+                }
+            });
+            input.addEventListener('focus', (e) => e.target.select());
+        });
+
+        function updateLoginBtn() {
+            const code = Array.from(codeInputEls).map(i => i.value).join('');
+            loginBtn.disabled = code.length !== 6;
+        }
+        function clearCodeInputs() {
+            codeInputEls.forEach(i => { i.value = ''; i.classList.remove('filled'); });
+            codeInputEls[0].focus();
+            updateLoginBtn();
+        }
+        function showLoginError(msg) {
+            loginErrorText.textContent = msg;
+            loginError.classList.add('active');
+            setTimeout(() => loginError.classList.remove('active'), 4000);
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const code = Array.from(codeInputEls).map(i => i.value).join('');
+            if (code.length !== 6) return;
+
+            if (code === SUPER_ADMIN_CODE) {
+                isAuthed = true;
+                sessionStorage.setItem('superAdminAuthed', '1');
+                loginSuccess();
+                return;
+            }
+
+            showLoginError('Грешен код. Опитайте отново.');
+            clearCodeInputs();
+        });
+
+        function loginSuccess() {
+            loginScreen.classList.add('hidden');
+            appEl.classList.add('active');
+            showToast('Добре дошли, Super Admin!', 'success');
+        }
+
+        // Проверка при зареждане дали вече е влязъл
+        if (sessionStorage.getItem('superAdminAuthed') === '1') {
+            isAuthed = true;
+            loginScreen.classList.add('hidden');
+            appEl.classList.add('active');
+        }
+
+        // ★★★ LOGOUT ★★★
+        $('logoutBtn').addEventListener('click', () => {
+            if (!confirm('Сигурни ли сте, че искате да излезете?')) return;
+            sessionStorage.removeItem('superAdminAuthed');
+            location.reload();
+        });
+
+        // ★★★ DATA LISTENER ★★★
+        onValue(clinicsRef, (snapshot) => {
+            clinics = snapshot.val() || {};
+            renderClinics();
+            updateStats();
+            showLoading(false);
+        }, () => showLoading(false));
+
+        // ★★★ STATS ★★★
+        function updateStats() {
+            const list = Object.values(clinics);
+            $('statClinics').textContent = list.length;
+            $('statCodes').textContent = list.filter(c => c.adminCode).length;
+            // Потребители - събираме от всички клиники (ако имат)
+            let totalUsers = 0;
+            list.forEach(c => {
+                if (c.usersCount) totalUsers += c.usersCount;
+            });
+            $('statUsers').textContent = totalUsers;
+            $('clinicsCount').textContent = list.length;
+        }
+
+        // ★★★ RENDER CLINICS ★★★
+        function renderClinics() {
+            const list = Object.entries(clinics)
+                .map(([id, c]) => ({ id, ...c }))
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            if (list.length === 0) {
+                $('clinicsList').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-hospital"></i>
+                        <h3>Няма създадени клиники</h3>
+                        <p>Започнете, като създадете първата клиника с формата по-горе.</p>
+                    </div>`;
+                return;
+            }
+
+            $('clinicsList').innerHTML = `<div class="clinics-grid">${list.map(c => `
+                <div class="clinic-card" data-clinic-id="${c.id}">
+                    <div class="clinic-card-header">
+                        <div class="clinic-icon"><i class="fas fa-hospital"></i></div>
+                        <div class="clinic-info">
+                            <h3>${escapeHtml(c.name)}</h3>
+                            <div class="meta">
+                                <i class="fas fa-calendar"></i> ${formatDate(c.createdAt)}
+                                ${c.patientCount ? ` · <i class="fas fa-users"></i> ${c.patientCount} пациента` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-code-box">
+                        <div class="admin-code-label"><i class="fas fa-key"></i> Код за Phisyobook Admin</div>
+                        <div class="admin-code-value">
+                            <div class="code" data-code="${c.adminCode || '------'}">${c.adminCode || '------'}</div>
+                            <button class="code-action-btn copy-code-btn" data-code="${c.adminCode || ''}" title="Копирай кода">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="clinic-actions">
+                        <button class="btn-outline btn edit-clinic-btn" data-id="${c.id}">
+                            <i class="fas fa-edit"></i> Редактирай
+                        </button>
+                        <button class="btn-danger-outline btn delete-clinic-btn" data-id="${c.id}">
+                            <i class="fas fa-trash-alt"></i> Изтрий
+                        </button>
+                    </div>
+                </div>
+            `).join('')}</div>`;
+        }
+
+        // ★★★ СЪЗДАВАНЕ НА КЛИНИКА ★★★
+        $('createClinicForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = $('clinicNameInput').value.trim();
+            if (!name) { showToast('Въведете име на клиниката.', 'error'); return; }
+            if (name.length < 2) { showToast('Името е твърде кратко.', 'error'); return; }
+
+            // Проверка за дублирано име
+            const exists = Object.values(clinics).some(c => (c.name || '').toLowerCase() === name.toLowerCase());
+            if (exists) {
+                if (!confirm('Вече съществува клиника с това име. Да продължа ли?')) return;
+            }
+
+            $('createClinicBtn').disabled = true;
+            const orig = $('createClinicBtn').innerHTML;
+            $('createClinicBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Създаване...';
+
+            try {
+                // 1. Генерирай уникален код за Phisyobook Admin
+                const adminCode = generateUniqueClinicAdminCode(clinics);
+
+                // 2. Създай клиниката в /clinics
+                const newClinicRef = push(clinicsRef);
+                const clinicId = newClinicRef.key;
+
+                await set(newClinicRef, {
+                    name: name,
+                    adminCode: adminCode,
+                    createdAt: Date.now(),
+                    createdBy: 'super-admin',
+                    patientCount: 0,
+                    usersCount: 0
+                });
+
+                // 3. Създай Phisyobook Admin за клиниката в /clinics/{clinicId}/users
+                //    Този потребител НЕ може да се редактира/изтрива от index.html
+                const clinicAdminRef = push(ref(db, `clinics/${clinicId}/users`));
+                await set(clinicAdminRef, {
+                    name: `PhysioBook Admin`,
+                    roles: ['Администратор'],
+                    accessCode: adminCode,
+                    isClinicAdmin: true,          // ★ флаг - главен админ на клиниката
+                    locked: true,                  // ★ флаг - не може да се редактира/изтрива
+                    createdAt: Date.now(),
+                    createdBy: 'super-admin'
+                });
+
+                // 4. Създай празни колекции за клиниката (за да съществуват)
+                //    (Firebase ги създава автоматично, когато добавим първи запис,
+                //     но маркираме, че клиниката има празни колекции)
+                await update(newClinicRef, {
+                    initialized: true
+                });
+
+                // 5. Покажи успешен модал с кода
+                $('successClinicName').textContent = name;
+                $('successAdminCode').textContent = adminCode;
+                $('successModal').classList.add('active');
+
+                $('clinicNameInput').value = '';
+                showToast('Клиниката е създадена успешно!', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('createClinicBtn').disabled = false;
+                $('createClinicBtn').innerHTML = orig;
+            }
+        });
+
+        // ★★★ COPY CODE ★★★
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.copy-code-btn');
+            if (!btn) return;
+            const code = btn.dataset.code;
+            if (!code) { showToast('Няма код за копиране.', 'error'); return; }
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast('Кодът е копиран: ' + code, 'success');
+                // Визуален feedback
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => { btn.innerHTML = orig; }, 1500);
+            } catch {
+                showToast('Не може да се копира. Код: ' + code, 'error');
+            }
+        });
+
+        $('successCopyBtn').addEventListener('click', async () => {
+            const code = $('successAdminCode').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast('Кодът е копиран!', 'success');
+            } catch {
+                showToast('Не може да се копира. Код: ' + code, 'error');
+            }
+        });
+        $('successCloseBtn').addEventListener('click', () => {
+            $('successModal').classList.remove('active');
+        });
+
+        // ★★★ EDIT CLINIC ★★★
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.edit-clinic-btn');
+            if (!btn) return;
+            const id = btn.dataset.id;
+            const c = clinics[id];
+            if (!c) return;
+            editTargetId = id;
+            $('editClinicName').value = c.name || '';
+            $('editModal').classList.add('active');
+            setTimeout(() => $('editClinicName').focus(), 100);
+        });
+
+        $('editCancelBtn').addEventListener('click', () => {
+            $('editModal').classList.remove('active');
+            editTargetId = null;
+        });
+
+        $('editSaveBtn').addEventListener('click', async () => {
+            if (!editTargetId) return;
+            const newName = $('editClinicName').value.trim();
+            if (!newName) { showToast('Въведете име.', 'error'); return; }
+            $('editSaveBtn').disabled = true;
+            try {
+                await update(ref(db, `clinics/${editTargetId}`), { name: newName, updatedAt: Date.now() });
+                showToast('Клиниката е обновена.', 'success');
+                $('editModal').classList.remove('active');
+                editTargetId = null;
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('editSaveBtn').disabled = false;
+            }
+        });
+
+        // ★★★ DELETE CLINIC ★★★
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.delete-clinic-btn');
+            if (!btn) return;
+            const id = btn.dataset.id;
+            const c = clinics[id];
+            if (!c) return;
+            deleteTargetId = id;
+            $('deleteClinicName').textContent = c.name || '—';
+            $('deleteModal').classList.add('active');
+        });
+
+        $('deleteCancelBtn').addEventListener('click', () => {
+            $('deleteModal').classList.remove('active');
+            deleteTargetId = null;
+        });
+
+        $('deleteConfirmBtn').addEventListener('click', async () => {
+            if (!deleteTargetId) return;
+            $('deleteConfirmBtn').disabled = true;
+            const orig = $('deleteConfirmBtn').innerHTML;
+            $('deleteConfirmBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изтриване...';
+            try {
+                // Изтрий цялата клиника (заедно с всички нейни данни)
+                await remove(ref(db, `clinics/${deleteTargetId}`));
+                showToast('Клиниката е изтрита.', 'success');
+                $('deleteModal').classList.remove('active');
+                deleteTargetId = null;
+            } catch (err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('deleteConfirmBtn').disabled = false;
+                $('deleteConfirmBtn').innerHTML = orig;
+            }
+        });
+
+        // Затваряне на модали с клик извън тях
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // ★★★ INIT ★★★
+        codeInputEls[0].focus();
+    </script>
+</body>
+</html>
