@@ -58,21 +58,30 @@
         .logout-btn { padding: 0.55rem 1.1rem; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #ffffff; border-radius: 30px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .logout-btn:hover { background: #b22234; border-color: #b22234; }
 
+        /* TABS */
+        .tabs { display: flex; gap: 8px; padding: 1.5rem 2rem 0; max-width: 1400px; margin: 0 auto; width: 100%; flex-wrap: wrap; }
+        .tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.15s; }
+        .tab:hover { border-color: #1e4a78; }
+        .tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
+
         /* MAIN */
-        .main { flex: 1; padding: 2rem 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .main { flex: 1; padding: 1.5rem 2.5rem 2rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .pane { display: none; }
+        .pane.active { display: block; animation: fade 0.2s ease; }
+        @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .stat-card { background: #ffffff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
         .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; }
         .stat-card.clinics::before { background: linear-gradient(90deg, #1e4a78, #4a90e2); }
-        .stat-card.codes::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
-        .stat-card.users::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .stat-card.users::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
+        .stat-card.codes::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
         .stat-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
         .stat-card-title { font-size: 0.8rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; }
         .stat-card-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .stat-card.clinics .stat-card-icon { background: #e8f0fe; color: #1e4a78; }
-        .stat-card.codes .stat-card-icon { background: #f0e8ff; color: #6b3fa0; }
-        .stat-card.users .stat-card-icon { background: #e8f5e9; color: #1a7a3e; }
+        .stat-card.users .stat-card-icon { background: #f0e8ff; color: #6b3fa0; }
+        .stat-card.codes .stat-card-icon { background: #e8f5e9; color: #1a7a3e; }
         .stat-card-value { font-size: 2.2rem; font-weight: 700; color: #0b2b4f; line-height: 1; margin-bottom: 0.4rem; }
         .stat-card-sub { font-size: 0.85rem; color: #7f95b0; }
 
@@ -80,7 +89,8 @@
         .card h2 { font-size: 1.3rem; color: #0b2b4f; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
         .card h2 i { color: #1e4a78; }
 
-        .create-form { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end; }
+        .create-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; }
+        .create-form.single { grid-template-columns: 1fr auto; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group label { font-size: 0.9rem; font-weight: 600; color: #1f3f61; }
         .form-group input { padding: 0.9rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit; background: #f8fbfe; }
@@ -116,10 +126,20 @@
         .clinic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         .clinic-actions .btn { flex: 1; min-width: 100px; padding: 0.6rem 0.9rem; font-size: 0.82rem; }
 
+        .table-wrapper { overflow-x: auto; border-radius: 18px; border: 1px solid #e9eef3; background: #ffffff; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 700px; }
+        th { text-align: left; padding: 1rem 1.2rem; background: #f8fbfe; color: #0b2b4f; font-weight: 600; border-bottom: 1px solid #dee9f2; font-size: 0.85rem; text-transform: uppercase; }
+        td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; vertical-align: middle; }
         .empty-state { text-align: center; padding: 4rem 2rem; }
         .empty-state i { font-size: 4rem; color: #cfddee; display: block; margin-bottom: 1.5rem; }
         .empty-state h3 { color: #0b2b4f; font-size: 1.3rem; margin-bottom: 0.6rem; }
         .empty-state p { color: #7f95b0; font-size: 0.95rem; max-width: 400px; margin: 0 auto; }
+
+        .role-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; background: #f0e8ff; color: #6b3fa0; margin: 2px 4px 2px 0; }
+        .role-badge.founder { background: #fff5e5; color: #b06d00; }
+
+        .founder-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; background: #fff5e5; color: #b06d00; margin-left: 8px; }
+        .you-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; background: #e8f5e9; color: #1a7a3e; margin-left: 8px; }
 
         /* МОДАЛИ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.6); display: none; justify-content: center; align-items: center; z-index: 10001; padding: 1.5rem; }
@@ -153,10 +173,12 @@
         @media (max-width: 700px) {
             .main { padding: 1.5rem; }
             .create-form { grid-template-columns: 1fr; }
+            .create-form.single { grid-template-columns: 1fr; }
             .app-header { padding: 0.8rem 1rem; }
             .header-title h1 { font-size: 0.95rem; }
             .header-title .sub { display: none; }
             .header-user .name { display: none; }
+            .tabs { padding: 1rem 1rem 0; }
         }
     </style>
 </head>
@@ -225,73 +247,121 @@
                 <div class="header-logo"><svg><use href="#physio-logo"></use></svg></div>
                 <div class="header-title">
                     <h1>PhysioBook · Super Admin</h1>
-                    <div class="sub">Управление на клиники</div>
+                    <div class="sub">Управление на клиники и потребители</div>
                 </div>
             </div>
             <div class="header-right">
                 <div class="header-user">
-                    <div class="avatar">SA</div>
-                    <span class="name">Super Admin</span>
+                    <div class="avatar" id="headerAvatar">SA</div>
+                    <span class="name" id="headerName">Super Admin</span>
                 </div>
                 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Изход</button>
             </div>
         </header>
 
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="clinics"><i class="fas fa-hospital"></i> Клиники</button>
+            <button class="tab" data-tab="users"><i class="fas fa-users"></i> Потребители</button>
+        </div>
+
         <main class="main">
 
-            <!-- Статистики -->
-            <div class="stats-grid">
-                <div class="stat-card clinics">
-                    <div class="stat-card-header">
-                        <span class="stat-card-title">Клиники</span>
-                        <div class="stat-card-icon"><i class="fas fa-hospital"></i></div>
+            <!-- ТАБ: КЛИНИКИ -->
+            <div class="pane active" data-pane="clinics">
+                <div class="stats-grid">
+                    <div class="stat-card clinics">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Клиники</span>
+                            <div class="stat-card-icon"><i class="fas fa-hospital"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statClinics">0</div>
+                        <div class="stat-card-sub">общо създадени</div>
                     </div>
-                    <div class="stat-card-value" id="statClinics">0</div>
-                    <div class="stat-card-sub">общо създадени</div>
+                    <div class="stat-card codes">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Кодове на клиники</span>
+                            <div class="stat-card-icon"><i class="fas fa-key"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statCodes">0</div>
+                        <div class="stat-card-sub">за Phisyobook Admin</div>
+                    </div>
                 </div>
-                <div class="stat-card codes">
-                    <div class="stat-card-header">
-                        <span class="stat-card-title">Активни кодове</span>
-                        <div class="stat-card-icon"><i class="fas fa-key"></i></div>
-                    </div>
-                    <div class="stat-card-value" id="statCodes">0</div>
-                    <div class="stat-card-sub">за Phisyobook Admin</div>
+
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> Нова клиника</h2>
+                    <form class="create-form single" id="createClinicForm">
+                        <div class="form-group">
+                            <label for="clinicNameInput">Име на клиниката *</label>
+                            <input type="text" id="clinicNameInput" placeholder="Напр. Рехабилитационен център Здраве" required autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn" id="createClinicBtn">
+                            <i class="fas fa-plus"></i> Създай клиника
+                        </button>
+                    </form>
                 </div>
-                <div class="stat-card users">
-                    <div class="stat-card-header">
-                        <span class="stat-card-title">Потребители</span>
-                        <div class="stat-card-icon"><i class="fas fa-users"></i></div>
-                    </div>
-                    <div class="stat-card-value" id="statUsers">0</div>
-                    <div class="stat-card-sub">във всички клиники</div>
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> Всички клиники (<span id="clinicsCount">0</span>)</h2>
+                    <div id="clinicsList"></div>
                 </div>
             </div>
 
-            <!-- Създаване на клиника -->
-            <div class="card">
-                <h2><i class="fas fa-plus-circle"></i> Нова клиника</h2>
-                <form class="create-form" id="createClinicForm">
-                    <div class="form-group">
-                        <label for="clinicNameInput">Име на клиниката *</label>
-                        <input type="text" id="clinicNameInput" placeholder="Напр. Рехабилитационен център Здраве" required autocomplete="off">
+            <!-- ТАБ: ПОТРЕБИТЕЛИ (Super Admin-и) -->
+            <div class="pane" data-pane="users">
+                <div class="stats-grid">
+                    <div class="stat-card users">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Super Admin-и</span>
+                            <div class="stat-card-icon"><i class="fas fa-users"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statUsers">0</div>
+                        <div class="stat-card-sub">с достъп до панела</div>
                     </div>
-                    <button type="submit" class="btn" id="createClinicBtn">
-                        <i class="fas fa-plus"></i> Създай клиника
-                    </button>
-                </form>
-            </div>
+                </div>
 
-            <!-- Списък с клиники -->
-            <div class="card">
-                <h2><i class="fas fa-list"></i> Всички клиники (<span id="clinicsCount">0</span>)</h2>
-                <div id="clinicsList"></div>
+                <div class="card">
+                    <h2><i class="fas fa-user-plus"></i> Нов потребител (Super Admin)</h2>
+                    <form class="create-form" id="createUserForm">
+                        <div class="form-group">
+                            <label for="userNameInput">Име *</label>
+                            <input type="text" id="userNameInput" placeholder="Напр. Мария Петрова" required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="userPhoneInput">Телефон</label>
+                            <input type="tel" id="userPhoneInput" placeholder="0888123456" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn" id="createUserBtn">
+                            <i class="fas fa-key"></i> Създай
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Всички потребители (<span id="usersCount">0</span>)</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Име</th>
+                                    <th>Телефон</th>
+                                    <th>Роля</th>
+                                    <th>Код за достъп</th>
+                                    <th>Създаден</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </main>
     </div>
 
     <!-- МОДАЛ: Успешно създадена клиника -->
-    <div class="modal-overlay" id="successModal">
+    <div class="modal-overlay" id="successClinicModal">
         <div class="modal">
             <div class="modal-icon success"><i class="fas fa-check-circle"></i></div>
             <h3>Клиниката е създадена!</h3>
@@ -299,30 +369,46 @@
             <div style="font-size:0.85rem; color:#6b3fa0; font-weight:700; text-transform:uppercase; margin-bottom:8px;">
                 <i class="fas fa-key"></i> Код за Phisyobook Admin
             </div>
-            <div class="big-code" id="successAdminCode">000000</div>
+            <div class="big-code" id="successClinicCode">000000</div>
             <div class="modal-warning">
                 <strong><i class="fas fa-exclamation-triangle"></i> Запазете този код!</strong><br>
                 С него ще влизате като главен администратор на тази клиника. Кодът не може да бъде променян.
             </div>
             <div class="modal-actions">
-                <button class="btn btn-success" id="successCopyBtn"><i class="fas fa-copy"></i> Копирай кода</button>
-                <button class="btn-outline btn" id="successCloseBtn">Затвори</button>
+                <button class="btn btn-success" id="successClinicCopyBtn"><i class="fas fa-copy"></i> Копирай кода</button>
+                <button class="btn-outline btn" id="successClinicCloseBtn">Затвори</button>
             </div>
         </div>
     </div>
 
-    <!-- МОДАЛ: Изтриване на клиника -->
+    <!-- МОДАЛ: Успешно създаден потребител -->
+    <div class="modal-overlay" id="successUserModal">
+        <div class="modal">
+            <div class="modal-icon success"><i class="fas fa-user-check"></i></div>
+            <h3>Потребителят е създаден!</h3>
+            <p id="successUserName">—</p>
+            <div style="font-size:0.85rem; color:#6b3fa0; font-weight:700; text-transform:uppercase; margin-bottom:8px;">
+                <i class="fas fa-key"></i> Код за достъп
+            </div>
+            <div class="big-code" id="successUserCode">000000</div>
+            <div class="modal-warning">
+                <strong><i class="fas fa-exclamation-triangle"></i> Запазете този код!</strong><br>
+                Този потребител ще влиза в Super Admin панела с този код.
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-success" id="successUserCopyBtn"><i class="fas fa-copy"></i> Копирай кода</button>
+                <button class="btn-outline btn" id="successUserCloseBtn">Затвори</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛ: Изтриване -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal">
             <div class="modal-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
-            <h3>Изтриване на клиника</h3>
-            <p id="deleteClinicName">—</p>
-            <div class="modal-warning">
-                <strong>ВНИМАНИЕ!</strong> Това ще изтрие <strong>ВСИЧКИ</strong> данни на клиниката:
-                пациенти, потребители, часове, процедури, упражнения, документи и др.
-                <br><br>
-                Това действие <strong>НЕ МОЖЕ</strong> да бъде отменено!
-            </div>
+            <h3>Изтриване</h3>
+            <p id="deleteTargetName">—</p>
+            <div class="modal-warning" id="deleteWarning"></div>
             <div class="modal-actions">
                 <button class="btn-danger-outline btn" id="deleteConfirmBtn"><i class="fas fa-trash-alt"></i> Да, изтрий</button>
                 <button class="btn-outline btn" id="deleteCancelBtn">Отказ</button>
@@ -330,15 +416,15 @@
         </div>
     </div>
 
-    <!-- МОДАЛ: Редакция на клиника -->
+    <!-- МОДАЛ: Редакция -->
     <div class="modal-overlay" id="editModal">
         <div class="modal">
             <div class="modal-icon" style="background:#e8f0fe;"><i class="fas fa-edit" style="color:#1e4a78;"></i></div>
-            <h3>Редакция на клиника</h3>
-            <p>Променете името на клиниката</p>
+            <h3>Редакция</h3>
+            <p>Променете името</p>
             <div class="form-group" style="text-align:left; margin-bottom:1.5rem;">
-                <label>Име на клиниката *</label>
-                <input type="text" id="editClinicName" required>
+                <label>Име *</label>
+                <input type="text" id="editNameInput" required>
             </div>
             <div class="modal-actions">
                 <button class="btn" id="editSaveBtn"><i class="fas fa-save"></i> Запази</button>
@@ -349,7 +435,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, push, set, update, remove, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -365,11 +451,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ★★★ SUPER ADMIN КОД ★★★
-        // ПРОМЕНИ ТОВА с твой личен код преди да качиш сайта!
-        const SUPER_ADMIN_CODE = '999999';
-
+        // ★ РЕФЕРЕНЦИИ ★
         const clinicsRef = ref(db, 'clinics');
+        const superAdminsRef = ref(db, 'superAdmins');
+
+        // ★ КОНСТАНТИ ★
+        const FOUNDER_CODE = '010610';
+        const FOUNDER_NAME = 'Алекс Тодоров';
 
         // DOM
         const $ = id => document.getElementById(id);
@@ -385,9 +473,13 @@
 
         // State
         let clinics = {};
+        let superAdmins = {};
+        let currentAdmin = null;
         let isAuthed = false;
         let deleteTargetId = null;
+        let deleteTargetType = null;
         let editTargetId = null;
+        let editTargetType = null;
 
         // Helpers
         function showToast(message, type = 'info') {
@@ -413,21 +505,22 @@
         function generate6DigitCode() {
             return String(Math.floor(100000 + Math.random() * 900000));
         }
-        // Уникален код сред всички клиники (проверява adminCode на всяка клиника)
-        function generateUniqueClinicAdminCode(existingClinics) {
+        function getUserInitials(n){ return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
+
+        function generateUniqueCode() {
+            const used = new Set();
+            Object.values(clinics).forEach(c => { if (c.adminCode) used.add(c.adminCode); });
+            Object.values(superAdmins).forEach(a => { if (a.accessCode) used.add(a.accessCode); });
+            used.add(FOUNDER_CODE);
             let code, attempts = 0;
             do {
                 code = generate6DigitCode();
                 attempts++;
-                if (attempts > 500) throw new Error('Не може да се генерира уникален код');
-            } while (
-                Object.values(existingClinics).some(c => c.adminCode === code) ||
-                code === SUPER_ADMIN_CODE
-            );
+            } while (used.has(code) && attempts < 500);
             return code;
         }
 
-        // ★★★ ЛОГИН С КОДОВЕ ★★★
+        // ★ ЛОГИН ★
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
@@ -468,14 +561,19 @@
             setTimeout(() => loginError.classList.remove('active'), 4000);
         }
 
+        // ★ ВХОД ★
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
-            if (code === SUPER_ADMIN_CODE) {
+            const found = Object.entries(superAdmins).find(([, a]) => a.accessCode === code);
+            if (found) {
+                const [id, admin] = found;
+                currentAdmin = { id, ...admin };
                 isAuthed = true;
-                sessionStorage.setItem('superAdminAuthed', '1');
+                sessionStorage.setItem('superAdminCode', code);
+                sessionStorage.setItem('superAdminId', id);
                 loginSuccess();
                 return;
             }
@@ -487,46 +585,101 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.add('active');
-            showToast('Добре дошли, Super Admin!', 'success');
+            $('headerAvatar').textContent = getUserInitials(currentAdmin.name);
+            $('headerName').textContent = currentAdmin.name + (currentAdmin.isFounder ? ' 👑' : '');
+            showToast(`Добре дошли, ${currentAdmin.name}!`, 'success');
         }
 
-        // Проверка при зареждане дали вече е влязъл
-        if (sessionStorage.getItem('superAdminAuthed') === '1') {
-            isAuthed = true;
-            loginScreen.classList.add('hidden');
-            appEl.classList.add('active');
-        }
-
-        // ★★★ LOGOUT ★★★
+        // ★ LOGOUT ★
         $('logoutBtn').addEventListener('click', () => {
             if (!confirm('Сигурни ли сте, че искате да излезете?')) return;
-            sessionStorage.removeItem('superAdminAuthed');
+            sessionStorage.removeItem('superAdminCode');
+            sessionStorage.removeItem('superAdminId');
             location.reload();
         });
 
-        // ★★★ DATA LISTENER ★★★
+        // ★ TABS ★
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const t = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === tab));
+                document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.dataset.pane === t));
+            });
+        });
+
+        // ★ DATA LISTENERS ★
+        let clinicsLoaded = false;
+        let adminsLoaded = false;
+
         onValue(clinicsRef, (snapshot) => {
             clinics = snapshot.val() || {};
             renderClinics();
             updateStats();
+            clinicsLoaded = true;
+            checkAndAutoLogin();
             showLoading(false);
         }, () => showLoading(false));
 
-        // ★★★ STATS ★★★
-        function updateStats() {
-            const list = Object.values(clinics);
-            $('statClinics').textContent = list.length;
-            $('statCodes').textContent = list.filter(c => c.adminCode).length;
-            // Потребители - събираме от всички клиники (ако имат)
-            let totalUsers = 0;
-            list.forEach(c => {
-                if (c.usersCount) totalUsers += c.usersCount;
-            });
-            $('statUsers').textContent = totalUsers;
-            $('clinicsCount').textContent = list.length;
+        onValue(superAdminsRef, (snapshot) => {
+            superAdmins = snapshot.val() || {};
+            renderUsers();
+            updateStats();
+            adminsLoaded = true;
+            ensureFounderExists();
+            checkAndAutoLogin();
+            showLoading(false);
+        }, () => showLoading(false));
+
+        // ★ АВТОСЪЗДАВАНЕ НА АЛЕКС ТОДОРОВ ★
+        async function ensureFounderExists() {
+            const founder = Object.entries(superAdmins).find(([, a]) => a.isFounder === true);
+            if (!founder) {
+                const codeTaken = Object.values(superAdmins).some(a => a.accessCode === FOUNDER_CODE);
+                if (!codeTaken) {
+                    try {
+                        await set(push(superAdminsRef), {
+                            name: FOUNDER_NAME,
+                            phone: '',
+                            accessCode: FOUNDER_CODE,
+                            isFounder: true,
+                            createdAt: Date.now()
+                        });
+                        console.log('✅ Founder Алекс Тодоров създаден автоматично');
+                    } catch (err) {
+                        console.error('Грешка:', err);
+                    }
+                }
+            }
         }
 
-        // ★★★ RENDER CLINICS ★★★
+        // ★ АВТО ВХОД ★
+        function checkAndAutoLogin() {
+            if (!clinicsLoaded || !adminsLoaded) return;
+            const savedCode = sessionStorage.getItem('superAdminCode');
+            if (savedCode && !isAuthed) {
+                const found = Object.entries(superAdmins).find(([, a]) => a.accessCode === savedCode);
+                if (found) {
+                    const [id, admin] = found;
+                    currentAdmin = { id, ...admin };
+                    isAuthed = true;
+                    loginSuccess();
+                } else {
+                    sessionStorage.removeItem('superAdminCode');
+                    sessionStorage.removeItem('superAdminId');
+                }
+            }
+        }
+
+        // ★ STATS ★
+        function updateStats() {
+            $('statClinics').textContent = Object.keys(clinics).length;
+            $('statCodes').textContent = Object.values(clinics).filter(c => c.adminCode).length;
+            $('statUsers').textContent = Object.keys(superAdmins).length;
+            $('clinicsCount').textContent = Object.keys(clinics).length;
+            $('usersCount').textContent = Object.keys(superAdmins).length;
+        }
+
+        // ★ RENDER CLINICS ★
         function renderClinics() {
             const list = Object.entries(clinics)
                 .map(([id, c]) => ({ id, ...c }))
@@ -550,7 +703,6 @@
                             <h3>${escapeHtml(c.name)}</h3>
                             <div class="meta">
                                 <i class="fas fa-calendar"></i> ${formatDate(c.createdAt)}
-                                ${c.patientCount ? ` · <i class="fas fa-users"></i> ${c.patientCount} пациента` : ''}
                             </div>
                         </div>
                     </div>
@@ -577,14 +729,64 @@
             `).join('')}</div>`;
         }
 
-        // ★★★ СЪЗДАВАНЕ НА КЛИНИКА ★★★
+        // ★ RENDER USERS (Super Admin-и) ★
+        function renderUsers() {
+            const list = Object.entries(superAdmins)
+                .map(([id, a]) => ({ id, ...a }))
+                .sort((a, b) => {
+                    if (a.isFounder && !b.isFounder) return -1;
+                    if (!a.isFounder && b.isFounder) return 1;
+                    return (b.createdAt || 0) - (a.createdAt || 0);
+                });
+
+            if (list.length === 0) {
+                $('usersBody').innerHTML = `<tr><td colspan="6" style="text-align:center; padding:2rem; color:#7f95b0;">Няма потребители</td></tr>`;
+                return;
+            }
+
+            $('usersBody').innerHTML = list.map(a => {
+                const isFounder = a.isFounder === true;
+                const isCur = currentAdmin && currentAdmin.id === a.id;
+                return `<tr>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div style="width:38px;height:38px;border-radius:50%;background:${isFounder ? '#b06d00' : '#6b3fa0'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;">${getUserInitials(a.name)}</div>
+                            <div>
+                                <strong>${escapeHtml(a.name)}</strong>
+                                ${isFounder ? '<span class="founder-badge">👑 Основател</span>' : ''}
+                                ${isCur ? '<span class="you-badge">Вие</span>' : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td>${a.phone ? `<span style="font-size:0.88rem; color:#5a7a9a;"><i class="fas fa-phone"></i> ${escapeHtml(a.phone)}</span>` : '—'}</td>
+                    <td><span class="role-badge ${isFounder ? 'founder' : ''}"><i class="fas fa-user-shield"></i> Super Admin</span></td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="code-badge" style="background:#f0e8ff; color:#6b3fa0; padding:0.4rem 0.9rem; border-radius:8px; font-family:'Courier New', monospace; font-weight:700; font-size:1rem; letter-spacing:2px;">${a.accessCode}</span>
+                            <button class="code-action-btn copy-user-code-btn" data-code="${a.accessCode}" title="Копирай" style="width:32px; height:32px;">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td style="font-size:0.85rem; color:#7f95b0;">${formatDate(a.createdAt)}</td>
+                    <td>
+                        ${isFounder 
+                            ? `<span style="color:#b06d00; font-size:0.82rem; font-weight:600;"><i class="fas fa-lock"></i> Защитен</span>` 
+                            : `<button class="btn-outline btn btn-sm edit-user-btn" data-id="${a.id}" title="Редактирай"><i class="fas fa-edit"></i></button>
+                               <button class="btn-danger-outline btn btn-sm delete-user-btn" data-id="${a.id}" title="Изтрий"><i class="fas fa-trash-alt"></i></button>`
+                        }
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // ★ СЪЗДАВАНЕ НА КЛИНИКА ★
         $('createClinicForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = $('clinicNameInput').value.trim();
             if (!name) { showToast('Въведете име на клиниката.', 'error'); return; }
             if (name.length < 2) { showToast('Името е твърде кратко.', 'error'); return; }
 
-            // Проверка за дублирано име
             const exists = Object.values(clinics).some(c => (c.name || '').toLowerCase() === name.toLowerCase());
             if (exists) {
                 if (!confirm('Вече съществува клиника с това име. Да продължа ли?')) return;
@@ -595,10 +797,7 @@
             $('createClinicBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Създаване...';
 
             try {
-                // 1. Генерирай уникален код за Phisyobook Admin
-                const adminCode = generateUniqueClinicAdminCode(clinics);
-
-                // 2. Създай клиниката в /clinics
+                const adminCode = generateUniqueCode();
                 const newClinicRef = push(clinicsRef);
                 const clinicId = newClinicRef.key;
 
@@ -606,35 +805,24 @@
                     name: name,
                     adminCode: adminCode,
                     createdAt: Date.now(),
-                    createdBy: 'super-admin',
-                    patientCount: 0,
-                    usersCount: 0
+                    createdBy: currentAdmin.id,
+                    createdByName: currentAdmin.name
                 });
 
-                // 3. Създай Phisyobook Admin за клиниката в /clinics/{clinicId}/users
-                //    Този потребител НЕ може да се редактира/изтрива от index.html
                 const clinicAdminRef = push(ref(db, `clinics/${clinicId}/users`));
                 await set(clinicAdminRef, {
                     name: `PhysioBook Admin`,
                     roles: ['Администратор'],
                     accessCode: adminCode,
-                    isClinicAdmin: true,          // ★ флаг - главен админ на клиниката
-                    locked: true,                  // ★ флаг - не може да се редактира/изтрива
+                    isClinicAdmin: true,
+                    locked: true,
                     createdAt: Date.now(),
-                    createdBy: 'super-admin'
+                    createdBy: currentAdmin.id
                 });
 
-                // 4. Създай празни колекции за клиниката (за да съществуват)
-                //    (Firebase ги създава автоматично, когато добавим първи запис,
-                //     но маркираме, че клиниката има празни колекции)
-                await update(newClinicRef, {
-                    initialized: true
-                });
-
-                // 5. Покажи успешен модал с кода
                 $('successClinicName').textContent = name;
-                $('successAdminCode').textContent = adminCode;
-                $('successModal').classList.add('active');
+                $('successClinicCode').textContent = adminCode;
+                $('successClinicModal').classList.add('active');
 
                 $('clinicNameInput').value = '';
                 showToast('Клиниката е създадена успешно!', 'success');
@@ -647,65 +835,136 @@
             }
         });
 
-        // ★★★ COPY CODE ★★★
+        // ★ СЪЗДАВАНЕ НА SUPER ADMIN (ПОТРЕБИТЕЛ) ★
+        $('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = $('userNameInput').value.trim();
+            const phone = $('userPhoneInput').value.trim();
+            if (!name) { showToast('Въведете име.', 'error'); return; }
+            if (name.length < 2) { showToast('Името е твърде кратко.', 'error'); return; }
+
+            const exists = Object.values(superAdmins).some(a => 
+                !a.isFounder && (a.name || '').toLowerCase() === name.toLowerCase()
+            );
+            if (exists) {
+                if (!confirm('Вече съществува потребител с това име. Да продължа ли?')) return;
+            }
+
+            $('createUserBtn').disabled = true;
+            const orig = $('createUserBtn').innerHTML;
+            $('createUserBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Създаване...';
+
+            try {
+                const code = generateUniqueCode();
+                await set(push(superAdminsRef), {
+                    name: name,
+                    phone: phone,
+                    accessCode: code,
+                    isFounder: false,
+                    createdAt: Date.now(),
+                    createdBy: currentAdmin.id,
+                    createdByName: currentAdmin.name
+                });
+
+                $('successUserName').textContent = name;
+                $('successUserCode').textContent = code;
+                $('successUserModal').classList.add('active');
+
+                $('userNameInput').value = '';
+                $('userPhoneInput').value = '';
+                showToast('Потребителят е създаден!', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('createUserBtn').disabled = false;
+                $('createUserBtn').innerHTML = orig;
+            }
+        });
+
+        // ★ КОПИРАНЕ НА КОДОВЕ ★
         document.addEventListener('click', async (e) => {
             const btn = e.target.closest('.copy-code-btn');
-            if (!btn) return;
-            const code = btn.dataset.code;
-            if (!code) { showToast('Няма код за копиране.', 'error'); return; }
-            try {
-                await navigator.clipboard.writeText(code);
-                showToast('Кодът е копиран: ' + code, 'success');
-                // Визуален feedback
-                const orig = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => { btn.innerHTML = orig; }, 1500);
-            } catch {
-                showToast('Не може да се копира. Код: ' + code, 'error');
+            if (btn) {
+                const code = btn.dataset.code;
+                if (!code) { showToast('Няма код за копиране.', 'error'); return; }
+                try {
+                    await navigator.clipboard.writeText(code);
+                    showToast('Кодът е копиран: ' + code, 'success');
+                    const orig = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => { btn.innerHTML = orig; }, 1500);
+                } catch {
+                    showToast('Код: ' + code, 'error');
+                }
+                return;
+            }
+            const userBtn = e.target.closest('.copy-user-code-btn');
+            if (userBtn) {
+                const code = userBtn.dataset.code;
+                if (!code) return;
+                try {
+                    await navigator.clipboard.writeText(code);
+                    showToast('Кодът е копиран: ' + code, 'success');
+                    const orig = userBtn.innerHTML;
+                    userBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => { userBtn.innerHTML = orig; }, 1500);
+                } catch {
+                    showToast('Код: ' + code, 'error');
+                }
             }
         });
 
-        $('successCopyBtn').addEventListener('click', async () => {
-            const code = $('successAdminCode').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                showToast('Кодът е копиран!', 'success');
-            } catch {
-                showToast('Не може да се копира. Код: ' + code, 'error');
-            }
-        });
-        $('successCloseBtn').addEventListener('click', () => {
-            $('successModal').classList.remove('active');
-        });
-
-        // ★★★ EDIT CLINIC ★★★
+        // ★ EDIT ★
         document.addEventListener('click', (e) => {
             const btn = e.target.closest('.edit-clinic-btn');
-            if (!btn) return;
-            const id = btn.dataset.id;
-            const c = clinics[id];
-            if (!c) return;
-            editTargetId = id;
-            $('editClinicName').value = c.name || '';
-            $('editModal').classList.add('active');
-            setTimeout(() => $('editClinicName').focus(), 100);
+            if (btn) {
+                const id = btn.dataset.id;
+                const c = clinics[id];
+                if (!c) return;
+                editTargetId = id;
+                editTargetType = 'clinic';
+                $('editNameInput').value = c.name || '';
+                $('editModal').classList.add('active');
+                setTimeout(() => $('editNameInput').focus(), 100);
+                return;
+            }
+            const userBtn = e.target.closest('.edit-user-btn');
+            if (userBtn) {
+                const id = userBtn.dataset.id;
+                const a = superAdmins[id];
+                if (!a) return;
+                if (a.isFounder) { showToast('Не може да редактирате основателя.', 'error'); return; }
+                editTargetId = id;
+                editTargetType = 'admin';
+                $('editNameInput').value = a.name || '';
+                $('editModal').classList.add('active');
+                setTimeout(() => $('editNameInput').focus(), 100);
+            }
         });
 
         $('editCancelBtn').addEventListener('click', () => {
             $('editModal').classList.remove('active');
             editTargetId = null;
+            editTargetType = null;
         });
 
         $('editSaveBtn').addEventListener('click', async () => {
             if (!editTargetId) return;
-            const newName = $('editClinicName').value.trim();
+            const newName = $('editNameInput').value.trim();
             if (!newName) { showToast('Въведете име.', 'error'); return; }
             $('editSaveBtn').disabled = true;
             try {
-                await update(ref(db, `clinics/${editTargetId}`), { name: newName, updatedAt: Date.now() });
-                showToast('Клиниката е обновена.', 'success');
+                if (editTargetType === 'clinic') {
+                    await update(ref(db, `clinics/${editTargetId}`), { name: newName, updatedAt: Date.now() });
+                    showToast('Клиниката е обновена.', 'success');
+                } else if (editTargetType === 'admin') {
+                    await update(ref(db, `superAdmins/${editTargetId}`), { name: newName, updatedAt: Date.now() });
+                    showToast('Потребителят е обновен.', 'success');
+                }
                 $('editModal').classList.remove('active');
                 editTargetId = null;
+                editTargetType = null;
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
@@ -713,21 +972,38 @@
             }
         });
 
-        // ★★★ DELETE CLINIC ★★★
+        // ★ DELETE ★
         document.addEventListener('click', (e) => {
-            const btn = e.target.closest('.delete-clinic-btn');
-            if (!btn) return;
-            const id = btn.dataset.id;
-            const c = clinics[id];
-            if (!c) return;
-            deleteTargetId = id;
-            $('deleteClinicName').textContent = c.name || '—';
-            $('deleteModal').classList.add('active');
+            const clinicBtn = e.target.closest('.delete-clinic-btn');
+            if (clinicBtn) {
+                const id = clinicBtn.dataset.id;
+                const c = clinics[id];
+                if (!c) return;
+                deleteTargetId = id;
+                deleteTargetType = 'clinic';
+                $('deleteTargetName').textContent = 'Клиника: ' + c.name;
+                $('deleteWarning').innerHTML = '<strong>ВНИМАНИЕ!</strong> Това ще изтрие <strong>ВСИЧКИ</strong> данни на клиниката. Това действие <strong>НЕ МОЖЕ</strong> да бъде отменено!';
+                $('deleteModal').classList.add('active');
+                return;
+            }
+            const userBtn = e.target.closest('.delete-user-btn');
+            if (userBtn) {
+                const id = userBtn.dataset.id;
+                const a = superAdmins[id];
+                if (!a) return;
+                if (a.isFounder) { showToast('Не може да изтриете основателя.', 'error'); return; }
+                deleteTargetId = id;
+                deleteTargetType = 'admin';
+                $('deleteTargetName').textContent = 'Потребител: ' + a.name;
+                $('deleteWarning').innerHTML = '<strong>ВНИМАНИЕ!</strong> Този потребител ще бъде изтрит и няма да има достъп до панела.';
+                $('deleteModal').classList.add('active');
+            }
         });
 
         $('deleteCancelBtn').addEventListener('click', () => {
             $('deleteModal').classList.remove('active');
             deleteTargetId = null;
+            deleteTargetType = null;
         });
 
         $('deleteConfirmBtn').addEventListener('click', async () => {
@@ -736,11 +1012,16 @@
             const orig = $('deleteConfirmBtn').innerHTML;
             $('deleteConfirmBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Изтриване...';
             try {
-                // Изтрий цялата клиника (заедно с всички нейни данни)
-                await remove(ref(db, `clinics/${deleteTargetId}`));
-                showToast('Клиниката е изтрита.', 'success');
+                if (deleteTargetType === 'clinic') {
+                    await remove(ref(db, `clinics/${deleteTargetId}`));
+                    showToast('Клиниката е изтрита.', 'success');
+                } else if (deleteTargetType === 'admin') {
+                    await remove(ref(db, `superAdmins/${deleteTargetId}`));
+                    showToast('Потребителят е изтрит.', 'success');
+                }
                 $('deleteModal').classList.remove('active');
                 deleteTargetId = null;
+                deleteTargetType = null;
             } catch (err) {
                 showToast('Грешка: ' + err.message, 'error');
             } finally {
@@ -749,16 +1030,40 @@
             }
         });
 
-        // Затваряне на модали с клик извън тях
+        // ★ МОДАЛИ ★
+        $('successClinicCopyBtn').addEventListener('click', async () => {
+            const code = $('successClinicCode').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast('Кодът е копиран!', 'success');
+            } catch {
+                showToast('Код: ' + code, 'error');
+            }
+        });
+        $('successClinicCloseBtn').addEventListener('click', () => {
+            $('successClinicModal').classList.remove('active');
+        });
+
+        $('successUserCopyBtn').addEventListener('click', async () => {
+            const code = $('successUserCode').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast('Кодът е копиран!', 'success');
+            } catch {
+                showToast('Код: ' + code, 'error');
+            }
+        });
+        $('successUserCloseBtn').addEventListener('click', () => {
+            $('successUserModal').classList.remove('active');
+        });
+
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
+                if (e.target === overlay) overlay.classList.remove('active');
             });
         });
 
-        // ★★★ INIT ★★★
+        // ★ INIT ★
         codeInputEls[0].focus();
     </script>
 </body>
