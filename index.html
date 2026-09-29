@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
         body { background-color: #ffffff; display: flex; min-height: 100vh; }
 
-        /* ЛОГИН */
         .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
         .login-screen.hidden { display: none !important; }
         .login-card { background: #ffffff; border-radius: 28px; padding: 2.5rem 2.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); text-align: center; }
@@ -28,11 +27,9 @@
         .login-error.active { display: flex; }
         .login-footer { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #edf2f8; font-size: 0.8rem; color: #7f95b0; }
 
-        /* APP */
         .app { display: flex; flex-direction: column; width: 100%; min-height: 100vh; }
         .app.hidden { display: none !important; }
 
-        /* HEADER */
         .app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.9rem 1.5rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: sticky; top: 0; z-index: 100; }
         .header-left { display: flex; align-items: center; gap: 15px; }
         .header-logo { width: 42px; height: 42px; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
@@ -45,7 +42,6 @@
         .header-clinic-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; letter-spacing: 0.5px; }
         .header-actions { display: flex; align-items: center; gap: 10px; }
 
-        /* КЛИНИКА SWITCHER */
         .clinic-switcher { position: relative; }
         .clinic-switcher-btn { display: flex; align-items: center; gap: 8px; padding: 0.5rem 1rem; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 30px; color: #ffffff; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.15s; max-width: 220px; }
         .clinic-switcher-btn:hover { background: rgba(255,255,255,0.25); }
@@ -71,7 +67,6 @@
         .header-user .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
         .header-user .user-name { font-size: 0.85rem; font-weight: 500; color: #ffffff; }
 
-        /* APP BODY */
         .app-body { display: flex; flex: 1; min-height: calc(100vh - 70px); }
         .sidebar { width: 280px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.5rem 0.5rem; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; flex-shrink: 0; }
         .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; }
@@ -96,7 +91,6 @@
         .module-header h1 { font-size: 2rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
         .module-header h1 i { color: #1e4a78; }
 
-        /* ТАБЛО */
         .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .dash-card { background: #ffffff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
         .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; }
@@ -135,7 +129,6 @@
         .task-form { display: flex; gap: 10px; margin-bottom: 1.2rem; flex-wrap: wrap; }
         .task-form input { flex: 1; min-width: 200px; padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit; }
 
-        /* ОБЩИ */
         .card { background: #ffffff; border-radius: 24px; padding: 1.8rem 2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; margin-bottom: 2rem; }
         .card h3 { font-size: 1.3rem; font-weight: 500; color: #0b2b4f; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem 1.5rem; align-items: end; }
@@ -185,7 +178,6 @@
         .timeline-item .title { font-size: 1.05rem; font-weight: 600; color: #0b2b4f; margin-bottom: 0.5rem; }
         .timeline-item .result { font-size: 0.9rem; color: #5a7a9a; background: #f8fbfe; padding: 0.7rem 1rem; border-radius: 10px; border-left: 3px solid #1e4a78; margin-top: 0.6rem; }
 
-        /* ГРАФИК */
         .schedule-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
         .week-nav { display: flex; align-items: center; gap: 10px; }
         .week-nav button { width: 40px; height: 40px; border-radius: 12px; border: 1px solid #cfddee; background: #ffffff; color: #0b2b4f; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -204,15 +196,10 @@
         .appointment .time { font-weight: 700; color: #1e4a78; font-size: 0.78rem; }
         .appointment .patient-name { font-weight: 600; color: #0b2b4f; margin-top: 3px; }
         .appointment .note { color: #7f95b0; font-size: 0.75rem; margin-top: 2px; }
-        .appointment .delete-apt { position: absolute; top: 4px; right: 4px; background: transparent; border: none; color: #b22234; cursor: pointer; opacity: 0; font-size: 0.75rem; padding: 2px 4px; border-radius: 4px; }
-        .appointment:hover .delete-apt { opacity: 1; }
         .no-appointments { text-align: center; color: #b0c1d4; font-size: 0.8rem; padding: 1rem 0.5rem; font-style: italic; }
         
-        /* ★ СТАТУСИ НА ЧАСОВЕ ★ */
         .appointment.status-pending { border-left-color: #d97706; background: #fffbf0; }
-        .appointment.status-pending:hover { background: #fff5e0; }
         .appointment.status-confirmed { border-left-color: #1a7a3e; background: #f5fff8; }
-        .appointment.status-confirmed:hover { background: #e8f5ee; }
         .appointment.status-completed { border-left-color: #7f95b0; background: #f8fbfe; opacity: 0.85; }
         .appointment.status-cancelled { border-left-color: #b22234; background: #fff5f5; opacity: 0.7; text-decoration: line-through; }
         .appointment.status-no_show { border-left-color: #ea580c; background: #fff7ed; opacity: 0.85; }
@@ -226,7 +213,6 @@
         
         .apt-recurrence-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 0.65rem; font-weight: 600; padding: 2px 5px; border-radius: 5px; background: #f0e8ff; color: #6b3fa0; margin-top: 3px; margin-left: 3px; }
 
-        /* МОДАЛ: Управление на час */
         .apt-manage-info { background: #f8fbfe; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; text-align: left; }
         .apt-manage-info .row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.9rem; border-bottom: 1px solid #edf2f8; }
         .apt-manage-info .row:last-child { border-bottom: none; }
@@ -234,7 +220,6 @@
         .apt-manage-info .row .val { color: #0b2b4f; font-weight: 700; }
         .apt-status-current { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.9rem; margin: 0 auto 1.2rem; }
 
-        /* ЦЕНОРАЗПИС */
         .price-date-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); padding: 1.5rem 2rem; border-radius: 20px; color: #ffffff; margin-bottom: 1.5rem; }
         .price-date-bar label { font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .price-date-bar input[type="date"] { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; }
@@ -256,7 +241,6 @@
         .day-summary-card .day-total { font-size: 1.4rem; font-weight: 700; color: #0b2b4f; }
         .day-summary-card .day-count { font-size: 0.8rem; color: #7f95b0; margin-top: 0.3rem; }
 
-        /* УПРАЖНЕНИЯ */
         .exercise-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .exercise-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
         .exercise-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -327,7 +311,6 @@
         .patient-program-section { background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; border-radius: 20px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; }
         .patient-program-section h3 { color: #1a7a3e; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
 
-        /* ПРОГРАМА */
         .program-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem; }
         .program-row { display: grid; grid-template-columns: 70px 1.5fr 1fr 1fr 2fr 50px; gap: 10px; align-items: center; background: #f8fbfe; border: 1px solid #e9eef3; border-radius: 14px; padding: 0.7rem 0.8rem; }
         .program-row input { width: 100%; padding: 0.65rem 0.8rem; border-radius: 10px; border: 1px solid #cfddee; font-size: 0.88rem; font-family: inherit; background: #ffffff; min-width: 0; }
@@ -336,7 +319,6 @@
         .program-row .row-label { font-size: 0.78rem; color: #7f95b0; font-weight: 600; text-align: center; }
         @media (max-width: 900px) { .program-row { grid-template-columns: 1fr 1fr; padding: 1rem; } }
 
-        /* ДОКУМЕНТАЦИЯ */
         .doc-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .doc-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
         .doc-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -388,7 +370,6 @@
         .doc-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
         .doc-filter-bar select, .doc-filter-bar input { padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #ffffff; }
 
-        /* НАСТРОЙКИ */
         .settings-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .settings-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
         .settings-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -399,7 +380,6 @@
         @media (max-width: 800px) { .settings-grid-2 { grid-template-columns: 1fr; } }
         .service-category-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: #e8f0fe; color: #1e4a78; }
 
-        /* РОЛИ CHECKBOXES */
         .roles-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; padding: 0.6rem; background: #f8fbfe; border: 1px solid #cfddee; border-radius: 14px; }
         .role-checkbox { display: flex; align-items: center; gap: 8px; padding: 0.6rem 1rem; background: #ffffff; border: 2px solid #cfddee; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #1f3f61; transition: 0.15s; user-select: none; }
         .role-checkbox:hover { border-color: #1e4a78; background: #f5f9ff; }
@@ -408,7 +388,6 @@
         .role-checkbox input:checked ~ .role-checkbox-box { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
         .role-checkbox:has(input:checked) { border-color: #1e4a78; background: #e8f0fe; }
 
-        /* ПАНЕЛ СЪОБЩЕНИЯ */
         .messages-panel { position: fixed; top: 70px; right: 0; width: 440px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
         .messages-panel.open { transform: translateX(0); }
         .messages-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -466,7 +445,6 @@
         .msg-empty { text-align: center; padding: 2.5rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.9rem; }
         .msg-empty i { display: block; font-size: 2.5rem; margin-bottom: 0.8rem; color: #cfddee; }
 
-        /* ПАНЕЛ ИЗВЕСТИЯ */
         .notif-panel { position: fixed; top: 70px; right: 0; width: 420px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
         .notif-panel.open { transform: translateX(0); }
         .notif-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -490,14 +468,12 @@
         .notif-mark-btn { background: transparent; border: 1px solid #cfddee; color: #1e4a78; cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
         .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
 
-        /* РОЛИ BADGES */
         .role-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; background: #e8f0fe; color: #0b2b4f; margin: 2px 4px 2px 0; }
         .role-badge.admin { background: #fff5e5; color: #b06d00; }
         .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
         .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
         .role-badge.locked { background: #ede9fe; color: #5b21b6; }
 
-        /* МОДАЛИ */
         .loading-overlay { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; }
         .loading-overlay.active { display: flex; }
         .loading-overlay i { font-size: 2.5rem; margin-right: 1rem; animation: spin 1s linear infinite; }
@@ -524,7 +500,6 @@
         .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
         .modal-actions .btn { min-width: 120px; }
 
-        /* ПОРТАЛ */
         .portal-welcome { background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%); color: #ffffff; border-radius: 24px; padding: 2rem 2.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.5rem; }
         .portal-logo { width: 70px; height: 70px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .portal-logo svg { width: 90%; height: 90%; }
@@ -580,7 +555,6 @@
         </defs>
     </svg>
 
-    <!-- ЛОГИН -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
@@ -607,7 +581,6 @@
         </div>
     </div>
 
-    <!-- APP -->
     <div class="app hidden" id="app">
         <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
         <div class="toast-container" id="toastContainer"></div>
@@ -667,12 +640,11 @@
                 </nav>
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v7.0 · Multi-Clinic</div>
+                    <div class="sidebar-version">v7.1 · Fast Load</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- ===================== ТАБЛО ===================== -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -695,7 +667,6 @@
                     <div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
                 </section>
 
-                <!-- ===================== ПАЦИЕНТИ ===================== -->
                 <section id="module-patients" class="module">
                     <div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
                     <div class="card">
@@ -713,7 +684,6 @@
                     <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
                 </section>
 
-                <!-- ===================== ГРАФИК ===================== -->
                 <section id="module-schedule" class="module">
                     <div class="module-header"><h1><i class="fas fa-calendar-alt"></i> График</h1></div>
                     <div class="card">
@@ -765,7 +735,6 @@
                     <div class="week-grid" id="weekGrid"></div>
                 </section>
 
-                <!-- ===================== ПРОЦЕДУРИ ===================== -->
                 <section id="module-procedures" class="module">
                     <div class="module-header"><h1><i class="fas fa-stethoscope"></i> Процедури</h1></div>
                     <div class="card">
@@ -782,7 +751,6 @@
                     <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
                 </section>
 
-                <!-- ===================== УПРАЖНЕНИЯ ===================== -->
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
                     <div class="exercise-tabs" id="exerciseTabsBar">
@@ -870,7 +838,6 @@
                     </div>
                 </section>
 
-                <!-- ===================== ДОКУМЕНТАЦИЯ ===================== -->
                 <section id="module-documentation" class="module">
                     <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
                     <div class="doc-tabs">
@@ -932,7 +899,6 @@
                     </div>
                 </section>
 
-                <!-- ===================== ЦЕНОРАЗПИС ===================== -->
                 <section id="module-pricing" class="module">
                     <div class="module-header"><h1><i class="fas fa-euro-sign"></i> Ценоразпис</h1></div>
                     <div class="price-date-bar">
@@ -948,7 +914,6 @@
                     <div style="margin-top: 2.5rem;"><h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3><div class="day-summary-grid" id="daySummaryGrid"></div></div>
                 </section>
 
-                <!-- ===================== НАСТРОЙКИ ===================== -->
                 <section id="module-settings" class="module">
                     <div class="module-header"><h1><i class="fas fa-cog"></i> Настройки</h1></div>
                     <div class="settings-tabs">
@@ -1082,7 +1047,6 @@
                     <div id="profileContent"></div>
                 </section>
 
-                <!-- ===================== ПОРТАЛ ===================== -->
                 <section id="module-portal" class="module">
                     <div class="portal-welcome">
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
@@ -1113,7 +1077,6 @@
         </div>
     </div>
 
-    <!-- ПАНЕЛ СЪОБЩЕНИЯ -->
     <div class="messages-panel" id="messagesPanel">
         <div class="messages-header">
             <h2><i class="fas fa-envelope"></i> Съобщения</h2>
@@ -1157,7 +1120,6 @@
         </div>
     </div>
 
-    <!-- ПАНЕЛ ИЗВЕСТИЯ -->
     <div class="notif-panel" id="notifPanel">
         <div class="notif-header">
             <h2><i class="fas fa-bell"></i> Известия</h2>
@@ -1170,7 +1132,6 @@
         <div class="notif-list" id="notifList"></div>
     </div>
 
-    <!-- MODAL код -->
     <div class="modal-overlay" id="codeModal">
         <div class="modal">
             <div class="modal-icon"><i class="fas fa-key"></i></div>
@@ -1184,7 +1145,6 @@
         </div>
     </div>
 
-    <!-- MODAL роли -->
     <div class="modal-overlay" id="editRolesModal">
         <div class="modal">
             <h3 style="text-align:center;">Редакция на роли</h3>
@@ -1216,7 +1176,6 @@
         </div>
     </div>
 
-    <!-- ★★★ MODAL: Управление на час ★★★ -->
     <div class="modal-overlay" id="aptManageModal">
         <div class="modal large">
             <div style="text-align: center; padding-bottom: 1rem; border-bottom: 1px solid #edf2f8; margin-bottom: 1.5rem;">
@@ -1225,20 +1184,6 @@
             <div class="apt-manage-info" id="aptManageInfo"></div>
             <div class="apt-status-current" id="aptManageStatusBadge"></div>
             <div class="modal-actions" id="aptManageActions" style="flex-direction: column;"></div>
-        </div>
-    </div>
-
-    <!-- ★★★ MODAL: Потвърждение за изтриване на повтарящ се час ★★★ -->
-    <div class="modal-overlay" id="recurringDeleteModal">
-        <div class="modal">
-            <div class="modal-icon warning"><i class="fas fa-redo"></i></div>
-            <h3>Повтарящ се час</h3>
-            <p>Този час е част от повтаряща се серия. Какво искате да направите?</p>
-            <div class="modal-actions" style="flex-direction: column;">
-                <button class="btn-danger-outline btn" id="delOnlyThisBtn"><i class="fas fa-times"></i> Изтрий само този час</button>
-                <button class="btn-danger-outline btn" id="delAllRecurringBtn"><i class="fas fa-trash-alt"></i> Изтрий всички от серията</button>
-                <button class="btn-outline btn" id="cancelRecurringDeleteBtn">Отказ</button>
-            </div>
         </div>
     </div>
 
@@ -1285,7 +1230,6 @@
         let isSwitchingClinic = false;
         let currentAptId = null;
 
-        // ★★★ КОИ МОДУЛИ СА ВКЛЮЧЕНИ ЗА ТАЗИ КЛИНИКА ★★★
         const DEFAULT_MODULES = {
             dashboard: true, patients: true, schedule: true, procedures: true,
             exercises: true, documentation: true, pricing: true, settings: true, portal: true
@@ -1413,7 +1357,6 @@
             return null;
         }
 
-        // ★★★ СТАТУСИ НА ЧАСОВЕ ★★★
         const APT_STATUSES = {
             pending: { label: 'Изчаква', icon: 'fa-hourglass-half', class: 'pending' },
             confirmed: { label: 'Потвърден', icon: 'fa-check', class: 'confirmed' },
@@ -1422,40 +1365,28 @@
             no_show: { label: 'Не се яви', icon: 'fa-user-slash', class: 'no_show' }
         };
 
-        function getAptStatus(apt) {
-            return apt.status || 'confirmed';
-        }
-
+        function getAptStatus(apt) { return apt.status || 'confirmed'; }
         function getAptStatusBadgeHtml(apt) {
             const status = getAptStatus(apt);
             const s = APT_STATUSES[status] || APT_STATUSES.confirmed;
             return `<span class="apt-status-badge ${s.class}"><i class="fas ${s.icon}"></i> ${s.label}</span>`;
         }
 
-        // ★★★ ИЗВЕСТИЯ ДО ВСИЧКИ СЛУЖИТЕЛИ (кинезитерапевти + админи) ★★★
         async function notifyAllStaff(title, text, type = 'default') {
             try {
                 for (const [uid, u] of Object.entries(users)) {
                     if (isKinezi(u) || isAdmin(u)) {
-                        await set(push(clinicRef('notifications')), {
-                            userId: uid, title, text, type, read: false, createdAt: Date.now()
-                        });
+                        await set(push(clinicRef('notifications')), { userId: uid, title, text, type, read: false, createdAt: Date.now() });
                     }
                 }
             } catch(err) { console.error('Notify error:', err); }
         }
 
-        // ★★★ ПРОМЯНА НА СТАТУС НА ЧАС ★★★
         async function changeAptStatus(aptId, newStatus, reason = '') {
             const apt = appointments[aptId];
             if (!apt) { showToast('Часът не е намерен.', 'error'); return; }
             try {
-                const updates = {
-                    status: newStatus,
-                    statusUpdatedAt: Date.now(),
-                    statusUpdatedBy: currentUser.id,
-                    statusUpdatedByName: currentUser.name
-                };
+                const updates = { status: newStatus, statusUpdatedAt: Date.now(), statusUpdatedBy: currentUser.id, statusUpdatedByName: currentUser.name };
                 if (newStatus === 'cancelled') {
                     updates.cancelledAt = Date.now();
                     updates.cancelledBy = currentUser.id;
@@ -1463,54 +1394,39 @@
                     updates.cancelReason = reason || '';
                 }
                 await update(clinicRef(`appointments/${aptId}`), updates);
-
                 const pat = patients[apt.patientId];
                 const pn = pat ? pat.name : 'неизвестен';
                 const dateStr = formatDate(apt.date) + ' ' + (apt.time || '');
-
-                // Известия според статуса
                 if (newStatus === 'no_show') {
                     await notifyAllStaff('⚠️ Пациент не се яви', `${pn} не се яви на часа на ${dateStr}`, 'appointment');
-                    // Създай задача
-                    await set(push(clinicRef('tasks')), {
-                        text: `Обади се на ${pn} (не се яви на ${dateStr})`,
-                        done: false, createdBy: currentUser.id, createdAt: Date.now()
-                    });
-                    showToast('Маркирано: не се яви + задача създадена', 'success');
+                    await set(push(clinicRef('tasks')), { text: `Обади се на ${pn} (не се яви на ${dateStr})`, done: false, createdBy: currentUser.id, createdAt: Date.now() });
+                    showToast('Маркирано: не се яви + задача', 'success');
                 } else if (newStatus === 'cancelled') {
                     await notifyAllStaff('❌ Час отказан', `${pn} - ${dateStr}${reason ? ' (' + reason + ')' : ''}`, 'appointment');
                     showToast('Часът е отказан.', 'success');
                 } else if (newStatus === 'completed') {
                     showToast('Часът е приключен.', 'success');
-                    // Отвори SOAP бележка
                     openSOAPForAppointment(apt);
                 } else if (newStatus === 'confirmed') {
                     showToast('Часът е потвърден.', 'success');
                 }
-
                 $('aptManageModal').classList.remove('active');
                 currentAptId = null;
-            } catch(err) {
-                showToast('Грешка: ' + err.message, 'error');
-            }
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         }
 
-        // Отваря форма за SOAP бележка след приключване
         function openSOAPForAppointment(apt) {
             $('soapPatient').value = apt.patientId;
             $('soapDate').value = apt.date || new Date().toISOString().split('T')[0];
-            // Превключи към документация → SOAP
             navItems.forEach(n => n.classList.remove('active'));
             const s = document.querySelector('.nav-item[data-module="documentation"]');
             if (s) s.classList.add('active');
             Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
             if (modules.documentation) modules.documentation.classList.add('active');
-            // Превключи на SOAP таб
             document.querySelectorAll('.doc-tab').forEach(x => x.classList.toggle('active', x.dataset.docTab === 'soap'));
             document.querySelectorAll('.doc-pane').forEach(p => p.classList.toggle('active', p.dataset.docPane === 'soap'));
         }
 
-        // ★★★ ОТВАРЯНЕ НА МОДАЛ ЗА УПРАВЛЕНИЕ НА ЧАС ★★★
         function openAptManageModal(aptId) {
             const apt = appointments[aptId];
             if (!apt) return;
@@ -1520,7 +1436,6 @@
             const kn = apt.kineziId && users[apt.kineziId] ? users[apt.kineziId].name : '—';
             const status = getAptStatus(apt);
             const s = APT_STATUSES[status] || APT_STATUSES.confirmed;
-
             $('aptManageInfo').innerHTML = `
                 <div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div>
                 <div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(apt.date)}</span></div>
@@ -1529,7 +1444,6 @@
                 <div class="row"><span class="lbl">Процедура</span><span class="val">${escapeHtml(apt.note || '—')}</span></div>
                 ${apt.kineziId ? `<div class="row"><span class="lbl">Кинезитерапевт</span><span class="val">${escapeHtml(kn)}</span></div>` : ''}
             `;
-
             const statusColors = {
                 pending: 'background:#fff5e5; color:#b06d00;',
                 confirmed: 'background:#e8f5e9; color:#1a7a3e;',
@@ -1538,65 +1452,35 @@
                 no_show: 'background:#ffedd5; color:#c2410c;'
             };
             $('aptManageStatusBadge').innerHTML = `<span style="${statusColors[status] || statusColors.confirmed}"><i class="fas ${s.icon}"></i> Статус: ${s.label}</span>`;
-
-            // Бутони според статуса и ролята
             let actionsHtml = '';
             const isStaff = !isPatient(currentUser);
-
             if (isStaff) {
-                if (status !== 'completed') {
-                    actionsHtml += `<button class="btn btn-success" data-apt-action="completed"><i class="fas fa-check-double"></i> Приключи часа</button>`;
-                }
-                if (status !== 'no_show' && status !== 'completed' && status !== 'cancelled') {
-                    actionsHtml += `<button class="btn" style="background:#ea580c;" data-apt-action="no_show"><i class="fas fa-user-slash"></i> Не се яви</button>`;
-                }
-                if (status !== 'cancelled') {
-                    actionsHtml += `<button class="btn-danger-outline btn" data-apt-action="cancelled"><i class="fas fa-times"></i> Откажи часа</button>`;
-                }
-                if (status === 'pending') {
-                    actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди</button>`;
-                }
+                if (status !== 'completed') actionsHtml += `<button class="btn btn-success" data-apt-action="completed"><i class="fas fa-check-double"></i> Приключи часа</button>`;
+                if (status !== 'no_show' && status !== 'completed' && status !== 'cancelled') actionsHtml += `<button class="btn" style="background:#ea580c;" data-apt-action="no_show"><i class="fas fa-user-slash"></i> Не се яви</button>`;
+                if (status !== 'cancelled') actionsHtml += `<button class="btn-danger-outline btn" data-apt-action="cancelled"><i class="fas fa-times"></i> Откажи часа</button>`;
+                if (status === 'pending') actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди</button>`;
                 actionsHtml += `<button class="btn-outline btn" id="aptManageCloseBtn">Затвори</button>`;
             } else {
-                // Пациент
-                if (status === 'pending') {
-                    actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди часа</button>`;
-                }
-                if (status !== 'cancelled' && status !== 'completed' && status !== 'no_show') {
-                    actionsHtml += `<button class="btn-danger-outline btn" data-apt-action="cancelled"><i class="fas fa-times"></i> Откажи часа</button>`;
-                }
+                if (status === 'pending') actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди часа</button>`;
+                if (status !== 'cancelled' && status !== 'completed' && status !== 'no_show') actionsHtml += `<button class="btn-danger-outline btn" data-apt-action="cancelled"><i class="fas fa-times"></i> Откажи часа</button>`;
                 actionsHtml += `<button class="btn-outline btn" id="aptManageCloseBtn">Затвори</button>`;
             }
             $('aptManageActions').innerHTML = actionsHtml;
-
             $('aptManageModal').classList.add('active');
         }
 
-        // Handle на действията в модала
         document.addEventListener('click', async (e) => {
             const actionBtn = e.target.closest('[data-apt-action]');
             if (actionBtn && currentAptId) {
                 const action = actionBtn.dataset.aptAction;
-                if (action === 'cancelled') {
-                    const reason = prompt('Причина за отказ (по избор):') || '';
-                    await changeAptStatus(currentAptId, 'cancelled', reason);
-                } else {
-                    await changeAptStatus(currentAptId, action);
-                }
+                if (action === 'cancelled') { const reason = prompt('Причина за отказ (по избор):') || ''; await changeAptStatus(currentAptId, 'cancelled', reason); }
+                else { await changeAptStatus(currentAptId, action); }
                 return;
             }
-            if (e.target.id === 'aptManageCloseBtn') {
-                $('aptManageModal').classList.remove('active');
-                currentAptId = null;
-            }
-            // Затваряне на модала с клик извън него
-            if (e.target.classList.contains('modal-overlay') && e.target.id === 'aptManageModal') {
-                e.target.classList.remove('active');
-                currentAptId = null;
-            }
+            if (e.target.id === 'aptManageCloseBtn') { $('aptManageModal').classList.remove('active'); currentAptId = null; }
+            if (e.target.classList.contains('modal-overlay') && e.target.id === 'aptManageModal') { e.target.classList.remove('active'); currentAptId = null; }
         });
 
-        // ★★★ ПОВТАРЯЩИ СЕ ЧАСОВЕ ★★★
         function addRecurringDates(baseDate, type, count) {
             const dates = [baseDate];
             const base = new Date(baseDate);
@@ -1613,12 +1497,8 @@
             return dates;
         }
 
-        // Toggle на повтарящи се опции
-        $('aptRecurringToggle').addEventListener('change', (e) => {
-            $('aptRecurringOptions').style.display = e.target.checked ? 'block' : 'none';
-        });
+        $('aptRecurringToggle').addEventListener('change', (e) => { $('aptRecurringOptions').style.display = e.target.checked ? 'block' : 'none'; });
 
-        // ★★★ ЛОГИН ★★★
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
@@ -1673,52 +1553,35 @@
             e.preventDefault();
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
-
             showLoading(true);
             let found = findUserByCodeInAllClinics(code, clinics);
-
             if (!found) {
                 const legacy = await findInLegacy(code);
-                if (legacy) {
-                    showLoading(false);
-                    showLoginError('Този код е от старата система.');
-                    clearCodeInputs();
-                    return;
-                }
+                if (legacy) { showLoading(false); showLoginError('Този код е от старата система.'); clearCodeInputs(); return; }
             }
-
             if (found) {
                 const clinicId = found.clinicId;
                 activeClinicId = clinicId;
                 activeClinic = clinics[clinicId];
-
                 if (found.isPatient) {
                     currentPatient = found.patient;
                     currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode, phone: found.patient.phone };
-                } else {
-                    currentUser = found.user;
-                    currentPatient = null;
-                }
-
+                } else { currentUser = found.user; currentPatient = null; }
                 userClinics = [];
                 const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
                 for (const [cid, clinic] of Object.entries(clinics)) {
-                    const us = clinic.users || {};
-                    const ps = clinic.patients || {};
+                    const us = clinic.users || {}, ps = clinic.patients || {};
                     const hasByCode = Object.values(us).some(u => u.accessCode === code) || Object.values(ps).some(p => p.accessCode === code);
                     const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
                     if (hasByCode || hasByPhone) userClinics.push(cid);
                 }
-
                 sessionStorage.setItem('activeClinicId', clinicId);
                 sessionStorage.setItem('authCode', code);
                 if (currentPatient) { sessionStorage.setItem('currentPatientId', currentPatient.id); sessionStorage.removeItem('currentUserId'); }
                 else { sessionStorage.setItem('currentUserId', currentUser.id); sessionStorage.removeItem('currentPatientId'); }
-
                 loginSuccess();
                 return;
             }
-
             showLoading(false);
             showLoginError('Грешен код. Опитайте отново.');
             clearCodeInputs();
@@ -1727,6 +1590,7 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
+            showLoading(false); // ★ Скрий loading веднага след влизане
             const displayName = currentUser.name || currentPatient?.name || '?';
             $('headerAvatar').textContent = getUserInitials(displayName);
             $('headerUserName').textContent = displayName;
@@ -1769,22 +1633,29 @@
             await switchClinic(newClinicId);
         });
 
+        // ★★★ ПОПРАВЕНО: switchClinic - моментално, без showLoading ★★★
         async function switchClinic(newClinicId) {
             if (isSwitchingClinic) return;
             isSwitchingClinic = true;
+
             const authCode = sessionStorage.getItem('authCode');
             if (!authCode) { isSwitchingClinic = false; return; }
             const clinic = clinics[newClinicId];
             if (!clinic) { isSwitchingClinic = false; return; }
-            const us = clinic.users || {}, ps = clinic.patients || {};
+
+            const us = clinic.users || {};
+            const ps = clinic.patients || {};
             let foundUser = null, foundPatient = null;
             for (const [id, u] of Object.entries(us)) { if (u.accessCode === authCode) { foundUser = { id, ...u }; break; } }
             if (!foundUser) { for (const [id, p] of Object.entries(ps)) { if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; } } }
             if (!foundUser && !foundPatient) { showToast('Нямате достъп.', 'error'); isSwitchingClinic = false; return; }
 
-            showLoading(true);
             $('clinicSwitcherMenu').classList.remove('open');
+
+            // ★ 1. Спри старите слушатели
             stopDataListeners();
+
+            // ★ 2. Смени активната клиника
             activeClinicId = newClinicId;
             activeClinic = clinic;
             sessionStorage.setItem('activeClinicId', newClinicId);
@@ -1792,24 +1663,34 @@
             if (foundPatient) {
                 currentPatient = foundPatient;
                 currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone };
-                sessionStorage.setItem('currentPatientId', foundPatient.id); sessionStorage.removeItem('currentUserId');
+                sessionStorage.setItem('currentPatientId', foundPatient.id);
+                sessionStorage.removeItem('currentUserId');
             } else {
-                currentUser = foundUser; currentPatient = null;
-                sessionStorage.setItem('currentUserId', foundUser.id); sessionStorage.removeItem('currentPatientId');
+                currentUser = foundUser;
+                currentPatient = null;
+                sessionStorage.setItem('currentUserId', foundUser.id);
+                sessionStorage.removeItem('currentPatientId');
             }
 
+            // ★ 3. Нулирай данните
             patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
             exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
             services={}; procedureTemplates={}; categories={}; templates={};
             messages={}; notifications={};
             clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
 
+            // ★ 4. Обнови UI моментално
             $('headerAvatar').textContent = getUserInitials(currentUser.name);
             $('headerUserName').textContent = currentUser.name;
-            applyPermissions(); applyClinicHeader(); applyModuleVisibility(); renderClinicSwitcher();
+            applyPermissions();
+            applyClinicHeader();
+            applyModuleVisibility();
+            renderClinicSwitcher();
+
+            // ★ 5. Стартирай новите слушатели
             startDataListeners();
-            await new Promise(r => setTimeout(r, 500));
-            showLoading(false);
+
+            // ★ 6. Без showLoading - моментално
             showToast(`Преминахте в "${clinic.name}"`, 'success');
             isSwitchingClinic = false;
         }
@@ -1865,9 +1746,10 @@
                 }
                 if (activeClinicId) activeClinic = clinics[activeClinicId];
                 if (!sessionRestored) tryRestoreSession();
-            }, (err) => { console.error(err); showLoading(false); });
+            }, (err) => { console.error(err); });
         }
 
+        // ★★★ ПОПРАВЕНО: tryRestoreSession - моментално влизане ★★★
         async function tryRestoreSession() {
             if (sessionRestored) return;
             const sid = sessionStorage.getItem('currentUserId');
@@ -1901,15 +1783,21 @@
                     const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
                     if (hasByCode || hasByPhone) userClinics.push(cId);
                 }
+                // ★ Моментално влизане
                 loginSuccess();
             }
         }
 
-        function stopDataListeners() { unsubscribers.forEach(u => { try { u(); } catch(e){} }); unsubscribers = []; dataListenersStarted = false; }
+        function stopDataListeners() {
+            unsubscribers.forEach(u => { try { u(); } catch(e){} });
+            unsubscribers = [];
+            dataListenersStarted = false;
+        }
 
+        // ★★★ ПОПРАВЕНО: startDataListeners - без проверка ★★★
         function startDataListeners() {
-            if (dataListenersStarted) return;
             if (!activeClinicId) return;
+            // ★ МАХНАТА проверка if (dataListenersStarted) return;
             dataListenersStarted = true;
             const base = `clinics/${activeClinicId}`;
 
@@ -1993,8 +1881,7 @@
             }));
         }
 
-        // ==================== RENDER ФУНКЦИИ ====================
-
+        // ★ RENDER ФУНКЦИИ ★
         function renderDashboard() {
             if (!currentUser || currentPatient) return;
             const todayStr = toDateStr(new Date());
@@ -2008,9 +1895,7 @@
                 $('dashTodayList').innerHTML = todayApts.map(a=>{
                     const pat = patients[a.patientId];
                     const pn = pat?escapeHtml(pat.name):'неизвестен';
-                    const status = getAptStatus(a);
-                    const s = APT_STATUSES[status] || APT_STATUSES.confirmed;
-                    return `<div class="dash-list-item" data-patient-id="${a.patientId}"><div class="time-box">${a.time||'—'}</div><div class="info"><div class="name">${pn}</div><div class="meta">${a.note?escapeHtml(a.note):''} <span class="apt-status-badge ${s.class}" style="margin-left:5px;">${s.label}</span></div></div></div>`;
+                    return `<div class="dash-list-item" data-patient-id="${a.patientId}"><div class="time-box">${a.time||'—'}</div><div class="info"><div class="name">${pn}</div><div class="meta">${a.note?escapeHtml(a.note):''} ${getAptStatusBadgeHtml(a)}</div></div></div>`;
                 }).join('');
             }
             const in7 = toDateStr(addDays(new Date(),7));
@@ -2048,18 +1933,6 @@
             for (let h = 9; h < 18; h++) { const isBusy = busyHours.has(h); if (!isBusy) free++; slots.push(`<div class="free-slot ${isBusy?'busy':''}" data-hour="${h}">${String(h).padStart(2,'0')}:00</div>`); }
             $('dashFreeSlots').textContent = free;
             $('dashFreeSlotsGrid').innerHTML = slots.join('');
-            $('dashFreeSlotsGrid').querySelectorAll('.free-slot:not(.busy)').forEach(slot=>{
-                slot.addEventListener('click', () => {
-                    const hour = slot.dataset.hour;
-                    navItems.forEach(n=>n.classList.remove('active'));
-                    const s = document.querySelector('.nav-item[data-module="schedule"]'); if (s) s.classList.add('active');
-                    Object.keys(modules).forEach(k=>modules[k].classList.remove('active'));
-                    modules.schedule.classList.add('active');
-                    $('aptDate').value = todayStr;
-                    $('aptTime').value = `${String(hour).padStart(2,'0')}:00`;
-                    $('aptPatient').focus();
-                });
-            });
         }
 
         document.addEventListener('click', (e)=>{
@@ -2160,7 +2033,6 @@
                     const pat = patients[a.patientId];
                     const pn = pat?escapeHtml(pat.name):'неизвестен';
                     const status = getAptStatus(a);
-                    const s = APT_STATUSES[status] || APT_STATUSES.confirmed;
                     const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '';
                     const recurringBadge = a.recurrence && a.recurrence.groupId ? `<span class="apt-recurrence-badge"><i class="fas fa-redo"></i> ${a.recurrence.index}/${a.recurrence.total}</span>` : '';
                     return `<div class="appointment status-${status}" data-id="${a.id}">
@@ -2181,10 +2053,9 @@
             }).join('');
         }
 
-        // Клик на час → отваряне на модал за управление
         $('weekGrid').addEventListener('click', (e) => {
             const apt = e.target.closest('.appointment');
-            if (apt) { openAptManageModal(apt.dataset.id); }
+            if (apt) openAptManageModal(apt.dataset.id);
         });
 
         function getPricingKey(p,d){ return `${p}_${d}`; }
@@ -2502,7 +2373,6 @@
         });
         $('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
 
-        // ==================== УПРАЖНЕНИЯ ====================
         document.querySelectorAll('.exercise-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.exTab;
@@ -2786,7 +2656,6 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ==================== ДОКУМЕНТАЦИЯ ====================
         $('sessionNoteForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const pid = $('notePatient').value;
@@ -2925,7 +2794,6 @@
             if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`documents/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ==================== ИЗВЕСТИЯ ====================
         $('headerNotifBtn').addEventListener('click', () => { $('notifPanel').classList.toggle('open'); $('messagesPanel').classList.remove('open'); });
         $('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
 
@@ -2986,7 +2854,6 @@
             catch(err) { console.error('Notif error:', err); }
         }
 
-        // ==================== СЪОБЩЕНИЯ ====================
         $('headerMessagesBtn').addEventListener('click', () => { $('messagesPanel').classList.toggle('open'); $('notifPanel').classList.remove('open'); });
         $('messagesClose').addEventListener('click', () => { $('messagesPanel').classList.remove('open'); $('chatView').classList.remove('active'); });
 
@@ -3123,7 +2990,7 @@
 
         $('chatDeleteBtn').addEventListener('click', async () => {
             if (!currentChatUserId) return;
-            if (!confirm('Да изтрия ли ВСИЧКИ съобщения с този потребител?')) return;
+            if (!confirm('Да изтрия ли ВСИЧКИ съобщения?')) return;
             const myId = currentUser.id; const otherId = currentChatUserId.id;
             const updates = {};
             Object.entries(messages).forEach(([id, m]) => { if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null; });
@@ -3167,7 +3034,6 @@
 
         $('msgClearBtn').addEventListener('click', () => { $('msgRecipient').value = ''; $('msgSubject').value = ''; $('msgText').value = ''; });
 
-        // ==================== ФОРМИ ЗА ЧАСОВЕ ====================
         $('appointmentForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const pid = $('aptPatient').value;
@@ -3180,7 +3046,6 @@
                 const isRecurring = $('aptRecurringToggle').checked;
                 const duration = parseInt($('aptDuration').value);
                 const isStaff = !isPatient(currentUser);
-
                 if (isRecurring) {
                     const type = $('aptRecurringType').value;
                     const count = parseInt($('aptRecurringCount').value) || 1;
@@ -3218,7 +3083,6 @@
         $('nextWeekBtn').addEventListener('click', ()=>{ currentWeekStart = addDays(currentWeekStart,7); renderWeek(); });
         $('todayBtn').addEventListener('click', ()=>{ currentWeekStart = getMonday(new Date()); renderWeek(); });
 
-        // ==================== ФОРМИ ЗА ПРОЦЕДУРИ ====================
         $('procedureForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const pid = $('procPatient').value;
@@ -3238,7 +3102,6 @@
             try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
-        // ==================== ФОРМИ ЗА ПАЦИЕНТИ ====================
         $('patientForm').addEventListener('submit', async (e)=>{
             e.preventDefault();
             const name = $('patientName').value.trim();
@@ -3280,7 +3143,6 @@
             if (d) { if(!confirm('Изтрий ЗАВИНАГИ?'))return; try { await remove(clinicRef(`patients/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ==================== ПРОФИЛ ====================
         function openPatientProfile(patientId) {
             const patient = patients[patientId];
             if (!patient) { showToast('Не е намерен.','error'); return; }
@@ -3331,7 +3193,6 @@
             if (link) { e.preventDefault(); openPatientProfile(link.dataset.id); }
         });
 
-        // ==================== ПОРТАЛ ====================
         function renderPortal() {
             if (!currentPatient) return;
             $('portalUserName').textContent = currentPatient.name;
@@ -3366,17 +3227,7 @@
                                     if (ex.libId) exData = ex.libType === 'short' ? shortExercises[ex.libId] : exercises[ex.libId];
                                     if (exData && exData.videoUrl) { const yt = getYouTubeId(exData.videoUrl); if (yt) mediaHtml = `<iframe width="200" height="120" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px; margin-right:12px; flex-shrink:0;"></iframe>`; else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:200px;height:120px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;"></video>`; }
                                     else if (exData && exData.imageUrl) mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:100px;height:100px;object-fit:cover;border-radius:10px;margin-right:12px;flex-shrink:0;">`;
-                                    return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">
-                                        ${mediaHtml}
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>
-                                            ${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}
-                                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                                                ${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}
-                                                ${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}
-                                            </div>
-                                        </div>
-                                    </div>`;
+                                    return `<div style="display:flex;align-items:center;background:#f0f9f1;padding:0.8rem;border-radius:14px;border-left:4px solid #1a7a3e;">${mediaHtml}<div style="flex:1;min-width:0;"><div style="font-weight:700;color:#0b2b4f;margin-bottom:4px;">${i+1}. ${escapeHtml(ex.name)}</div>${exData && exData.description ? `<div style="font-size:0.85rem;color:#5a7a9a;margin-bottom:6px;">${escapeHtml(exData.description)}</div>` : ''}<div style="display:flex;gap:6px;flex-wrap:wrap;">${ex.reps?`<span class="exercise-meta-chip reps">${escapeHtml(ex.reps)} повт.</span>`:''}${ex.sets?`<span class="exercise-meta-chip sets">${ex.sets} серии</span>`:''}</div></div></div>`;
                                 }).join('')}
                             </div>
                         </div>`;
@@ -3403,7 +3254,6 @@
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
         }
 
-        // ★ Потвърждение и отказ от пациент в портала
         $('portalAppointmentsBody').addEventListener('click', async (e) => {
             const confirmBtn = e.target.closest('.portal-confirm-apt');
             if (confirmBtn) {
@@ -3411,10 +3261,7 @@
                 try {
                     await changeAptStatus(id, 'confirmed');
                     const apt = appointments[id];
-                    if (apt) {
-                        const k = apt.kineziId || apt.createdBy;
-                        await createNotification(k, '✅ Пациент потвърди час', `${currentPatient.name} потвърди часа си`, 'appointment');
-                    }
+                    if (apt) { const k = apt.kineziId || apt.createdBy; await createNotification(k, '✅ Пациент потвърди', `${currentPatient.name} потвърди часа си`, 'appointment'); }
                 } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
@@ -3425,10 +3272,7 @@
                 try {
                     const apt = appointments[id];
                     await changeAptStatus(id, 'cancelled', 'Отказан от пациент');
-                    if (apt) {
-                        const k = apt.kineziId || apt.createdBy;
-                        await createNotification(k, '❌ Пациент отказа час', `${currentPatient.name} отказа часа на ${formatDate(apt.date)} ${apt.time}`, 'appointment');
-                    }
+                    if (apt) { const k = apt.kineziId || apt.createdBy; await createNotification(k, '❌ Пациент отказа', `${currentPatient.name} отказа часа на ${formatDate(apt.date)} ${apt.time}`, 'appointment'); }
                 } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
@@ -3485,7 +3329,6 @@
             finally { $('portalAddAptBtn').disabled = false; }
         });
 
-        // ==================== НАВИГАЦИЯ ====================
         navItems.forEach(item=>{
             item.addEventListener('click', ()=>{
                 if (item.classList.contains('hidden')) return;
@@ -3522,15 +3365,15 @@
             });
         });
 
-        // ==================== INIT ====================
+        // ★★★ INIT - БЕЗ showLoading(true) ★★★
         function init() {
             const today = new Date().toISOString().split('T')[0];
             ['procDate','aptDate','noteDate','soapDate','priceDateInput','portalAptDate'].forEach(id=>{ if($(id)) $(id).value = today; });
             currentPriceDate = today;
             codeInputEls[0].focus();
-            showLoading(true);
+            // ★ Без showLoading(true) - login screen-ът се вижда веднага
             startClinicsListener();
-            setTimeout(() => showLoading(false), 2000);
+            // ★ Без setTimeout(() => showLoading(false), 2000)
         }
 
         init();
