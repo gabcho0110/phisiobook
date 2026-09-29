@@ -56,6 +56,71 @@
         .header-clinic-name i { color: #a6d0ff; font-size: 1.1rem; }
         .header-clinic-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; letter-spacing: 0.5px; }
         .header-actions { display: flex; align-items: center; gap: 10px; }
+
+        /* ★ КЛИНИКА SWITCHER ★ */
+        .clinic-switcher { position: relative; }
+        .clinic-switcher-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.15s;
+            max-width: 220px;
+        }
+        .clinic-switcher-btn:hover { background: rgba(255,255,255,0.25); }
+        .clinic-switcher-btn i.fa-hospital { color: #a6d0ff; }
+        .clinic-switcher-btn .clinic-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .clinic-switcher-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(11, 43, 79, 0.25);
+            padding: 0.5rem;
+            min-width: 260px;
+            z-index: 300;
+            display: none;
+            color: #1f3f61;
+        }
+        .clinic-switcher-menu.open { display: block; }
+        .clinic-switcher-menu-header {
+            padding: 0.6rem 0.9rem 0.4rem;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            color: #7f95b0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .clinic-switcher-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #1f3f61;
+            transition: 0.15s;
+        }
+        .clinic-switcher-item:hover { background: #f5f9ff; }
+        .clinic-switcher-item.active { background: #e8f0fe; color: #0b2b4f; font-weight: 700; }
+        .clinic-switcher-item .clinic-icon-small {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: #e8f0fe; color: #1e4a78;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; flex-shrink: 0;
+        }
+        .clinic-switcher-item.active .clinic-icon-small { background: #1e4a78; color: #fff; }
+        .clinic-switcher-item .clinic-name-sw { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .clinic-switcher-item .check-icon { color: #1a7a3e; display: none; }
+        .clinic-switcher-item.active .check-icon { display: inline-block; }
+
         .header-icon-btn { background: transparent; border: none; color: #a6d0ff; font-size: 1.1rem; cursor: pointer; padding: 0.55rem; border-radius: 10px; transition: 0.15s; position: relative; }
         .header-icon-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
         .header-icon-btn .notif-badge { position: absolute; top: 2px; right: 2px; background: #b22234; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
@@ -292,7 +357,7 @@
         .patient-program-section { background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; border-radius: 20px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; }
         .patient-program-section h3 { color: #1a7a3e; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
 
-        /* ПРОГРАМА - ДОБАВЯНЕ НА УПРАЖНЕНИЯ РЕД ПО РЕД */
+        /* ПРОГРАМА */
         .program-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem; }
         .program-row { display: grid; grid-template-columns: 70px 1.5fr 1fr 1fr 2fr 50px; gap: 10px; align-items: center; background: #f8fbfe; border: 1px solid #e9eef3; border-radius: 14px; padding: 0.7rem 0.8rem; }
         .program-row input { width: 100%; padding: 0.65rem 0.8rem; border-radius: 10px; border: 1px solid #cfddee; font-size: 0.88rem; font-family: inherit; background: #ffffff; min-width: 0; }
@@ -462,6 +527,7 @@
         .role-badge.admin { background: #fff5e5; color: #b06d00; }
         .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
         .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
+        .role-badge.locked { background: #ede9fe; color: #5b21b6; }
 
         /* МОДАЛИ */
         .loading-overlay { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; }
@@ -597,6 +663,19 @@
             </div>
 
             <div class="header-actions">
+                <!-- ★ CLINIC SWITCHER (показва се само ако потребителят има 2+ клиники) -->
+                <div class="clinic-switcher" id="clinicSwitcher" style="display:none;">
+                    <button class="clinic-switcher-btn" id="clinicSwitcherBtn">
+                        <i class="fas fa-hospital"></i>
+                        <span class="clinic-label" id="clinicSwitcherLabel">—</span>
+                        <i class="fas fa-chevron-down" style="font-size:0.7rem; opacity:0.7;"></i>
+                    </button>
+                    <div class="clinic-switcher-menu" id="clinicSwitcherMenu">
+                        <div class="clinic-switcher-menu-header">Смяна на клиника</div>
+                        <div id="clinicSwitcherItems"></div>
+                    </div>
+                </div>
+
                 <button class="header-icon-btn" id="headerMessagesBtn" title="Съобщения">
                     <i class="fas fa-envelope"></i>
                     <span class="notif-badge" id="messagesBadge" style="display:none;">0</span>
@@ -629,13 +708,12 @@
 
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v4.4 · Firebase</div>
+                    <div class="sidebar-version">v5.0 · Multi-Clinic</div>
                 </div>
             </aside>
 
             <main class="main">
-                <!-- МОДУЛИТЕ -->
-
+                <!-- МОДУЛИ (същите като преди) -->
                 <section id="module-dashboard" class="module">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -717,12 +795,10 @@
 
                 <section id="module-exercises" class="module">
                     <div class="module-header"><h1><i class="fas fa-dumbbell"></i> Упражнения</h1></div>
-
                     <div class="exercise-tabs" id="exerciseTabsBar">
                         <button class="exercise-tab active" data-ex-tab="library"><i class="fas fa-book"></i> Библиотека</button>
                         <button class="exercise-tab" data-ex-tab="programs"><i class="fas fa-home"></i> Домашни програми</button>
                     </div>
-
                     <div class="exercise-pane active" data-ex-pane="library">
                         <div class="add-exercise-wrapper">
                             <button class="add-exercise-btn" id="addExerciseMainBtn"><i class="fas fa-plus-circle"></i> Добави упражнение <i class="fas fa-chevron-down" style="font-size:0.75rem;"></i></button>
@@ -731,7 +807,6 @@
                                 <div class="add-exercise-option extended" data-mode="extended"><div class="opt-icon"><i class="fas fa-expand-alt"></i></div><div class="opt-info"><div class="opt-title">Разширен режим</div><div class="opt-desc">Подробна форма с видео</div></div></div>
                             </div>
                         </div>
-
                         <div class="exercise-form-panel" id="exerciseShortPanel">
                             <div class="short-form-card">
                                 <h3><i class="fas fa-list-ul"></i> Съкратено добавяне</h3>
@@ -743,7 +818,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="exercise-form-panel" id="exerciseExtendedPanel">
                             <div class="extended-form-card">
                                 <h3><i class="fas fa-expand-alt"></i> Разширено добавяне</h3>
@@ -765,14 +839,12 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="filter-bar">
                             <h3 style="margin:0;"><i class="fas fa-book"></i> Библиотека</h3>
                             <input type="text" id="exSearchInput" placeholder="Търси..." style="padding:0.6rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; max-width:300px;">
                         </div>
                         <div class="exercise-grid" id="exerciseGrid"></div>
                     </div>
-
                     <div class="exercise-pane" data-ex-pane="programs">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нова домашна програма</h3>
@@ -785,19 +857,15 @@
                                     <label>Бележки / инструкции</label>
                                     <textarea id="progNotes" placeholder="Общи насоки за пациента..."></textarea>
                                 </div>
-
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:10px;">
                                     <h4 style="color:#0b2b4f; font-size:1rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-list-ul" style="color:#1e4a78;"></i> Упражнения в програмата</h4>
                                     <button type="button" class="btn-outline btn btn-sm" id="addProgramRowBtn"><i class="fas fa-plus"></i> Добави ред</button>
                                 </div>
-
                                 <div class="program-rows" id="programRowsContainer"></div>
-
                                 <div style="background:#f8fbfe; padding:1rem; border-radius:12px; border-left:3px solid #1e4a78; margin-top:1rem; font-size:0.88rem; color:#5a7a9a;">
                                     <i class="fas fa-info-circle"></i>
                                     <strong>Съвет:</strong> Можете да избирате упражнения от библиотеката (dropdown "От библиотека") или да въведете ново име на упражнение ръчно.
                                 </div>
-
                                 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem;">
                                     <button type="button" class="btn-outline btn" id="cancelProgramBtn"><i class="fas fa-times"></i> Отказ</button>
                                     <button type="submit" class="btn" id="addProgramBtn"><i class="fas fa-save"></i> Създай програма</button>
@@ -807,7 +875,6 @@
                         <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3></div>
                         <div id="programsList"></div>
                     </div>
-
                     <div class="exercise-pane" data-ex-pane="my-programs" id="patientProgramsPane">
                         <div id="patientExercisesContent"></div>
                     </div>
@@ -820,7 +887,6 @@
                         <button class="doc-tab" data-doc-tab="soap"><i class="fas fa-clipboard-list"></i> SOAP</button>
                         <button class="doc-tab" data-doc-tab="files"><i class="fas fa-folder-open"></i> Файлове</button>
                     </div>
-
                     <div class="doc-pane active" data-doc-pane="sessions">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нова бележка</h3>
@@ -836,7 +902,6 @@
                         <div class="doc-filter-bar"><select id="sessionFilterPatient"><option value="">-- Всички пациенти --</option></select><input type="text" id="sessionSearch" placeholder="Търси..."></div>
                         <div class="notes-list" id="sessionNotesList"></div>
                     </div>
-
                     <div class="doc-pane" data-doc-pane="soap">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нова SOAP бележка</h3>
@@ -858,7 +923,6 @@
                         <div class="doc-filter-bar"><select id="soapFilterPatient"><option value="">-- Всички пациенти --</option></select><input type="text" id="soapSearch" placeholder="Търси..."></div>
                         <div class="notes-list" id="soapNotesList"></div>
                     </div>
-
                     <div class="doc-pane" data-doc-pane="files">
                         <div class="card">
                             <h3><i class="fas fa-plus-circle"></i> Нов файл</h3>
@@ -902,7 +966,6 @@
                         <button class="settings-tab" data-set-tab="users-settings"><i class="fas fa-user-shield"></i> Потребители</button>
                         <button class="settings-tab" data-set-tab="templates"><i class="fas fa-file-alt"></i> Шаблони</button>
                     </div>
-
                     <div class="settings-pane active" data-set-pane="clinic">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Тези данни се показват в хедъра на системата.</div>
                         <div class="card">
@@ -920,7 +983,6 @@
                             </form>
                         </div>
                     </div>
-
                     <div class="settings-pane" data-set-pane="services">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Услуги, които предлага клиниката.</div>
                         <div class="card">
@@ -936,7 +998,6 @@
                         </div>
                         <div class="table-wrapper"><table><thead><tr><th>Услуга</th><th>Категория</th><th>Цена</th><th>Продължителност</th><th></th></tr></thead><tbody id="servicesBody"></tbody></table></div>
                     </div>
-
                     <div class="settings-pane" data-set-pane="procedures">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Списък с процедури за бърз избор.</div>
                         <div class="card">
@@ -952,7 +1013,6 @@
                         </div>
                         <div class="table-wrapper"><table><thead><tr><th>Процедура</th><th>Категория</th><th>Цена</th><th>Продължителност</th><th></th></tr></thead><tbody id="procedureTemplatesBody"></tbody></table></div>
                     </div>
-
                     <div class="settings-pane" data-set-pane="categories">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Категории за групиране.</div>
                         <div class="settings-grid-2">
@@ -971,7 +1031,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="settings-pane" data-set-pane="users-settings">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Управление на потребители.</div>
                         <div class="card">
@@ -996,7 +1055,6 @@
                         </div>
                         <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Роли</th><th>Код</th><th>Действия</th></tr></thead><tbody id="usersBody"></tbody></table></div>
                     </div>
-
                     <div class="settings-pane" data-set-pane="templates">
                         <div class="settings-info-box"><i class="fas fa-info-circle"></i> Шаблони за бързо въвеждане.</div>
                         <div class="card">
@@ -1031,9 +1089,7 @@
                         <div class="portal-logo"><svg><use href="#physio-logo"></use></svg></div>
                         <div><h1>Здравейте, <span id="portalUserName">—</span>!</h1><p>Това е вашият личен портал.</p></div>
                     </div>
-
                     <div id="patientHomePrograms"></div>
-
                     <div class="portal-section">
                         <h3><i class="fas fa-calendar-plus"></i> Запази си час</h3>
                         <form id="portalAppointmentForm" class="form-grid">
@@ -1064,34 +1120,23 @@
             <h2><i class="fas fa-envelope"></i> Съобщения</h2>
             <button class="messages-close" id="messagesClose"><i class="fas fa-times"></i></button>
         </div>
-
         <div class="messages-tabs">
             <button class="msg-tab active" data-msg-tab="inbox"><i class="fas fa-inbox"></i> Входящи</button>
             <button class="msg-tab" data-msg-tab="sent"><i class="fas fa-paper-plane"></i> Изпратени</button>
             <button class="msg-tab" data-msg-tab="new"><i class="fas fa-pen"></i> Ново</button>
         </div>
-
-        <div class="msg-pane active" data-msg-pane="inbox">
-            <div class="messages-list" id="inboxList"></div>
-        </div>
-
-        <div class="msg-pane" data-msg-pane="sent">
-            <div class="messages-list" id="sentList"></div>
-        </div>
-
+        <div class="msg-pane active" data-msg-pane="inbox"><div class="messages-list" id="inboxList"></div></div>
+        <div class="msg-pane" data-msg-pane="sent"><div class="messages-list" id="sentList"></div></div>
         <div class="msg-pane" data-msg-pane="new">
             <div class="messages-list" style="flex: 1; display:flex; flex-direction:column;">
                 <h4 style="font-size:1rem; color:#0b2b4f; margin-bottom:1rem; display:flex; align-items:center; gap:8px;"><i class="fas fa-pen"></i> Ново съобщение</h4>
                 <div class="msg-compose" style="border-top:none; padding:0; flex:1;">
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block;">До (получател) *</label>
                     <select id="msgRecipient" required><option value="">-- избери получател --</option></select>
-
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block; margin-top:10px;">Относно (опционално)</label>
                     <input type="text" id="msgSubject" placeholder="напр. Относно Иван Петров">
-
                     <label style="font-size:0.85rem; color:#5a7a9a; font-weight:600; margin-bottom:4px; display:block; margin-top:10px;">Съобщение *</label>
                     <textarea id="msgText" placeholder="Напишете вашето съобщение..." style="min-height:150px;" required></textarea>
-
                     <div class="msg-compose-actions" style="margin-top:1rem;">
                         <button class="btn-outline btn" id="msgClearBtn"><i class="fas fa-times"></i> Изчисти</button>
                         <button class="btn" id="msgSendBtn"><i class="fas fa-paper-plane"></i> Изпрати</button>
@@ -1099,12 +1144,11 @@
                 </div>
             </div>
         </div>
-
         <div class="chat-view" id="chatView">
             <div class="chat-header">
                 <button id="chatBackBtn"><i class="fas fa-arrow-left"></i></button>
                 <div class="chat-with" id="chatWithName">—</div>
-                <button class="chat-delete-btn" id="chatDeleteBtn" title="Изтрий чата"><i class="fas fa-trash-alt"></i> Изтрий</button>
+                <button class="chat-delete-btn" id="chatDeleteBtn"><i class="fas fa-trash-alt"></i> Изтрий</button>
             </div>
             <div class="chat-body" id="chatBody"></div>
             <div class="chat-input-area">
@@ -1120,12 +1164,10 @@
             <h2><i class="fas fa-bell"></i> Известия</h2>
             <button class="notif-close" id="notifClose"><i class="fas fa-times"></i></button>
         </div>
-
         <div class="notif-actions-bar">
             <button class="notif-mark-btn" id="notifMarkAllBtn"><i class="fas fa-check-double"></i> Маркирай всички като прочетени</button>
             <button class="notif-mark-btn" id="notifClearAllBtn"><i class="fas fa-trash-alt"></i> Изтрий всички</button>
         </div>
-
         <div class="notif-list" id="notifList"></div>
     </div>
 
@@ -1162,7 +1204,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, push, set, update, remove, onValue, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -1178,100 +1220,33 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const patientsRef = ref(db, 'patients');
-        const proceduresRef = ref(db, 'procedures');
-        const usersRef = ref(db, 'users');
-        const appointmentsRef = ref(db, 'appointments');
-        const pricingRef = ref(db, 'pricing');
-        const tasksRef = ref(db, 'tasks');
-        const exercisesRef = ref(db, 'exercises');
-        const programsRef = ref(db, 'programs');
-        const sessionNotesRef = ref(db, 'sessionNotes');
-        const soapNotesRef = ref(db, 'soapNotes');
-        const documentsRef = ref(db, 'documents');
-        const shortExercisesRef = ref(db, 'shortExercises');
-        const clinicSettingsRef = ref(db, 'clinicSettings');
-        const servicesRef = ref(db, 'services');
-        const procedureTemplatesRef = ref(db, 'procedureTemplates');
-        const categoriesRef = ref(db, 'categories');
-        const templatesRef = ref(db, 'templates');
-        const messagesRef = ref(db, 'messages');
-        const notificationsRef = ref(db, 'notifications');
+        // ★★★ ГЛАВНА РЕФЕРЕНЦИЯ - клиниките ★★★
+        const clinicsRootRef = ref(db, 'clinics');
 
-        const toastContainer = document.getElementById('toastContainer');
-        const loadingOverlay = document.getElementById('loadingOverlay');
+        // ★★★ ОБРАТНА СЪВМЕСТИМОСТ - стари ref-ове за миграция ★★★
+        const LEGACY_PATIENTS_REF = ref(db, 'patients');
+        const LEGACY_USERS_REF = ref(db, 'users');
 
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
-            toastContainer.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
-        }
+        // State
+        let clinics = {};                    // Всички клиники
+        let activeClinicId = null;           // Активна клиника
+        let activeClinic = null;             // Данни за активната клиника
+        let userClinics = [];                // Клиники, в които текущият потребител има достъп
 
-        function showLoading(show = true) { loadingOverlay.classList.toggle('active', show); }
-
-        function escapeHtml(text) {
-            if (text === null || text === undefined) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatDate(d) { if (!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}.${m}.${y}`; }
-        function formatDateLong(d) { if (!d) return '—'; const [y,m,dd]=d.split('-'); const D=['неделя','понеделник','вторник','сряда','четвъртък','петък','събота']; const M=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']; const dt = new Date(d); return `${D[dt.getDay()]}, ${parseInt(dd)} ${M[dt.getMonth()]} ${y}`; }
-        function formatTimestamp(ts) { if (!ts) return '—'; const d = new Date(ts); return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
-        function formatTimeShort(ts) { if (!ts) return ''; const d = new Date(ts); return d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
-        function formatRelativeTime(ts) {
-            if (!ts) return '';
-            const diff = Date.now() - ts;
-            const min = Math.floor(diff / 60000);
-            if (min < 1) return 'сега';
-            if (min < 60) return `${min} мин`;
-            const hr = Math.floor(min / 60);
-            if (hr < 24) return `${hr} ч`;
-            const days = Math.floor(hr / 24);
-            if (days < 7) return `${days} д`;
-            return formatTimestamp(ts);
-        }
-        function formatPrice(n) { const v=parseFloat(n); return isNaN(v)?'0.00':v.toFixed(2); }
-        function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
-        function isCodeUnique(c,u,p){ return !Object.values(u).some(x=>x.accessCode===c) && !Object.values(p).some(x=>x.accessCode===c); }
-        function generateUniqueCode(u,p){ let c,a=0; do{c=generate6DigitCode();a++;if(a>200)throw new Error('Не може');}while(!isCodeUnique(c,u,p)); return c; }
-        function getMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=dt.getDate()-day+(day===0?-6:1); return new Date(dt.setDate(diff)); }
-        function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
-        function toDateStr(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
-        const BG_DAYS=['Пон','Вто','Сря','Чет','Пет','Съб','Нед'];
-        const BG_MONTHS=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември'];
-        function getUserRoles(u){ if(!u)return[]; if(Array.isArray(u.roles))return u.roles; if(u.role)return[u.role]; return[]; }
-        function hasRole(u,r){ return getUserRoles(u).includes(r); }
-        function isAdmin(u){ return hasRole(u,'Администратор'); }
-        function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
-        function isPatient(u){ return hasRole(u, 'Пациент'); }
-        function getRolesBadgesHtml(u){
-            const roles = getUserRoles(u);
-            if (roles.length===0) return '<span style="color:#7f95b0;">—</span>';
-            return roles.map(r=>{
-                const cls = r==='Администратор'?'admin':r==='Пациент'?'patient':'kinezi';
-                const icon = r==='Администратор'?'fa-user-shield':r==='Пациент'?'fa-user':'fa-hands';
-                return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
-            }).join('');
-        }
-        function getYouTubeId(url){ if(!url)return null; const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/); return m?m[1]:null; }
-        function getUserInitials(n){ return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
-
+        // Данни на активната клиника
         let patients={}, procedures={}, users={}, appointments={}, pricing={}, tasks={}, exercises={}, programs={}, sessionNotes={}, soapNotes={}, documents={}, shortExercises={};
         let clinicSettings = { name: 'PhysioBook', sub: 'Медицински център' };
         let services = {}, procedureTemplates = {}, categories = {}, templates = {};
         let messages = {};
         let notifications = {};
+
         let currentUser=null, currentPatient=null;
         let dataListenersStarted=false, sessionRestored=false;
         let currentWeekStart = getMonday(new Date());
         let currentPriceDate = new Date().toISOString().split('T')[0];
         let adminCreated=false, editingUserId=null;
         let currentChatUserId = null;
+        let unsubscribers = [];              // За да махаме слушателите при смяна на клиника
 
         const loginScreen = document.getElementById('loginScreen');
         const loginForm = document.getElementById('loginForm');
@@ -1297,7 +1272,79 @@
 
         const $ = id => document.getElementById(id);
 
-        // ЛОГИН
+        // ★★★ ХЕЛПЪРИ ЗА ПЪТИЩА В БАЗАТА ★★★
+        // Връща пълен път до дадена колекция в активната клиника
+        function clinicPath(subPath = '') {
+            if (!activeClinicId) return null;
+            return `clinics/${activeClinicId}${subPath ? '/' + subPath : ''}`;
+        }
+        // Създава ref към колекция в активната клиника
+        function clinicRef(subPath = '') {
+            return ref(db, clinicPath(subPath));
+        }
+
+        // ★★★ ФОРМАТ И ХЕЛПЪРИ ★★★
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            document.getElementById('toastContainer').appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
+        }
+        function showLoading(show = true) { document.getElementById('loadingOverlay').classList.toggle('active', show); }
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        function formatDate(d) { if (!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}.${m}.${y}`; }
+        function formatDateLong(d) { if (!d) return '—'; const [y,m,dd]=d.split('-'); const D=['неделя','понеделник','вторник','сряда','четвъртък','петък','събота']; const M=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']; const dt = new Date(d); return `${D[dt.getDay()]}, ${parseInt(dd)} ${M[dt.getMonth()]} ${y}`; }
+        function formatTimestamp(ts) { if (!ts) return '—'; const d = new Date(ts); return d.toLocaleDateString('bg-BG') + ' ' + d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
+        function formatTimeShort(ts) { if (!ts) return ''; const d = new Date(ts); return d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'}); }
+        function formatRelativeTime(ts) {
+            if (!ts) return '';
+            const diff = Date.now() - ts;
+            const min = Math.floor(diff / 60000);
+            if (min < 1) return 'сега';
+            if (min < 60) return `${min} мин`;
+            const hr = Math.floor(min / 60);
+            if (hr < 24) return `${hr} ч`;
+            const days = Math.floor(hr / 24);
+            if (days < 7) return `${days} д`;
+            return formatTimestamp(ts);
+        }
+        function formatPrice(n) { const v=parseFloat(n); return isNaN(v)?'0.00':v.toFixed(2); }
+        function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
+        function getMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=dt.getDate()-day+(day===0?-6:1); return new Date(dt.setDate(diff)); }
+        function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
+        function toDateStr(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
+        const BG_DAYS=['Пон','Вто','Сря','Чет','Пет','Съб','Нед'];
+        const BG_MONTHS=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември'];
+        function getUserRoles(u){ if(!u)return[]; if(Array.isArray(u.roles))return u.roles; if(u.role)return[u.role]; return[]; }
+        function hasRole(u,r){ return getUserRoles(u).includes(r); }
+        function isAdmin(u){ return hasRole(u,'Администратор'); }
+        function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
+        function isPatient(u){ return hasRole(u, 'Пациент'); }
+        function isLockedUser(u){ return u && u.locked === true; }  // ★ Заключен потребител (PhysioBook Admin)
+        function getRolesBadgesHtml(u){
+            const roles = getUserRoles(u);
+            if (roles.length===0) return '<span style="color:#7f95b0;">—</span>';
+            let html = roles.map(r=>{
+                const cls = r==='Администратор'?'admin':r==='Пациент'?'patient':'kinezi';
+                const icon = r==='Администратор'?'fa-user-shield':r==='Пациент'?'fa-user':'fa-hands';
+                return `<span class="role-badge ${cls}"><i class="fas ${icon}"></i> ${r}</span>`;
+            }).join('');
+            if (isLockedUser(u)) {
+                html += `<span class="role-badge locked" title="Заключен - не може да се редактира"><i class="fas fa-lock"></i> Заключен</span>`;
+            }
+            return html;
+        }
+        function getYouTubeId(url){ if(!url)return null; const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/); return m?m[1]:null; }
+        function getUserInitials(n){ return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
+
+        // ★★★ ЛОГИН С КОДОВЕ ★★★
         codeInputEls.forEach((input, idx) => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/\D/g, '');
@@ -1322,7 +1369,6 @@
             });
             input.addEventListener('focus', (e) => e.target.select());
         });
-
         function updateLoginBtn() {
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             loginBtn.disabled = code.length !== 6;
@@ -1338,51 +1384,243 @@
             setTimeout(() => loginError.classList.remove('active'), 4000);
         }
 
-        loginForm.addEventListener('submit', (e) => {
+        // ★★★ ТЪРСЕНЕ НА КОД ВЪВ ВСИЧКИ КЛИНИКИ ★★★
+        // Връща { clinicId, user } или null
+        function findUserByCodeInAllClinics(code, clinicsData) {
+            for (const [clinicId, clinic] of Object.entries(clinicsData)) {
+                const users = clinic.users || {};
+                for (const [userId, user] of Object.entries(users)) {
+                    if (user.accessCode === code) {
+                        return { clinicId, user: { id: userId, ...user } };
+                    }
+                }
+                const patients = clinic.patients || {};
+                for (const [patientId, patient] of Object.entries(patients)) {
+                    if (patient.accessCode === code) {
+                        return { clinicId, patient: { id: patientId, ...patient }, isPatient: true };
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Търсене и в legacy (старата структура), за обратна съвместимост
+        async function findInLegacy(code) {
+            try {
+                const usersSnap = await get(LEGACY_USERS_REF);
+                const users = usersSnap.val() || {};
+                for (const [id, u] of Object.entries(users)) {
+                    if (u.accessCode === code) return { type: 'user', data: { id, ...u } };
+                }
+                const patientsSnap = await get(LEGACY_PATIENTS_REF);
+                const patients = patientsSnap.val() || {};
+                for (const [id, p] of Object.entries(patients)) {
+                    if (p.accessCode === code) return { type: 'patient', data: { id, ...p } };
+                }
+            } catch (e) { console.error(e); }
+            return null;
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const code = Array.from(codeInputEls).map(i => i.value).join('');
             if (code.length !== 6) return;
 
-            const foundUser = Object.entries(users).find(([, u]) => u.accessCode === code);
-            if (foundUser) {
-                const [id, user] = foundUser;
-                currentUser = { id, ...user };
-                currentPatient = null;
-                sessionStorage.setItem('currentUserId', id);
-                sessionStorage.removeItem('currentPatientId');
+            showLoading(true);
+
+            // 1. Търси в /clinics/{clinicId}/users и /clinics/{clinicId}/patients
+            let found = findUserByCodeInAllClinics(code, clinics);
+
+            // 2. Ако не е намерен - търси в legacy
+            if (!found) {
+                const legacy = await findInLegacy(code);
+                if (legacy) {
+                    // Намерен в старата структура - покажи съобщение
+                    showLoading(false);
+                    showLoginError('Този код е от старата система. Моля, свържете се с администратора за миграция.');
+                    clearCodeInputs();
+                    return;
+                }
+            }
+
+            if (found) {
+                const clinicId = found.clinicId;
+                activeClinicId = clinicId;
+                activeClinic = clinics[clinicId];
+
+                if (found.isPatient) {
+                    currentPatient = found.patient;
+                    currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode };
+                } else {
+                    currentUser = found.user;
+                    currentPatient = null;
+                }
+
+                // Намери всички клиники, в които този потребител има достъп (по същия accessCode)
+                userClinics = [];
+                for (const [cid, clinic] of Object.entries(clinics)) {
+                    const users = clinic.users || {};
+                    const patients = clinic.patients || {};
+                    const hasAccess = Object.values(users).some(u => u.accessCode === code) ||
+                                      Object.values(patients).some(p => p.accessCode === code);
+                    if (hasAccess) userClinics.push(cid);
+                }
+
+                // Запази в sessionStorage
+                sessionStorage.setItem('activeClinicId', clinicId);
+                sessionStorage.setItem('authCode', code);
+                if (currentPatient) {
+                    sessionStorage.setItem('currentPatientId', currentPatient.id);
+                    sessionStorage.removeItem('currentUserId');
+                } else {
+                    sessionStorage.setItem('currentUserId', currentUser.id);
+                    sessionStorage.removeItem('currentPatientId');
+                }
+
                 loginSuccess();
                 return;
             }
 
-            const foundPatient = Object.entries(patients).find(([, p]) => p.accessCode === code);
-            if (foundPatient) {
-                const [id, patient] = foundPatient;
-                currentPatient = { id, ...patient };
-                currentUser = { id, name: patient.name, roles: ['Пациент'], accessCode: patient.accessCode };
-                sessionStorage.setItem('currentPatientId', id);
-                sessionStorage.removeItem('currentUserId');
-                loginSuccess();
-                return;
-            }
-
+            showLoading(false);
             showLoginError('Грешен код. Опитайте отново.');
             clearCodeInputs();
         });
 
+        // ★★★ ВХОД УСПЕШЕН ★★★
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
-            showLoading(false);
 
             const displayName = currentUser.name || currentPatient?.name || '?';
             $('headerAvatar').textContent = getUserInitials(displayName);
             $('headerUserName').textContent = displayName;
 
             applyPermissions();
+            applyClinicHeader();
+            renderClinicSwitcher();
             startDataListeners();
             showToast(`Добре дошли, ${displayName}!`, 'success');
         }
 
+        // ★★★ ХЕДЪР С ИМЕ НА КЛИНИКА ★★★
+        function applyClinicHeader() {
+            if (!activeClinic) return;
+            $('headerClinicName').innerHTML = `<i class="fas fa-clinic-medical"></i><span>${escapeHtml(activeClinic.name || 'Клиника')}</span>`;
+            $('headerClinicSub').textContent = clinicSettings.sub || 'Медицински център';
+            document.title = (activeClinic.name || 'PhysioBook') + ' · PhysioBook';
+        }
+
+        // ★★★ CLINIC SWITCHER ★★★
+        function renderClinicSwitcher() {
+            const switcher = $('clinicSwitcher');
+            if (userClinics.length < 2) {
+                switcher.style.display = 'none';
+                return;
+            }
+            switcher.style.display = 'block';
+            const activeClinicObj = clinics[activeClinicId];
+            $('clinicSwitcherLabel').textContent = activeClinicObj?.name || 'Клиника';
+
+            $('clinicSwitcherItems').innerHTML = userClinics.map(cid => {
+                const c = clinics[cid];
+                if (!c) return '';
+                const isActive = cid === activeClinicId;
+                return `<div class="clinic-switcher-item ${isActive ? 'active' : ''}" data-clinic-id="${cid}">
+                    <div class="clinic-icon-small"><i class="fas fa-hospital"></i></div>
+                    <div class="clinic-name-sw">${escapeHtml(c.name)}</div>
+                    <i class="fas fa-check check-icon"></i>
+                </div>`;
+            }).join('');
+        }
+
+        // Toggle dropdown
+        $('clinicSwitcherBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            $('clinicSwitcherMenu').classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+            const sw = $('clinicSwitcher');
+            if (!sw.contains(e.target)) $('clinicSwitcherMenu').classList.remove('open');
+        });
+
+        // Смяна на клиника
+        $('clinicSwitcherItems').addEventListener('click', async (e) => {
+            const item = e.target.closest('.clinic-switcher-item');
+            if (!item) return;
+            const newClinicId = item.dataset.clinicId;
+            if (newClinicId === activeClinicId) {
+                $('clinicSwitcherMenu').classList.remove('open');
+                return;
+            }
+            await switchClinic(newClinicId);
+        });
+
+        async function switchClinic(newClinicId) {
+            const authCode = sessionStorage.getItem('authCode');
+            if (!authCode) return;
+            const clinic = clinics[newClinicId];
+            if (!clinic) return;
+
+            // Провери дали текущият потребител има достъп
+            const users = clinic.users || {};
+            const patients = clinic.patients || {};
+            let foundUser = null, foundPatient = null;
+            for (const [id, u] of Object.entries(users)) {
+                if (u.accessCode === authCode) { foundUser = { id, ...u }; break; }
+            }
+            if (!foundUser) {
+                for (const [id, p] of Object.entries(patients)) {
+                    if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; }
+                }
+            }
+            if (!foundUser && !foundPatient) {
+                showToast('Нямате достъп до тази клиника.', 'error');
+                return;
+            }
+
+            showLoading(true);
+            showToast('Смяна на клиника...', 'info');
+
+            // Спри старите слушатели
+            stopDataListeners();
+
+            // Смени активната клиника
+            activeClinicId = newClinicId;
+            activeClinic = clinic;
+            sessionStorage.setItem('activeClinicId', newClinicId);
+
+            if (foundPatient) {
+                currentPatient = foundPatient;
+                currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode };
+                sessionStorage.setItem('currentPatientId', foundPatient.id);
+                sessionStorage.removeItem('currentUserId');
+            } else {
+                currentUser = foundUser;
+                currentPatient = null;
+                sessionStorage.setItem('currentUserId', foundUser.id);
+                sessionStorage.removeItem('currentPatientId');
+            }
+
+            // Нулирай данните
+            patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
+            exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
+            services={}; procedureTemplates={}; categories={}; templates={};
+            messages={}; notifications={};
+
+            // Обнови UI
+            applyPermissions();
+            applyClinicHeader();
+            renderClinicSwitcher();
+            $('clinicSwitcherMenu').classList.remove('open');
+
+            // Стартирай новите слушатели
+            startDataListeners();
+
+            showToast(`Преминахте в "${clinic.name}"`, 'success');
+            showLoading(false);
+        }
+
+        // ★★★ APPLY PERMISSIONS ★★★
         function applyPermissions() {
             const admin = isAdmin(currentUser);
             const patientOnly = isOnlyPatient(currentUser);
@@ -1390,19 +1628,12 @@
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
-                    if (mod === 'portal' || mod === 'exercises') {
-                        item.classList.remove('hidden');
-                    } else {
-                        item.classList.add('hidden');
-                    }
+                    if (mod === 'portal' || mod === 'exercises') item.classList.remove('hidden');
+                    else item.classList.add('hidden');
                 } else {
-                    if (mod === 'portal') {
-                        item.classList.add('hidden');
-                    } else if (mod === 'settings' && !admin) {
-                        item.classList.add('hidden');
-                    } else {
-                        item.classList.remove('hidden');
-                    }
+                    if (mod === 'portal') item.classList.add('hidden');
+                    else if (mod === 'settings' && !admin) item.classList.add('hidden');
+                    else item.classList.remove('hidden');
                 }
             });
 
@@ -1430,8 +1661,8 @@
             if (confirm('Сигурни ли сте?')) {
                 sessionStorage.removeItem('currentUserId');
                 sessionStorage.removeItem('currentPatientId');
-                currentUser = null;
-                currentPatient = null;
+                sessionStorage.removeItem('activeClinicId');
+                sessionStorage.removeItem('authCode');
                 location.reload();
             }
         }
@@ -1440,109 +1671,107 @@
             $('sidebar').classList.toggle('collapsed');
         });
 
-        function applyClinicSettings() {
-            if (clinicSettings.name) {
-                $('headerClinicName').innerHTML = `<i class="fas fa-clinic-medical"></i><span>${escapeHtml(clinicSettings.name)}</span>`;
-                $('loginBrandName').textContent = clinicSettings.name;
-                document.title = clinicSettings.name + ' · Вход';
-            }
-            if (clinicSettings.sub) $('headerClinicSub').textContent = clinicSettings.sub;
-        }
-
-        // ROLES DROPDOWN
-        $('userRolesTrigger').addEventListener('click', (e) => { e.stopPropagation(); $('userRolesMenu').classList.toggle('open'); });
-        document.addEventListener('click', (e) => {
-            if (!$('userRolesTrigger').parentElement.contains(e.target)) $('userRolesMenu').classList.remove('open');
-        });
-        $('userRolesMenu').querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', updateNewUserRolesUI));
-
-        function updateNewUserRolesUI() {
-            const sel = Array.from($('userRolesMenu').querySelectorAll('input:checked')).map(c => c.value);
-            if (sel.length === 0) { $('userRolesText').textContent = 'Изберете роли...'; $('userRolesText').classList.add('placeholder'); }
-            else { $('userRolesText').textContent = sel.join(', '); $('userRolesText').classList.remove('placeholder'); }
-        }
-
-        async function ensureAdminExists() {
-            try {
-                const snapshot = await get(usersRef);
-                const existing = snapshot.val() || {};
-                const adminExists = Object.values(existing).some(u =>
-                    (Array.isArray(u.roles) && u.roles.includes('Администратор')) ||
-                    u.role === 'Администратор' ||
-                    u.accessCode === '010610'
-                );
-                if (!adminExists) {
-                    await set(push(usersRef), { name: 'Алекс Тодоров', roles: ['Администратор'], accessCode: '010610', createdAt: Date.now() });
+        // ★★★ ЗАРЕЖДАНЕ НА КЛИНИКИ ★★★
+        function startClinicsListener() {
+            onValue(clinicsRootRef, (snapshot) => {
+                clinics = snapshot.val() || {};
+                // Ако сме влезли и клиниката е изтрита - logout
+                if (activeClinicId && !clinics[activeClinicId]) {
+                    showToast('Клиниката е изтрита от администратор.', 'error');
+                    setTimeout(() => doLogout(), 1500);
+                    return;
                 }
-            } catch (error) { console.error(error); }
-        }
-
-        function startUsersListener() {
-            onValue(usersRef, (snapshot) => {
-                users = snapshot.val() || {};
-                renderUsers();
-                renderPortalKineziSelect();
-                renderMessageRecipients();
-                if (currentUser && !currentPatient) renderDashboard();
-                if (!adminCreated) { adminCreated = true; setTimeout(() => ensureAdminExists(), 500); }
+                // Обнови данните
+                if (activeClinicId) {
+                    activeClinic = clinics[activeClinicId];
+                }
+                // Опит за възстановяване на сесия
                 if (!sessionRestored) tryRestoreSession();
-            }, () => showLoading(false));
+            }, (err) => { console.error(err); showLoading(false); });
         }
 
-        function startPatientsListenerEarly() {
-            onValue(patientsRef, (snapshot) => {
-                patients = snapshot.val() || {};
-                renderPatients();
-                renderProcedures();
-                renderWeek();
-                renderPricing();
-                renderDaySummary();
-                updatePatientDropdowns();
-                if (currentPatient) { renderPortal(); renderPatientExercises(); }
-                if (currentUser && !currentPatient) renderDashboard();
-                if (!sessionRestored) tryRestoreSession();
-                showLoading(false);
-            }, () => showLoading(false));
-        }
-
-        function tryRestoreSession() {
+        // ★★★ ВЪЗСТАНОВЯВАНЕ НА СЕСИЯ ★★★
+        async function tryRestoreSession() {
             if (sessionRestored) return;
             const sid = sessionStorage.getItem('currentUserId');
             const pid = sessionStorage.getItem('currentPatientId');
-            if (sid && users[sid]) {
-                sessionRestored = true;
-                currentUser = { id: sid, ...users[sid] };
-                currentPatient = null;
-                loginSuccess();
-                return;
+            const cid = sessionStorage.getItem('activeClinicId');
+            const authCode = sessionStorage.getItem('authCode');
+
+            if (!cid || !authCode) return;
+            if (!clinics[cid]) return;
+
+            activeClinicId = cid;
+            activeClinic = clinics[cid];
+
+            const clinic = clinics[cid];
+            const users = clinic.users || {};
+            const patients = clinic.patients || {};
+
+            let foundUser = null, foundPatient = null;
+            if (sid && users[sid]) foundUser = { id: sid, ...users[sid] };
+            if (pid && patients[pid]) foundPatient = { id: pid, ...patients[pid] };
+
+            if (!foundUser && !foundPatient) {
+                // Опитай по код
+                for (const [id, u] of Object.entries(users)) {
+                    if (u.accessCode === authCode) { foundUser = { id, ...u }; break; }
+                }
+                if (!foundUser) {
+                    for (const [id, p] of Object.entries(patients)) {
+                        if (p.accessCode === authCode) { foundPatient = { id, ...p }; break; }
+                    }
+                }
             }
-            if (pid && patients[pid]) {
+
+            if (foundUser || foundPatient) {
                 sessionRestored = true;
-                const p = patients[pid];
-                currentPatient = { id: pid, ...p };
-                currentUser = { id: pid, name: p.name, roles: ['Пациент'], accessCode: p.accessCode };
+                if (foundPatient) {
+                    currentPatient = foundPatient;
+                    currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode };
+                } else {
+                    currentUser = foundUser;
+                    currentPatient = null;
+                }
+
+                // Определи клиниките на този потребител
+                userClinics = [];
+                for (const [cId, clinic] of Object.entries(clinics)) {
+                    const us = clinic.users || {};
+                    const ps = clinic.patients || {};
+                    const has = Object.values(us).some(u => u.accessCode === authCode) ||
+                                Object.values(ps).some(p => p.accessCode === authCode);
+                    if (has) userClinics.push(cId);
+                }
+
                 loginSuccess();
             }
+        }
+
+        // ★★★ DATA LISTENERS ЗА АКТИВНАТА КЛИНИКА ★★★
+        function stopDataListeners() {
+            unsubscribers.forEach(unsub => { try { unsub(); } catch(e){} });
+            unsubscribers = [];
+            dataListenersStarted = false;
         }
 
         function startDataListeners() {
             if (dataListenersStarted) return;
+            if (!activeClinicId) return;
             dataListenersStarted = true;
 
-            onValue(proceduresRef, (s) => { procedures = s.val() || {}; renderProcedures(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(appointmentsRef, (s) => { appointments = s.val() || {}; renderWeek(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(pricingRef, (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(tasksRef, (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); });
-            onValue(exercisesRef, (s) => { exercises = s.val() || {}; renderExerciseLibrary(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
-            onValue(shortExercisesRef, (s) => { shortExercises = s.val() || {}; renderExerciseLibrary(); if (currentPatient) { renderPortal(); renderPatientExercises(); } });
-            onValue(programsRef, (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) { renderPortal(); renderPatientExercises(); } if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); });
-            onValue(sessionNotesRef, (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); });
-            onValue(soapNotesRef, (s) => { soapNotes = s.val() || {}; renderSoapNotes(); });
-            onValue(documentsRef, (s) => { documents = s.val() || {}; renderDocuments(); });
+            const base = `clinics/${activeClinicId}`;
 
-            onValue(clinicSettingsRef, (s) => {
-                clinicSettings = s.val() || { name: 'PhysioBook', sub: 'Медицински център' };
-                applyClinicSettings();
+            // Услуги, процедури, категории, шаблони
+            unsubscribers.push(onValue(ref(db, `${base}/services`), (s) => { services = s.val() || {}; renderServices(); }));
+            unsubscribers.push(onValue(ref(db, `${base}/procedureTemplates`), (s) => { procedureTemplates = s.val() || {}; renderProcedureTemplates(); }));
+            unsubscribers.push(onValue(ref(db, `${base}/categories`), (s) => { categories = s.val() || {}; renderCategories(); updateCategoryDropdowns(); }));
+            unsubscribers.push(onValue(ref(db, `${base}/templates`), (s) => { templates = s.val() || {}; renderTemplates(); }));
+
+            // Клиника settings
+            unsubscribers.push(onValue(ref(db, `${base}/settings`), (s) => {
+                clinicSettings = s.val() || { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
+                applyClinicHeader();
                 if ($('setClinicName')) {
                     $('setClinicName').value = clinicSettings.name || '';
                     $('setClinicSub').value = clinicSettings.sub || '';
@@ -1553,29 +1782,104 @@
                     $('setClinicMol').value = clinicSettings.mol || '';
                     $('setClinicExtra').value = clinicSettings.extra || '';
                 }
-            });
+            }));
 
-            onValue(servicesRef, (s) => { services = s.val() || {}; renderServices(); });
-            onValue(procedureTemplatesRef, (s) => { procedureTemplates = s.val() || {}; renderProcedureTemplates(); });
-            onValue(categoriesRef, (s) => { categories = s.val() || {}; renderCategories(); updateCategoryDropdowns(); });
-            onValue(templatesRef, (s) => { templates = s.val() || {}; renderTemplates(); });
+            // Пациенти
+            unsubscribers.push(onValue(ref(db, `${base}/patients`), (snapshot) => {
+                patients = snapshot.val() || {};
+                renderPatients();
+                renderProcedures();
+                renderWeek();
+                renderPricing();
+                renderDaySummary();
+                updatePatientDropdowns();
+                if (currentPatient) { renderPortal(); renderPatientExercises(); }
+                if (currentUser && !currentPatient) renderDashboard();
+                showLoading(false);
+            }, () => showLoading(false)));
 
-            onValue(messagesRef, (s) => {
+            // Процедури
+            unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => {
+                procedures = s.val() || {};
+                renderProcedures();
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId);
+                if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
+            }));
+
+            // Потребители
+            unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => {
+                users = snapshot.val() || {};
+                renderUsers();
+                renderPortalKineziSelect();
+                renderMessageRecipients();
+                if (currentUser && !currentPatient) renderDashboard();
+            }));
+
+            // Часове
+            unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => {
+                appointments = s.val() || {};
+                renderWeek();
+                if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
+            }));
+
+            // Цени
+            unsubscribers.push(onValue(ref(db, `${base}/pricing`), (s) => {
+                pricing = s.val() || {};
+                renderPricing();
+                renderDaySummary();
+                if (currentPatient) renderPortal();
+                if (currentUser && !currentPatient) renderDashboard();
+            }));
+
+            // Задачи
+            unsubscribers.push(onValue(ref(db, `${base}/tasks`), (s) => {
+                tasks = s.val() || {};
+                if (currentUser && !currentPatient) renderDashboard();
+            }));
+
+            // Упражнения
+            unsubscribers.push(onValue(ref(db, `${base}/exercises`), (s) => {
+                exercises = s.val() || {};
+                renderExerciseLibrary();
+                if (currentPatient) { renderPortal(); renderPatientExercises(); }
+            }));
+            unsubscribers.push(onValue(ref(db, `${base}/shortExercises`), (s) => {
+                shortExercises = s.val() || {};
+                renderExerciseLibrary();
+                if (currentPatient) { renderPortal(); renderPatientExercises(); }
+            }));
+            unsubscribers.push(onValue(ref(db, `${base}/programs`), (s) => {
+                programs = s.val() || {};
+                renderProgramsList();
+                if (currentPatient) { renderPortal(); renderPatientExercises(); }
+                if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId);
+            }));
+
+            // Документация
+            unsubscribers.push(onValue(ref(db, `${base}/sessionNotes`), (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); }));
+            unsubscribers.push(onValue(ref(db, `${base}/soapNotes`), (s) => { soapNotes = s.val() || {}; renderSoapNotes(); }));
+            unsubscribers.push(onValue(ref(db, `${base}/documents`), (s) => { documents = s.val() || {}; renderDocuments(); }));
+
+            // Съобщения и известия (глобални за потребителя, не за клиниката)
+            unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => {
                 messages = s.val() || {};
                 renderInbox();
                 renderSent();
                 updateMessagesBadge();
                 if (currentChatUserId) renderChat();
-            });
-
-            onValue(notificationsRef, (s) => {
+            }));
+            unsubscribers.push(onValue(ref(db, `${base}/notifications`), (s) => {
                 notifications = s.val() || {};
                 renderNotifications();
                 updateNotificationsBadge();
-            });
+            }));
 
             setTimeout(() => showLoading(false), 500);
         }
+
+        // ★★★ ВСИЧКИ CRUD ФУНКЦИИ ПО-ДОЛУ ПОЛЗВАТ clinicRef() ★★★
 
         // ТАБЛО
         function renderDashboard() {
@@ -1671,9 +1975,9 @@
 
         document.addEventListener('click', async (e)=>{
             const d = e.target.closest('[data-task-done]');
-            if (d) { try { await update(ref(db,`tasks/${d.dataset.taskDone}`),{done:true}); showToast('Изпълнена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
+            if (d) { try { await update(clinicRef(`tasks/${d.dataset.taskDone}`),{done:true}); showToast('Изпълнена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
             const dl = e.target.closest('[data-task-delete]');
-            if (dl) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`tasks/${dl.dataset.taskDelete}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (dl) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`tasks/${dl.dataset.taskDelete}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         $('taskForm').addEventListener('submit', async (e)=>{
@@ -1682,7 +1986,7 @@
             if (!text) return;
             $('addTaskBtn').disabled = true;
             try {
-                await set(push(tasksRef), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() });
+                await set(push(clinicRef('tasks')), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() });
                 $('taskInput').value = '';
                 showToast('Добавена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -1875,10 +2179,10 @@
             btn.disabled = true;
             try {
                 if (pv==='' && dv==='') {
-                    await remove(ref(db,`pricing/${key}`));
+                    await remove(clinicRef(`pricing/${key}`));
                     showToast('Изтрит.','success');
                 } else {
-                    await set(ref(db,`pricing/${key}`), { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, createdBy: currentUser.id, updatedAt: Date.now() });
+                    await set(clinicRef(`pricing/${key}`), { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, createdBy: currentUser.id, updatedAt: Date.now() });
                     showToast('Запазено.','success');
                 }
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -1893,7 +2197,7 @@
             if (!confirm(`Ще изтриете ВСИЧКИ ${total} записа. Сигурни?`)) return;
             if (!confirm('Последно: да изтрия ли ВСИЧКИ цени?')) return;
             $('clearAllPricingBtn').disabled = true;
-            try { await remove(pricingRef); showToast('Всички изтрити.','success'); }
+            try { await remove(clinicRef('pricing')); showToast('Всички изтрити.','success'); }
             catch(err){showToast('Грешка: '+err.message,'error');}
             finally { $('clearAllPricingBtn').disabled = false; }
         });
@@ -1913,7 +2217,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('saveClinicSettingsBtn').disabled = true;
             try {
-                await set(clinicSettingsRef, {
+                await set(clinicRef('settings'), {
                     name, sub: $('setClinicSub').value.trim(),
                     phone: $('setClinicPhone').value.trim(),
                     email: $('setClinicEmail').value.trim(),
@@ -1934,7 +2238,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addServiceBtn').disabled = true;
             try {
-                await set(push(servicesRef), { name, category: $('servCategory').value, price: parseFloat($('servPrice').value) || 0, duration: parseInt($('servDuration').value) || 0, description: $('servDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
+                await set(push(clinicRef('services')), { name, category: $('servCategory').value, price: parseFloat($('servPrice').value) || 0, duration: parseInt($('servDuration').value) || 0, description: $('servDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('serviceForm').reset();
                 showToast('Добавена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -1958,7 +2262,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-service');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`services/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`services/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         $('procedureTemplateForm').addEventListener('submit', async (e)=>{
@@ -1967,7 +2271,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addProcTplBtn').disabled = true;
             try {
-                await set(push(procedureTemplatesRef), { name, category: $('procTplCategory').value, price: parseFloat($('procTplPrice').value) || 0, duration: parseInt($('procTplDuration').value) || 0, description: $('procTplDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
+                await set(push(clinicRef('procedureTemplates')), { name, category: $('procTplCategory').value, price: parseFloat($('procTplPrice').value) || 0, duration: parseInt($('procTplDuration').value) || 0, description: $('procTplDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('procedureTemplateForm').reset();
                 showToast('Добавена.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -1991,7 +2295,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-proc-tpl');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`procedureTemplates/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`procedureTemplates/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         $('categoryForm').addEventListener('submit', async (e)=>{
@@ -2000,7 +2304,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addCategoryBtn').disabled = true;
             try {
-                await set(push(categoriesRef), { name, type: $('catType').value, color: $('catColor').value, createdAt: Date.now() });
+                await set(push(clinicRef('categories')), { name, type: $('catType').value, color: $('catColor').value, createdAt: Date.now() });
                 $('categoryForm').reset();
                 $('catColor').value = '#1e4a78';
                 showToast('Добавена.','success');
@@ -2021,7 +2325,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-category');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`categories/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`categories/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         function updateCategoryDropdowns() {
@@ -2042,7 +2346,7 @@
             if (!name || !content) { showToast('Попълнете полетата.','error'); return; }
             $('addTemplateBtn').disabled = true;
             try {
-                await set(push(templatesRef), { name, type: $('tplType').value, content, createdAt: Date.now() });
+                await set(push(clinicRef('templates')), { name, type: $('tplType').value, content, createdAt: Date.now() });
                 $('templateForm').reset();
                 showToast('Добавен.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2065,21 +2369,25 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-template');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`templates/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`templates/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ПОТРЕБИТЕЛИ
+        // ПОТРЕБИТЕЛИ (със защита за заключени)
         function renderUsers() {
             const all = Object.entries(users).map(([id,u])=>({id,...u}));
             if (all.length===0) { $('usersBody').innerHTML = `<tr><td colspan="4" class="empty-message">Няма потребители</td></tr>`; return; }
             $('usersBody').innerHTML = all.map(u=>{
                 const isCur = currentUser && currentUser.id === u.id && !currentPatient;
+                const locked = isLockedUser(u);
                 return `<tr>
-                    <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:#1e4a78;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
+                    <td><div style="display:flex; align-items:center; gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:${locked ? '#6b3fa0' : '#1e4a78'};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">${getUserInitials(u.name)}</div><strong>${escapeHtml(u.name)}${isCur?' (вие)':''}</strong></div></td>
                     <td>${getRolesBadgesHtml(u)}</td>
                     <td><span class="code-badge">${u.accessCode}</span></td>
-                    <td><button class="btn-outline btn btn-sm edit-user" data-id="${u.id}"><i class="fas fa-edit"></i> Роли</button>
-                    ${!isCur?`<button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}"><i class="fas fa-trash-alt"></i></button>`:''}</td>
+                    <td>${locked 
+                        ? `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-lock"></i> Заключен</span>`
+                        : `<button class="btn-outline btn btn-sm edit-user" data-id="${u.id}"><i class="fas fa-edit"></i> Роли</button>
+                           ${!isCur?`<button class="btn-danger-outline btn btn-sm delete-user" data-id="${u.id}"><i class="fas fa-trash-alt"></i></button>`:''}`
+                    }</td>
                 </tr>`;
             }).join('');
         }
@@ -2092,8 +2400,16 @@
             if (roles.length===0) { showToast('Изберете роля.','error'); return; }
             $('addUserBtn').disabled = true;
             try {
-                const code = generateUniqueCode(users, patients);
-                await set(push(usersRef), { name, roles, accessCode: code, createdAt: Date.now() });
+                // Генерирай уникален код сред потребителите и пациентите в ТАЗИ клиника
+                const existingUsers = Object.values(users).map(u => u.accessCode);
+                const existingPatients = Object.values(patients).map(p => p.accessCode);
+                let code, attempts = 0;
+                do {
+                    code = generate6DigitCode();
+                    attempts++;
+                } while ((existingUsers.includes(code) || existingPatients.includes(code)) && attempts < 500);
+
+                await set(push(clinicRef('users')), { name, roles, accessCode: code, createdAt: Date.now() });
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
@@ -2110,6 +2426,7 @@
             if (eb) {
                 const u = users[eb.dataset.id];
                 if (!u) return;
+                if (isLockedUser(u)) { showToast('Този потребител е заключен и не може да се редактира.', 'error'); return; }
                 editingUserId = eb.dataset.id;
                 $('editRolesUserName').textContent = u.name;
                 const roles = getUserRoles(u);
@@ -2119,19 +2436,23 @@
             }
             const db2 = e.target.closest('.delete-user');
             if (db2) {
+                const u = users[db2.dataset.id];
+                if (u && isLockedUser(u)) { showToast('Този потребител е заключен и не може да се изтрива.', 'error'); return; }
                 if (!confirm('Изтрий този потребител?')) return;
-                try { await remove(ref(db,`users/${db2.dataset.id}`)); showToast('Изтрит.','success'); }
+                try { await remove(clinicRef(`users/${db2.dataset.id}`)); showToast('Изтрит.','success'); }
                 catch(err){showToast('Грешка: '+err.message,'error');}
             }
         });
 
         $('saveRolesBtn').addEventListener('click', async ()=>{
             if (!editingUserId) return;
+            const u = users[editingUserId];
+            if (u && isLockedUser(u)) { showToast('Заключен потребител.', 'error'); return; }
             const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value);
             if (roles.length===0) { showToast('Изберете роля.','error'); return; }
             $('saveRolesBtn').disabled = true;
             try {
-                await update(ref(db,`users/${editingUserId}`), { roles, role: null });
+                await update(clinicRef(`users/${editingUserId}`), { roles, role: null });
                 showToast('Обновени.','success');
                 $('editRolesModal').classList.remove('active');
                 editingUserId = null;
@@ -2155,7 +2476,6 @@
                 document.querySelectorAll('.exercise-pane').forEach(p=>p.classList.toggle('active', p.dataset.exPane === t));
             });
         });
-
         document.querySelectorAll('.doc-tab').forEach(tab=>{
             tab.addEventListener('click', ()=>{
                 const t = tab.dataset.docTab;
@@ -2163,12 +2483,10 @@
                 document.querySelectorAll('.doc-pane').forEach(p=>p.classList.toggle('active', p.dataset.docPane === t));
             });
         });
-
         $('addExerciseMainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
         document.addEventListener('click', (e)=>{
             if (!$('addExerciseMainBtn').contains(e.target) && !$('addExerciseMenu').contains(e.target)) $('addExerciseMenu').classList.remove('open');
         });
-
         document.querySelectorAll('.add-exercise-option').forEach(opt=>{
             opt.addEventListener('click', ()=>{
                 const mode = opt.dataset.mode;
@@ -2263,7 +2581,7 @@
             $('saveShortBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Запазване...';
             try {
                 for (const r of validRows) {
-                    await set(push(shortExercisesRef), {
+                    await set(push(clinicRef('shortExercises')), {
                         patientId: r.patientId, number: parseInt(r.num) || 0,
                         name: r.name, reps: r.reps, description: r.desc,
                         createdBy: currentUser.id, createdAt: Date.now()
@@ -2297,7 +2615,7 @@
             if (!name) { showToast('Въведете име.','error'); return; }
             $('addExerciseBtn').disabled = true;
             try {
-                await set(push(exercisesRef), {
+                await set(push(clinicRef('exercises')), {
                     name, category: $('exCategory').value,
                     sets: parseInt($('exSets').value) || 0,
                     reps: $('exReps').value.trim(),
@@ -2374,30 +2692,26 @@
 
         document.addEventListener('click', async (e)=>{
             const b1 = e.target.closest('.delete-exercise');
-            if (b1) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`exercises/${b1.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
+            if (b1) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`exercises/${b1.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
             const b2 = e.target.closest('.delete-short-exercise');
-            if (b2) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b2) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
-        // ДОБАВЯНЕ НА УПРАЖНЕНИЯ В ПРОГРАМА
+        // ПРОГРАМИ
         function addProgramRow(defaultExercise) {
             const rowNum = $('programRowsContainer').children.length + 1;
             const allEx = [];
-            Object.entries(exercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'extended' });
-            });
-            Object.entries(shortExercises).forEach(([id, ex]) => {
-                allEx.push({ id, name: ex.name, type: 'short' });
-            });
-            const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}" data-name="${escapeHtml(ex.name)}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
+            Object.entries(exercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'extended' }));
+            Object.entries(shortExercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'short' }));
+            const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join('');
 
             const row = document.createElement('div');
             row.className = 'program-row';
             row.innerHTML = `
                 <div class="row-label">№${rowNum}</div>
-                <input type="text" class="prog-row-name" placeholder="Име на упражнение *" value="${defaultExercise ? escapeHtml(defaultExercise.name || '') : ''}" required>
-                <input type="text" class="prog-row-reps" placeholder="Повторения" value="${defaultExercise && defaultExercise.reps ? escapeHtml(defaultExercise.reps) : ''}">
-                <input type="text" class="prog-row-sets" placeholder="Серии" value="${defaultExercise && defaultExercise.sets ? defaultExercise.sets : ''}">
+                <input type="text" class="prog-row-name" placeholder="Име на упражнение *" required>
+                <input type="text" class="prog-row-reps" placeholder="Повторения">
+                <input type="text" class="prog-row-sets" placeholder="Серии">
                 <select class="prog-row-library" style="width:100%; padding:0.65rem 0.8rem; border-radius:10px; border:1px solid #cfddee; font-size:0.85rem; font-family:inherit; background:#ffffff;">
                     <option value="">-- или от библиотека --</option>
                     ${libraryOptions}
@@ -2438,7 +2752,6 @@
             if (!pid || !title) { showToast('Попълнете пациент и заглавие.','error'); return; }
             const rows = Array.from($('programRowsContainer').querySelectorAll('.program-row'));
             if (rows.length === 0) { showToast('Добавете поне едно упражнение.','error'); return; }
-
             const exercisesList = [];
             let hasErrors = false;
             rows.forEach((row, idx) => {
@@ -2446,21 +2759,16 @@
                 const reps = row.querySelector('.prog-row-reps').value.trim();
                 const sets = row.querySelector('.prog-row-sets').value.trim();
                 const libVal = row.querySelector('.prog-row-library').value;
-                if (!name) {
-                    row.querySelector('.prog-row-name').classList.add('required-missing');
-                    hasErrors = true;
-                    return;
-                }
+                if (!name) { row.querySelector('.prog-row-name').classList.add('required-missing'); hasErrors = true; return; }
                 row.querySelector('.prog-row-name').classList.remove('required-missing');
                 let libId = null, libType = null;
                 if (libVal) [libId, libType] = libVal.split('|');
                 exercisesList.push({ name, reps, sets: sets ? parseInt(sets) : 0, libId: libId || null, libType: libType || null, order: idx + 1 });
             });
-
             if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; }
             $('addProgramBtn').disabled = true;
             try {
-                await set(push(programsRef), {
+                await set(push(clinicRef('programs')), {
                     patientId: pid, title, notes: $('progNotes').value.trim(),
                     exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now()
                 });
@@ -2510,7 +2818,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-program');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         // ДОКУМЕНТАЦИЯ
@@ -2522,7 +2830,7 @@
             if (!pid || !dt || !txt) { showToast('Попълнете полетата.','error'); return; }
             $('addSessionNoteBtn').disabled = true;
             try {
-                await set(push(sessionNotesRef), { patientId: pid, date: dt, therapyType: $('noteTherapyType').value, duration: parseInt($('noteDuration').value) || 0, text: txt, createdBy: currentUser.id, createdAt: Date.now() });
+                await set(push(clinicRef('sessionNotes')), { patientId: pid, date: dt, therapyType: $('noteTherapyType').value, duration: parseInt($('noteDuration').value) || 0, text: txt, createdBy: currentUser.id, createdAt: Date.now() });
                 $('sessionNoteForm').reset();
                 $('noteDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -2562,7 +2870,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-session-note');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`sessionNotes/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`sessionNotes/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
             const v = e.target.closest('.view-patient-btn');
             if (v) openPatientProfile(v.dataset.patientId);
         });
@@ -2574,7 +2882,7 @@
             if (!pid || !dt) { showToast('Попълнете пациент и дата.','error'); return; }
             $('addSoapBtn').disabled = true;
             try {
-                await set(push(soapNotesRef), { patientId: pid, date: dt, visitNum: parseInt($('soapVisitNum').value) || 0, subjective: $('soapS').value.trim(), objective: $('soapO').value.trim(), assessment: $('soapA').value.trim(), plan: $('soapP').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
+                await set(push(clinicRef('soapNotes')), { patientId: pid, date: dt, visitNum: parseInt($('soapVisitNum').value) || 0, subjective: $('soapS').value.trim(), objective: $('soapO').value.trim(), assessment: $('soapA').value.trim(), plan: $('soapP').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
                 $('soapForm').reset();
                 $('soapDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -2619,7 +2927,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-soap-note');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`soapNotes/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`soapNotes/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         $('fileForm').addEventListener('submit', async (e)=>{
@@ -2630,7 +2938,7 @@
             if (!pid || !name || !url) { showToast('Попълнете полетата.','error'); return; }
             $('addFileBtn').disabled = true;
             try {
-                await set(push(documentsRef), { patientId: pid, name, type: $('fileType').value, date: $('fileDate').value || '', url, notes: $('fileNotes').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
+                await set(push(clinicRef('documents')), { patientId: pid, name, type: $('fileType').value, date: $('fileDate').value || '', url, notes: $('fileNotes').value.trim(), createdBy: currentUser.id, createdAt: Date.now() });
                 $('fileForm').reset();
                 showToast('Добавен.','success');
             } catch(err){showToast('Грешка: '+err.message,'error');}
@@ -2668,7 +2976,7 @@
 
         document.addEventListener('click', async (e)=>{
             const b = e.target.closest('.delete-file');
-            if (b) { if(!confirm('Изтрий?'))return; try { await remove(ref(db,`documents/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`documents/${b.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         // ИЗВЕСТИЯ
@@ -2676,55 +2984,28 @@
             $('notifPanel').classList.toggle('open');
             $('messagesPanel').classList.remove('open');
         });
-        $('notifClose').addEventListener('click', () => {
-            $('notifPanel').classList.remove('open');
-        });
+        $('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
 
         function updateNotificationsBadge() {
             if (!currentUser) return;
             const myId = currentUser.id;
             const unread = Object.values(notifications).filter(n => n.userId === myId && !n.read).length;
-            if (unread > 0) {
-                $('notificationsBadge').textContent = unread;
-                $('notificationsBadge').style.display = 'flex';
-            } else {
-                $('notificationsBadge').style.display = 'none';
-            }
+            if (unread > 0) { $('notificationsBadge').textContent = unread; $('notificationsBadge').style.display = 'flex'; }
+            else { $('notificationsBadge').style.display = 'none'; }
         }
 
         function renderNotifications() {
             if (!currentUser) return;
             const myId = currentUser.id;
-            const all = Object.entries(notifications)
-                .map(([id, n]) => ({ id, ...n }))
-                .filter(n => n.userId === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (all.length === 0) {
-                $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`;
-                return;
-            }
-
+            const all = Object.entries(notifications).map(([id, n]) => ({ id, ...n })).filter(n => n.userId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            if (all.length === 0) { $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`; return; }
             $('notifList').innerHTML = all.map(n => {
-                const iconMap = {
-                    'appointment': 'fa-calendar-check',
-                    'procedure': 'fa-stethoscope',
-                    'message': 'fa-envelope',
-                    'task': 'fa-tasks',
-                    'document': 'fa-file-medical-alt',
-                    'exercise': 'fa-dumbbell',
-                    'default': 'fa-bell'
-                };
+                const iconMap = { 'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','default':'fa-bell' };
                 const icon = iconMap[n.type] || iconMap['default'];
                 return `<div class="notif-item ${n.read ? 'read' : ''}" data-notif-id="${n.id}">
-                    <button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий"><i class="fas fa-times"></i></button>
                     <div class="notif-item-header">
-                        <div class="notif-item-title">
-                            <i class="fas ${icon}"></i>
-                            ${escapeHtml(n.title || 'Известие')}
-                        </div>
+                        <div class="notif-item-title"><i class="fas ${icon}"></i> ${escapeHtml(n.title || 'Известие')}</div>
                         <div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div>
                     </div>
                     <div class="notif-item-text">${escapeHtml(n.text || '')}</div>
@@ -2737,14 +3018,14 @@
             if (delBtn) {
                 e.stopPropagation();
                 const id = delBtn.dataset.notifId;
-                try { await remove(ref(db, `notifications/${id}`)); showToast('Известието е изтрито.','success'); }
+                try { await remove(clinicRef(`notifications/${id}`)); showToast('Известието е изтрито.','success'); }
                 catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
             const item = e.target.closest('.notif-item');
             if (item) {
                 const id = item.dataset.notifId;
-                try { await update(ref(db, `notifications/${id}`), { read: true }); }
+                try { await update(clinicRef(`notifications/${id}`), { read: true }); }
                 catch(err) { console.error(err); }
             }
         });
@@ -2753,11 +3034,9 @@
             if (!currentUser) return;
             const myId = currentUser.id;
             const updates = {};
-            Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true;
-            });
+            Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true; });
             if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; }
-            try { await update(ref(db), updates); showToast('Всички са маркирани като прочетени.','success'); }
+            try { await update(clinicRef(), updates); showToast('Всички са маркирани като прочетени.','success'); }
             catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
@@ -2766,17 +3045,15 @@
             if (!confirm('Да изтрия ли всички известия?')) return;
             const myId = currentUser.id;
             const updates = {};
-            Object.entries(notifications).forEach(([id, n]) => {
-                if (n.userId === myId) updates[`notifications/${id}`] = null;
-            });
+            Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId) updates[`notifications/${id}`] = null; });
             if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; }
-            try { await update(ref(db), updates); showToast('Всички известия са изтрити.','success'); }
+            try { await update(clinicRef(), updates); showToast('Всички известия са изтрити.','success'); }
             catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
         async function createNotification(userId, title, text, type = 'default') {
             try {
-                await set(push(notificationsRef), { userId, title, text, type, read: false, createdAt: Date.now() });
+                await set(push(clinicRef('notifications')), { userId, title, text, type, read: false, createdAt: Date.now() });
             } catch(err) { console.error('Notif error:', err); }
         }
 
@@ -2804,46 +3081,26 @@
             if (!currentUser) return;
             const myId = currentUser.id;
             const unread = Object.values(messages).filter(m => m.to === myId && !m.read).length;
-            if (unread > 0) {
-                $('messagesBadge').textContent = unread;
-                $('messagesBadge').style.display = 'flex';
-            } else {
-                $('messagesBadge').style.display = 'none';
-            }
+            if (unread > 0) { $('messagesBadge').textContent = unread; $('messagesBadge').style.display = 'flex'; }
+            else { $('messagesBadge').style.display = 'none'; }
         }
 
         function renderMessageRecipients() {
             const sel = $('msgRecipient');
             if (!sel) return;
-            const staff = Object.entries(users)
-                .filter(([id]) => !currentUser || id !== currentUser.id)
-                .map(([id, u]) => ({ id, name: u.name, type: 'staff' }));
-            const pats = Object.entries(patients)
-                .filter(([, p]) => !p.archived)
-                .map(([id, p]) => ({ id, name: p.name, type: 'patient' }));
+            const staff = Object.entries(users).filter(([id]) => !currentUser || id !== currentUser.id).map(([id, u]) => ({ id, name: u.name, type: 'staff' }));
+            const pats = Object.entries(patients).filter(([, p]) => !p.archived).map(([id, p]) => ({ id, name: p.name, type: 'patient' }));
 
             const cur = sel.value;
             sel.innerHTML = '<option value="">-- избери получател --</option>';
             if (staff.length > 0) {
-                const g = document.createElement('optgroup');
-                g.label = 'Служители';
-                staff.forEach(s => {
-                    const o = document.createElement('option');
-                    o.value = 'staff:' + s.id;
-                    o.textContent = s.name;
-                    g.appendChild(o);
-                });
+                const g = document.createElement('optgroup'); g.label = 'Служители';
+                staff.forEach(s => { const o = document.createElement('option'); o.value = 'staff:' + s.id; o.textContent = s.name; g.appendChild(o); });
                 sel.appendChild(g);
             }
             if (pats.length > 0) {
-                const g = document.createElement('optgroup');
-                g.label = 'Пациенти';
-                pats.forEach(p => {
-                    const o = document.createElement('option');
-                    o.value = 'patient:' + p.id;
-                    o.textContent = p.name;
-                    g.appendChild(o);
-                });
+                const g = document.createElement('optgroup'); g.label = 'Пациенти';
+                pats.forEach(p => { const o = document.createElement('option'); o.value = 'patient:' + p.id; o.textContent = p.name; g.appendChild(o); });
                 sel.appendChild(g);
             }
             if (cur) sel.value = cur;
@@ -2860,27 +3117,15 @@
         function renderInbox() {
             if (!currentUser) return;
             const myId = currentUser.id;
-            const inbox = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => m.to === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (inbox.length === 0) {
-                $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`;
-                return;
-            }
-
+            const inbox = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.to === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            if (inbox.length === 0) { $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`; return; }
             $('inboxList').innerHTML = inbox.map(m => {
                 const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from];
                 const senderName = sender ? sender.name : 'Неизвестен';
                 return `<div class="msg-item ${!m.read ? 'unread' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}">
                     <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
                     <div class="msg-item-header">
-                        <div class="msg-item-sender">
-                            <div class="msg-avatar">${getUserInitials(senderName)}</div>
-                            ${escapeHtml(senderName)}
-                            ${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}
-                        </div>
+                        <div class="msg-item-sender"><div class="msg-avatar">${getUserInitials(senderName)}</div>${escapeHtml(senderName)}${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}</div>
                         <div class="msg-item-time">${formatTimestamp(m.createdAt)}</div>
                     </div>
                     ${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}
@@ -2892,26 +3137,15 @@
         function renderSent() {
             if (!currentUser) return;
             const myId = currentUser.id;
-            const sent = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => m.from === myId)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            if (sent.length === 0) {
-                $('sentList').innerHTML = `<div class="msg-empty"><i class="fas fa-paper-plane"></i>Нямате изпратени съобщения</div>`;
-                return;
-            }
-
+            const sent = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.from === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            if (sent.length === 0) { $('sentList').innerHTML = `<div class="msg-empty"><i class="fas fa-paper-plane"></i>Нямате изпратени съобщения</div>`; return; }
             $('sentList').innerHTML = sent.map(m => {
                 const recipient = m.toType === 'staff' ? users[m.to] : patients[m.to];
                 const recipientName = recipient ? recipient.name : 'Неизвестен';
                 return `<div class="msg-item" data-msg-id="${m.id}" data-to-id="${m.to}" data-to-type="${m.toType}">
                     <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
                     <div class="msg-item-header">
-                        <div class="msg-item-sender">
-                            <div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>
-                            До: ${escapeHtml(recipientName)}
-                        </div>
+                        <div class="msg-item-sender"><div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>До: ${escapeHtml(recipientName)}</div>
                         <div class="msg-item-time">${formatTimestamp(m.createdAt)}</div>
                     </div>
                     ${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}
@@ -2926,7 +3160,7 @@
                 e.stopPropagation();
                 const id = delBtn.dataset.msgId;
                 if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+                try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
                 catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
@@ -2936,12 +3170,8 @@
             const fromType = item.dataset.fromType;
             const myId = currentUser.id;
             const updates = {};
-            Object.entries(messages).forEach(([id, m]) => {
-                if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true;
-            });
-            if (Object.keys(updates).length > 0) {
-                try { await update(ref(db), updates); } catch(err) { console.error(err); }
-            }
+            Object.entries(messages).forEach(([id, m]) => { if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true; });
+            if (Object.keys(updates).length > 0) { try { await update(clinicRef(), updates); } catch(err) { console.error(err); } }
             openChat(fromId, fromType);
         });
 
@@ -2951,7 +3181,7 @@
                 e.stopPropagation();
                 const id = delBtn.dataset.msgId;
                 if (!confirm('Изтрий това съобщение?')) return;
-                try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+                try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
                 catch(err) { showToast('Грешка: ' + err.message, 'error'); }
                 return;
             }
@@ -2974,16 +3204,8 @@
             if (!currentChatUserId || !currentUser) return;
             const myId = currentUser.id;
             const otherId = currentChatUserId.id;
-            const chatMsgs = Object.entries(messages)
-                .map(([id, m]) => ({ id, ...m }))
-                .filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId))
-                .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
-
-            if (chatMsgs.length === 0) {
-                $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения. Започнете разговор!</div>`;
-                return;
-            }
-
+            const chatMsgs = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+            if (chatMsgs.length === 0) { $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения. Започнете разговор!</div>`; return; }
             $('chatBody').innerHTML = chatMsgs.map(m => {
                 const isMine = m.from === myId;
                 return `<div class="chat-bubble ${isMine ? 'mine' : 'theirs'}" data-msg-id="${m.id}">
@@ -2994,7 +3216,6 @@
                     <span class="bubble-time">${formatTimeShort(m.createdAt)}</span>
                 </div>`;
             }).join('');
-
             setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50);
         }
 
@@ -3004,7 +3225,7 @@
             e.stopPropagation();
             const id = delBtn.dataset.msgId;
             if (!confirm('Изтрий това съобщение?')) return;
-            try { await remove(ref(db, `messages/${id}`)); showToast('Изтрито.','success'); }
+            try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); }
             catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
@@ -3019,7 +3240,7 @@
             });
             if (Object.keys(updates).length === 0) { showToast('Няма съобщения.','info'); return; }
             try {
-                await update(ref(db), updates);
+                await update(clinicRef(), updates);
                 showToast('Всички съобщения са изтрити.','success');
                 $('chatView').classList.remove('active');
                 currentChatUserId = null;
@@ -3034,21 +3255,18 @@
         });
 
         $('chatSendBtn').addEventListener('click', sendChatMessage);
-        $('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); sendChatMessage(); }
-        });
+        $('chatInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendChatMessage(); } });
 
         async function sendChatMessage() {
             const text = $('chatInput').value.trim();
             if (!text || !currentChatUserId || !currentUser) return;
             $('chatSendBtn').disabled = true;
             try {
-                await set(push(messagesRef), {
+                await set(push(clinicRef('messages')), {
                     from: currentUser.id,
                     fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
-                    to: currentChatUserId.id,
-                    toType: currentChatUserId.type,
-                    text: text, subject: '', read: false, createdAt: Date.now()
+                    to: currentChatUserId.id, toType: currentChatUserId.type,
+                    text, subject: '', read: false, createdAt: Date.now()
                 });
                 await createNotification(currentChatUserId.id, 'Ново съобщение', `От ${currentUser.name}: ${text.substring(0, 50)}`, 'message');
                 $('chatInput').value = '';
@@ -3066,7 +3284,7 @@
             if (!recipient) { showToast('Невалиден получател.', 'error'); return; }
             $('msgSendBtn').disabled = true;
             try {
-                await set(push(messagesRef), {
+                await set(push(clinicRef('messages')), {
                     from: currentUser.id,
                     fromType: currentUser.roles && currentUser.roles.includes('Пациент') ? 'patient' : 'staff',
                     to: recipient.id, toType: recipient.type,
@@ -3095,8 +3313,12 @@
             if (!name) return;
             $('addPatientBtn').disabled = true;
             try {
-                const code = generateUniqueCode(users, patients);
-                await set(push(patientsRef), { name, phone: $('patientPhone').value.trim(), notes: $('patientNotes').value.trim(), archived: false, createdAt: Date.now(), createdBy: currentUser.id, accessCode: code });
+                const existingUsers = Object.values(users).map(u => u.accessCode);
+                const existingPatients = Object.values(patients).map(p => p.accessCode);
+                let code, attempts = 0;
+                do { code = generate6DigitCode(); attempts++; } while ((existingUsers.includes(code) || existingPatients.includes(code)) && attempts < 500);
+
+                await set(push(clinicRef('patients')), { name, phone: $('patientPhone').value.trim(), notes: $('patientNotes').value.trim(), archived: false, createdAt: Date.now(), createdBy: currentUser.id, accessCode: code });
                 $('modalUserName').textContent = name;
                 $('modalNewCode').textContent = code;
                 $('codeModal').classList.add('active');
@@ -3109,15 +3331,15 @@
         $('activePatientsBody').addEventListener('click', async (e)=>{
             const b = e.target.closest('.archive-single');
             if (!b) return;
-            try { await update(ref(db,`patients/${b.dataset.id}`),{archived:true}); showToast('Архивиран.','success'); }
+            try { await update(clinicRef(`patients/${b.dataset.id}`),{archived:true}); showToast('Архивиран.','success'); }
             catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
         $('archivedPatientsBody').addEventListener('click', async (e)=>{
             const r = e.target.closest('.restore-patient');
-            if (r) { try { await update(ref(db,`patients/${r.dataset.id}`),{archived:false}); showToast('Възстановен.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
+            if (r) { try { await update(clinicRef(`patients/${r.dataset.id}`),{archived:false}); showToast('Възстановен.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
             const d = e.target.closest('.delete-patient');
-            if (d) { if(!confirm('Изтрий ЗАВИНАГИ?'))return; try { await remove(ref(db,`patients/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
+            if (d) { if(!confirm('Изтрий ЗАВИНАГИ?'))return; try { await remove(clinicRef(`patients/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} }
         });
 
         $('appointmentForm').addEventListener('submit', async (e)=>{
@@ -3129,7 +3351,7 @@
             if (!pid || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
             $('addAppointmentBtn').disabled = true;
             try {
-                await set(push(appointmentsRef), { patientId: pid, date: dt, time: tm, note, duration: parseInt($('aptDuration').value), createdAt: Date.now(), createdBy: currentUser.id });
+                await set(push(clinicRef('appointments')), { patientId: pid, date: dt, time: tm, note, duration: parseInt($('aptDuration').value), createdAt: Date.now(), createdBy: currentUser.id });
                 await createNotification(pid, 'Нов час', `Записан час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('appointmentForm').reset();
                 $('aptDate').value = new Date().toISOString().split('T')[0];
@@ -3140,7 +3362,7 @@
 
         $('weekGrid').addEventListener('click', async (e)=>{
             const d = e.target.closest('.delete-apt');
-            if (d) { e.stopPropagation(); if(!confirm('Изтрий?'))return; try { await remove(ref(db,`appointments/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
+            if (d) { e.stopPropagation(); if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`appointments/${d.dataset.id}`)); showToast('Изтрит.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; }
             const apt = e.target.closest('.appointment');
             if (apt) { const a = appointments[apt.dataset.id]; if (a && a.patientId) openPatientProfile(a.patientId); }
         });
@@ -3158,7 +3380,7 @@
             if (!pid || !desc || !dt || !tm) { showToast('Попълнете полетата.','error'); return; }
             $('addProcedureBtn').disabled = true;
             try {
-                await set(push(proceduresRef), { patientId: pid, description: desc, date: dt, time: tm, result: $('procResult').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
+                await set(push(clinicRef('procedures')), { patientId: pid, description: desc, date: dt, time: tm, result: $('procResult').value.trim(), createdAt: Date.now(), createdBy: currentUser.id });
                 $('procedureForm').reset();
                 $('procDate').value = new Date().toISOString().split('T')[0];
                 showToast('Запазена.','success');
@@ -3170,7 +3392,7 @@
             const b = e.target.closest('.delete-procedure');
             if (!b) return;
             if (!confirm('Изтрий?')) return;
-            try { await remove(ref(db,`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); }
+            try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.','success'); }
             catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
@@ -3206,7 +3428,7 @@
                     <div class="stat-card"><div class="label">Бележки</div><div class="value">${pSession.length}</div></div>
                     <div class="stat-card"><div class="label">SOAP</div><div class="value">${pSoap.length}</div></div>
                     <div class="stat-card"><div class="label">Файлове</div><div class="value">${pDocs.length}</div></div>
-                    <div class="stat-card"><div class="label">Платено</div><div class="value">${formatPrice(total)} €</div></div>
+                    <div class="stat-card"><div class="label">Платил</div><div class="value">${formatPrice(total)} €</div></div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-history"></i> Процедури (${procs.length})</h3>
@@ -3235,7 +3457,7 @@
             if (link) { e.preventDefault(); openPatientProfile(link.dataset.id); }
         });
 
-        // ПОРТАЛ (пациент)
+        // ПОРТАЛ
         function renderPortal() {
             if (!currentPatient) return;
             $('portalUserName').textContent = currentPatient.name;
@@ -3244,7 +3466,6 @@
             const pPrograms = Object.entries(programs).map(([id,p])=>({id,...p})).filter(p=>p.patientId===currentPatient.id);
             const pShortEx = Object.entries(shortExercises).map(([id,ex])=>({id,...ex})).filter(ex=>ex.patientId===currentPatient.id).sort((a,b)=>(a.number||0)-(b.number||0));
 
-            // Моята програма
             if (pPrograms.length===0 && pShortEx.length===0) $('patientHomePrograms').innerHTML = '';
             else {
                 let html = '';
@@ -3327,23 +3548,12 @@
             else $('portalProceduresBody').innerHTML = `<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date">${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`;
         }
 
-        // ★★★ ПРОМЯНА: renderPatientExercises - СЕГА ПОКАЗВА И shortExercises И programs ★★★
+        // УПРАЖНЕНИЯ ЗА ПАЦИЕНТ
         function renderPatientExercises() {
             if (!currentPatient) return;
+            const pShortEx = Object.entries(shortExercises).map(([id, ex]) => ({ id, ...ex })).filter(ex => ex.patientId === currentPatient.id).sort((a, b) => (a.number || 0) - (b.number || 0));
+            const pPrograms = Object.entries(programs).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === currentPatient.id).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-            // 1. Съкратени упражнения (shortExercises)
-            const pShortEx = Object.entries(shortExercises)
-                .map(([id, ex]) => ({ id, ...ex }))
-                .filter(ex => ex.patientId === currentPatient.id)
-                .sort((a, b) => (a.number || 0) - (b.number || 0));
-
-            // 2. Домашни програми (programs)
-            const pPrograms = Object.entries(programs)
-                .map(([id, p]) => ({ id, ...p }))
-                .filter(p => p.patientId === currentPatient.id)
-                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            // 3. Ако няма нищо → празно състояние
             if (pShortEx.length === 0 && pPrograms.length === 0) {
                 $('patientExercisesContent').innerHTML = `
                     <div class="card" style="text-align:center; padding:3rem 2rem;">
@@ -3351,7 +3561,6 @@
                         <h3 style="color:#0b2b4f; font-size:1.3rem; margin-bottom:0.8rem;">Все още нямате зададени упражнения</h3>
                         <p style="color:#7f95b0; font-size:0.95rem; max-width:400px; margin:0 auto;">
                             Вашият кинезитерапевт ще ви добави домашна програма скоро.
-                            Междувременно можете да видите часовете си в <strong>Моят портал</strong>.
                         </p>
                     </div>`;
                 return;
@@ -3359,85 +3568,51 @@
 
             let html = '';
 
-            // СЕКЦИЯ 1: Съкратени упражнения
             if (pShortEx.length > 0) {
-                html += `
-                    <div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
-                        <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
-                            <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">
-                                <i class="fas fa-list-ul"></i>
-                            </div>
+                html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;"><i class="fas fa-list-ul"></i></div>
+                        <div style="flex:1;">
+                            <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Моите упражнения</h3>
+                            <div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${pShortEx.length} упражнения</div>
+                        </div>
+                    </div>
+                </div>`;
+                html += `<div class="card" style="padding: 1.5rem; margin-bottom:1.5rem;"><div style="display:flex; flex-direction:column; gap:14px;">
+                    ${pShortEx.map((ex, i) => `
+                        <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
+                            <div style="width:60px;height:60px;border-radius:14px;background:#e8f5e9;color:#1a7a3e;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-right:16px;flex-shrink:0;font-weight:700;">${ex.number || (i + 1)}</div>
                             <div style="flex:1; min-width:200px;">
-                                <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">
-                                    Моите упражнения
-                                </h3>
-                                <div style="color:#5a7a9a; font-size:0.9rem;">
-                                    <i class="fas fa-dumbbell"></i> Общо ${pShortEx.length} упражнения
+                                <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin-bottom:8px;">${escapeHtml(ex.name)}</h4>
+                                ${ex.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px;"><i class="fas fa-info-circle"></i> ${escapeHtml(ex.description)}</div>` : ''}
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-
-                html += `
-                    <div class="card" style="padding: 1.5rem; margin-bottom:1.5rem;">
-                        <div style="display:flex; flex-direction:column; gap:14px;">
-                            ${pShortEx.map((ex, i) => `
-                                <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
-                                    <div style="width:60px;height:60px;border-radius:14px;background:#e8f5e9;color:#1a7a3e;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-right:16px;flex-shrink:0;font-weight:700;">
-                                        ${ex.number || (i + 1)}
-                                    </div>
-                                    <div style="flex:1; min-width:200px;">
-                                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                                            <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
-                                        </div>
-                                        ${ex.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(ex.description)}</div>` : ''}
-                                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                            ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
+                    `).join('')}
+                </div></div>`;
             }
 
-            // СЕКЦИЯ 2: Домашни програми
             if (pPrograms.length > 0) {
-                const totalEx = pPrograms.reduce((sum, p) => {
-                    const ex = p.exercises && Array.isArray(p.exercises) ? p.exercises.length : 0;
-                    return sum + ex;
-                }, 0);
-
-                html += `
-                    <div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
-                        <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
-                            <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <div style="flex:1; min-width:200px;">
-                                <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">
-                                    Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}
-                                </h3>
-                                <div style="color:#5a7a9a; font-size:0.9rem;">
-                                    <i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения
-                                </div>
-                            </div>
+                const totalEx = pPrograms.reduce((sum, p) => sum + (p.exercises && Array.isArray(p.exercises) ? p.exercises.length : 0), 0);
+                html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7; margin-bottom:1.5rem;">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div style="width:55px;height:55px;border-radius:14px;background:#1a7a3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;"><i class="fas fa-clipboard-check"></i></div>
+                        <div style="flex:1;">
+                            <h3 style="color:#1a7a3e; font-size:1.2rem; font-weight:700; margin-bottom:0.3rem;">Имате ${pPrograms.length} ${pPrograms.length === 1 ? 'активна програма' : 'активни програми'}</h3>
+                            <div style="color:#5a7a9a; font-size:0.9rem;"><i class="fas fa-dumbbell"></i> Общо ${totalEx} упражнения</div>
                         </div>
                     </div>
-                `;
-
+                </div>`;
                 html += pPrograms.map(prog => {
                     let exList = [];
                     if (prog.exercises && Array.isArray(prog.exercises)) {
                         exList = prog.exercises.map(item => {
                             let exData = null;
                             if (item.name) {
-                                if (item.libId) {
-                                    exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
-                                }
-                                return { name: item.name, reps: item.reps || '', sets: item.sets || 0, libId: item.libId, libType: item.libType, data: exData };
+                                if (item.libId) exData = item.libType === 'short' ? shortExercises[item.libId] : exercises[item.libId];
+                                return { name: item.name, reps: item.reps || '', sets: item.sets || 0, data: exData };
                             }
                             if (item.type === 'short') {
                                 const ex = shortExercises[item.id];
@@ -3448,59 +3623,45 @@
                             }
                         }).filter(Boolean);
                     }
-
-                    return `
-                        <div class="card" style="padding: 1.5rem;">
-                            <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8; flex-wrap:wrap;">
-                                <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;">
-                                    <i class="fas fa-clipboard-list"></i>
-                                </div>
-                                <div style="flex:1; min-width:200px;">
-                                    <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
-                                    <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
-                                </div>
-                            </div>
-
-                            ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a; font-size:0.95rem; line-height:1.5;">
-                                <strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}
-                            </div>` : ''}
-
-                            <div style="display:flex; flex-direction:column; gap:14px;">
-                                ${exList.map((ex, i) => {
-                                    const exData = ex.data;
-                                    let mediaHtml = '';
-                                    if (exData && exData.videoUrl) {
-                                        const yt = getYouTubeId(exData.videoUrl);
-                                        if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,0.1);"></iframe>`;
-                                        else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></video>`;
-                                    } else if (exData && exData.imageUrl) {
-                                        mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.1);">`;
-                                    } else {
-                                        mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
-                                    }
-
-                                    return `
-                                        <div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
-                                            ${mediaHtml}
-                                            <div style="flex:1; min-width:200px;">
-                                                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                                                    <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
-                                                    <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
-                                                </div>
-                                                ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px; line-height:1.5;"><i class="fas fa-info-circle" style="color:#7fb2e5;"></i> ${escapeHtml(exData.description)}</div>` : ''}
-                                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                                    ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
-                                                    ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
-                                                    ${exData && exData.weight ? `<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(exData.weight)} кг</span>` : ''}
-                                                    ${exData && exData.duration ? `<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${exData.duration} сек</span>` : ''}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `;
-                                }).join('')}
+                    return `<div class="card" style="padding: 1.5rem;">
+                        <div style="display:flex; align-items:center; gap:15px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #edf2f8;">
+                            <div style="width:60px; height:60px; border-radius:16px; background:#e8f5e9; color:#1a7a3e; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0;"><i class="fas fa-clipboard-list"></i></div>
+                            <div style="flex:1;">
+                                <h3 style="color:#0b2b4f; font-size:1.3rem; font-weight:700; margin-bottom:0.2rem;">${escapeHtml(prog.title)}</h3>
+                                <div style="font-size:0.85rem; color:#7f95b0;"><i class="fas fa-dumbbell"></i> ${exList.length} упражнения · <i class="fas fa-calendar"></i> ${formatTimestamp(prog.createdAt)}</div>
                             </div>
                         </div>
-                    `;
+                        ${prog.notes ? `<div style="background:#f8fbfe; padding:0.9rem 1.2rem; border-radius:12px; border-left:4px solid #1a7a3e; margin-bottom:1.5rem; color:#5a7a9a;"><strong style="color:#0b2b4f;"><i class="fas fa-info-circle"></i> Инструкции:</strong> ${escapeHtml(prog.notes)}</div>` : ''}
+                        <div style="display:flex; flex-direction:column; gap:14px;">
+                            ${exList.map((ex, i) => {
+                                const exData = ex.data;
+                                let mediaHtml = '';
+                                if (exData && exData.videoUrl) {
+                                    const yt = getYouTubeId(exData.videoUrl);
+                                    if (yt) mediaHtml = `<iframe width="260" height="160" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:14px; margin-right:16px; flex-shrink:0;"></iframe>`;
+                                    else mediaHtml = `<video src="${escapeHtml(exData.videoUrl)}" controls style="width:260px;height:160px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;"></video>`;
+                                } else if (exData && exData.imageUrl) {
+                                    mediaHtml = `<img src="${escapeHtml(exData.imageUrl)}" style="width:130px;height:130px;object-fit:cover;border-radius:14px;margin-right:16px;flex-shrink:0;">`;
+                                } else {
+                                    mediaHtml = `<div style="width:80px;height:80px;border-radius:14px;background:#e8f0fe;color:#1e4a78;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-right:16px;flex-shrink:0;"><i class="fas fa-dumbbell"></i></div>`;
+                                }
+                                return `<div style="display:flex; align-items:flex-start; background:#f8fbfe; padding:1.2rem; border-radius:16px; border-left:5px solid #1a7a3e; flex-wrap:wrap;">
+                                    ${mediaHtml}
+                                    <div style="flex:1; min-width:200px;">
+                                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                                            <span style="width:32px; height:32px; border-radius:50%; background:#1e4a78; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; flex-shrink:0;">${i+1}</span>
+                                            <h4 style="color:#0b2b4f; font-size:1.15rem; font-weight:700; margin:0;">${escapeHtml(ex.name)}</h4>
+                                        </div>
+                                        ${exData && exData.description ? `<div style="font-size:0.9rem; color:#5a7a9a; margin-bottom:10px;"><i class="fas fa-info-circle"></i> ${escapeHtml(exData.description)}</div>` : ''}
+                                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                            ${ex.reps ? `<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повторения</span>` : ''}
+                                            ${ex.sets ? `<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>` : ''}
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>`;
                 }).join('');
             }
 
@@ -3517,7 +3678,7 @@
             if (!k || !dt || !tm || !note) { showToast('Попълнете полетата.','error'); return; }
             $('portalAddAptBtn').disabled = true;
             try {
-                await set(push(appointmentsRef), { patientId: currentPatient.id, kineziId: k, date: dt, time: tm, note, duration: parseInt($('portalAptDuration').value), createdAt: Date.now(), createdBy: currentPatient.id });
+                await set(push(clinicRef('appointments')), { patientId: currentPatient.id, kineziId: k, date: dt, time: tm, note, duration: parseInt($('portalAptDuration').value), createdAt: Date.now(), createdBy: currentPatient.id });
                 await createNotification(k, 'Нов час от пациент', `${currentPatient.name} записа час на ${formatDate(dt)} в ${tm}`, 'appointment');
                 $('portalAppointmentForm').reset();
                 $('portalAptDate').value = new Date().toISOString().split('T')[0];
@@ -3530,7 +3691,7 @@
             const b = e.target.closest('.portal-delete-apt');
             if (!b) return;
             if (!confirm('Отмени?')) return;
-            try { await remove(ref(db,`appointments/${b.dataset.id}`)); showToast('Отменен.','success'); }
+            try { await remove(clinicRef(`appointments/${b.dataset.id}`)); showToast('Отменен.','success'); }
             catch(err){showToast('Грешка: '+err.message,'error');}
         });
 
@@ -3553,18 +3714,14 @@
                 else if (mod === 'exercises') {
                     if (isPatient(currentUser)) {
                         $('exerciseTabsBar').style.display = 'none';
-                        document.querySelectorAll('.exercise-pane').forEach(p => {
-                            p.classList.toggle('active', p.dataset.exPane === 'my-programs');
-                        });
+                        document.querySelectorAll('.exercise-pane').forEach(p => { p.classList.toggle('active', p.dataset.exPane === 'my-programs'); });
                         $('patientProgramsPane').style.display = 'block';
                         renderPatientExercises();
                     } else {
                         $('exerciseTabsBar').style.display = 'flex';
                         $('patientProgramsPane').style.display = 'none';
                         document.querySelectorAll('.exercise-tab').forEach((x,i) => x.classList.toggle('active', i === 0));
-                        document.querySelectorAll('.exercise-pane').forEach(p => {
-                            p.classList.toggle('active', p.dataset.exPane === 'library');
-                        });
+                        document.querySelectorAll('.exercise-pane').forEach(p => { p.classList.toggle('active', p.dataset.exPane === 'library'); });
                         renderExerciseLibrary();
                         renderProgramsList();
                     }
@@ -3584,10 +3741,8 @@
             codeInputEls[0].focus();
 
             showLoading(true);
+            startClinicsListener();
             setTimeout(() => showLoading(false), 2000);
-
-            startUsersListener();
-            startPatientsListenerEarly();
         }
 
         init();
