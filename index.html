@@ -508,7 +508,6 @@
         .portal-section h3 { font-size: 1.2rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .portal-section h3 i { color: #6b3fa0; }
 
-        /* TESTS MODULE */
         .test-category-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .test-category-tab { padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
         .test-category-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -583,7 +582,6 @@
         .test-patient-select-bar select { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; font-family: inherit; min-width: 220px; }
         .test-patient-select-bar .btn { background: #fff; color: #0b2b4f; }
 
-        /* INVENTORY MODULE */
         .inv-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
         .inv-stat-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
         .inv-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
@@ -663,7 +661,6 @@
         .inv-pane { display: none; }
         .inv-pane.active { display: block; animation: fade 0.2s ease; }
 
-        /* VOUCHERS MODULE */
         .vch-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
         .vch-stat-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
         .vch-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6b3fa0, #b28cff); }
@@ -728,11 +725,6 @@
         .vch-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         @media (max-width: 600px) { .vch-form-grid { grid-template-columns: 1fr; } }
 
-        .vch-preview-box { background: linear-gradient(135deg, #f9f5ff 0%, #ede4f7 100%); border: 2px dashed #b28cff; border-radius: 16px; padding: 1.2rem 1.5rem; text-align: center; margin-bottom: 1.5rem; }
-        .vch-preview-box .vch-preview-label { font-size: 0.8rem; color: #6b3fa0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
-        .vch-preview-box .vch-preview-code { font-family: 'Courier New', monospace; font-size: 1.8rem; font-weight: 700; letter-spacing: 6px; color: #6b3fa0; }
-        .vch-preview-box .vch-preview-hint { font-size: 0.8rem; color: #8b6fb5; margin-top: 0.5rem; }
-
         .vch-print-card { background: #fff; border: 2px solid #6b3fa0; border-radius: 20px; padding: 2rem; max-width: 500px; margin: 0 auto 1.5rem; text-align: center; }
         .vch-print-card .vch-print-logo { width: 80px; height: 80px; margin: 0 auto 1rem; }
         .vch-print-card h2 { color: #6b3fa0; margin-bottom: 0.3rem; }
@@ -780,8 +772,7 @@
             .header-clinic-name { font-size: 0.95rem; }
         }
     </style>
-</head>
-<body>
+</head><body>
 
     <svg width="0" height="0" style="position:absolute;">
         <defs>
@@ -890,7 +881,7 @@
                 </nav>
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v7.4 · Vouchers</div>
+                    <div class="sidebar-version">v7.5 · Kinezi Filter</div>
                 </div>
             </aside>
 
@@ -928,7 +919,12 @@
                             <div class="form-group" style="justify-content: end;"><button type="submit" class="btn" id="addPatientBtn"><i class="fas fa-save"></i> Добави</button></div>
                         </form>
                     </div>
-                    <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни</h3></div>
+                    <div class="filter-bar">
+                        <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
+                        <select id="patientsKineziFilter" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#fff; font-weight:600; color:#0b2b4f; min-width:220px;">
+                            <option value="">👨‍⚕️ Всички кинезитерапевти</option>
+                        </select>
+                    </div>
                     <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="activePatientsBody"></tbody></table></div>
                     <div style="margin-top: 2.5rem;"><h3><i class="fas fa-archive"></i> Архив</h3></div>
                     <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
@@ -980,7 +976,12 @@
                             <div class="week-label" id="weekLabel">—</div>
                             <button id="nextWeekBtn"><i class="fas fa-chevron-right"></i></button>
                         </div>
-                        <button class="btn-outline btn btn-sm" id="todayBtn"><i class="fas fa-calendar-day"></i> Днес</button>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <select id="scheduleKineziFilter" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#fff; font-weight:600; color:#0b2b4f; min-width:200px;">
+                                <option value="">👨‍⚕️ Всички кинезитерапевти</option>
+                            </select>
+                            <button class="btn-outline btn btn-sm" id="todayBtn"><i class="fas fa-calendar-day"></i> Днес</button>
+                        </div>
                     </div>
                     <div class="week-grid" id="weekGrid"></div>
                 </section>
@@ -1744,9 +1745,7 @@
                 <button class="btn" id="vchViewOkBtn" style="background:#6b3fa0;"><i class="fas fa-check"></i> Готово</button>
             </div>
         </div>
-    </div>
-
-    <script type="module">
+    </div>    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
@@ -2425,12 +2424,15 @@
             unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => {
                 users = snapshot.val() || {};
                 renderUsers(); renderPortalKineziSelect(); renderMessageRecipients();
+                renderScheduleKineziFilter();
+                renderPatientsKineziFilter();
                 if (currentUser && !currentPatient) renderDashboard();
             }));
 
             unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => {
                 appointments = s.val() || {};
                 renderWeek();
+                renderPatients();
                 if (currentPatient) renderPortal();
                 if (currentUser && !currentPatient) renderDashboard();
             }));
@@ -3636,6 +3638,37 @@
         }
         // ==================== END TESTS MODULE ====================
 
+        // ==================== KINEZI FILTERS ====================
+        function renderScheduleKineziFilter() {
+            const sel = $('scheduleKineziFilter');
+            if (!sel) return;
+            const cur = sel.value;
+            const kinezis = Object.entries(users)
+                .filter(([,u]) => hasRole(u, 'Кинезитерапевт'))
+                .map(([id,u]) => ({ id, name: u.name }))
+                .sort((a,b) => a.name.localeCompare(b.name));
+            sel.innerHTML = '<option value="">👨‍⚕️ Всички кинезитерапевти</option>' +
+                kinezis.map(k => `<option value="${k.id}">${escapeHtml(k.name)}</option>`).join('');
+            if (kinezis.some(k => k.id === cur)) sel.value = cur;
+        }
+
+        function renderPatientsKineziFilter() {
+            const sel = $('patientsKineziFilter');
+            if (!sel) return;
+            const cur = sel.value;
+            const kinezis = Object.entries(users)
+                .filter(([,u]) => hasRole(u, 'Кинезитерапевт'))
+                .map(([id,u]) => ({ id, name: u.name }))
+                .sort((a,b) => a.name.localeCompare(b.name));
+            sel.innerHTML = '<option value="">👨‍⚕️ Всички кинезитерапевти</option>' +
+                kinezis.map(k => `<option value="${k.id}">${escapeHtml(k.name)}</option>`).join('');
+            if (kinezis.some(k => k.id === cur)) sel.value = cur;
+        }
+
+        $('scheduleKineziFilter')?.addEventListener('change', renderWeek);
+        $('patientsKineziFilter')?.addEventListener('change', renderPatients);
+        // ==================== END KINEZI FILTERS ====================
+
         function renderDashboard() {
             if (!currentUser || currentPatient) return;
             const todayStr = toDateStr(new Date());
@@ -3711,8 +3744,19 @@
 
         function renderPatients() {
             const all = Object.entries(patients).map(([id,p])=>({id,...p}));
-            const active = all.filter(p=>!p.archived).sort((a,b)=>a.name.localeCompare(b.name));
-            const archived = all.filter(p=>p.archived).sort((a,b)=>a.name.localeCompare(b.name));
+            const kineziFilter = $('patientsKineziFilter')?.value || '';
+            let filteredAll = all;
+            if (kineziFilter) {
+                const patientIdsWithApt = new Set();
+                Object.values(appointments).forEach(a => {
+                    if (a.kineziId === kineziFilter || a.createdBy === kineziFilter) {
+                        patientIdsWithApt.add(a.patientId);
+                    }
+                });
+                filteredAll = all.filter(p => patientIdsWithApt.has(p.id));
+            }
+            const active = filteredAll.filter(p=>!p.archived).sort((a,b)=>a.name.localeCompare(b.name));
+            const archived = filteredAll.filter(p=>p.archived).sort((a,b)=>a.name.localeCompare(b.name));
             if (active.length===0) $('activePatientsBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма активни</td></tr>`;
             else $('activePatientsBody').innerHTML = active.map(p=>`<tr>
                 <td><a class="patient-link" data-id="${p.id}"><i class="fas fa-user-circle"></i> ${escapeHtml(p.name)}</a></td>
@@ -3781,10 +3825,14 @@
             if (sD.getMonth()===eD.getMonth()) $('weekLabel').textContent = `${sD.getDate()} – ${eD.getDate()} ${monthName} ${sD.getFullYear()}`;
             else $('weekLabel').textContent = `${sD.getDate()} ${BG_MONTHS[sD.getMonth()]} – ${eD.getDate()} ${BG_MONTHS[eD.getMonth()]} ${eD.getFullYear()}`;
             const todayStr = toDateStr(new Date());
+            const kineziFilter = $('scheduleKineziFilter')?.value || '';
             $('weekGrid').innerHTML = days.map((day,i)=>{
                 const dateStr = toDateStr(day);
                 const isToday = dateStr===todayStr;
-                const dayApts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.date===dateStr).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+                let dayApts = Object.entries(appointments).map(([id,a])=>({id,...a})).filter(a=>a.date===dateStr).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+                if (kineziFilter) {
+                    dayApts = dayApts.filter(a => a.kineziId === kineziFilter || a.createdBy === kineziFilter);
+                }
                 const aptsHtml = dayApts.length===0 ? `<div class="no-appointments">няма часове</div>` : dayApts.map(a=>{
                     const pat = patients[a.patientId];
                     const pn = pat?escapeHtml(pat.name):'неизвестен';
@@ -3812,9 +3860,7 @@
         $('weekGrid').addEventListener('click', (e) => {
             const apt = e.target.closest('.appointment');
             if (apt) openAptManageModal(apt.dataset.id);
-        });
-
-        function getPricingKey(p,d){ return `${p}_${d}`; }
+        });        function getPricingKey(p,d){ return `${p}_${d}`; }
         function renderPricing() {
             if (!$('priceDateInput').value) $('priceDateInput').value = currentPriceDate;
             else currentPriceDate = $('priceDateInput').value;
