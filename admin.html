@@ -91,6 +91,12 @@
         .btn-success { background: #1a7a3e; }
         .btn-success:hover:not(:disabled) { background: #15642f; }
 
+        .search-bar { display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; background: #fff; padding: 1rem 1.3rem; border-radius: 16px; border: 1px solid #e9eef3; }
+        .search-bar .search-icon { color: #7f95b0; font-size: 1.1rem; }
+        .search-bar input { flex: 1; min-width: 200px; padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.92rem; font-family: inherit; background: #f8fbfe; }
+        .search-bar input:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11,43,79,0.08); }
+        .search-bar .result-count { font-size: 0.85rem; color: #7f95b0; font-weight: 600; padding: 0.5rem 1rem; background: #f0f4f8; border-radius: 8px; white-space: nowrap; }
+
         .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .module-toggle { background: #f8fbfe; border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 1.2rem; cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 12px; user-select: none; }
         .module-toggle:hover { border-color: #1e4a78; background: #f5f9ff; }
@@ -115,7 +121,7 @@
         .empty-message { text-align: center; padding: 2rem; color: #7f95b0; font-style: italic; }
 
         .code-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f0fe; color: #0b2b4f; padding: 0.35rem 0.8rem; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 0.92rem; letter-spacing: 2px; }
-        .code-badge.hidden { background: #ede9fe; color: #5b21b6; letter-spacing: 0; }
+        .code-badge.locked { background: #f0f0f0; color: #a0a0a0; letter-spacing: 0; }
 
         .modules-badges { display: flex; flex-wrap: wrap; gap: 4px; }
         .module-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 5px; font-weight: 700; background: #e8f0fe; color: #1e4a78; text-transform: uppercase; }
@@ -143,6 +149,12 @@
         .admin-badge { display: inline-flex; align-items: center; gap: 6px; padding: 0.35rem 0.9rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         .admin-badge.super { background: #fff5e5; color: #b06d00; }
         .admin-badge.current { background: #e8f5e9; color: #1a7a3e; }
+        .admin-badge.protected { background: #ede9fe; color: #5b21b6; }
+
+        .protected-row { background: #faf9ff; }
+        .protected-row:hover { background: #f5f3ff; }
+
+        .highlight { background: #fff5e5; padding: 0.15rem 0.35rem; border-radius: 4px; color: #b06d00; font-weight: 700; }
 
         @media (max-width: 800px) {
             .app-header { padding: 0.8rem 1rem; }
@@ -175,7 +187,6 @@
         </defs>
     </svg>
 
-    <!-- LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
@@ -204,7 +215,6 @@
         </div>
     </div>
 
-    <!-- APP -->
     <div class="app" id="app">
         <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
         <div class="toast-container" id="toastContainer"></div>
@@ -219,7 +229,7 @@
             </div>
             <div class="header-actions">
                 <div class="admin-user">
-                    <div class="avatar" id="adminAvatar">PA</div>
+                    <div class="avatar">PA</div>
                     <span id="adminName">PhysioBook Admin</span>
                 </div>
                 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Изход</button>
@@ -257,6 +267,13 @@
                         <h1><i class="fas fa-hospital"></i> Клиники</h1>
                         <button class="btn" id="addClinicBtn"><i class="fas fa-plus"></i> Нова клиника</button>
                     </div>
+
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="clinicSearchInput" placeholder="Търси клиника по име, собственик, телефон или код...">
+                        <span class="result-count" id="clinicSearchCount">0 клиники</span>
+                    </div>
+
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -303,7 +320,8 @@
                     </div>
                     <div class="card">
                         <p style="color:#7f95b0; font-size:0.9rem;">
-                            <i class="fas fa-info-circle"></i> Всеки админ има свой собствен 6-цифрен код. Можеш да създаваш нови админи, да избираш техните кодове и да ги изтриваш.
+                            <i class="fas fa-shield-alt" style="color:#6b3fa0;"></i> 
+                            <strong>Защитен профил:</strong> "<em>PhysioBook Admin</em>" не може да бъде изтриван или редактиран. Можеш да добавяш нови админи, да избираш техните кодове и да ги изтриваш.
                         </p>
                     </div>
                     <div class="table-wrapper">
@@ -327,33 +345,44 @@
                     <div class="module-header">
                         <h1><i class="fas fa-cog"></i> Настройки</h1>
                     </div>
+
+                    <div class="card" style="border-left:4px solid #6b3fa0;">
+                        <h3 style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Защитен профил</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem;">
+                            Профилът <strong>"PhysioBook Admin"</strong> е защитен — не може да се редактира или изтрива.
+                            Това е главният администраторски профил с пълен достъп.
+                        </p>
+                    </div>
+
                     <div class="card">
-                        <h3><i class="fas fa-shield-alt"></i> Смяна на моя код</h3>
+                        <h3><i class="fas fa-key"></i> Смяна на моя код</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Моят код (6 цифри)</label>
+                                <label>Нов код (6 цифри)</label>
                                 <input type="text" id="setMyCode" maxlength="6" pattern="[0-9]{6}" placeholder="напр. 654321">
-                                <div class="hint">Това е кодът, с който влизаш в момента.</div>
+                                <div class="hint">Остави празно, ако не искаш да го сменяш.</div>
                             </div>
                             <div class="form-group">
                                 <label>Моето име</label>
                                 <input type="text" id="setMyName" placeholder="напр. Иван Петров">
-                                <div class="hint">Показва се в хедъра.</div>
+                                <div class="hint">Показва се в хедъра (само ако не си защитен профил).</div>
                             </div>
                         </div>
                         <div style="margin-top:1rem;">
                             <button class="btn" id="saveMySettingsBtn"><i class="fas fa-save"></i> Запази</button>
                         </div>
                     </div>
+
                     <div class="card" style="border-left:4px solid #0891b2;">
                         <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники, които все още ги нямат.</p>
                         <button class="btn" id="migrateModulesBtn" style="background:#0891b2;"><i class="fas fa-play"></i> Стартирай миграция</button>
                     </div>
+
                     <div class="card" style="border-left:4px solid #b22234;">
                         <h3 style="color:#b22234;"><i class="fas fa-exclamation-triangle"></i> Възстановяване на достъп</h3>
-                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Ако си загубил достъп, добави ръчно в Firebase <code>admins/admin_default/accessCode = "123456"</code>.</p>
-                        <button class="btn-danger-outline btn" id="resetDefaultAdminBtn"><i class="fas fa-redo"></i> Създай default админ (123456)</button>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Ако си загубил достъп, създай нов default админ с код <strong>123456</strong>.</p>
+                        <button class="btn-danger-outline btn" id="resetDefaultAdminBtn"><i class="fas fa-redo"></i> Създай защитен админ (123456)</button>
                     </div>
                 </section>
 
@@ -379,17 +408,10 @@
                         <label>Подзаглавие / Слоган</label>
                         <input type="text" id="clinicSub" placeholder="напр. Медицински център">
                     </div>
-                    <div class="form-group">
-                        <label>Собственик (име) *</label>
-                        <input type="text" id="clinicOwnerName" required placeholder="напр. Иван Петров">
-                    </div>
-                    <div class="form-group">
-                        <label>Телефон на собственика</label>
-                        <input type="tel" id="clinicOwnerPhone" placeholder="0888123456">
-                    </div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label>Код за достъп на собственика (6 цифри)</label>
-                        <input type="text" id="clinicOwnerCode" maxlength="6" pattern="[0-9]{6}" placeholder="Остави празно за автоматично генериране">
+                    <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
+                        <label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
+                        <input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код за собственика" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
+                        <div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката.</div>
                     </div>
                     <div class="form-group">
                         <label>Телефон на клиниката</label>
@@ -473,7 +495,9 @@
             { id: 'portal', name: 'Портал', icon: 'fa-user-circle', desc: 'Портал за пациенти', locked: false }
         ];
 
-        const DEFAULT_ADMIN = { name: 'PhysioBook Admin', accessCode: '123456' };
+        const DEFAULT_ADMIN_CODE = '123456';
+        const ADMIN_NAME = 'PhysioBook Admin';
+        const PROTECTED_ADMIN_ID = 'physiobook_admin';
 
         let clinics = {};
         let admins = {};
@@ -483,6 +507,7 @@
         let editingAdminId = null;
         let selectedClinicForModules = null;
         let clinicSettingsMap = {};
+        let clinicSearchQuery = '';
         let unsubscribers = [];
         let settingsUnsubscribers = {};
 
@@ -562,23 +587,24 @@
             return Array.from(codeInputEls).map(i => i.value).join('');
         }
 
-        // ==================== INIT DEFAULT ADMIN ====================
-        async function ensureDefaultAdmin() {
+        // ==================== ENSURE PROTECTED ADMIN ====================
+        async function ensureProtectedAdmin() {
             try {
-                const snap = await get(ref(db, 'admins'));
+                const snap = await get(ref(db, `admins/${PROTECTED_ADMIN_ID}`));
                 const val = snap.val();
-                if (!val || Object.keys(val).length === 0) {
-                    // Няма нито един админ — създаваме default
-                    await set(ref(db, 'admins/admin_default'), {
-                        name: DEFAULT_ADMIN.name,
-                        accessCode: DEFAULT_ADMIN.accessCode,
+                if (!val) {
+                    // Създаваме защитен админ с код 123456
+                    await set(ref(db, `admins/${PROTECTED_ADMIN_ID}`), {
+                        name: ADMIN_NAME,
+                        accessCode: DEFAULT_ADMIN_CODE,
                         role: 'super',
+                        protected: true,
                         createdAt: Date.now()
                     });
-                    console.log('Created default admin with code 123456');
+                    console.log('Created protected PhysioBook Admin with code 123456');
                 }
             } catch(e) {
-                console.error('Failed to ensure default admin:', e);
+                console.error('Failed to ensure protected admin:', e);
             }
         }
 
@@ -590,7 +616,7 @@
 
             showLoading(true);
             try {
-                await ensureDefaultAdmin();
+                await ensureProtectedAdmin();
 
                 const snap = await get(ref(db, 'admins'));
                 const adminsData = snap.val() || {};
@@ -618,7 +644,6 @@
                 sessionStorage.setItem('adminCode', code);
                 sessionStorage.setItem('adminId', foundId);
 
-                // Актуализираме lastLogin
                 try {
                     await update(ref(db, `admins/${foundId}`), { lastLoginAt: Date.now() });
                 } catch(e) {}
@@ -635,8 +660,9 @@
         function startApp() {
             $('loginScreen').classList.add('hidden');
             $('app').classList.add('active');
-            $('adminName').textContent = currentAdmin.name || 'PhysioBook Admin';
-            $('adminAvatar').textContent = getUserInitials(currentAdmin.name || 'PA');
+
+            // Хедърът ВИНАГИ показва "PhysioBook Admin"
+            $('adminName').textContent = ADMIN_NAME;
             startListeners();
         }
 
@@ -672,7 +698,6 @@
             unsubscribers.push(onValue(ref(db, 'admins'), (snap) => {
                 admins = snap.val() || {};
                 renderAdmins();
-                // Проверка дали нашият админ още съществува
                 if (currentAdmin && !admins[currentAdmin.id]) {
                     showToast('Вашият акаунт беше изтрит.', 'error');
                     setTimeout(() => {
@@ -731,16 +756,16 @@
                 list.innerHTML = `<div class="empty-message">Няма клиники. Създайте първата!</div>`;
                 return;
             }
-            list.innerHTML = clinicIds.map(cid => {
+            list.innerHTML = clinicIds.slice(0, 10).map(cid => {
                 const c = clinics[cid];
-                const owner = c.owner || {};
+                const code = c.adminCode || c.ownerCode || '—';
                 return `<div style="display:flex; align-items:center; gap:14px; padding:1rem 1.2rem; background:#f8fbfe; border-radius:14px; border-left:4px solid #1e4a78; margin-bottom:10px;">
                     <div style="width:48px; height:48px; border-radius:12px; background:#e8f0fe; color:#1e4a78; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0;"><i class="fas fa-hospital"></i></div>
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:700; color:#0b2b4f; font-size:1rem;">${escapeHtml(c.name || '—')}</div>
-                        <div style="font-size:0.82rem; color:#7f95b0;">${escapeHtml(owner.name || '—')} · ${escapeHtml(c.phone || '—')}</div>
+                        <div style="font-size:0.82rem; color:#7f95b0;">${escapeHtml(c.phone || '—')}</div>
                     </div>
-                    <div style="font-family:'Courier New',monospace; font-weight:700; color:#1e4a78; background:#fff; padding:0.4rem 0.8rem; border-radius:8px; border:1px solid #cfddee;">${escapeHtml(c.ownerCode || '—')}</div>
+                    <div style="font-family:'Courier New',monospace; font-weight:700; color:#6b3fa0; background:#f9f5ff; padding:0.4rem 0.8rem; border-radius:8px; border:1px solid #b28cff;">${escapeHtml(code)}</div>
                 </div>`;
             }).join('');
         }
@@ -749,22 +774,42 @@
         function renderClinics() {
             const ids = Object.keys(clinics);
             const body = $('clinicsBody');
-            if (ids.length === 0) {
-                body.innerHTML = `<tr><td colspan="5" class="empty-message">Няма клиники</td></tr>`;
+            const q = clinicSearchQuery.toLowerCase().trim();
+
+            // Филтриране
+            let filtered = ids.map(cid => ({ id: cid, ...clinics[cid] }));
+            if (q) {
+                filtered = filtered.filter(c => {
+                    const code = c.adminCode || c.ownerCode || '';
+                    return (c.name || '').toLowerCase().includes(q)
+                        || (c.phone || '').toLowerCase().includes(q)
+                        || (c.email || '').toLowerCase().includes(q)
+                        || (c.address || '').toLowerCase().includes(q)
+                        || (code || '').toLowerCase().includes(q);
+                });
+            }
+
+            $('clinicSearchCount').textContent = `${filtered.length} ${filtered.length === 1 ? 'клиника' : 'клиники'}`;
+
+            if (filtered.length === 0) {
+                body.innerHTML = `<tr><td colspan="5" class="empty-message">${q ? 'Няма намерени клиники.' : 'Няма клиники'}</td></tr>`;
                 return;
             }
-            body.innerHTML = ids.map(cid => {
-                const c = clinics[cid];
-                const owner = c.owner || {};
+
+            body.innerHTML = filtered.map(c => {
+                const cid = c.id;
+                const code = c.adminCode || c.ownerCode || '—';
                 const mods = getClinicModules(cid);
                 const enabledCount = Object.values(mods).filter(v => v).length;
                 const badges = MODULES.slice(0, 6).map(m => 
                     `<span class="module-badge ${mods[m.id] ? '' : 'off'}" title="${escapeHtml(m.name)}">${escapeHtml(m.name.substring(0, 8))}</span>`
                 ).join('') + (MODULES.length > 6 ? `<span class="module-badge">+${MODULES.length - 6}</span>` : '');
 
+                const nameDisplay = q ? highlightText(c.name || '—', q) : escapeHtml(c.name || '—');
+
                 return `<tr>
-                    <td><strong>${escapeHtml(c.name || '—')}</strong></td>
-                    <td>${escapeHtml(owner.name || '—')}<br><small style="color:#7f95b0;">${escapeHtml(owner.phone || '')}</small></td>
+                    <td><strong>${nameDisplay}</strong></td>
+                    <td><span class="admin-badge super" style="background:#f9f5ff; color:#6b3fa0;"><i class="fas fa-shield-alt"></i> PhysioBook Admin</span></td>
                     <td>${escapeHtml(c.phone || '—')}</td>
                     <td>
                         <div class="modules-badges">${badges}</div>
@@ -778,6 +823,19 @@
                 </tr>`;
             }).join('');
         }
+
+        function highlightText(text, query) {
+            const safe = escapeHtml(text);
+            if (!query) return safe;
+            const idx = safe.toLowerCase().indexOf(query.toLowerCase());
+            if (idx === -1) return safe;
+            return safe.substring(0, idx) + '<span class="highlight">' + safe.substring(idx, idx + query.length) + '</span>' + safe.substring(idx + query.length);
+        }
+
+        $('clinicSearchInput')?.addEventListener('input', (e) => {
+            clinicSearchQuery = e.target.value;
+            renderClinics();
+        });
 
         document.addEventListener('click', async (e) => {
             const btn = e.target.closest('[data-clinic-action]');
@@ -809,20 +867,19 @@
             $('clinicId').value = '';
             if (cid && clinics[cid]) {
                 const c = clinics[cid];
-                const owner = c.owner || {};
                 $('clinicModalTitle').textContent = 'Редакция на клиника';
                 editingClinicId = cid;
                 $('clinicId').value = cid;
                 $('clinicName').value = c.name || '';
                 $('clinicSub').value = c.sub || '';
-                $('clinicOwnerName').value = owner.name || '';
-                $('clinicOwnerPhone').value = owner.phone || '';
-                $('clinicOwnerCode').value = c.ownerCode || '';
+                $('clinicAdminCode').value = c.adminCode || c.ownerCode || '';
                 $('clinicPhone').value = c.phone || '';
                 $('clinicEmail').value = c.email || '';
                 $('clinicAddress').value = c.address || '';
             } else {
                 $('clinicModalTitle').textContent = 'Нова клиника';
+                // Генерираме автоматично код
+                $('clinicAdminCode').value = generate6DigitCode();
             }
             modal.classList.add('active');
         }
@@ -832,47 +889,30 @@
             const cid = $('clinicId').value;
             const name = $('clinicName').value.trim();
             const sub = $('clinicSub').value.trim();
-            const ownerName = $('clinicOwnerName').value.trim();
-            const ownerPhone = $('clinicOwnerPhone').value.trim();
-            let ownerCode = $('clinicOwnerCode').value.trim();
+            const adminCode = $('clinicAdminCode').value.trim();
             const clinicPhone = $('clinicPhone').value.trim();
             const clinicEmail = $('clinicEmail').value.trim();
             const clinicAddress = $('clinicAddress').value.trim();
 
-            if (!name || !ownerName) { showToast('Попълнете име на клиника и собственик.', 'error'); return; }
-            if (ownerCode && !/^\d{6}$/.test(ownerCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
+            if (!name || !adminCode) { showToast('Попълнете име на клиника и код.', 'error'); return; }
+            if (!/^\d{6}$/.test(adminCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
 
             $('clinicSaveBtn').disabled = true;
             showLoading(true);
 
             try {
-                if (!ownerCode) {
-                    let attempts = 0;
-                    do { ownerCode = generate6DigitCode(); attempts++; }
-                    while (await codeExists(ownerCode) && attempts < 500);
-                } else {
-                    if (cid) {
-                        // При редакция — проверяваме дали новият код не е зает от друга клиника
-                        const existing = await findClinicByCode(ownerCode);
-                        if (existing && existing !== cid) {
-                            showToast('Този код вече се използва от друга клиника.', 'error');
-                            $('clinicSaveBtn').disabled = false;
-                            showLoading(false);
-                            return;
-                        }
-                    } else {
-                        if (await codeExists(ownerCode)) {
-                            showToast('Този код вече се използва.', 'error');
-                            $('clinicSaveBtn').disabled = false;
-                            showLoading(false);
-                            return;
-                        }
-                    }
+                // Проверка дали кодът не се използва от друга клиника
+                const existingClinic = await findClinicByAdminCode(adminCode);
+                if (existingClinic && existingClinic !== cid) {
+                    showToast('Този код вече се използва от друга клиника.', 'error');
+                    $('clinicSaveBtn').disabled = false;
+                    showLoading(false);
+                    return;
                 }
 
-                const owner = { name: ownerName, phone: ownerPhone };
                 const clinicData = {
-                    name, sub, owner, ownerCode,
+                    name, sub,
+                    adminCode,
                     phone: clinicPhone,
                     email: clinicEmail,
                     address: clinicAddress,
@@ -882,6 +922,7 @@
                 if (cid) {
                     await update(ref(db, `clinics/${cid}`), clinicData);
 
+                    // Обновяваме и собственика в users
                     const usersSnap = await get(ref(db, `clinics/${cid}/users`));
                     const usersData = usersSnap.val() || {};
                     let ownerUserId = null;
@@ -895,18 +936,17 @@
                     }
                     if (ownerUserId) {
                         await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
-                            name: ownerName,
-                            phone: ownerPhone,
-                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
-                            accessCode: ownerCode
+                            name: ADMIN_NAME,
+                            accessCode: adminCode,
+                            roles: ['Кинезитерапевт', 'Администратор']
                         });
                     } else {
                         await set(push(ref(db, `clinics/${cid}/users`)), {
-                            name: ownerName,
-                            phone: ownerPhone,
-                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                            name: ADMIN_NAME,
+                            phone: '',
                             roles: ['Кинезитерапевт', 'Администратор'],
-                            accessCode: ownerCode,
+                            accessCode: adminCode,
+                            protected: true,
                             createdAt: Date.now(),
                             createdBy: currentAdmin?.id || 'admin'
                         });
@@ -928,17 +968,18 @@
                         createdAt: Date.now()
                     });
 
+                    // ВАЖНО: Създаваме защитен "PhysioBook Admin" потребител в клиниката
                     await set(push(ref(db, `clinics/${newId}/users`)), {
-                        name: ownerName,
-                        phone: ownerPhone,
-                        phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                        name: ADMIN_NAME,
+                        phone: '',
                         roles: ['Кинезитерапевт', 'Администратор'],
-                        accessCode: ownerCode,
+                        accessCode: adminCode,
+                        protected: true,
                         createdAt: Date.now(),
                         createdBy: currentAdmin?.id || 'admin'
                     });
 
-                    showToast(`Клиниката е създадена! Код за достъп: ${ownerCode}`, 'success');
+                    showToast(`Клиниката е създадена! Код за достъп: ${adminCode}`, 'success');
                 }
                 $('clinicModal').classList.remove('active');
             } catch(err) {
@@ -950,32 +991,13 @@
             }
         });
 
-        async function codeExists(code) {
+        async function findClinicByAdminCode(code) {
             try {
                 const snap = await get(ref(db, 'clinics'));
                 const data = snap.val() || {};
                 for (const cid of Object.keys(data)) {
                     const c = data[cid];
-                    if (c.ownerCode === code) return true;
-                    const us = c.users || {};
-                    for (const uid of Object.keys(us)) {
-                        if (us[uid].accessCode === code) return true;
-                    }
-                    const ps = c.patients || {};
-                    for (const pid of Object.keys(ps)) {
-                        if (ps[pid].accessCode === code) return true;
-                    }
-                }
-            } catch(e) {}
-            return false;
-        }
-
-        async function findClinicByCode(code) {
-            try {
-                const snap = await get(ref(db, 'clinics'));
-                const data = snap.val() || {};
-                for (const cid of Object.keys(data)) {
-                    if (data[cid].ownerCode === code) return cid;
+                    if ((c.adminCode || c.ownerCode) === code) return cid;
                 }
             } catch(e) {}
             return null;
@@ -1079,7 +1101,12 @@
 
         // ==================== ADMINS ====================
         function renderAdmins() {
-            const ids = Object.keys(admins).sort((a,b) => (admins[a].name||'').localeCompare(admins[b].name||''));
+            const ids = Object.keys(admins).sort((a,b) => {
+                // Защитеният винаги първи
+                if (a === PROTECTED_ADMIN_ID) return -1;
+                if (b === PROTECTED_ADMIN_ID) return 1;
+                return (admins[a].name||'').localeCompare(admins[b].name||'');
+            });
             const body = $('adminsBody');
             if (ids.length === 0) {
                 body.innerHTML = `<tr><td colspan="5" class="empty-message">Няма админи</td></tr>`;
@@ -1087,20 +1114,38 @@
             }
             body.innerHTML = ids.map(id => {
                 const a = admins[id];
+                const isProtected = a.protected === true || id === PROTECTED_ADMIN_ID;
                 const isCurrent = currentAdmin && currentAdmin.id === id;
                 const created = a.createdAt ? new Date(a.createdAt).toLocaleDateString('bg-BG') : '—';
-                return `<tr>
-                    <td>
-                        <strong>${escapeHtml(a.name || '—')}</strong>
-                        ${isCurrent ? '<span class="admin-badge current" style="margin-left:8px;"><i class="fas fa-user"></i> ВИЕ</span>' : ''}
-                    </td>
-                    <td><span class="code-badge"><i class="fas fa-key"></i> ${escapeHtml(a.accessCode || '—')}</span></td>
-                    <td><span class="admin-badge super"><i class="fas fa-shield-alt"></i> Супер админ</span></td>
+
+                let nameDisplay = escapeHtml(a.name || '—');
+                if (isProtected) {
+                    nameDisplay = `<span style="color:#6b3fa0; font-weight:800;">${escapeHtml(ADMIN_NAME)}</span>`;
+                }
+
+                let badge = '';
+                if (isProtected) badge = '<span class="admin-badge protected"><i class="fas fa-shield-alt"></i> ЗАЩИТЕН</span>';
+                else if (isCurrent) badge = '<span class="admin-badge current"><i class="fas fa-user"></i> ВИЕ</span>';
+                else badge = '<span class="admin-badge super"><i class="fas fa-user-shield"></i> Админ</span>';
+
+                let codeDisplay;
+                if (isProtected) codeDisplay = `<span class="code-badge"><i class="fas fa-key"></i> ${escapeHtml(a.accessCode || '—')}</span>`;
+                else codeDisplay = `<span class="code-badge"><i class="fas fa-key"></i> ${escapeHtml(a.accessCode || '—')}</span>`;
+
+                let actions;
+                if (isProtected) {
+                    actions = `<span style="color:#6b3fa0; font-size:0.85rem; font-weight:600;"><i class="fas fa-lock"></i> Защитен</span>`;
+                } else {
+                    actions = `<button class="btn-outline btn btn-sm" data-admin-action="edit" data-admin-id="${id}"><i class="fas fa-edit"></i></button>
+                        ${!isCurrent ? `<button class="btn-danger-outline btn btn-sm" data-admin-action="delete" data-admin-id="${id}"><i class="fas fa-trash-alt"></i></button>` : ''}`;
+                }
+
+                return `<tr class="${isProtected ? 'protected-row' : ''}">
+                    <td>${nameDisplay} ${badge}</td>
+                    <td>${codeDisplay}</td>
+                    <td>${isProtected ? '<span class="admin-badge protected"><i class="fas fa-shield-alt"></i> Супер</span>' : '<span class="admin-badge super"><i class="fas fa-user-shield"></i> Админ</span>'}</td>
                     <td>${created}</td>
-                    <td style="white-space:nowrap;">
-                        <button class="btn-outline btn btn-sm" data-admin-action="edit" data-admin-id="${id}"><i class="fas fa-edit"></i></button>
-                        ${!isCurrent ? `<button class="btn-danger-outline btn btn-sm" data-admin-action="delete" data-admin-id="${id}"><i class="fas fa-trash-alt"></i></button>` : ''}
-                    </td>
+                    <td style="white-space:nowrap;">${actions}</td>
                 </tr>`;
             }).join('');
         }
@@ -1110,9 +1155,15 @@
             if (!btn) return;
             const action = btn.dataset.adminAction;
             const id = btn.dataset.adminId;
+
+            const a = admins[id];
+            if (a && (a.protected === true || id === PROTECTED_ADMIN_ID)) {
+                showToast('Този профил е защитен и не може да се редактира/изтрива.', 'error');
+                return;
+            }
+
             if (action === 'edit') { openAdminModal(id); }
             else if (action === 'delete') {
-                const a = admins[id];
                 if (currentAdmin && currentAdmin.id === id) {
                     showToast('Не можете да изтриете себе си.', 'error');
                     return;
@@ -1137,6 +1188,10 @@
             $('adminId').value = '';
             if (id && admins[id]) {
                 const a = admins[id];
+                if (a.protected === true || id === PROTECTED_ADMIN_ID) {
+                    showToast('Този профил е защитен.', 'error');
+                    return;
+                }
                 $('adminModalTitle').textContent = 'Редакция на админ';
                 editingAdminId = id;
                 $('adminId').value = id;
@@ -1157,9 +1212,18 @@
             if (!name || !code) { showToast('Попълнете име и код.', 'error'); return; }
             if (!/^\d{6}$/.test(code)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
 
+            // Ако редактираме — провери дали не е защитен
+            if (id) {
+                const a = admins[id];
+                if (a && (a.protected === true || id === PROTECTED_ADMIN_ID)) {
+                    showToast('Защитен профил не може да се редактира.', 'error');
+                    return;
+                }
+            }
+
             $('adminSaveBtn').disabled = true;
             try {
-                // Проверяваме дали кодът не е зает от друг админ
+                // Проверка дали кодът не е зает
                 const adminsSnap = await get(ref(db, 'admins'));
                 const adminsData = adminsSnap.val() || {};
                 for (const [aid, a] of Object.entries(adminsData)) {
@@ -1174,12 +1238,6 @@
                     await update(ref(db, `admins/${id}`), {
                         name, accessCode: code, updatedAt: Date.now()
                     });
-                    if (currentAdmin && currentAdmin.id === id) {
-                        currentAdmin.name = name;
-                        currentAdmin.accessCode = code;
-                        $('adminName').textContent = name;
-                        $('adminAvatar').textContent = getUserInitials(name);
-                    }
                     showToast('Админът е обновен.', 'success');
                 } else {
                     await set(push(ref(db, 'admins')), {
@@ -1205,12 +1263,17 @@
             if (!code && !name) { showToast('Попълнете поне едно поле.', 'error'); return; }
             if (code && !/^\d{6}$/.test(code)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
 
+            // Защитен профил не може да се променя
+            if (currentAdmin && (currentAdmin.protected === true || currentAdmin.id === PROTECTED_ADMIN_ID)) {
+                showToast('Защитеният профил "PhysioBook Admin" не може да се редактира.', 'error');
+                return;
+            }
+
             $('saveMySettingsBtn').disabled = true;
             try {
                 const updates = {};
                 if (name) updates.name = name;
                 if (code) {
-                    // Проверка за зает код
                     const adminsSnap = await get(ref(db, 'admins'));
                     const adminsData = adminsSnap.val() || {};
                     for (const [aid, a] of Object.entries(adminsData)) {
@@ -1226,11 +1289,6 @@
 
                 await update(ref(db, `admins/${currentAdmin.id}`), updates);
 
-                if (updates.name) {
-                    currentAdmin.name = updates.name;
-                    $('adminName').textContent = updates.name;
-                    $('adminAvatar').textContent = getUserInitials(updates.name);
-                }
                 if (updates.accessCode) {
                     currentAdmin.accessCode = updates.accessCode;
                     sessionStorage.setItem('adminCode', updates.accessCode);
@@ -1247,7 +1305,7 @@
         });
 
         $('migrateModulesBtn').addEventListener('click', async () => {
-            if (!confirm('Ще добави новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники. Продължи?')) return;
+            if (!confirm('Ще добави новите модули към всички съществуващи клиники. Продължи?')) return;
             $('migrateModulesBtn').disabled = true;
             showLoading(true);
             try {
@@ -1279,25 +1337,16 @@
         });
 
         $('resetDefaultAdminBtn').addEventListener('click', async () => {
-            if (!confirm('Ще създаде нов супер админ с код 123456 и име "PhysioBook Admin". Продължи?')) return;
+            if (!confirm('Ще възстанови защитения профил "PhysioBook Admin" с код 123456. Продължи?')) return;
             try {
-                // Проверка дали код 123456 не е зает
-                const adminsSnap = await get(ref(db, 'admins'));
-                const adminsData = adminsSnap.val() || {};
-                for (const [aid, a] of Object.entries(adminsData)) {
-                    if (a.accessCode === '123456') {
-                        showToast('Код 123456 вече е зает.', 'error');
-                        return;
-                    }
-                }
-                await set(push(ref(db, 'admins')), {
-                    name: 'PhysioBook Admin',
-                    accessCode: '123456',
+                await set(ref(db, `admins/${PROTECTED_ADMIN_ID}`), {
+                    name: ADMIN_NAME,
+                    accessCode: DEFAULT_ADMIN_CODE,
                     role: 'super',
-                    createdAt: Date.now(),
-                    createdBy: currentAdmin?.id || 'admin'
+                    protected: true,
+                    createdAt: Date.now()
                 });
-                showToast('Създаден е default админ с код 123456.', 'success');
+                showToast('Защитеният профил е възстановен с код 123456.', 'success');
             } catch(err) {
                 showToast('Грешка: ' + err.message, 'error');
             }
@@ -1305,7 +1354,8 @@
 
         // ==================== INIT ====================
         async function init() {
-            // Опит за автоматично възстановяване на сесията
+            await ensureProtectedAdmin();
+
             const code = sessionStorage.getItem('adminCode');
             const adminId = sessionStorage.getItem('adminId');
             if (code && adminId) {
@@ -1324,7 +1374,6 @@
                     console.error(e);
                 }
             }
-            // Иначе — показваме login екрана
             $('loginScreen').classList.remove('hidden');
             codeInputEls[0].focus();
         }
