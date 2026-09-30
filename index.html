@@ -508,6 +508,81 @@
         .portal-section h3 { font-size: 1.2rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
         .portal-section h3 i { color: #6b3fa0; }
 
+        /* TESTS MODULE */
+        .test-category-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .test-category-tab { padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .test-category-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
+        .test-category-tab:hover:not(.active) { border-color: #1e4a78; background: #f5f9ff; }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        .test-card { background: #fff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; }
+        .test-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .test-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(11,43,79,0.12); border-color: #1e4a78; }
+        .test-card.vas::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .test-card.oswestry::before { background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .test-card.dash::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
+        .test-card.womac::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .test-card.berg::before { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+        .test-card.other::before { background: linear-gradient(90deg, #7f95b0, #b0c1d4); }
+        .test-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; gap: 12px; }
+        .test-card-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+        .test-card.vas .test-card-icon { background: #fff5e5; color: #d97706; }
+        .test-card.oswestry .test-card-icon { background: #e8f0fe; color: #1e4a78; }
+        .test-card.dash .test-card-icon { background: #f0e8ff; color: #6b3fa0; }
+        .test-card.womac .test-card-icon { background: #e8f5e9; color: #1a7a3e; }
+        .test-card.berg .test-card-icon { background: #e0f7fa; color: #0891b2; }
+        .test-card.other .test-card-icon { background: #f0f4f8; color: #7f95b0; }
+        .test-card h3 { font-size: 1.1rem; font-weight: 700; color: #0b2b4f; margin-bottom: 0.4rem; }
+        .test-card .test-card-sub { font-size: 0.82rem; color: #7f95b0; margin-bottom: 0.8rem; line-height: 1.4; }
+        .test-card-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+        .test-card-meta span { font-size: 0.72rem; padding: 0.25rem 0.6rem; border-radius: 6px; background: #f0f4f8; color: #5a7a9a; font-weight: 600; }
+        .test-form-container { display: none; }
+        .test-form-container.active { display: block; animation: fade 0.2s ease; }
+        .test-form-header { display: flex; align-items: center; gap: 15px; margin-bottom: 1.5rem; padding-bottom: 1.2rem; border-bottom: 1px solid #edf2f8; flex-wrap: wrap; }
+        .test-form-header .test-form-icon { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; background: #e8f0fe; color: #1e4a78; }
+        .test-form-header h2 { font-size: 1.5rem; color: #0b2b4f; font-weight: 700; }
+        .test-form-header .test-form-desc { font-size: 0.88rem; color: #7f95b0; margin-top: 4px; }
+        .test-questions { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+        .test-question { background: #f8fbfe; border: 1px solid #e9eef3; border-radius: 16px; padding: 1.2rem 1.4rem; border-left: 4px solid #1e4a78; }
+        .test-question-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 0.8rem; }
+        .test-question-num { width: 32px; height: 32px; border-radius: 50%; background: #1e4a78; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+        .test-question-text { font-weight: 600; color: #0b2b4f; font-size: 0.95rem; line-height: 1.4; flex: 1; }
+        .test-question-hint { font-size: 0.8rem; color: #7f95b0; margin-top: 4px; font-weight: 400; }
+        .test-options { display: flex; flex-direction: column; gap: 8px; margin-left: 44px; }
+        .test-option { display: flex; align-items: center; gap: 12px; padding: 0.7rem 1rem; background: #fff; border: 2px solid #cfddee; border-radius: 12px; cursor: pointer; transition: 0.15s; }
+        .test-option:hover { border-color: #1e4a78; background: #f5f9ff; }
+        .test-option.selected { border-color: #1e4a78; background: #e8f0fe; }
+        .test-option input[type="radio"] { display: none; }
+        .test-option-box { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cfddee; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: 0.15s; }
+        .test-option.selected .test-option-box { border-color: #1e4a78; background: #1e4a78; }
+        .test-option-box::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0; transition: 0.15s; }
+        .test-option.selected .test-option-box::after { opacity: 1; }
+        .test-option-label { font-size: 0.9rem; color: #1f3f61; flex: 1; line-height: 1.3; }
+        .test-option-score { font-size: 0.8rem; font-weight: 700; color: #1e4a78; background: #e8f0fe; padding: 0.2rem 0.6rem; border-radius: 6px; flex-shrink: 0; }
+        .test-numeric-input { margin-left: 44px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .test-numeric-input input[type="number"] { width: 120px; padding: 0.7rem 1rem; border-radius: 12px; border: 2px solid #cfddee; font-size: 1.1rem; font-weight: 700; text-align: center; color: #0b2b4f; font-family: inherit; }
+        .test-numeric-input input[type="number"]:focus { outline: none; border-color: #1e4a78; box-shadow: 0 0 0 3px rgba(11,43,79,0.1); }
+        .test-numeric-input .scale-hint { font-size: 0.85rem; color: #7f95b0; }
+        .test-form-actions { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #edf2f8; }
+        .test-form-actions .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .test-result-card { background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); border-radius: 24px; padding: 2rem 2.5rem; color: #fff; margin-bottom: 1.5rem; text-align: center; }
+        .test-result-score { font-size: 3.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+        .test-result-label { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1rem; }
+        .test-result-interpretation { display: inline-block; padding: 0.8rem 1.8rem; border-radius: 40px; font-weight: 700; font-size: 1rem; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); }
+        .test-result-interpretation.good { background: rgba(26,122,62,0.3); border-color: #4ade80; }
+        .test-result-interpretation.moderate { background: rgba(217,119,6,0.3); border-color: #fbbf24; }
+        .test-result-interpretation.severe { background: rgba(178,34,52,0.3); border-color: #ff6b6b; }
+        .test-history-item { background: #fff; border: 1px solid #e9eef3; border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .test-history-item .test-history-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .test-history-item .test-history-info { flex: 1; min-width: 200px; }
+        .test-history-item .test-history-info .name { font-weight: 700; color: #0b2b4f; font-size: 0.95rem; margin-bottom: 3px; }
+        .test-history-item .test-history-info .meta { font-size: 0.8rem; color: #7f95b0; }
+        .test-history-item .test-history-score { font-size: 1.5rem; font-weight: 700; color: #1e4a78; }
+        .test-history-item .test-history-badge { padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; }
+        .test-patient-select-bar { background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); padding: 1.2rem 1.8rem; border-radius: 18px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .test-patient-select-bar label { color: #fff; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+        .test-patient-select-bar select { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; font-family: inherit; min-width: 220px; }
+        .test-patient-select-bar .btn { background: #fff; color: #0b2b4f; }
+
         @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 380px; } }
         @media (max-width: 800px) {
             .sidebar { width: 80px; }
@@ -522,6 +597,12 @@
             .header-clinic-sub { display: none; }
             .header-user .user-name { display: none; }
             .messages-panel, .notif-panel { width: 100vw; }
+        }
+        @media (max-width: 700px) {
+            .test-grid { grid-template-columns: 1fr; }
+            .test-options { margin-left: 0; }
+            .test-numeric-input { margin-left: 0; }
+            .test-result-score { font-size: 2.5rem; }
         }
         @media (max-width: 480px) {
             .code-inputs { gap: 6px; }
@@ -632,6 +713,7 @@
                     <button class="nav-item" data-module="patients"><i class="fas fa-users"></i><span>Пациенти</span></button>
                     <button class="nav-item" data-module="schedule"><i class="fas fa-calendar-alt"></i><span>График</span></button>
                     <button class="nav-item" data-module="procedures"><i class="fas fa-stethoscope"></i><span>Процедури</span></button>
+                    <button class="nav-item" data-module="tests"><i class="fas fa-clipboard-check"></i><span>Тестове и скали</span></button>
                     <button class="nav-item" data-module="exercises"><i class="fas fa-dumbbell"></i><span>Упражнения</span></button>
                     <button class="nav-item" data-module="documentation"><i class="fas fa-file-medical-alt"></i><span>Документация</span></button>
                     <button class="nav-item" data-module="pricing"><i class="fas fa-euro-sign"></i><span>Ценоразпис</span></button>
@@ -640,7 +722,7 @@
                 </nav>
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v7.1 · Fast Load</div>
+                    <div class="sidebar-version">v7.2 · Tests Module</div>
                 </div>
             </aside>
 
@@ -749,6 +831,70 @@
                         </form>
                     </div>
                     <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
+                </section>
+
+                <section id="module-tests" class="module">
+                    <div class="module-header">
+                        <h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1>
+                    </div>
+
+                    <div id="testsLibraryView">
+                        <div class="test-category-tabs" id="testCategoryTabs">
+                            <button class="test-category-tab active" data-test-cat="all"><i class="fas fa-th-large"></i> Всички</button>
+                            <button class="test-category-tab" data-test-cat="pain"><i class="fas fa-bolt"></i> Болка</button>
+                            <button class="test-category-tab" data-test-cat="spine"><i class="fas fa-spine"></i> Гръб / Кръст</button>
+                            <button class="test-category-tab" data-test-cat="upper"><i class="fas fa-hand-paper"></i> Горен крайник</button>
+                            <button class="test-category-tab" data-test-cat="lower"><i class="fas fa-shoe-prints"></i> Долен крайник</button>
+                            <button class="test-category-tab" data-test-cat="balance"><i class="fas fa-balance-scale"></i> Баланс</button>
+                            <button class="test-category-tab" data-test-cat="other"><i class="fas fa-clipboard-list"></i> Други</button>
+                        </div>
+
+                        <div class="test-grid" id="testGrid"></div>
+
+                        <div class="dash-section">
+                            <h3><i class="fas fa-history"></i> История на попълнените тестове</h3>
+                            <div id="testHistoryList"></div>
+                        </div>
+                    </div>
+
+                    <div class="test-form-container" id="testFormContainer">
+                        <button class="back-btn" id="backToTestsBtn"><i class="fas fa-arrow-left"></i> Назад към тестовете</button>
+                        <div class="card">
+                            <div class="test-form-header" id="testFormHeader"></div>
+                            <form id="testForm">
+                                <input type="hidden" id="testCurrentId">
+                                <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom:1.5rem;">
+                                    <div class="form-group">
+                                        <label>Пациент *</label>
+                                        <select id="testPatient" required><option value="">-- избери пациент --</option></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Дата *</label>
+                                        <input type="date" id="testDate" required>
+                                    </div>
+                                </div>
+                                <div class="test-questions" id="testQuestionsContainer"></div>
+                                <div class="test-form-actions">
+                                    <button type="button" class="btn-outline btn" id="testResetBtn"><i class="fas fa-redo"></i> Изчисти</button>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn-outline btn" id="testCancelBtn">Отказ</button>
+                                        <button type="submit" class="btn btn-success" id="testSaveBtn"><i class="fas fa-save"></i> Запази резултат</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="test-form-container" id="testResultContainer">
+                        <button class="back-btn" id="backToTestsFromResultBtn"><i class="fas fa-arrow-left"></i> Назад към тестовете</button>
+                        <div class="card">
+                            <div id="testResultContent"></div>
+                            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem; flex-wrap:wrap;">
+                                <button class="btn-outline btn" id="testResultNewBtn"><i class="fas fa-plus"></i> Нов тест</button>
+                                <button class="btn" id="testResultCloseBtn"><i class="fas fa-check"></i> Готово</button>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section id="module-exercises" class="module">
@@ -1219,6 +1365,7 @@
         let services = {}, procedureTemplates = {}, categories = {}, templates = {};
         let messages = {};
         let notifications = {};
+        let testResults = {};
 
         let currentUser=null, currentPatient=null;
         let dataListenersStarted=false, sessionRestored=false;
@@ -1229,10 +1376,12 @@
         let unsubscribers = [];
         let isSwitchingClinic = false;
         let currentAptId = null;
+        let currentTestCategory = 'all';
+        let currentTestId = null;
 
         const DEFAULT_MODULES = {
             dashboard: true, patients: true, schedule: true, procedures: true,
-            exercises: true, documentation: true, pricing: true, settings: true, portal: true
+            tests: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true
         };
 
         function getEnabledModules() {
@@ -1280,6 +1429,7 @@
             patients: document.getElementById('module-patients'),
             schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
+            tests: document.getElementById('module-tests'),
             exercises: document.getElementById('module-exercises'),
             documentation: document.getElementById('module-documentation'),
             pricing: document.getElementById('module-pricing'),
@@ -1327,7 +1477,7 @@
         function getUserRoles(u){ if(!u)return[]; if(Array.isArray(u.roles))return u.roles; if(u.role)return[u.role]; return[]; }
         function hasRole(u,r){ return getUserRoles(u).includes(r); }
         function isAdmin(u){ return hasRole(u,'Администратор'); }
-        function isKinezi(u){ return hasRole(u,'Кинезитерапевт'); }
+        function isKinezi(u){ return hasRole(u,'Кинезiteratorапевт'); }
         function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
         function isPatient(u){ return hasRole(u, 'Пациент'); }
         function isLockedUser(u){ return u && u.locked === true; }
@@ -1590,7 +1740,7 @@
         function loginSuccess() {
             loginScreen.classList.add('hidden');
             appEl.classList.remove('hidden');
-            showLoading(false); // ★ Скрий loading веднага след влизане
+            showLoading(false);
             const displayName = currentUser.name || currentPatient?.name || '?';
             $('headerAvatar').textContent = getUserInitials(displayName);
             $('headerUserName').textContent = displayName;
@@ -1633,7 +1783,6 @@
             await switchClinic(newClinicId);
         });
 
-        // ★★★ ПОПРАВЕНО: switchClinic - моментално, без showLoading ★★★
         async function switchClinic(newClinicId) {
             if (isSwitchingClinic) return;
             isSwitchingClinic = true;
@@ -1652,10 +1801,8 @@
 
             $('clinicSwitcherMenu').classList.remove('open');
 
-            // ★ 1. Спри старите слушатели
             stopDataListeners();
 
-            // ★ 2. Смени активната клиника
             activeClinicId = newClinicId;
             activeClinic = clinic;
             sessionStorage.setItem('activeClinicId', newClinicId);
@@ -1672,14 +1819,12 @@
                 sessionStorage.removeItem('currentPatientId');
             }
 
-            // ★ 3. Нулирай данните
             patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
             exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
             services={}; procedureTemplates={}; categories={}; templates={};
-            messages={}; notifications={};
+            messages={}; notifications={}; testResults={};
             clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
 
-            // ★ 4. Обнови UI моментално
             $('headerAvatar').textContent = getUserInitials(currentUser.name);
             $('headerUserName').textContent = currentUser.name;
             applyPermissions();
@@ -1687,10 +1832,8 @@
             applyModuleVisibility();
             renderClinicSwitcher();
 
-            // ★ 5. Стартирай новите слушатели
             startDataListeners();
 
-            // ★ 6. Без showLoading - моментално
             showToast(`Преминахте в "${clinic.name}"`, 'success');
             isSwitchingClinic = false;
         }
@@ -1701,7 +1844,7 @@
             navItems.forEach(item => {
                 const mod = item.dataset.module;
                 if (patientOnly) {
-                    if (mod === 'portal' || mod === 'exercises') item.classList.remove('hidden');
+                    if (mod === 'portal' || mod === 'exercises' || mod === 'tests') item.classList.remove('hidden');
                     else item.classList.add('hidden');
                 } else {
                     if (mod === 'portal') item.classList.add('hidden');
@@ -1749,7 +1892,6 @@
             }, (err) => { console.error(err); });
         }
 
-        // ★★★ ПОПРАВЕНО: tryRestoreSession - моментално влизане ★★★
         async function tryRestoreSession() {
             if (sessionRestored) return;
             const sid = sessionStorage.getItem('currentUserId');
@@ -1783,7 +1925,6 @@
                     const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
                     if (hasByCode || hasByPhone) userClinics.push(cId);
                 }
-                // ★ Моментално влизане
                 loginSuccess();
             }
         }
@@ -1794,10 +1935,8 @@
             dataListenersStarted = false;
         }
 
-        // ★★★ ПОПРАВЕНО: startDataListeners - без проверка ★★★
         function startDataListeners() {
             if (!activeClinicId) return;
-            // ★ МАХНАТА проверка if (dataListenersStarted) return;
             dataListenersStarted = true;
             const base = `clinics/${activeClinicId}`;
 
@@ -1827,6 +1966,7 @@
                 renderDaySummary(); updatePatientDropdowns();
                 if (currentPatient) { renderPortal(); renderPatientExercises(); }
                 if (currentUser && !currentPatient) renderDashboard();
+                renderTestPatientDropdown();
             }));
 
             unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => {
@@ -1879,9 +2019,521 @@
                 notifications = s.val() || {};
                 renderNotifications(); updateNotificationsBadge();
             }));
+            unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => {
+                testResults = s.val() || {};
+                renderTestHistory();
+            }));
         }
 
-        // ★ RENDER ФУНКЦИИ ★
+        // ==================== TESTS MODULE ====================
+        const TESTS_DEFINITIONS = {
+            vas: {
+                id: 'vas', name: 'VAS / NRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas',
+                description: 'Визуална аналогова скала (VAS) или Числова рейтингова скала (NRS) за оценка на болка',
+                type: 'numeric', min: 0, max: 10,
+                minLabel: '0 = Няма болка', maxLabel: '10 = Най-силна възможна болка',
+                interpretation: (score) => {
+                    if (score <= 0) return { label: 'Няма болка', class: 'good' };
+                    if (score <= 3) return { label: 'Лека болка', class: 'good' };
+                    if (score <= 6) return { label: 'Умерена болка', class: 'moderate' };
+                    return { label: 'Силна болка', class: 'severe' };
+                }
+            },
+            oswestry: {
+                id: 'oswestry', name: 'Oswestry Disability Index (ODI)', category: 'spine', icon: 'fa-spine', colorClass: 'oswestry',
+                description: 'Оценка на функционалния капацитет при болки в кръста (10 въпроса)',
+                type: 'multi', questions: [
+                    { text: 'Интензитет на болката', options: [
+                        { label: 'Нямам болка в момента', score: 0 },
+                        { label: 'Много лека болка', score: 1 },
+                        { label: 'Умерена болка', score: 2 },
+                        { label: 'Доста силна болка', score: 3 },
+                        { label: 'Много силна болка', score: 4 },
+                        { label: 'Най-силната възможна болка', score: 5 }
+                    ]},
+                    { text: 'Самообслужване (миене, обличане)', options: [
+                        { label: 'Мога да се обслужвам сам без болка', score: 0 },
+                        { label: 'Мога да се обслужвам сам, но с болка', score: 1 },
+                        { label: 'Обслужването е болезнено и бавно', score: 2 },
+                        { label: 'Нуждая се от помощ, но се справям', score: 3 },
+                        { label: 'Нуждая се от помощ всеки ден', score: 4 },
+                        { label: 'Не мога да се обличам сам', score: 5 }
+                    ]},
+                    { text: 'Повдигане на тежести', options: [
+                        { label: 'Мога да повдигам тежки предмети без болка', score: 0 },
+                        { label: 'Мога да повдигам тежки предмети, но с болка', score: 1 },
+                        { label: 'Болката ме спира да повдигам тежки предмети от пода', score: 2 },
+                        { label: 'Мога да повдигам само леки предмети', score: 3 },
+                        { label: 'Мога да повдигам само много леки предмети', score: 4 },
+                        { label: 'Не мога да повдигам нищо', score: 5 }
+                    ]},
+                    { text: 'Ходене', options: [
+                        { label: 'Болката не ми пречи да ходя', score: 0 },
+                        { label: 'Мога да ходя, но с болка', score: 1 },
+                        { label: 'Не мога да ходя повече от 1 км', score: 2 },
+                        { label: 'Не мога да ходя повече от 500 м', score: 3 },
+                        { label: 'Мога да ходя само с бастун', score: 4 },
+                        { label: 'През повечето време съм в леглото', score: 5 }
+                    ]},
+                    { text: 'Стоене', options: [
+                        { label: 'Мога да стоя колкото искам без болка', score: 0 },
+                        { label: 'Мога да стоя, но с болка', score: 1 },
+                        { label: 'Не мога да стоя повече от 1 час', score: 2 },
+                        { label: 'Не мога да стоя повече от 30 мин', score: 3 },
+                        { label: 'Не мога да стоя повече от 10 мин', score: 4 },
+                        { label: 'Не мога да стоя изобщо', score: 5 }
+                    ]},
+                    { text: 'Сън', options: [
+                        { label: 'Сънят ми не се влияе от болката', score: 0 },
+                        { label: 'Сънят ми е нарушен понякога', score: 1 },
+                        { label: 'Спя по-малко от 6 часа', score: 2 },
+                        { label: 'Спя по-малко от 4 часа', score: 3 },
+                        { label: 'Спя по-малко от 2 часа', score: 4 },
+                        { label: 'Не мога да спя заради болката', score: 5 }
+                    ]},
+                    { text: 'Социален живот', options: [
+                        { label: 'Социалният ми живот е нормален', score: 0 },
+                        { label: 'Социалният ми живот е нормален, но с болка', score: 1 },
+                        { label: 'Болката ограничава социалния ми живот', score: 2 },
+                        { label: 'Болката силно ограничава социалния ми живот', score: 3 },
+                        { label: 'Рядко излизам заради болката', score: 4 },
+                        { label: 'Не излизам заради болката', score: 5 }
+                    ]},
+                    { text: 'Пътуване', options: [
+                        { label: 'Мога да пътувам без болка', score: 0 },
+                        { label: 'Мога да пътувам, но с болка', score: 1 },
+                        { label: 'Болката е по-силна при пътуване', score: 2 },
+                        { label: 'Пътуването е ограничено до кратки разстояния', score: 3 },
+                        { label: 'Пътуването е много ограничено', score: 4 },
+                        { label: 'Не мога да пътувам', score: 5 }
+                    ]},
+                    { text: 'Сексуален живот', options: [
+                        { label: 'Нормален без болка', score: 0 },
+                        { label: 'Нормален, но с болка', score: 1 },
+                        { label: 'Почти нормален, но много болезнен', score: 2 },
+                        { label: 'Силно ограничен от болка', score: 3 },
+                        { label: 'Почти липсва заради болка', score: 4 },
+                        { label: 'Липсва заради болка', score: 5 }
+                    ]},
+                    { text: 'Социален статус / грижа за себе си', options: [
+                        { label: 'Мога да се грижа за себе си нормално', score: 0 },
+                        { label: 'Мога да се грижа, но с болка', score: 1 },
+                        { label: 'Грижата е ограничена', score: 2 },
+                        { label: 'Нуждая се от помощ за повечето неща', score: 3 },
+                        { label: 'Нуждая се от помощ всеки ден', score: 4 },
+                        { label: 'Нуждая се от помощ през цялото време', score: 5 }
+                    ]}
+                ],
+                calculate: (answers) => {
+                    let sum = 0;
+                    answers.forEach(a => { if (a !== undefined && a !== null) sum += a; });
+                    const max = 50;
+                    return Math.round((sum / max) * 100);
+                },
+                scoreUnit: '%',
+                interpretation: (score) => {
+                    if (score <= 20) return { label: 'Минимално увреждане', class: 'good' };
+                    if (score <= 40) return { label: 'Умерено увреждане', class: 'moderate' };
+                    if (score <= 60) return { label: 'Сериозно увреждане', class: 'moderate' };
+                    if (score <= 80) return { label: 'Тежко увреждане', class: 'severe' };
+                    return { label: 'Много тежко увреждане', class: 'severe' };
+                }
+            },
+            dash: {
+                id: 'dash', name: 'DASH', category: 'upper', icon: 'fa-hand-paper', colorClass: 'dash',
+                description: 'Disabilities of the Arm, Shoulder and Hand – оценка на горен крайник',
+                type: 'multi', questions: [
+                    { text: 'Отваряне на стъклен буркан', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Писане', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Завъртане на ключ', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Приготвяне на храна', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Отваряне на тежка врата', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Поставяне на предмет на рафт над главата', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Тежка домакинска работа', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Градинарство / работа в двора', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Пренасяне на пазарска чанта', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Пренасяне на куфар', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]},
+                    { text: 'Спорт / музикален инструмент', options: [{label:'Без затруднение',score:1},{label:'Леко затруднение',score:2},{label:'Умерено затруднение',score:3},{label:'Силно затруднение',score:4},{label:'Не мога',score:5}]}
+                ],
+                calculate: (answers) => {
+                    let sum = 0; let count = 0;
+                    answers.forEach(a => { if (a !== undefined && a !== null) { sum += a; count++; } });
+                    if (count === 0) return 0;
+                    const avg = sum / count;
+                    return Math.round(((avg - 1) / 4) * 100);
+                },
+                scoreUnit: '%',
+                interpretation: (score) => {
+                    if (score <= 20) return { label: 'Минимално увреждане', class: 'good' };
+                    if (score <= 40) return { label: 'Умерено увреждане', class: 'moderate' };
+                    if (score <= 60) return { label: 'Сериозно увреждане', class: 'moderate' };
+                    return { label: 'Тежко увреждане', class: 'severe' };
+                }
+            },
+            womac: {
+                id: 'womac', name: 'WOMAC', category: 'lower', icon: 'fa-shoe-prints', colorClass: 'womac',
+                description: 'Western Ontario and McMaster Universities Osteoarthritis Index – за коляно/тазобедрена става',
+                type: 'multi', questions: [
+                    { text: 'Болка при ходене', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Болка при изкачване по стълби', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Болка през нощта', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Болка при почивка', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Болка при натоварване', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Скованост сутрин', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Скованост след почивка', options: [{label:'Няма',score:0},{label:'Лека',score:1},{label:'Умерена',score:2},{label:'Силна',score:3},{label:'Много силна',score:4}]},
+                    { text: 'Затруднение при слизане по стълби', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при изкачване по стълби', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при ставане от стол', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при стоене', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при навеждане', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при ходене по равен под', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при влизане/излизане от кола', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при пазаруване', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при обуване на чорапи', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при ставане от легло', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при къпане', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при сядане', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]},
+                    { text: 'Затруднение при домакинска работа', options: [{label:'Без',score:0},{label:'Леко',score:1},{label:'Умерено',score:2},{label:'Силно',score:3},{label:'Много силно',score:4}]}
+                ],
+                calculate: (answers) => {
+                    let sum = 0; let count = 0;
+                    answers.forEach(a => { if (a !== undefined && a !== null) { sum += a; count++; } });
+                    if (count === 0) return 0;
+                    return Math.round((sum / (count * 4)) * 100);
+                },
+                scoreUnit: '%',
+                interpretation: (score) => {
+                    if (score <= 25) return { label: 'Лека симптоматика', class: 'good' };
+                    if (score <= 50) return { label: 'Умерена симптоматика', class: 'moderate' };
+                    if (score <= 75) return { label: 'Силна симптоматика', class: 'severe' };
+                    return { label: 'Много силна симптоматика', class: 'severe' };
+                }
+            },
+            berg: {
+                id: 'berg', name: 'Berg Balance Scale', category: 'balance', icon: 'fa-balance-scale', colorClass: 'berg',
+                description: 'Оценка на баланса и риска от падане (14 задачи, 0–56 точки)',
+                type: 'multi', questions: [
+                    { text: 'Ставане от стол', options: [{label:'Самостоятелно, без ръце',score:4},{label:'Самостоятелно с ръце',score:3},{label:'С минимална помощ',score:2},{label:'С умерена помощ',score:1},{label:'Не може',score:0}]},
+                    { text: 'Стоене без опора', options: [{label:'2 мин сигурно',score:4},{label:'2 мин с надзор',score:3},{label:'30 сек',score:2},{label:'Опитва се, но не може 30 сек',score:1},{label:'Не може',score:0}]},
+                    { text: 'Седане без опора', options: [{label:'2 мин сигурно',score:4},{label:'2 мин с надзор',score:3},{label:'30 сек',score:2},{label:'10 сек',score:1},{label:'Не може',score:0}]},
+                    { text: 'Прехвърляне от стол на легло', options: [{label:'Самостоятелно с минимална помощ',score:4},{label:'Самостоятелно с надзор',score:3},{label:'С вербална помощ',score:2},{label:'С помощ от един човек',score:1},{label:'С помощ от двама',score:0}]},
+                    { text: 'Прехвърляне от легло на стол', options: [{label:'Самостоятелно с минимална помощ',score:4},{label:'Самостоятелно с надзор',score:3},{label:'С вербална помощ',score:2},{label:'С помощ от един човек',score:1},{label:'С помощ от двама',score:0}]},
+                    { text: 'Стоене с затворени очи', options: [{label:'10 сек сигурно',score:4},{label:'10 сек с надзор',score:3},{label:'3 сек',score:2},{label:'Не може 3 сек, но стои',score:1},{label:'Нуждае се от помощ',score:0}]},
+                    { text: 'Стоене с крака един до друг', options: [{label:'Самостоятелно 1 мин',score:4},{label:'Самостоятелно 1 мин с надзор',score:3},{label:'30 сек',score:2},{label:'Нуждае се от помощ',score:1},{label:'Не може',score:0}]},
+                    { text: 'Докосване на пода с ръка', options: [{label:'Сигурно и лесно',score:4},{label:'С надзор',score:3},{label:'С помощ',score:2},{label:'Не може, но се опитва',score:1},{label:'Нуждае се от помощ',score:0}]},
+                    { text: 'Вдигане на предмет от пода', options: [{label:'Сигурно и лесно',score:4},{label:'С надзор',score:3},{label:'С помощ',score:2},{label:'Не може, но се опитва',score:1},{label:'Нуждае се от помощ',score:0}]},
+                    { text: 'Обръщане и поглед назад', options: [{label:'Гледа зад себе си от двете страни',score:4},{label:'Гледа от една страна',score:3},{label:'Завърта само глава',score:2},{label:'С надзор',score:1},{label:'Нуждае се от помощ',score:0}]},
+                    { text: 'Завъртане на 360°', options: [{label:'Сигурно 4 сек',score:4},{label:'Сигурно 4 сек от една страна',score:3},{label:'Бавен кръг',score:2},{label:'С вербална помощ',score:1},{label:'С физическа помощ',score:0}]},
+                    { text: 'Редуване на стъпване на стъпало', options: [{label:'20 стъпки за 20 сек',score:4},{label:'20 стъпки >20 сек',score:3},{label:'10 стъпки за 20 сек',score:2},{label:'<10 стъпки',score:1},{label:'Не може',score:0}]},
+                    { text: 'Стоене с единия крак отпред', options: [{label:'30 сек',score:4},{label:'20 сек',score:3},{label:'10 сек',score:2},{label:'Само повдига крака',score:1},{label:'Не може',score:0}]},
+                    { text: 'Стоене на един крак', options: [{label:'>10 сек',score:4},{label:'5–10 сек',score:3},{label:'3–5 сек',score:2},{label:'<3 сек',score:1},{label:'Не може',score:0}]}
+                ],
+                calculate: (answers) => {
+                    let sum = 0; let count = 0;
+                    answers.forEach(a => { if (a !== undefined && a !== null) { sum += a; count++; } });
+                    return sum;
+                },
+                scoreUnit: 'точки',
+                interpretation: (score) => {
+                    if (score >= 45) return { label: 'Нисък риск от падане', class: 'good' };
+                    if (score >= 41) return { label: 'Умерен риск от падане', class: 'moderate' };
+                    if (score >= 21) return { label: 'Висок риск от падане', class: 'severe' };
+                    return { label: 'Много висок риск от падане', class: 'severe' };
+                }
+            },
+            tug: {
+                id: 'tug', name: 'Timed Up and Go (TUG)', category: 'balance', icon: 'fa-stopwatch', colorClass: 'berg',
+                description: 'Време за ставане от стол, ходене 3 м, обръщане и сядане обратно',
+                type: 'numeric', min: 0, max: 60, step: 0.1,
+                minLabel: '0 сек', maxLabel: '60 сек',
+                interpretation: (score) => {
+                    if (score < 10) return { label: 'Нормално', class: 'good' };
+                    if (score < 20) return { label: 'Добър баланс', class: 'good' };
+                    if (score < 30) return { label: 'Умерен риск от падане', class: 'moderate' };
+                    return { label: 'Висок риск от падане', class: 'severe' };
+                }
+            },
+            nprs: {
+                id: 'nprs', name: 'NPRS (Numeric Pain Rating Scale)', category: 'pain', icon: 'fa-bolt', colorClass: 'vas',
+                description: 'Числова рейтингова скала за болка – 0 (няма) до 10 (максимална)',
+                type: 'numeric', min: 0, max: 10,
+                minLabel: '0 = Няма болка', maxLabel: '10 = Максимална болка',
+                interpretation: (score) => {
+                    if (score === 0) return { label: 'Няма болка', class: 'good' };
+                    if (score <= 3) return { label: 'Лека болка', class: 'good' };
+                    if (score <= 6) return { label: 'Умерена болка', class: 'moderate' };
+                    return { label: 'Силна болка', class: 'severe' };
+                }
+            }
+        };
+
+        function renderTestsModule() {
+            $('testsLibraryView').style.display = 'block';
+            $('testFormContainer').classList.remove('active');
+            $('testResultContainer').classList.remove('active');
+            renderTestGrid();
+            renderTestHistory();
+            renderTestPatientDropdown();
+        }
+
+        function renderTestGrid() {
+            const grid = $('testGrid');
+            const filtered = Object.values(TESTS_DEFINITIONS).filter(t => currentTestCategory === 'all' || t.category === currentTestCategory);
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма тестове в тази категория</div>`;
+                return;
+            }
+            grid.innerHTML = filtered.map(t => `
+                <div class="test-card ${t.colorClass}" data-test-id="${t.id}">
+                    <div class="test-card-header">
+                        <div class="test-card-icon"><i class="fas ${t.icon}"></i></div>
+                    </div>
+                    <h3>${escapeHtml(t.name)}</h3>
+                    <div class="test-card-sub">${escapeHtml(t.description)}</div>
+                    <div class="test-card-meta">
+                        <span><i class="fas fa-tag"></i> ${getTestCategoryLabel(t.category)}</span>
+                        ${t.type === 'multi' ? `<span><i class="fas fa-list-ol"></i> ${t.questions.length} въпроса</span>` : `<span><i class="fas fa-sliders-h"></i> ${t.min}–${t.max}</span>`}
+                    </div>
+                </div>
+            `).join('');
+            grid.querySelectorAll('.test-card').forEach(card => {
+                card.addEventListener('click', () => openTestForm(card.dataset.testId));
+            });
+        }
+
+        function getTestCategoryLabel(cat) {
+            const map = { pain: 'Болка', spine: 'Гръб', upper: 'Горен крайник', lower: 'Долен крайник', balance: 'Баланс', other: 'Друго' };
+            return map[cat] || cat;
+        }
+
+        document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                currentTestCategory = tab.dataset.testCat;
+                document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(t => t.classList.toggle('active', t === tab));
+                renderTestGrid();
+            });
+        });
+
+        function renderTestPatientDropdown() {
+            const sel = $('testPatient'); if (!sel) return;
+            const active = Object.entries(patients).filter(([,p]) => !p.archived).map(([id, p]) => ({ id, name: p.name })).sort((a,b) => a.name.localeCompare(b.name));
+            const cur = sel.value;
+            sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+            if (active.some(p => p.id === cur)) sel.value = cur;
+        }
+
+        function openTestForm(testId) {
+            const test = TESTS_DEFINITIONS[testId];
+            if (!test) return;
+            currentTestId = testId;
+            $('testCurrentId').value = testId;
+            $('testFormHeader').innerHTML = `
+                <div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div>
+                <div>
+                    <h2>${escapeHtml(test.name)}</h2>
+                    <div class="test-form-desc">${escapeHtml(test.description)}</div>
+                </div>
+            `;
+            $('testDate').value = new Date().toISOString().split('T')[0];
+            const container = $('testQuestionsContainer');
+            if (test.type === 'numeric') {
+                const step = test.step || 1;
+                container.innerHTML = `
+                    <div class="test-question">
+                        <div class="test-question-header">
+                            <div class="test-question-num">1</div>
+                            <div class="test-question-text">Въведете стойност</div>
+                        </div>
+                        <div class="test-numeric-input">
+                            <input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}">
+                            <span class="scale-hint">${escapeHtml(test.minLabel)} — ${escapeHtml(test.maxLabel)}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = test.questions.map((q, qi) => `
+                    <div class="test-question" data-q-index="${qi}">
+                        <div class="test-question-header">
+                            <div class="test-question-num">${qi + 1}</div>
+                            <div class="test-question-text">${escapeHtml(q.text)}</div>
+                        </div>
+                        <div class="test-options">
+                            ${q.options.map((opt, oi) => `
+                                <label class="test-option" data-q="${qi}" data-score="${opt.score}">
+                                    <input type="radio" name="q_${qi}" value="${opt.score}">
+                                    <span class="test-option-box"></span>
+                                    <span class="test-option-label">${escapeHtml(opt.label)}</span>
+                                    <span class="test-option-score">${opt.score}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                container.querySelectorAll('.test-option').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        const qIdx = opt.dataset.q;
+                        container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected'));
+                        opt.classList.add('selected');
+                        opt.querySelector('input[type="radio"]').checked = true;
+                    });
+                });
+            }
+            $('testsLibraryView').style.display = 'none';
+            $('testResultContainer').classList.remove('active');
+            $('testFormContainer').classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        $('backToTestsBtn').addEventListener('click', () => {
+            $('testFormContainer').classList.remove('active');
+            $('testsLibraryView').style.display = 'block';
+            currentTestId = null;
+        });
+
+        $('testCancelBtn').addEventListener('click', () => {
+            $('testFormContainer').classList.remove('active');
+            $('testsLibraryView').style.display = 'block';
+            currentTestId = null;
+        });
+
+        $('testResetBtn').addEventListener('click', () => {
+            if (!currentTestId) return;
+            const test = TESTS_DEFINITIONS[currentTestId];
+            if (!confirm('Да изчистя ли отговорите?')) return;
+            if (test.type === 'numeric') {
+                $('testNumericInput').value = '';
+            } else {
+                $('testQuestionsContainer').querySelectorAll('.test-option').forEach(o => o.classList.remove('selected'));
+                $('testQuestionsContainer').querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+            }
+        });
+
+        $('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = $('testPatient').value;
+            const date = $('testDate').value;
+            if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; }
+            if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; }
+            const test = TESTS_DEFINITIONS[currentTestId];
+            let answers = [], score = 0;
+            if (test.type === 'numeric') {
+                const val = parseFloat($('testNumericInput').value);
+                if (isNaN(val) || val < test.min || val > test.max) {
+                    showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error');
+                    return;
+                }
+                score = val;
+                answers = [val];
+            } else {
+                const qCount = test.questions.length;
+                for (let i = 0; i < qCount; i++) {
+                    const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`);
+                    if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; }
+                    answers.push(parseInt(selected.dataset.score));
+                }
+                score = test.calculate(answers);
+            }
+            $('testSaveBtn').disabled = true;
+            try {
+                await set(push(clinicRef('testResults')), {
+                    testId: currentTestId,
+                    testName: test.name,
+                    patientId,
+                    date,
+                    answers,
+                    score,
+                    scoreUnit: test.scoreUnit || '',
+                    createdBy: currentUser.id,
+                    createdByName: currentUser.name,
+                    createdAt: Date.now()
+                });
+                showTestResult(test, score, patientId, date);
+                showToast('Резултатът е запазен.', 'success');
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('testSaveBtn').disabled = false;
+            }
+        });
+
+        function showTestResult(test, score, patientId, date) {
+            const interp = test.interpretation ? test.interpretation(score) : { label: '—', class: '' };
+            const patient = patients[patientId];
+            const pn = patient ? patient.name : '—';
+            $('testResultContent').innerHTML = `
+                <div class="test-result-card">
+                    <div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div>
+                    <div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div>
+                    <div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div>
+                </div>
+                <div class="apt-manage-info">
+                    <div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div>
+                    <div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div>
+                    <div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div>
+                </div>
+            `;
+            $('testFormContainer').classList.remove('active');
+            $('testResultContainer').classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        $('backToTestsFromResultBtn').addEventListener('click', () => {
+            $('testResultContainer').classList.remove('active');
+            $('testsLibraryView').style.display = 'block';
+            renderTestHistory();
+        });
+
+        $('testResultCloseBtn').addEventListener('click', () => {
+            $('testResultContainer').classList.remove('active');
+            $('testsLibraryView').style.display = 'block';
+            renderTestHistory();
+        });
+
+        $('testResultNewBtn').addEventListener('click', () => {
+            $('testResultContainer').classList.remove('active');
+            $('testsLibraryView').style.display = 'block';
+            currentTestId = null;
+        });
+
+        function renderTestHistory() {
+            const list = $('testHistoryList');
+            if (!list) return;
+            const all = Object.entries(testResults).map(([id, t]) => ({ id, ...t })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            if (all.length === 0) {
+                list.innerHTML = `<div class="empty-message">Няма попълнени тестове</div>`;
+                return;
+            }
+            list.innerHTML = all.slice(0, 50).map(t => {
+                const def = TESTS_DEFINITIONS[t.testId];
+                const icon = def ? def.icon : 'fa-clipboard-check';
+                const colorClass = def ? def.colorClass : 'other';
+                const pat = patients[t.patientId];
+                const pn = pat ? escapeHtml(pat.name) : 'неизвестен';
+                const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '—', class: '' };
+                const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' };
+                return `<div class="test-history-item">
+                    <div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div>
+                    <div class="test-history-info">
+                        <div class="name">${escapeHtml(t.testName)}</div>
+                        <div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-calendar"></i> ${formatDate(t.date)} · ${t.createdByName ? escapeHtml(t.createdByName) : ''}</div>
+                    </div>
+                    <div class="test-history-score">${t.score}${t.scoreUnit || ''}</div>
+                    <div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div>
+                    <button class="btn-danger-outline btn btn-sm delete-test-result" data-id="${t.id}"><i class="fas fa-trash-alt"></i></button>
+                </div>`;
+            }).join('');
+            list.querySelectorAll('.delete-test-result').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    if (!confirm('Изтрий този резултат?')) return;
+                    try { await remove(clinicRef(`testResults/${btn.dataset.id}`)); showToast('Изтрит.', 'success'); }
+                    catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+                });
+            });
+        }
+
+        // ==================== END TESTS MODULE ====================
+
         function renderDashboard() {
             if (!currentUser || currentPatient) return;
             const todayStr = toDateStr(new Date());
@@ -1996,6 +2648,7 @@
                 sel.innerHTML = '<option value="">-- пациент *</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
                 if (active.some(p=>p.id===cur)) sel.value = cur;
             });
+            renderTestPatientDropdown();
         }
 
         function renderPortalKineziSelect() {
@@ -3155,6 +3808,7 @@
             const pSession = Object.entries(sessionNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const pSoap = Object.entries(soapNotes).map(([id,n])=>({id,...n})).filter(n=>n.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const pDocs = Object.entries(documents).map(([id,d])=>({id,...d})).filter(d=>d.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+            const pTests = Object.entries(testResults).map(([id,t])=>({id,...t})).filter(t=>t.patientId===patientId).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
             const total = prices.reduce((s,p)=>s+(parseFloat(p.price)||0),0);
             $('profileContent').innerHTML = `
                 <div class="profile-header">
@@ -3171,9 +3825,24 @@
                     <div class="stat-card"><div class="label">Процедури</div><div class="value">${procs.length}</div></div>
                     <div class="stat-card"><div class="label">Бележки</div><div class="value">${pSession.length}</div></div>
                     <div class="stat-card"><div class="label">SOAP</div><div class="value">${pSoap.length}</div></div>
+                    <div class="stat-card"><div class="label">Тестове</div><div class="value">${pTests.length}</div></div>
                     <div class="stat-card"><div class="label">Файлове</div><div class="value">${pDocs.length}</div></div>
                     <div class="stat-card"><div class="label">Платил</div><div class="value">${formatPrice(total)} €</div></div>
                 </div>
+                ${pTests.length > 0 ? `<div class="card"><h3><i class="fas fa-clipboard-check"></i> Тестове и скали (${pTests.length})</h3>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        ${pTests.slice(0, 10).map(t => {
+                            const def = TESTS_DEFINITIONS[t.testId];
+                            const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '—', class: '' };
+                            const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' };
+                            return `<div style="display:flex; align-items:center; gap:12px; padding:0.8rem 1rem; background:#f8fbfe; border-radius:12px; border-left:4px solid #1e4a78;">
+                                <div style="flex:1;"><div style="font-weight:600; color:#0b2b4f; font-size:0.9rem;">${escapeHtml(t.testName)}</div><div style="font-size:0.78rem; color:#7f95b0;">${formatDate(t.date)}</div></div>
+                                <div style="font-weight:700; color:#1e4a78;">${t.score}${t.scoreUnit || ''}</div>
+                                <div style="padding:0.25rem 0.7rem; border-radius:6px; font-size:0.75rem; font-weight:700; ${badgeColors[interp.class] || ''}">${escapeHtml(interp.label)}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>` : ''}
                 <div class="card">
                     <h3><i class="fas fa-history"></i> Процедури (${procs.length})</h3>
                     ${procs.length===0?'<div class="empty-message">Няма процедури</div>':`<div class="timeline">${procs.map(p=>`<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} в ${p.time||'—'}</div><div class="title">${escapeHtml(p.description)}</div>${p.result?`<div class="result"><strong>Резултат:</strong> ${escapeHtml(p.result)}</div>`:''}</div>`).join('')}</div>`}
@@ -3343,6 +4012,7 @@
                 else if (mod === 'patients') renderPatients();
                 else if (mod === 'schedule') renderWeek();
                 else if (mod === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
+                else if (mod === 'tests') { renderTestsModule(); }
                 else if (mod === 'exercises') {
                     if (isPatient(currentUser)) {
                         $('exerciseTabsBar').style.display = 'none';
@@ -3365,15 +4035,12 @@
             });
         });
 
-        // ★★★ INIT - БЕЗ showLoading(true) ★★★
         function init() {
             const today = new Date().toISOString().split('T')[0];
-            ['procDate','aptDate','noteDate','soapDate','priceDateInput','portalAptDate'].forEach(id=>{ if($(id)) $(id).value = today; });
+            ['procDate','aptDate','noteDate','soapDate','priceDateInput','portalAptDate','testDate'].forEach(id=>{ if($(id)) $(id).value = today; });
             currentPriceDate = today;
             codeInputEls[0].focus();
-            // ★ Без showLoading(true) - login screen-ът се вижда веднага
             startClinicsListener();
-            // ★ Без setTimeout(() => showLoading(false), 2000)
         }
 
         init();
