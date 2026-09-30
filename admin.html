@@ -207,6 +207,938 @@
             </div>
             <div class="header-actions">
                 <div class="admin-user">
+                    <div class="avatar">PA</div>
+                    <span id="adminName">PhysioBook Admin</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Изход</button>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <aside class="sidebar">
+                <nav class="nav">
+                    <button class="nav-item active" data-module="dashboard"><i class="fas fa-chart-pie"></i><span>Табло</span></button>
+                    <button class="nav-item" data-module="clinics"><i class="fas fa-hospital"></i><span>Клиники</span></button>
+                    <button class="nav-item" data-module="modules"><i class="fas fa-th-large"></i><span>Модули</span></button>
+                    <button class="nav-item" data-module="settings"><i class="fas fa-cog"></i><span>Настройки</span></button>
+                </nav>
+            </aside>
+
+            <main class="main">
+
+                <section class="module active" id="module-dashboard">
+                    <div class="module-header">
+                        <h1><i class="fas fa-chart-pie"></i> Табло</h1>
+                    </div>
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <div class="card">
+                        <h3><i class="fas fa-hospital"></i> Всички клиники</h3>
+                        <div id="dashboardClinicsList"></div>
+                    </div>
+                </section>
+
+                <section class="module" id="module-clinics">
+                    <div class="module-header">
+                        <h1><i class="fas fa-hospital"></i> Клиники</h1>
+                        <button class="btn" id="addClinicBtn"><i class="fas fa-plus"></i> Нова клиника</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Име</th>
+                                    <th>Собственик</th>
+                                    <th>Телефон</th>
+                                    <th>Модули</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clinicsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="module" id="module-modules">
+                    <div class="module-header">
+                        <h1><i class="fas fa-th-large"></i> Модули по клиники</h1>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-hospital"></i> Изберете клиника</h3>
+                        <select id="modulesClinicSelect" style="width:100%; max-width:400px; padding:0.85rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; font-weight:600; color:#0b2b4f;">
+                            <option value="">-- избери клиника --</option>
+                        </select>
+                    </div>
+                    <div class="card" id="modulesEditorCard" style="display:none;">
+                        <h3><i class="fas fa-toggle-on"></i> Включени модули</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Кликнете върху модул, за да го включите или изключите. Промените се запазват автоматично.</p>
+                        <div class="modules-grid" id="modulesGrid"></div>
+                        <div style="margin-top:1.5rem; display:flex; gap:10px; flex-wrap:wrap;">
+                            <button class="btn btn-outline btn-sm" id="enableAllModulesBtn"><i class="fas fa-check-double"></i> Включи всички</button>
+                            <button class="btn btn-outline btn-sm" id="disableAllModulesBtn"><i class="fas fa-times"></i> Изключи всички (без Настройки)</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="module" id="module-settings">
+                    <div class="module-header">
+                        <h1><i class="fas fa-cog"></i> Настройки</h1>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-shield-alt"></i> Администраторски акаунт</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Потребителско име</label>
+                                <input type="text" id="setAdminUser" value="admin">
+                            </div>
+                            <div class="form-group">
+                                <label>Нова парола (остави празно за да не се променя)</label>
+                                <input type="password" id="setAdminPass" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div style="margin-top:1rem;">
+                            <button class="btn" id="saveAdminSettingsBtn"><i class="fas fa-save"></i> Запази</button>
+                        </div>
+                    </div>
+                    <div class="card" style="border-left:4px solid #0891b2;">
+                        <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники, които все още ги нямат.</p>
+                        <button class="btn" id="migrateModulesBtn" style="background:#0891b2;"><i class="fas fa-play"></i> Стартирай миграция</button>
+                    </div>
+                    <div class="card" style="border-left:4px solid #b22234;">
+                        <h3 style="color:#b22234;"><i class="fas fa-exclamation-triangle"></i> Опасна зона</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Тези действия са необратими!</p>
+                        <button class="btn-danger-outline btn" id="resetAdminBtn"><i class="fas fa-redo"></i> Нулирай admin настройки</button>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="clinicModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="clinicModalTitle">Нова клиника</h3>
+                <button class="modal-close" id="clinicModalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="clinicForm">
+                <input type="hidden" id="clinicId">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Име на клиниката *</label>
+                        <input type="text" id="clinicName" required placeholder="напр. Физио Център София">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Подзаглавие / Слоган</label>
+                        <input type="text" id="clinicSub" placeholder="напр. Медицински център">
+                    </div>
+                    <div class="form-group">
+                        <label>Собственик (име) *</label>
+                        <input type="text" id="clinicOwnerName" required placeholder="напр. Иван Петров">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон на собственика</label>
+                        <input type="tel" id="clinicOwnerPhone" placeholder="0888123456">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Код за достъп на собственика (6 цифри)</label>
+                        <input type="text" id="clinicOwnerCode" maxlength="6" pattern="[0-9]{6}" placeholder="Остави празно за автоматично генериране">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон на клиниката</label>
+                        <input type="text" id="clinicPhone">
+                    </div>
+                    <div class="form-group">
+                        <label>Имейл на клиниката</label>
+                        <input type="email" id="clinicEmail">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Адрес</label>
+                        <input type="text" id="clinicAddress">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-outline btn" id="clinicCancelBtn">Отказ</button>
+                    <button type="submit" class="btn btn-success" id="clinicSaveBtn"><i class="fas fa-save"></i> Запази</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
+            authDomain: "physiobook-d6eff.firebaseapp.com",
+            databaseURL: "https://physiobook-d6eff-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "physiobook-d6eff",
+            storageBucket: "physiobook-d6eff.firebasestorage.app",
+            messagingSenderId: "72682142520",
+            appId: "1:72682142520:web:ef39ae0e5ca3d48f5cdfcd",
+            measurementId: "G-S3S31S72B0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const MODULES = [
+            { id: 'dashboard', name: 'Табло', icon: 'fa-chart-pie', desc: 'Основно табло с обобщена информация', locked: false },
+            { id: 'patients', name: 'Пациенти', icon: 'fa-users', desc: 'Управление на пациенти', locked: false },
+            { id: 'schedule', name: 'График', icon: 'fa-calendar-alt', desc: 'Календар и часове', locked: false },
+            { id: 'procedures', name: 'Процедури', icon: 'fa-stethoscope', desc: 'Запис на процедури', locked: false },
+            { id: 'tests', name: 'Тестове и скали', icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg', locked: false },
+            { id: 'inventory', name: 'Инвентар', icon: 'fa-boxes', desc: 'Ластици, електроди, консумативи, масла, ортези', locked: false },
+            { id: 'vouchers', name: 'Ваучери', icon: 'fa-ticket-alt', desc: 'Подаръчни ваучери за процедури/пакети', locked: false },
+            { id: 'exercises', name: 'Упражнения', icon: 'fa-dumbbell', desc: 'Библиотека и домашни програми', locked: false },
+            { id: 'documentation', name: 'Документация', icon: 'fa-file-medical-alt', desc: 'Бележки, SOAP, файлове', locked: false },
+            { id: 'pricing', name: 'Ценоразпис', icon: 'fa-euro-sign', desc: 'Цени и приходи', locked: false },
+            { id: 'settings', name: 'Настройки', icon: 'fa-cog', desc: 'Настройки на клиниката (винаги включен)', locked: true },
+            { id: 'portal', name: 'Портал', icon: 'fa-user-circle', desc: 'Портал за пациенти', locked: false }
+        ];
+
+        const DEFAULT_ADMIN = { username: 'admin', password: 'admin123' };
+        const ADMIN_DISPLAY_NAME = 'PhysioBook Admin';
+
+        let clinics = {};
+        let currentModule = 'dashboard';
+        let editingClinicId = null;
+        let selectedClinicForModules = null;
+        let clinicSettingsMap = {};
+        let adminSettings = { ...DEFAULT_ADMIN };
+        let unsubscribers = [];
+        let settingsUnsubscribers = {};
+
+        const $ = id => document.getElementById(id);
+
+        function showToast(msg, type = 'info') {
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            t.innerHTML = `<i class="fas ${icon}"></i> <span>${msg}</span>`;
+            $('toastContainer').appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3500);
+        }
+        function showLoading(show = true) { $('loadingOverlay').classList.toggle('active', show); }
+        function escapeHtml(s) { if (s === null || s === undefined) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+        function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
+        function getModuleDef(modId) { return MODULES.find(m => m.id === modId); }
+
+        function getClinicModules(clinicId) {
+            const settings = clinicSettingsMap[clinicId] || {};
+            const enabled = settings.enabledModules || {};
+            const result = {};
+            MODULES.forEach(m => {
+                if (m.locked) {
+                    result[m.id] = true;
+                } else if (enabled[m.id] === undefined) {
+                    result[m.id] = true;
+                } else {
+                    result[m.id] = enabled[m.id] !== false;
+                }
+            });
+            return result;
+        }
+
+        function getDefaultModulesState() {
+            const state = {};
+            MODULES.forEach(m => { state[m.id] = true; });
+            return state;
+        }
+
+        async function loadAdminSettings() {
+            try {
+                const snap = await get(ref(db, 'adminSettings'));
+                const val = snap.val();
+                if (val && val.username && val.password) {
+                    adminSettings = val;
+                } else {
+                    await set(ref(db, 'adminSettings'), DEFAULT_ADMIN);
+                    adminSettings = { ...DEFAULT_ADMIN };
+                }
+            } catch(e) {
+                console.error('Failed to load admin settings:', e);
+                adminSettings = { ...DEFAULT_ADMIN };
+            }
+        }
+
+        $('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = $('adminUsername').value.trim();
+            const pass = $('adminPassword').value;
+            showLoading(true);
+            await loadAdminSettings();
+            showLoading(false);
+            if (user === adminSettings.username && pass === adminSettings.password) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                $('adminName').textContent = ADMIN_DISPLAY_NAME;
+                startApp();
+            } else {
+                const err = $('loginError');
+                $('loginErrorText').textContent = 'Грешно потребителско име или парола.';
+                err.classList.add('active');
+                setTimeout(() => err.classList.remove('active'), 4000);
+            }
+        });
+
+        function startApp() {
+            $('loginScreen').classList.add('hidden');
+            $('app').classList.add('active');
+            $('adminName').textContent = ADMIN_DISPLAY_NAME;
+            startListeners();
+            $('setAdminUser').value = adminSettings.username;
+        }
+
+        $('logoutBtn').addEventListener('click', () => {
+            if (!confirm('Сигурни ли сте?')) return;
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        });
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const mod = item.dataset.module;
+                currentModule = mod;
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+                document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+                $(`module-${mod}`).classList.add('active');
+            });
+        });
+
+        function startListeners() {
+            unsubscribers.push(onValue(ref(db, 'clinics'), (snap) => {
+                clinics = snap.val() || {};
+                syncSettingsListeners();
+                renderDashboard();
+                renderClinics();
+                renderModulesClinicSelect();
+                if (selectedClinicForModules) renderModulesEditor();
+            }));
+        }
+
+        function syncSettingsListeners() {
+            const currentIds = Object.keys(clinics);
+            Object.keys(settingsUnsubscribers).forEach(cid => {
+                if (!currentIds.includes(cid)) {
+                    try { settingsUnsubscribers[cid](); } catch(e){}
+                    delete settingsUnsubscribers[cid];
+                    delete clinicSettingsMap[cid];
+                }
+            });
+            currentIds.forEach(cid => {
+                if (!settingsUnsubscribers[cid]) {
+                    const settingsRef = ref(db, `clinics/${cid}/settings`);
+                    const unsub = onValue(settingsRef, (s) => {
+                        clinicSettingsMap[cid] = s.val() || {};
+                        renderClinics();
+                        if (selectedClinicForModules === cid) renderModulesEditor();
+                    });
+                    settingsUnsubscribers[cid] = unsub;
+                }
+            });
+        }
+
+        function renderDashboard() {
+            const clinicIds = Object.keys(clinics);
+            const totalClinics = clinicIds.length;
+            const grid = $('statsGrid');
+            grid.innerHTML = `
+                <div class="stat-card">
+                    <div class="lbl"><i class="fas fa-hospital"></i> Общо клиники</div>
+                    <div class="val">${totalClinics}</div>
+                    <div class="sub">регистрирани в системата</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="lbl"><i class="fas fa-check-circle"></i> Активни</div>
+                    <div class="val">${totalClinics}</div>
+                    <div class="sub">работят нормално</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="lbl"><i class="fas fa-th-large"></i> Модули</div>
+                    <div class="val">${MODULES.length}</div>
+                    <div class="sub">налични за включване</div>
+                </div>
+            `;
+
+            const list = $('dashboardClinicsList');
+            if (totalClinics === 0) {
+                list.innerHTML = `<div class="empty-message">Няма клиники. Създайте първата!</div>`;
+                return;
+            }
+            list.innerHTML = clinicIds.map(cid => {
+                const c = clinics[cid];
+                const owner = c.owner || {};
+                return `<div style="display:flex; align-items:center; gap:14px; padding:1rem 1.2rem; background:#f8fbfe; border-radius:14px; border-left:4px solid #1e4a78; margin-bottom:10px;">
+                    <div style="width:48px; height:48px; border-radius:12px; background:#e8f0fe; color:#1e4a78; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0;"><i class="fas fa-hospital"></i></div>
+                    <div style="flex:1; min-width:0;">
+                        <div style="font-weight:700; color:#0b2b4f; font-size:1rem;">${escapeHtml(c.name || '—')}</div>
+                        <div style="font-size:0.82rem; color:#7f95b0;">${escapeHtml(owner.name || '—')} · ${escapeHtml(c.phone || '—')}</div>
+                    </div>
+                    <div style="font-family:'Courier New',monospace; font-weight:700; color:#1e4a78; background:#fff; padding:0.4rem 0.8rem; border-radius:8px; border:1px solid #cfddee;">${escapeHtml(c.ownerCode || '—')}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderClinics() {
+            const ids = Object.keys(clinics);
+            const body = $('clinicsBody');
+            if (ids.length === 0) {
+                body.innerHTML = `<tr><td colspan="5" class="empty-message">Няма клиники</td></tr>`;
+                return;
+            }
+            body.innerHTML = ids.map(cid => {
+                const c = clinics[cid];
+                const owner = c.owner || {};
+                const mods = getClinicModules(cid);
+                const enabledCount = Object.values(mods).filter(v => v).length;
+                const totalMods = MODULES.length;
+                const badges = MODULES.slice(0, 6).map(m => 
+                    `<span class="module-badge ${mods[m.id] ? '' : 'off'}" title="${escapeHtml(m.name)}">${escapeHtml(m.name.substring(0, 8))}</span>`
+                ).join('') + (MODULES.length > 6 ? `<span class="module-badge">+${MODULES.length - 6}</span>` : '');
+
+                return `<tr>
+                    <td><strong>${escapeHtml(c.name || '—')}</strong></td>
+                    <td>${escapeHtml(owner.name || '—')}<br><small style="color:#7f95b0;">${escapeHtml(owner.phone || '')}</small></td>
+                    <td>${escapeHtml(c.phone || '—')}</td>
+                    <td>
+                        <div class="modules-badges">${badges}</div>
+                        <div style="font-size:0.78rem; color:#7f95b0; margin-top:6px;">${enabledCount} / ${totalMods} включени</div>
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <button class="btn-outline btn btn-sm" data-clinic-action="modules" data-clinic-id="${cid}"><i class="fas fa-th-large"></i> Модули</button>
+                        <button class="btn-outline btn btn-sm" data-clinic-action="edit" data-clinic-id="${cid}"><i class="fas fa-edit"></i></button>
+                        <button class="btn-danger-outline btn btn-sm" data-clinic-action="delete" data-clinic-id="${cid}"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('[data-clinic-action]');
+            if (!btn) return;
+            const action = btn.dataset.clinicAction;
+            const cid = btn.dataset.clinicId;
+            if (action === 'edit') { openClinicModal(cid); }
+            else if (action === 'modules') { selectClinicForModules(cid); }
+            else if (action === 'delete') {
+                if (!confirm('Сигурни ли сте, че искате да изтриете ТАЗИ КЛИНИКА и ВСИЧКИ нейни данни?')) return;
+                if (!confirm('Това действие е НЕОБРАТИМО! Сигурни ли сте?')) return;
+                try {
+                    await remove(ref(db, `clinics/${cid}`));
+                    showToast('Клиниката е изтрита.', 'success');
+                } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            }
+        });
+
+        $('addClinicBtn').addEventListener('click', () => openClinicModal());
+        $('clinicModalClose').addEventListener('click', () => $('clinicModal').classList.remove('active'));
+        $('clinicCancelBtn').addEventListener('click', () => $('clinicModal').classList.remove('active'));
+
+        function openClinicModal(cid = null) {
+            const modal = $('clinicModal');
+            const form = $('clinicForm');
+            form.reset();
+            editingClinicId = null;
+            $('clinicId').value = '';
+            if (cid && clinics[cid]) {
+                const c = clinics[cid];
+                const owner = c.owner || {};
+                $('clinicModalTitle').textContent = 'Редакция на клиника';
+                editingClinicId = cid;
+                $('clinicId').value = cid;
+                $('clinicName').value = c.name || '';
+                $('clinicSub').value = c.sub || '';
+                $('clinicOwnerName').value = owner.name || '';
+                $('clinicOwnerPhone').value = owner.phone || '';
+                $('clinicOwnerCode').value = c.ownerCode || '';
+                $('clinicPhone').value = c.phone || '';
+                $('clinicEmail').value = c.email || '';
+                $('clinicAddress').value = c.address || '';
+            } else {
+                $('clinicModalTitle').textContent = 'Нова клиника';
+            }
+            modal.classList.add('active');
+        }
+
+        $('clinicForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const cid = $('clinicId').value;
+            const name = $('clinicName').value.trim();
+            const sub = $('clinicSub').value.trim();
+            const ownerName = $('clinicOwnerName').value.trim();
+            const ownerPhone = $('clinicOwnerPhone').value.trim();
+            let ownerCode = $('clinicOwnerCode').value.trim();
+            const clinicPhone = $('clinicPhone').value.trim();
+            const clinicEmail = $('clinicEmail').value.trim();
+            const clinicAddress = $('clinicAddress').value.trim();
+
+            if (!name || !ownerName) { showToast('Попълнете име на клиника и собственик.', 'error'); return; }
+            if (ownerCode && !/^\d{6}$/.test(ownerCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
+
+            $('clinicSaveBtn').disabled = true;
+            showLoading(true);
+
+            try {
+                if (!ownerCode) {
+                    let attempts = 0;
+                    do { ownerCode = generate6DigitCode(); attempts++; }
+                    while (await codeExists(ownerCode) && attempts < 500);
+                }
+
+                const owner = { name: ownerName, phone: ownerPhone };
+                const clinicData = {
+                    name, sub, owner, ownerCode,
+                    phone: clinicPhone,
+                    email: clinicEmail,
+                    address: clinicAddress,
+                    updatedAt: Date.now()
+                };
+
+                if (cid) {
+                    await update(ref(db, `clinics/${cid}`), clinicData);
+
+                    const usersSnap = await get(ref(db, `clinics/${cid}/users`));
+                    const usersData = usersSnap.val() || {};
+                    let ownerUserId = null;
+                    for (const uid of Object.keys(usersData)) {
+                        const u = usersData[uid];
+                        const roles = u.roles || [u.role];
+                        if (roles.includes('Администратор') || roles.includes('Кинезитерапевт')) {
+                            ownerUserId = uid;
+                            break;
+                        }
+                    }
+                    if (ownerUserId) {
+                        await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
+                            name: ownerName,
+                            phone: ownerPhone,
+                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                            accessCode: ownerCode
+                        });
+                    } else {
+                        await set(push(ref(db, `clinics/${cid}/users`)), {
+                            name: ownerName,
+                            phone: ownerPhone,
+                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                            roles: ['Кинезитерапевт', 'Администратор'],
+                            accessCode: ownerCode,
+                            createdAt: Date.now(),
+                            createdBy: 'admin'
+                        });
+                    }
+
+                    showToast('Клиниката е обновена.', 'success');
+                } else {
+                    clinicData.createdAt = Date.now();
+
+                    const newRef = push(ref(db, 'clinics'));
+                    const newId = newRef.key;
+                    clinicData.id = newId;
+                    await set(newRef, clinicData);
+
+                    await set(ref(db, `clinics/${newId}/settings`), {
+                        name,
+                        sub: sub || 'Медицински център',
+                        enabledModules: getDefaultModulesState(),
+                        createdAt: Date.now()
+                    });
+
+                    await set(push(ref(db, `clinics/${newId}/users`)), {
+                        name: ownerName,
+                        phone: ownerPhone,
+                        phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                        roles: ['Кинезитерапевт', 'Администратор'],
+                        accessCode: ownerCode,
+                        createdAt: Date.now(),
+                        createdBy: 'admin'
+                    });
+
+                    showToast(`Клиниката е създадена! Код за достъп: ${ownerCode}`, 'success');
+                }
+                $('clinicModal').classList.remove('active');
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+                console.error(err);
+            } finally {
+                $('clinicSaveBtn').disabled = false;
+                showLoading(false);
+            }
+        });
+
+        async function codeExists(code) {
+            try {
+                const snap = await get(ref(db, 'clinics'));
+                const data = snap.val() || {};
+                for (const cid of Object.keys(data)) {
+                    const c = data[cid];
+                    if (c.ownerCode === code) return true;
+                    const us = c.users || {};
+                    for (const uid of Object.keys(us)) {
+                        if (us[uid].accessCode === code) return true;
+                    }
+                    const ps = c.patients || {};
+                    for (const pid of Object.keys(ps)) {
+                        if (ps[pid].accessCode === code) return true;
+                    }
+                }
+            } catch(e) {}
+            return false;
+        }
+
+        function renderModulesClinicSelect() {
+            const sel = $('modulesClinicSelect');
+            const cur = sel.value;
+            const ids = Object.keys(clinics).sort((a,b) => (clinics[a].name||'').localeCompare(clinics[b].name||''));
+            sel.innerHTML = '<option value="">-- избери клиника --</option>' + ids.map(cid =>
+                `<option value="${cid}">${escapeHtml(clinics[cid].name || '—')}</option>`
+            ).join('');
+            if (ids.includes(cur)) sel.value = cur;
+        }
+
+        $('modulesClinicSelect').addEventListener('change', (e) => {
+            const cid = e.target.value;
+            if (cid) selectClinicForModules(cid);
+            else { selectedClinicForModules = null; $('modulesEditorCard').style.display = 'none'; }
+        });
+
+        function selectClinicForModules(cid) {
+            selectedClinicForModules = cid;
+            $('modulesClinicSelect').value = cid;
+            $('modulesEditorCard').style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.module === 'modules'));
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            $('module-modules').classList.add('active');
+            currentModule = 'modules';
+            renderModulesEditor();
+        }
+
+        function renderModulesEditor() {
+            if (!selectedClinicForModules) return;
+            const grid = $('modulesGrid');
+            const mods = getClinicModules(selectedClinicForModules);
+            grid.innerHTML = MODULES.map(m => {
+                const enabled = mods[m.id];
+                const locked = m.locked;
+                return `<div class="module-toggle ${enabled ? 'enabled' : ''} ${locked ? 'locked' : ''}" data-module-id="${m.id}">
+                    <div class="module-icon"><i class="fas ${m.icon}"></i></div>
+                    <div class="module-info">
+                        <div class="name">${escapeHtml(m.name)} ${locked ? '<i class="fas fa-lock" style="font-size:0.7rem; color:#7f95b0;"></i>' : ''}</div>
+                        <div class="desc">${escapeHtml(m.desc)}</div>
+                    </div>
+                    <div class="switch"></div>
+                </div>`;
+            }).join('');
+
+            grid.querySelectorAll('.module-toggle').forEach(toggle => {
+                toggle.addEventListener('click', async () => {
+                    const modId = toggle.dataset.moduleId;
+                    const modDef = getModuleDef(modId);
+                    if (modDef.locked) { showToast(`${modDef.name} не може да бъде изключен.`, 'info'); return; }
+                    const currentlyEnabled = toggle.classList.contains('enabled');
+                    const newValue = !currentlyEnabled;
+
+                    toggle.classList.toggle('enabled', newValue);
+
+                    try {
+                        const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                        const settings = settingsSnap.val() || {};
+                        const enabledModules = settings.enabledModules || {};
+                        
+                        MODULES.forEach(m => {
+                            if (enabledModules[m.id] === undefined) {
+                                enabledModules[m.id] = true;
+                            }
+                        });
+                        
+                        enabledModules[modId] = newValue;
+                        
+                        await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
+                        
+                        showToast(`${modDef.name}: ${newValue ? 'включен' : 'изключен'}`, 'success');
+                    } catch(err) {
+                        toggle.classList.toggle('enabled', currentlyEnabled);
+                        showToast('Грешка: ' + err.message, 'error');
+                    }
+                });
+            });
+        }
+
+        $('enableAllModulesBtn').addEventListener('click', async () => {
+            if (!selectedClinicForModules) return;
+            if (!confirm('Включи ВСИЧКИ модули?')) return;
+            try {
+                const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                const settings = settingsSnap.val() || {};
+                const enabledModules = settings.enabledModules || {};
+                MODULES.forEach(m => { enabledModules[m.id] = true; });
+                await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
+                showToast('Всички модули са включени.', 'success');
+                renderModulesEditor();
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        $('disableAllModulesBtn').addEventListener('click', async () => {
+            if (!selectedClinicForModules) return;
+            if (!confirm('Изключи ВСИЧКИ модули (без Настройки)?')) return;
+            try {
+                const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                const settings = settingsSnap.val() || {};
+                const enabledModules = settings.enabledModules || {};
+                MODULES.forEach(m => { enabledModules[m.id] = m.locked ? true : false; });
+                await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
+                showToast('Всички модули са изключени.', 'success');
+                renderModulesEditor();
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        $('migrateModulesBtn').addEventListener('click', async () => {
+            if (!confirm('Ще добави новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники. Продължи?')) return;
+            $('migrateModulesBtn').disabled = true;
+            showLoading(true);
+            try {
+                const snapshot = await get(ref(db, 'clinics'));
+                const data = snapshot.val() || {};
+                let migratedCount = 0;
+                for (const cid of Object.keys(data)) {
+                    const settings = data[cid].settings || {};
+                    const enabledModules = settings.enabledModules || {};
+                    let needsUpdate = false;
+                    MODULES.forEach(m => {
+                        if (enabledModules[m.id] === undefined) {
+                            enabledModules[m.id] = m.locked ? true : true;
+                            needsUpdate = true;
+                        }
+                    });
+                    if (needsUpdate) {
+                        await update(ref(db, `clinics/${cid}/settings`), { enabledModules });
+                        migratedCount++;
+                    }
+                }
+                showToast(`Миграцията завърши. Обновени клиники: ${migratedCount}`, 'success');
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('migrateModulesBtn').disabled = false;
+                showLoading(false);
+            }
+        });
+
+        $('saveAdminSettingsBtn').addEventListener('click', async () => {
+            const newUser = $('setAdminUser').value.trim();
+            const newPass = $('setAdminPass').value.trim();
+            if (!newUser) { showToast('Въведете потребителско име.', 'error'); return; }
+            $('saveAdminSettingsBtn').disabled = true;
+            try {
+                const updated = { username: newUser, password: newPass || adminSettings.password };
+                await set(ref(db, 'adminSettings'), updated);
+                adminSettings = updated;
+                // Името в хедъра остава 'PhysioBook Admin' — не се променя
+                $('setAdminPass').value = '';
+                showToast('Настройките са запазени.', 'success');
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { $('saveAdminSettingsBtn').disabled = false; }
+        });
+
+        $('resetAdminBtn').addEventListener('click', async () => {
+            if (!confirm('Нулирай admin настройки до admin/admin123?')) return;
+            if (!confirm('Сигурни ли сте? Това ще смени потребителското име и паролата!')) return;
+            try {
+                await set(ref(db, 'adminSettings'), DEFAULT_ADMIN);
+                adminSettings = { ...DEFAULT_ADMIN };
+                $('setAdminUser').value = DEFAULT_ADMIN.username;
+                // Името в хедъра остава 'PhysioBook Admin' — не се променя
+                showToast('Admin настройките са нулирани. Излезте и влезте отново.', 'success');
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        async function init() {
+            await loadAdminSettings();
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                $('adminName').textContent = ADMIN_DISPLAY_NAME;
+                startApp();
+            } else {
+                $('loginScreen').classList.remove('hidden');
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>        .header-sub { font-size: 0.75rem; color: #a6d0ff; font-weight: 500; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .admin-user { display: flex; align-items: center; gap: 10px; padding: 0.3rem 0.9rem 0.3rem 0.3rem; background: rgba(255,255,255,0.1); border-radius: 40px; font-size: 0.9rem; }
+        .admin-user .avatar { width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+        .logout-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 0.5rem 1rem; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+        .logout-btn:hover { background: #b22234; border-color: #b22234; }
+
+        .app-body { display: flex; flex: 1; }
+        .sidebar { width: 260px; background: #0b2b4f; color: #fff; padding: 1.5rem 0.5rem; display: flex; flex-direction: column; min-height: calc(100vh - 74px); }
+        .nav { display: flex; flex-direction: column; gap: 0.4rem; padding: 0 0.7rem; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.1rem; border-radius: 12px; font-size: 0.95rem; font-weight: 500; color: #e0edff; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; transition: 0.15s; }
+        .nav-item i { width: 22px; font-size: 1.05rem; color: #7fb2e5; }
+        .nav-item:hover { background: #1f3f61; color: #fff; }
+        .nav-item.active { background: #1e4a78; color: #fff; }
+        .nav-item.active i { color: #fff; }
+
+        .main { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        .module { display: none; }
+        .module.active { display: block; animation: fade 0.2s ease; }
+        @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
+
+        .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .module-header h1 { font-size: 1.8rem; color: #0b2b4f; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+        .module-header h1 i { color: #1e4a78; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        .stat-card { background: #fff; border-radius: 18px; padding: 1.4rem 1.6rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .stat-card.warning::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .stat-card.success::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .stat-card.purple::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
+        .stat-card .lbl { font-size: 0.8rem; color: #7f95b0; text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+        .stat-card .val { font-size: 2rem; font-weight: 700; color: #0b2b4f; line-height: 1; }
+        .stat-card .sub { font-size: 0.85rem; color: #7f95b0; margin-top: 0.4rem; }
+
+        .card { background: #fff; border-radius: 20px; padding: 1.8rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e9eef3; margin-bottom: 1.5rem; }
+        .card h3 { font-size: 1.15rem; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.88rem; font-weight: 600; color: #1f3f61; }
+        .form-group input, .form-group select, .form-group textarea { padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.92rem; font-family: inherit; background: #f8fbfe; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11,43,79,0.08); }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.75rem 1.6rem; border-radius: 40px; border: none; font-weight: 600; font-size: 0.92rem; cursor: pointer; background: #0b2b4f; color: #fff; box-shadow: 0 4px 12px rgba(11,43,79,0.12); transition: 0.15s; }
+        .btn:hover:not(:disabled) { background: #1e4a78; transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.82rem; }
+        .btn-outline { background: transparent; color: #0b2b4f; border: 1px solid #cfddee; box-shadow: none; }
+        .btn-outline:hover:not(:disabled) { background: #f5f9ff; border-color: #0b2b4f; }
+        .btn-danger-outline { background: transparent; color: #b22234; border: 1px solid #f0c0c0; box-shadow: none; }
+        .btn-danger-outline:hover:not(:disabled) { background: #fff5f5; border-color: #b22234; }
+        .btn-success { background: #1a7a3e; }
+        .btn-success:hover:not(:disabled) { background: #15642f; }
+
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .module-toggle { background: #f8fbfe; border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 1.2rem; cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 12px; user-select: none; }
+        .module-toggle:hover { border-color: #1e4a78; background: #f5f9ff; }
+        .module-toggle.enabled { border-color: #1a7a3e; background: #f0f9f1; }
+        .module-toggle.enabled .module-icon { background: #1a7a3e; color: #fff; }
+        .module-toggle .module-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; background: #e8f0fe; color: #1e4a78; flex-shrink: 0; transition: 0.15s; }
+        .module-toggle .module-info { flex: 1; min-width: 0; }
+        .module-toggle .module-info .name { font-weight: 700; color: #0b2b4f; font-size: 0.95rem; margin-bottom: 2px; }
+        .module-toggle .module-info .desc { font-size: 0.78rem; color: #7f95b0; }
+        .module-toggle .switch { width: 44px; height: 24px; border-radius: 20px; background: #cfddee; position: relative; flex-shrink: 0; transition: 0.2s; }
+        .module-toggle .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; }
+        .module-toggle.enabled .switch { background: #1a7a3e; }
+        .module-toggle.enabled .switch::after { left: 22px; }
+        .module-toggle.locked { opacity: 0.65; cursor: not-allowed; }
+        .module-toggle.locked:hover { border-color: #cfddee; background: #f8fbfe; }
+
+        .table-wrapper { overflow-x: auto; border-radius: 16px; border: 1px solid #e9eef3; background: #fff; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 700px; }
+        th { text-align: left; padding: 1rem 1.2rem; background: #f8fbfe; color: #0b2b4f; font-weight: 700; border-bottom: 1px solid #dee9f2; font-size: 0.82rem; text-transform: uppercase; }
+        td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        .empty-message { text-align: center; padding: 2rem; color: #7f95b0; font-style: italic; }
+
+        .code-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f0fe; color: #0b2b4f; padding: 0.35rem 0.8rem; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 0.92rem; letter-spacing: 2px; }
+
+        .modules-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+        .module-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 5px; font-weight: 700; background: #e8f0fe; color: #1e4a78; text-transform: uppercase; }
+        .module-badge.off { background: #f0f0f0; color: #a0a0a0; text-decoration: line-through; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(11,43,79,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 24px; padding: 2rem 2.2rem; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #edf2f8; }
+        .modal-header h3 { font-size: 1.3rem; color: #0b2b4f; font-weight: 700; }
+        .modal-close { background: transparent; border: none; color: #7f95b0; font-size: 1.5rem; cursor: pointer; }
+        .modal-close:hover { color: #b22234; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
+
+        .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 1rem 1.5rem; border-radius: 14px; background: #0b2b4f; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; font-weight: 500; max-width: 380px; }
+        .toast.error { background: #b22234; }
+        .toast.success { background: #1a7a3e; }
+
+        .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; }
+        .loading-overlay.active { display: flex; }
+        .loading-overlay i { font-size: 2.5rem; margin-right: 1rem; animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 800px) {
+            .app-header { padding: 0.8rem 1rem; }
+            .header-title { font-size: 1.05rem; }
+            .sidebar { width: 70px; }
+            .nav-item span { display: none; }
+            .nav-item { justify-content: center; padding: 0.85rem; }
+            .main { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <symbol id="physio-logo" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
+                <circle cx="100" cy="55" r="18" fill="#1e4a78"/>
+                <path d="M 82,73 Q 75,90 75,110 Q 75,135 85,150 L 115,150 Q 125,135 125,110 Q 125,90 118,73 Z" fill="#1e4a78"/>
+                <circle cx="100" cy="82" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="92" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="102" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="112" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="122" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="132" r="3.2" fill="#3fb8b0"/>
+                <circle cx="100" cy="142" r="3.2" fill="#3fb8b0"/>
+                <path d="M 55,150 Q 70,160 100,165 Q 130,160 145,150 Q 155,145 150,138 Q 145,132 135,140 Q 120,152 100,152 Q 80,152 65,140 Q 55,132 50,138 Q 45,145 55,150 Z" fill="#3fb8b0"/>
+                <path d="M 60,40 Q 80,20 100,18 Q 120,20 140,40" fill="none" stroke="#3fb8b0" stroke-width="3.5" stroke-linecap="round"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
+            <h1>Admin Panel</h1>
+            <p class="subtitle">PhysioBook · Супер администратор</p>
+            <div class="login-error" id="loginError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="loginErrorText">Грешни данни.</span>
+            </div>
+            <form id="loginForm">
+                <div class="login-form-group">
+                    <label>Потребителско име</label>
+                    <input type="text" id="adminUsername" placeholder="admin" autocomplete="username" required>
+                </div>
+                <div class="login-form-group">
+                    <label>Парола</label>
+                    <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Вход
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="app" id="app">
+        <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
+        <div class="toast-container" id="toastContainer"></div>
+
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="header-logo"><svg><use href="#physio-logo"></use></svg></div>
+                <div>
+                    <div class="header-title">PhysioBook Admin</div>
+                    <div class="header-sub">Супер администраторски панел</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="admin-user">
                     <div class="avatar">SA</div>
                     <span id="adminName">Super Admin</span>
                 </div>
