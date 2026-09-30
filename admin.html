@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
         body { background: #f4f6f9; min-height: 100vh; color: #1f3f61; }
 
-        /* LOGIN */
         .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
         .login-screen.hidden { display: none !important; }
         .login-card { background: #ffffff; border-radius: 24px; padding: 2.5rem 2.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); text-align: center; }
@@ -27,7 +26,6 @@
         .login-btn:hover:not(:disabled) { background: #1e4a78; }
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* APP */
         .app { display: none; min-height: 100vh; flex-direction: column; }
         .app.active { display: flex; }
 
@@ -91,8 +89,7 @@
         .btn-success { background: #1a7a3e; }
         .btn-success:hover:not(:disabled) { background: #15642f; }
 
-        /* MODULES TOGGLE GRID */
-        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .module-toggle { background: #f8fbfe; border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 1.2rem; cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 12px; user-select: none; }
         .module-toggle:hover { border-color: #1e4a78; background: #f5f9ff; }
         .module-toggle.enabled { border-color: #1a7a3e; background: #f0f9f1; }
@@ -108,7 +105,6 @@
         .module-toggle.locked { opacity: 0.65; cursor: not-allowed; }
         .module-toggle.locked:hover { border-color: #cfddee; background: #f8fbfe; }
 
-        /* CLINICS TABLE */
         .table-wrapper { overflow-x: auto; border-radius: 16px; border: 1px solid #e9eef3; background: #fff; }
         table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 700px; }
         th { text-align: left; padding: 1rem 1.2rem; background: #f8fbfe; color: #0b2b4f; font-weight: 700; border-bottom: 1px solid #dee9f2; font-size: 0.82rem; text-transform: uppercase; }
@@ -122,7 +118,6 @@
         .module-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 5px; font-weight: 700; background: #e8f0fe; color: #1e4a78; text-transform: uppercase; }
         .module-badge.off { background: #f0f0f0; color: #a0a0a0; text-decoration: line-through; }
 
-        /* MODAL */
         .modal-overlay { position: fixed; inset: 0; background: rgba(11,43,79,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
         .modal-overlay.active { display: flex; }
         .modal { background: #fff; border-radius: 24px; padding: 2rem 2.2rem; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -132,13 +127,11 @@
         .modal-close:hover { color: #b22234; }
         .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
 
-        /* TOAST */
         .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
         .toast { padding: 1rem 1.5rem; border-radius: 14px; background: #0b2b4f; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; font-weight: 500; max-width: 380px; }
         .toast.error { background: #b22234; }
         .toast.success { background: #1a7a3e; }
 
-        /* LOADING */
         .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; }
         .loading-overlay.active { display: flex; }
         .loading-overlay i { font-size: 2.5rem; margin-right: 1rem; animation: spin 1s linear infinite; }
@@ -175,7 +168,6 @@
         </defs>
     </svg>
 
-    <!-- LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
@@ -201,7 +193,6 @@
         </div>
     </div>
 
-    <!-- APP -->
     <div class="app" id="app">
         <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
         <div class="toast-container" id="toastContainer"></div>
@@ -235,7 +226,6 @@
 
             <main class="main">
 
-                <!-- DASHBOARD -->
                 <section class="module active" id="module-dashboard">
                     <div class="module-header">
                         <h1><i class="fas fa-chart-pie"></i> Табло</h1>
@@ -247,7 +237,6 @@
                     </div>
                 </section>
 
-                <!-- CLINICS -->
                 <section class="module" id="module-clinics">
                     <div class="module-header">
                         <h1><i class="fas fa-hospital"></i> Клиники</h1>
@@ -269,7 +258,6 @@
                     </div>
                 </section>
 
-                <!-- MODULES -->
                 <section class="module" id="module-modules">
                     <div class="module-header">
                         <h1><i class="fas fa-th-large"></i> Модули по клиники</h1>
@@ -291,7 +279,6 @@
                     </div>
                 </section>
 
-                <!-- SETTINGS -->
                 <section class="module" id="module-settings">
                     <div class="module-header">
                         <h1><i class="fas fa-cog"></i> Настройки</h1>
@@ -317,13 +304,17 @@
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Тези действия са необратими!</p>
                         <button class="btn-danger-outline btn" id="resetAdminBtn"><i class="fas fa-redo"></i> Нулирай admin настройки</button>
                     </div>
+                    <div class="card" style="border-left:4px solid #0891b2;">
+                        <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники, които все още ги нямат.</p>
+                        <button class="btn" id="migrateModulesBtn" style="background:#0891b2;"><i class="fas fa-play"></i> Стартирай миграция</button>
+                    </div>
                 </section>
 
             </main>
         </div>
     </div>
 
-    <!-- CLINIC MODAL -->
     <div class="modal-overlay" id="clinicModal">
         <div class="modal">
             <div class="modal-header">
@@ -374,7 +365,6 @@
         </div>
     </div>
 
-    <!-- MODULES DEFINITION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -416,10 +406,10 @@
         let currentModule = 'dashboard';
         let editingClinicId = null;
         let selectedClinicForModules = null;
-        let currentClinicModules = {};
         let clinicSettingsMap = {};
         let adminSettings = { ...DEFAULT_ADMIN };
         let unsubscribers = [];
+        let settingsUnsubscribers = {};
 
         const $ = id => document.getElementById(id);
 
@@ -435,17 +425,31 @@
         function showLoading(show = true) { $('loadingOverlay').classList.toggle('active', show); }
         function escapeHtml(s) { if (s === null || s === undefined) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
         function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
-        function getUserInitials(n) { return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
         function getModuleDef(modId) { return MODULES.find(m => m.id === modId); }
 
+        // ВАЖНО: нови модули се включват по подразбиране, ако не са дефинирани
         function getClinicModules(clinicId) {
             const settings = clinicSettingsMap[clinicId] || {};
             const enabled = settings.enabledModules || {};
             const result = {};
             MODULES.forEach(m => {
-                result[m.id] = m.locked ? true : (enabled[m.id] !== false);
+                if (m.locked) {
+                    result[m.id] = true;
+                } else if (enabled[m.id] === undefined) {
+                    // Нов модул, който не съществува в стари настройки → включен по подразбиране
+                    result[m.id] = true;
+                } else {
+                    result[m.id] = enabled[m.id] !== false;
+                }
             });
             return result;
+        }
+
+        // Пълно дефолтно състояние на модулите (за миграция)
+        function getDefaultModulesState() {
+            const state = {};
+            MODULES.forEach(m => { state[m.id] = true; });
+            return state;
         }
 
         // ==================== LOGIN ====================
@@ -511,32 +515,47 @@
 
         // ==================== LISTENERS ====================
         function startListeners() {
+            // Слушаме за клиники
             unsubscribers.push(onValue(ref(db, 'clinics'), (snap) => {
                 clinics = snap.val() || {};
+                // Преабонираме settings за всяка клиника
+                syncSettingsListeners();
                 renderDashboard();
                 renderClinics();
                 renderModulesClinicSelect();
                 if (selectedClinicForModules) renderModulesEditor();
             }));
+        }
 
-            // Listen to settings of each clinic
-            unsubscribers.push(onValue(ref(db, 'clinics'), (snap) => {
-                const data = snap.val() || {};
-                Object.keys(data).forEach(cid => {
+        function syncSettingsListeners() {
+            const currentIds = Object.keys(clinics);
+            // Премахваме стари listeners
+            Object.keys(settingsUnsubscribers).forEach(cid => {
+                if (!currentIds.includes(cid)) {
+                    try { settingsUnsubscribers[cid](); } catch(e){}
+                    delete settingsUnsubscribers[cid];
+                    delete clinicSettingsMap[cid];
+                }
+            });
+            // Добавяме нови listeners
+            currentIds.forEach(cid => {
+                if (!settingsUnsubscribers[cid]) {
                     const settingsRef = ref(db, `clinics/${cid}/settings`);
                     const unsub = onValue(settingsRef, (s) => {
                         clinicSettingsMap[cid] = s.val() || {};
                         renderClinics();
                         if (selectedClinicForModules === cid) renderModulesEditor();
                     });
-                    unsubscribers.push(unsub);
-                });
-            }));
+                    settingsUnsubscribers[cid] = unsub;
+                }
+            });
         }
 
         function stopListeners() {
             unsubscribers.forEach(u => { try { u(); } catch(e){} });
             unsubscribers = [];
+            Object.values(settingsUnsubscribers).forEach(u => { try { u(); } catch(e){} });
+            settingsUnsubscribers = {};
         }
 
         // ==================== DASHBOARD ====================
@@ -684,7 +703,6 @@
 
             try {
                 if (!ownerCode) {
-                    // Generate unique code
                     let attempts = 0;
                     do { ownerCode = generate6DigitCode(); attempts++; }
                     while (await codeExists(ownerCode) && attempts < 500);
@@ -705,23 +723,20 @@
                 } else {
                     clinicData.createdAt = Date.now();
 
-                    // Create clinic
                     const newRef = push(ref(db, 'clinics'));
                     const newId = newRef.key;
                     clinicData.id = newId;
                     await set(newRef, clinicData);
 
-                    // Create default settings with all modules enabled
-                    const defaultModules = {};
-                    MODULES.forEach(m => defaultModules[m.id] = true);
+                    // Създаваме settings с ВСИЧКИ модули включени
                     await set(ref(db, `clinics/${newId}/settings`), {
                         name,
                         sub: sub || 'Медицински център',
-                        enabledModules: defaultModules,
+                        enabledModules: getDefaultModulesState(),
                         createdAt: Date.now()
                     });
 
-                    // Create owner user (Кинезитерапевт + Администратор)
+                    // Създаваме собственик
                     await set(push(ref(db, `clinics/${newId}/users`)), {
                         name: ownerName,
                         phone: ownerPhone,
@@ -750,12 +765,10 @@
                 for (const cid of Object.keys(data)) {
                     const c = data[cid];
                     if (c.ownerCode === code) return true;
-                    // check users
                     const us = c.users || {};
                     for (const uid of Object.keys(us)) {
                         if (us[uid].accessCode === code) return true;
                     }
-                    // check patients
                     const ps = c.patients || {};
                     for (const pid of Object.keys(ps)) {
                         if (ps[pid].accessCode === code) return true;
@@ -786,7 +799,6 @@
             selectedClinicForModules = cid;
             $('modulesClinicSelect').value = cid;
             $('modulesEditorCard').style.display = 'block';
-            // Switch to modules module
             document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.module === 'modules'));
             document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
             $('module-modules').classList.add('active');
@@ -819,12 +831,30 @@
                     const currentlyEnabled = toggle.classList.contains('enabled');
                     const newValue = !currentlyEnabled;
 
+                    // Оптимистично обновяване на UI
+                    toggle.classList.toggle('enabled', newValue);
+
                     try {
-                        const settingsPath = `clinics/${selectedClinicForModules}/settings/enabledModules/${modId}`;
-                        await set(ref(db, settingsPath), newValue);
-                        toggle.classList.toggle('enabled', newValue);
+                        // ВАЖНО: Прочитаме свежите данни, обновяваме целия enabledModules обект
+                        const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                        const settings = settingsSnap.val() || {};
+                        const enabledModules = settings.enabledModules || {};
+                        
+                        // Гарантираме, че всички модули съществуват като ключове
+                        MODULES.forEach(m => {
+                            if (enabledModules[m.id] === undefined) {
+                                enabledModules[m.id] = true;
+                            }
+                        });
+                        
+                        enabledModules[modId] = newValue;
+                        
+                        await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
+                        
                         showToast(`${modDef.name}: ${newValue ? 'включен' : 'изключен'}`, 'success');
                     } catch(err) {
+                        // Връщаме UI назад при грешка
+                        toggle.classList.toggle('enabled', currentlyEnabled);
                         showToast('Грешка: ' + err.message, 'error');
                     }
                 });
@@ -835,10 +865,13 @@
             if (!selectedClinicForModules) return;
             if (!confirm('Включи ВСИЧКИ модули?')) return;
             try {
-                const updates = {};
-                MODULES.forEach(m => { updates[`clinics/${selectedClinicForModules}/settings/enabledModules/${m.id}`] = true; });
-                await update(ref(db), updates);
+                const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                const settings = settingsSnap.val() || {};
+                const enabledModules = settings.enabledModules || {};
+                MODULES.forEach(m => { enabledModules[m.id] = true; });
+                await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
                 showToast('Всички модули са включени.', 'success');
+                renderModulesEditor();
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
@@ -846,13 +879,47 @@
             if (!selectedClinicForModules) return;
             if (!confirm('Изключи ВСИЧКИ модули (без Настройки)?')) return;
             try {
-                const updates = {};
-                MODULES.forEach(m => {
-                    if (!m.locked) updates[`clinics/${selectedClinicForModules}/settings/enabledModules/${m.id}`] = false;
-                });
-                await update(ref(db), updates);
+                const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
+                const settings = settingsSnap.val() || {};
+                const enabledModules = settings.enabledModules || {};
+                MODULES.forEach(m => { enabledModules[m.id] = m.locked ? true : false; });
+                await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
                 showToast('Всички модули са изключени.', 'success');
+                renderModulesEditor();
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+        });
+
+        // ==================== MIGRATION ====================
+        $('migrateModulesBtn').addEventListener('click', async () => {
+            if (!confirm('Ще добави новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники. Продължи?')) return;
+            $('migrateModulesBtn').disabled = true;
+            showLoading(true);
+            try {
+                const snapshot = await get(ref(db, 'clinics'));
+                const data = snapshot.val() || {};
+                let migratedCount = 0;
+                for (const cid of Object.keys(data)) {
+                    const settings = data[cid].settings || {};
+                    const enabledModules = settings.enabledModules || {};
+                    let needsUpdate = false;
+                    MODULES.forEach(m => {
+                        if (enabledModules[m.id] === undefined) {
+                            enabledModules[m.id] = m.locked ? true : true;
+                            needsUpdate = true;
+                        }
+                    });
+                    if (needsUpdate) {
+                        await update(ref(db, `clinics/${cid}/settings`), { enabledModules });
+                        migratedCount++;
+                    }
+                }
+                showToast(`Миграцията завърши. Обновени клиники: ${migratedCount}`, 'success');
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+            } finally {
+                $('migrateModulesBtn').disabled = false;
+                showLoading(false);
+            }
         });
 
         // ==================== SETTINGS ====================
