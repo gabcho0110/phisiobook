@@ -299,15 +299,15 @@
                             <button class="btn" id="saveAdminSettingsBtn"><i class="fas fa-save"></i> Запази</button>
                         </div>
                     </div>
-                    <div class="card" style="border-left:4px solid #b22234;">
-                        <h3 style="color:#b22234;"><i class="fas fa-exclamation-triangle"></i> Опасна зона</h3>
-                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Тези действия са необратими!</p>
-                        <button class="btn-danger-outline btn" id="resetAdminBtn"><i class="fas fa-redo"></i> Нулирай admin настройки</button>
-                    </div>
                     <div class="card" style="border-left:4px solid #0891b2;">
                         <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники, които все още ги нямат.</p>
                         <button class="btn" id="migrateModulesBtn" style="background:#0891b2;"><i class="fas fa-play"></i> Стартирай миграция</button>
+                    </div>
+                    <div class="card" style="border-left:4px solid #b22234;">
+                        <h3 style="color:#b22234;"><i class="fas fa-exclamation-triangle"></i> Опасна зона</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Тези действия са необратими!</p>
+                        <button class="btn-danger-outline btn" id="resetAdminBtn"><i class="fas fa-redo"></i> Нулирай admin настройки</button>
                     </div>
                 </section>
 
@@ -383,7 +383,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ==================== MODULES DEFINITION ====================
         const MODULES = [
             { id: 'dashboard', name: 'Табло', icon: 'fa-chart-pie', desc: 'Основно табло с обобщена информация', locked: false },
             { id: 'patients', name: 'Пациенти', icon: 'fa-users', desc: 'Управление на пациенти', locked: false },
@@ -401,7 +400,6 @@
 
         const DEFAULT_ADMIN = { username: 'admin', password: 'admin123' };
 
-        // ==================== STATE ====================
         let clinics = {};
         let currentModule = 'dashboard';
         let editingClinicId = null;
@@ -413,7 +411,6 @@
 
         const $ = id => document.getElementById(id);
 
-        // ==================== HELPERS ====================
         function showToast(msg, type = 'info') {
             const t = document.createElement('div');
             t.className = `toast ${type}`;
@@ -427,7 +424,6 @@
         function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
         function getModuleDef(modId) { return MODULES.find(m => m.id === modId); }
 
-        // ВАЖНО: нови модули се включват по подразбиране, ако не са дефинирани
         function getClinicModules(clinicId) {
             const settings = clinicSettingsMap[clinicId] || {};
             const enabled = settings.enabledModules || {};
@@ -436,7 +432,6 @@
                 if (m.locked) {
                     result[m.id] = true;
                 } else if (enabled[m.id] === undefined) {
-                    // Нов модул, който не съществува в стари настройки → включен по подразбиране
                     result[m.id] = true;
                 } else {
                     result[m.id] = enabled[m.id] !== false;
@@ -445,14 +440,12 @@
             return result;
         }
 
-        // Пълно дефолтно състояние на модулите (за миграция)
         function getDefaultModulesState() {
             const state = {};
             MODULES.forEach(m => { state[m.id] = true; });
             return state;
         }
 
-        // ==================== LOGIN ====================
         async function loadAdminSettings() {
             try {
                 const snap = await get(ref(db, 'adminSettings'));
@@ -501,7 +494,6 @@
             location.reload();
         });
 
-        // ==================== NAVIGATION ====================
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 const mod = item.dataset.module;
@@ -513,12 +505,9 @@
             });
         });
 
-        // ==================== LISTENERS ====================
         function startListeners() {
-            // Слушаме за клиники
             unsubscribers.push(onValue(ref(db, 'clinics'), (snap) => {
                 clinics = snap.val() || {};
-                // Преабонираме settings за всяка клиника
                 syncSettingsListeners();
                 renderDashboard();
                 renderClinics();
@@ -529,7 +518,6 @@
 
         function syncSettingsListeners() {
             const currentIds = Object.keys(clinics);
-            // Премахваме стари listeners
             Object.keys(settingsUnsubscribers).forEach(cid => {
                 if (!currentIds.includes(cid)) {
                     try { settingsUnsubscribers[cid](); } catch(e){}
@@ -537,7 +525,6 @@
                     delete clinicSettingsMap[cid];
                 }
             });
-            // Добавяме нови listeners
             currentIds.forEach(cid => {
                 if (!settingsUnsubscribers[cid]) {
                     const settingsRef = ref(db, `clinics/${cid}/settings`);
@@ -551,14 +538,6 @@
             });
         }
 
-        function stopListeners() {
-            unsubscribers.forEach(u => { try { u(); } catch(e){} });
-            unsubscribers = [];
-            Object.values(settingsUnsubscribers).forEach(u => { try { u(); } catch(e){} });
-            settingsUnsubscribers = {};
-        }
-
-        // ==================== DASHBOARD ====================
         function renderDashboard() {
             const clinicIds = Object.keys(clinics);
             const totalClinics = clinicIds.length;
@@ -600,7 +579,6 @@
             }).join('');
         }
 
-        // ==================== CLINICS TABLE ====================
         function renderClinics() {
             const ids = Object.keys(clinics);
             const body = $('clinicsBody');
@@ -652,7 +630,6 @@
             }
         });
 
-        // ==================== CLINIC MODAL ====================
         $('addClinicBtn').addEventListener('click', () => openClinicModal());
         $('clinicModalClose').addEventListener('click', () => $('clinicModal').classList.remove('active'));
         $('clinicCancelBtn').addEventListener('click', () => $('clinicModal').classList.remove('active'));
@@ -719,6 +696,39 @@
 
                 if (cid) {
                     await update(ref(db, `clinics/${cid}`), clinicData);
+
+                    // Обновяваме и собственика в users ако кодът е сменен
+                    const usersSnap = await get(ref(db, `clinics/${cid}/users`));
+                    const usersData = usersSnap.val() || {};
+                    let ownerUserId = null;
+                    for (const uid of Object.keys(usersData)) {
+                        const u = usersData[uid];
+                        const roles = u.roles || [u.role];
+                        if (roles.includes('Администратор') || roles.includes('Кинезитерапевт')) {
+                            ownerUserId = uid;
+                            break;
+                        }
+                    }
+                    if (ownerUserId) {
+                        await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
+                            name: ownerName,
+                            phone: ownerPhone,
+                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                            accessCode: ownerCode
+                        });
+                    } else {
+                        // Ако няма такъв потребител, създаваме
+                        await set(push(ref(db, `clinics/${cid}/users`)), {
+                            name: ownerName,
+                            phone: ownerPhone,
+                            phoneNormalized: (ownerPhone || '').replace(/\D/g, ''),
+                            roles: ['Кинезитерапевт', 'Администратор'],
+                            accessCode: ownerCode,
+                            createdAt: Date.now(),
+                            createdBy: 'admin'
+                        });
+                    }
+
                     showToast('Клиниката е обновена.', 'success');
                 } else {
                     clinicData.createdAt = Date.now();
@@ -736,7 +746,7 @@
                         createdAt: Date.now()
                     });
 
-                    // Създаваме собственик
+                    // ВАЖНО: Създаваме собственик в users с accessCode
                     await set(push(ref(db, `clinics/${newId}/users`)), {
                         name: ownerName,
                         phone: ownerPhone,
@@ -752,6 +762,7 @@
                 $('clinicModal').classList.remove('active');
             } catch(err) {
                 showToast('Грешка: ' + err.message, 'error');
+                console.error(err);
             } finally {
                 $('clinicSaveBtn').disabled = false;
                 showLoading(false);
@@ -778,7 +789,6 @@
             return false;
         }
 
-        // ==================== MODULES EDITOR ====================
         function renderModulesClinicSelect() {
             const sel = $('modulesClinicSelect');
             const cur = sel.value;
@@ -831,16 +841,13 @@
                     const currentlyEnabled = toggle.classList.contains('enabled');
                     const newValue = !currentlyEnabled;
 
-                    // Оптимистично обновяване на UI
                     toggle.classList.toggle('enabled', newValue);
 
                     try {
-                        // ВАЖНО: Прочитаме свежите данни, обновяваме целия enabledModules обект
                         const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
                         const settings = settingsSnap.val() || {};
                         const enabledModules = settings.enabledModules || {};
                         
-                        // Гарантираме, че всички модули съществуват като ключове
                         MODULES.forEach(m => {
                             if (enabledModules[m.id] === undefined) {
                                 enabledModules[m.id] = true;
@@ -853,7 +860,6 @@
                         
                         showToast(`${modDef.name}: ${newValue ? 'включен' : 'изключен'}`, 'success');
                     } catch(err) {
-                        // Връщаме UI назад при грешка
                         toggle.classList.toggle('enabled', currentlyEnabled);
                         showToast('Грешка: ' + err.message, 'error');
                     }
@@ -889,7 +895,6 @@
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
-        // ==================== MIGRATION ====================
         $('migrateModulesBtn').addEventListener('click', async () => {
             if (!confirm('Ще добави новите модули (Тестове, Инвентар, Ваучери) към всички съществуващи клиники. Продължи?')) return;
             $('migrateModulesBtn').disabled = true;
@@ -922,7 +927,6 @@
             }
         });
 
-        // ==================== SETTINGS ====================
         $('saveAdminSettingsBtn').addEventListener('click', async () => {
             const newUser = $('setAdminUser').value.trim();
             const newPass = $('setAdminPass').value.trim();
@@ -951,7 +955,6 @@
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
-        // ==================== INIT ====================
         async function init() {
             await loadAdminSettings();
             if (sessionStorage.getItem('adminLoggedIn') === 'true') {
