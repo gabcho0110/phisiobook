@@ -583,6 +583,86 @@
         .test-patient-select-bar select { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; font-family: inherit; min-width: 220px; }
         .test-patient-select-bar .btn { background: #fff; color: #0b2b4f; }
 
+        /* INVENTORY MODULE */
+        .inv-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        .inv-stat-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
+        .inv-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+        .inv-stat-card.warning::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .inv-stat-card.danger::before { background: linear-gradient(90deg, #b22234, #ef4444); }
+        .inv-stat-card.success::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .inv-stat-card .inv-stat-label { font-size: 0.8rem; color: #7f95b0; text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+        .inv-stat-card .inv-stat-value { font-size: 2rem; font-weight: 700; color: #0b2b4f; line-height: 1; }
+        .inv-stat-card .inv-stat-sub { font-size: 0.85rem; color: #7f95b0; margin-top: 0.4rem; }
+
+        .inv-toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; background: #fff; padding: 1rem 1.3rem; border-radius: 16px; border: 1px solid #e9eef3; }
+        .inv-toolbar input, .inv-toolbar select { padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #f8fbfe; }
+        .inv-toolbar input:focus, .inv-toolbar select:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11,43,79,0.08); }
+        .inv-toolbar .inv-search { flex: 1; min-width: 200px; }
+
+        .inv-category-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .inv-chip { padding: 0.5rem 1rem; border-radius: 20px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s; }
+        .inv-chip.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
+        .inv-chip:hover:not(.active) { border-color: #1e4a78; background: #f5f9ff; }
+        .inv-chip .chip-count { background: rgba(0,0,0,0.08); padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; }
+        .inv-chip.active .chip-count { background: rgba(255,255,255,0.2); }
+
+        .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        .inv-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.4rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; border-left: 5px solid #1e4a78; transition: 0.15s; position: relative; }
+        .inv-card:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(11,43,79,0.1); }
+        .inv-card.low-stock { border-left-color: #d97706; background: #fffbf0; }
+        .inv-card.out-of-stock { border-left-color: #b22234; background: #fff5f5; }
+        .inv-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 0.8rem; }
+        .inv-card-title { font-size: 1.05rem; font-weight: 700; color: #0b2b4f; margin-bottom: 0.3rem; }
+        .inv-card-category { font-size: 0.75rem; color: #7f95b0; text-transform: uppercase; font-weight: 700; }
+        .inv-card-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; background: #e8f0fe; color: #1e4a78; }
+        .inv-card.low-stock .inv-card-icon { background: #fff5e5; color: #d97706; }
+        .inv-card.out-of-stock .inv-card-icon { background: #fff5f5; color: #b22234; }
+
+        .inv-stock-row { display: flex; align-items: center; justify-content: space-between; margin: 0.8rem 0; padding: 0.7rem 0.9rem; background: #f8fbfe; border-radius: 12px; }
+        .inv-stock-row .lbl { font-size: 0.8rem; color: #7f95b0; font-weight: 600; text-transform: uppercase; }
+        .inv-stock-row .val { font-size: 1.3rem; font-weight: 700; color: #0b2b4f; display: flex; align-items: baseline; gap: 4px; }
+        .inv-stock-row .val .unit { font-size: 0.8rem; color: #7f95b0; font-weight: 500; }
+        .inv-stock-row .val.low { color: #d97706; }
+        .inv-stock-row .val.out { color: #b22234; }
+        .inv-stock-row .val.ok { color: #1a7a3e; }
+
+        .inv-stock-bar-wrapper { height: 8px; background: #e9eef3; border-radius: 4px; overflow: hidden; margin-top: 0.3rem; }
+        .inv-stock-bar { height: 100%; border-radius: 4px; transition: 0.3s; background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+        .inv-stock-bar.low { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .inv-stock-bar.out { background: linear-gradient(90deg, #b22234, #ef4444); }
+
+        .inv-card-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.8rem; font-size: 0.78rem; color: #7f95b0; }
+        .inv-card-meta span { display: inline-flex; align-items: center; gap: 4px; }
+
+        .inv-card-actions { display: flex; gap: 8px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #edf2f8; flex-wrap: wrap; }
+        .inv-card-actions button { flex: 1; min-width: 0; }
+
+        .inv-modal-form .form-group { margin-bottom: 1rem; }
+        .inv-modal-form label { font-size: 0.85rem; font-weight: 600; color: #1f3f61; margin-bottom: 5px; display: block; }
+        .inv-modal-form input, .inv-modal-form select, .inv-modal-form textarea { width: 100%; padding: 0.7rem 0.9rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #f8fbfe; }
+        .inv-modal-form input:focus, .inv-modal-form select:focus, .inv-modal-form textarea:focus { outline: none; border-color: #1e4a78; background: #fff; box-shadow: 0 0 0 3px rgba(11,43,79,0.08); }
+        .inv-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .inv-form-grid { grid-template-columns: 1fr; } }
+
+        .inv-movement-item { display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem; background: #f8fbfe; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid #1e4a78; }
+        .inv-movement-item.in { border-left-color: #1a7a3e; background: #f0f9f1; }
+        .inv-movement-item.out { border-left-color: #d97706; background: #fffbf0; }
+        .inv-movement-item .icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem; flex-shrink: 0; }
+        .inv-movement-item.in .icon { background: #1a7a3e; }
+        .inv-movement-item.out .icon { background: #d97706; }
+        .inv-movement-item .info { flex: 1; min-width: 0; }
+        .inv-movement-item .info .name { font-weight: 600; color: #0b2b4f; font-size: 0.9rem; }
+        .inv-movement-item .info .meta { font-size: 0.78rem; color: #7f95b0; }
+        .inv-movement-item .qty { font-weight: 700; font-size: 1.1rem; }
+        .inv-movement-item.in .qty { color: #1a7a3e; }
+        .inv-movement-item.out .qty { color: #d97706; }
+
+        .inv-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .inv-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .inv-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
+        .inv-pane { display: none; }
+        .inv-pane.active { display: block; animation: fade 0.2s ease; }
+
         @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 380px; } }
         @media (max-width: 800px) {
             .sidebar { width: 80px; }
@@ -714,6 +794,7 @@
                     <button class="nav-item" data-module="schedule"><i class="fas fa-calendar-alt"></i><span>График</span></button>
                     <button class="nav-item" data-module="procedures"><i class="fas fa-stethoscope"></i><span>Процедури</span></button>
                     <button class="nav-item" data-module="tests"><i class="fas fa-clipboard-check"></i><span>Тестове и скали</span></button>
+                    <button class="nav-item" data-module="inventory"><i class="fas fa-boxes"></i><span>Инвентар</span></button>
                     <button class="nav-item" data-module="exercises"><i class="fas fa-dumbbell"></i><span>Упражнения</span></button>
                     <button class="nav-item" data-module="documentation"><i class="fas fa-file-medical-alt"></i><span>Документация</span></button>
                     <button class="nav-item" data-module="pricing"><i class="fas fa-euro-sign"></i><span>Ценоразпис</span></button>
@@ -722,7 +803,7 @@
                 </nav>
                 <div class="sidebar-footer">
                     <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-                    <div class="sidebar-version">v7.2 · Tests Module</div>
+                    <div class="sidebar-version">v7.3 · Inventory + Tests</div>
                 </div>
             </aside>
 
@@ -893,6 +974,56 @@
                                 <button class="btn-outline btn" id="testResultNewBtn"><i class="fas fa-plus"></i> Нов тест</button>
                                 <button class="btn" id="testResultCloseBtn"><i class="fas fa-check"></i> Готово</button>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="module-inventory" class="module">
+                    <div class="module-header">
+                        <h1><i class="fas fa-boxes"></i> Инвентар</h1>
+                        <button class="btn" id="addInventoryBtn"><i class="fas fa-plus"></i> Нов артикул</button>
+                    </div>
+
+                    <div class="inv-tabs">
+                        <button class="inv-tab active" data-inv-tab="items"><i class="fas fa-list"></i> Артикули</button>
+                        <button class="inv-tab" data-inv-tab="movements"><i class="fas fa-exchange-alt"></i> Движения</button>
+                    </div>
+
+                    <div class="inv-pane active" data-inv-pane="items">
+                        <div class="inv-stats-grid" id="invStatsGrid"></div>
+                        <div class="inv-category-chips" id="invCategoryChips"></div>
+                        <div class="inv-toolbar">
+                            <input type="text" class="inv-search" id="invSearchInput" placeholder="🔍 Търси по име, доставчик...">
+                            <select id="invStockFilter">
+                                <option value="all">Всички наличности</option>
+                                <option value="low">⚠️ Ниска наличност</option>
+                                <option value="out">❌ Изчерпан</option>
+                                <option value="ok">✅ Достатъчно</option>
+                            </select>
+                            <select id="invSortSelect">
+                                <option value="name">Сортирай: Име</option>
+                                <option value="stock-asc">Наличност (възх.)</option>
+                                <option value="stock-desc">Наличност (низх.)</option>
+                                <option value="updated">Последна промяна</option>
+                            </select>
+                        </div>
+                        <div class="inv-grid" id="invGrid"></div>
+                    </div>
+
+                    <div class="inv-pane" data-inv-pane="movements">
+                        <div class="card">
+                            <h3><i class="fas fa-history"></i> История на движенията</h3>
+                            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1.2rem;">
+                                <select id="invMovFilterItem" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit;">
+                                    <option value="">-- Всички артикули --</option>
+                                </select>
+                                <select id="invMovFilterType" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit;">
+                                    <option value="">-- Всички движения --</option>
+                                    <option value="in">📥 Входящи (доставка)</option>
+                                    <option value="out">📤 Изходящи (употреба)</option>
+                                </select>
+                            </div>
+                            <div id="invMovementsList"></div>
                         </div>
                     </div>
                 </section>
@@ -1333,6 +1464,108 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="inventoryModal">
+        <div class="modal large">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3 id="invModalTitle" style="margin:0;">Нов артикул</h3>
+                <button id="invModalClose" style="background:transparent; border:none; color:#7f95b0; font-size:1.5rem; cursor:pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="inventoryForm" class="inv-modal-form">
+                <input type="hidden" id="invItemId">
+                <div class="form-group">
+                    <label>Име на артикул *</label>
+                    <input type="text" id="invName" required placeholder="напр. Ластик TheraBand червен">
+                </div>
+                <div class="inv-form-grid">
+                    <div class="form-group">
+                        <label>Категория *</label>
+                        <select id="invCategory" required>
+                            <option value="">-- избери --</option>
+                            <option value="Ластици">Ластици / TheraBand</option>
+                            <option value="Електроди">Електроди</option>
+                            <option value="Масла">Масла / Гел</option>
+                            <option value="Ортези">Ортези / Шини</option>
+                            <option value="Консумативи">Консумативи</option>
+                            <option value="Инструменти">Инструменти</option>
+                            <option value="Тейпове">Тейпове / Ленти</option>
+                            <option value="Игли">Игли</option>
+                            <option value="Друго">Друго</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Мерна единица *</label>
+                        <select id="invUnit" required>
+                            <option value="бр.">бр.</option>
+                            <option value="опаковка">опаковка</option>
+                            <option value="метър">метър</option>
+                            <option value="мл">мл</option>
+                            <option value="литър">литър</option>
+                            <option value="кг">кг</option>
+                            <option value="руло">руло</option>
+                            <option value="кутия">кутия</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="inv-form-grid">
+                    <div class="form-group">
+                        <label>Текуща наличност *</label>
+                        <input type="number" id="invQuantity" required min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Минимална наличност (праг)</label>
+                        <input type="number" id="invMinStock" min="0" step="0.01" value="5">
+                    </div>
+                </div>
+                <div class="inv-form-grid">
+                    <div class="form-group">
+                        <label>Единична цена (€)</label>
+                        <input type="number" id="invPrice" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Доставчик</label>
+                        <input type="text" id="invSupplier" placeholder="напр. МедикАД">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Бележки</label>
+                    <textarea id="invNotes" placeholder="Допълнителна информация..."></textarea>
+                </div>
+                <div class="modal-actions" style="justify-content:flex-end;">
+                    <button type="button" class="btn-outline btn" id="invCancelBtn">Отказ</button>
+                    <button type="submit" class="btn" id="invSaveBtn"><i class="fas fa-save"></i> Запази</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="invMovementModal">
+        <div class="modal">
+            <h3 id="invMovTitle" style="text-align:center;">Промяна на наличност</h3>
+            <p id="invMovItemName" style="text-align:center; color:#1e4a78; font-weight:600; font-size:1rem;">—</p>
+            <div class="inv-modal-form">
+                <div class="form-group">
+                    <label>Тип на движението</label>
+                    <select id="invMovType">
+                        <option value="in">📥 Входящо (доставка)</option>
+                        <option value="out">📤 Изходящо (употреба)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Количество *</label>
+                    <input type="number" id="invMovQty" min="0.01" step="0.01" required placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>Забележка</label>
+                    <input type="text" id="invMovNote" placeholder="напр. Доставка от доставчик...">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-outline btn" id="invMovCancelBtn">Отказ</button>
+                <button class="btn btn-success" id="invMovConfirmBtn"><i class="fas fa-check"></i> Потвърди</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -1366,6 +1599,8 @@
         let messages = {};
         let notifications = {};
         let testResults = {};
+        let inventory = {};
+        let inventoryMovements = {};
 
         let currentUser=null, currentPatient=null;
         let dataListenersStarted=false, sessionRestored=false;
@@ -1378,10 +1613,12 @@
         let currentAptId = null;
         let currentTestCategory = 'all';
         let currentTestId = null;
+        let currentInvCategory = 'all';
+        let currentInvItemId = null;
 
         const DEFAULT_MODULES = {
             dashboard: true, patients: true, schedule: true, procedures: true,
-            tests: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true
+            tests: true, inventory: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true
         };
 
         function getEnabledModules() {
@@ -1430,6 +1667,7 @@
             schedule: document.getElementById('module-schedule'),
             procedures: document.getElementById('module-procedures'),
             tests: document.getElementById('module-tests'),
+            inventory: document.getElementById('module-inventory'),
             exercises: document.getElementById('module-exercises'),
             documentation: document.getElementById('module-documentation'),
             pricing: document.getElementById('module-pricing'),
@@ -1477,7 +1715,7 @@
         function getUserRoles(u){ if(!u)return[]; if(Array.isArray(u.roles))return u.roles; if(u.role)return[u.role]; return[]; }
         function hasRole(u,r){ return getUserRoles(u).includes(r); }
         function isAdmin(u){ return hasRole(u,'Администратор'); }
-        function isKinezi(u){ return hasRole(u,'Кинезiteratorапевт'); }
+        function isKinezi(u){ return hasRole(u,'Кинезитерапевт'); }
         function isOnlyPatient(u){ const r=getUserRoles(u); return r.length===1 && r[0]==='Пациент'; }
         function isPatient(u){ return hasRole(u, 'Пациент'); }
         function isLockedUser(u){ return u && u.locked === true; }
@@ -1822,7 +2060,7 @@
             patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={};
             exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
             services={}; procedureTemplates={}; categories={}; templates={};
-            messages={}; notifications={}; testResults={};
+            messages={}; notifications={}; testResults={}; inventory={}; inventoryMovements={};
             clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
 
             $('headerAvatar').textContent = getUserInitials(currentUser.name);
@@ -2023,7 +2261,369 @@
                 testResults = s.val() || {};
                 renderTestHistory();
             }));
+            unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => {
+                inventory = s.val() || {};
+                renderInventory();
+                renderInventoryStats();
+                renderInventoryCategoryChips();
+                renderInvMovItemFilter();
+            }));
+            unsubscribers.push(onValue(ref(db, `${base}/inventoryMovements`), (s) => {
+                inventoryMovements = s.val() || {};
+                renderInventoryMovementsList();
+            }));
         }
+
+        // ==================== INVENTORY MODULE ====================
+        const INV_CATEGORY_ICONS = {
+            'Ластици': 'fa-circle-notch',
+            'Електроди': 'fa-bolt',
+            'Масла': 'fa-tint',
+            'Ортези': 'fa-shoe-prints',
+            'Консумативи': 'fa-box',
+            'Инструменти': 'fa-tools',
+            'Тейпове': 'fa-tape',
+            'Игли': 'fa-syringe',
+            'Друго': 'fa-cube'
+        };
+
+        const INV_CATEGORIES = ['Ластици','Електроди','Масла','Ортези','Консумативи','Инструменти','Тейпове','Игли','Друго'];
+
+        function renderInventoryModule() {
+            renderInventory();
+            renderInventoryStats();
+            renderInventoryCategoryChips();
+            renderInvMovItemFilter();
+            renderInventoryMovementsList();
+        }
+
+        function renderInventory() {
+            const grid = $('invGrid');
+            if (!grid) return;
+
+            const search = ($('invSearchInput')?.value || '').toLowerCase().trim();
+            const stockFilter = $('invStockFilter')?.value || 'all';
+            const sortBy = $('invSortSelect')?.value || 'name';
+
+            let items = Object.entries(inventory).map(([id, item]) => ({ id, ...item }));
+
+            if (currentInvCategory !== 'all') {
+                items = items.filter(i => i.category === currentInvCategory);
+            }
+
+            if (search) {
+                items = items.filter(i =>
+                    (i.name || '').toLowerCase().includes(search) ||
+                    (i.supplier || '').toLowerCase().includes(search) ||
+                    (i.notes || '').toLowerCase().includes(search)
+                );
+            }
+
+            if (stockFilter === 'low') {
+                items = items.filter(i => {
+                    const qty = parseFloat(i.quantity) || 0;
+                    const min = parseFloat(i.minStock) || 0;
+                    return qty > 0 && qty <= min;
+                });
+            } else if (stockFilter === 'out') {
+                items = items.filter(i => (parseFloat(i.quantity) || 0) <= 0);
+            } else if (stockFilter === 'ok') {
+                items = items.filter(i => {
+                    const qty = parseFloat(i.quantity) || 0;
+                    const min = parseFloat(i.minStock) || 0;
+                    return qty > min;
+                });
+            }
+
+            if (sortBy === 'name') items.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            else if (sortBy === 'stock-asc') items.sort((a, b) => (parseFloat(a.quantity) || 0) - (parseFloat(b.quantity) || 0));
+            else if (sortBy === 'stock-desc') items.sort((a, b) => (parseFloat(b.quantity) || 0) - (parseFloat(a.quantity) || 0));
+            else if (sortBy === 'updated') items.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+            if (items.length === 0) {
+                grid.innerHTML = `<div class="card" style="grid-column: 1/-1; text-align: center; padding: 3rem 2rem;">
+                    <i class="fas fa-box-open" style="font-size: 4rem; color: #cfddee; margin-bottom: 1.5rem; display: block;"></i>
+                    <h3 style="color: #0b2b4f; font-size: 1.2rem; margin-bottom: 0.5rem;">Няма артикули</h3>
+                    <p style="color: #7f95b0; font-size: 0.95rem;">Добавете първия си артикул в инвентара.</p>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map(item => {
+                const qty = parseFloat(item.quantity) || 0;
+                const min = parseFloat(item.minStock) || 0;
+                let stockClass = 'ok';
+                let cardClass = '';
+                if (qty <= 0) { stockClass = 'out'; cardClass = 'out-of-stock'; }
+                else if (qty <= min) { stockClass = 'low'; cardClass = 'low-stock'; }
+
+                const pct = min > 0 ? Math.min((qty / (min * 2)) * 100, 100) : (qty > 0 ? 100 : 0);
+                const icon = INV_CATEGORY_ICONS[item.category] || 'fa-cube';
+                const price = parseFloat(item.price) || 0;
+                const totalValue = price * qty;
+
+                return `<div class="inv-card ${cardClass}">
+                    <div class="inv-card-header">
+                        <div>
+                            <div class="inv-card-category">${escapeHtml(item.category || 'Друго')}</div>
+                            <div class="inv-card-title">${escapeHtml(item.name)}</div>
+                        </div>
+                        <div class="inv-card-icon"><i class="fas ${icon}"></i></div>
+                    </div>
+                    <div class="inv-stock-row">
+                        <div>
+                            <div class="lbl">Наличност</div>
+                            <div class="val ${stockClass}">${qty} <span class="unit">${escapeHtml(item.unit || 'бр.')}</span></div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="lbl">Минимум</div>
+                            <div style="font-weight:700; color:#7f95b0;">${min}</div>
+                        </div>
+                    </div>
+                    <div class="inv-stock-bar-wrapper"><div class="inv-stock-bar ${stockClass}" style="width:${pct}%"></div></div>
+                    ${item.supplier ? `<div class="inv-card-meta"><span><i class="fas fa-truck"></i> ${escapeHtml(item.supplier)}</span></div>` : ''}
+                    ${price > 0 ? `<div class="inv-card-meta"><span><i class="fas fa-euro-sign"></i> ${formatPrice(price)} €/бр.</span><span><i class="fas fa-calculator"></i> Общо: ${formatPrice(totalValue)} €</span></div>` : ''}
+                    <div class="inv-card-actions">
+                        <button class="btn btn-success btn-sm" data-inv-action="in" data-inv-id="${item.id}"><i class="fas fa-plus"></i> Достави</button>
+                        <button class="btn btn-outline btn-sm" style="color:#d97706; border-color:#fde68a;" data-inv-action="out" data-inv-id="${item.id}"><i class="fas fa-minus"></i> Използвай</button>
+                        <button class="btn-outline btn btn-sm" data-inv-action="edit" data-inv-id="${item.id}"><i class="fas fa-edit"></i></button>
+                        <button class="btn-danger-outline btn btn-sm" data-inv-action="delete" data-inv-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderInventoryStats() {
+            const grid = $('invStatsGrid');
+            if (!grid) return;
+            const items = Object.values(inventory);
+            const totalItems = items.length;
+            let lowCount = 0, outCount = 0, totalValue = 0;
+            items.forEach(i => {
+                const qty = parseFloat(i.quantity) || 0;
+                const min = parseFloat(i.minStock) || 0;
+                const price = parseFloat(i.price) || 0;
+                if (qty <= 0) outCount++;
+                else if (qty <= min) lowCount++;
+                totalValue += price * qty;
+            });
+            grid.innerHTML = `
+                <div class="inv-stat-card success">
+                    <div class="inv-stat-label"><i class="fas fa-boxes"></i> Общо артикули</div>
+                    <div class="inv-stat-value">${totalItems}</div>
+                    <div class="inv-stat-sub">в инвентара</div>
+                </div>
+                <div class="inv-stat-card warning">
+                    <div class="inv-stat-label"><i class="fas fa-exclamation-triangle"></i> Ниска наличност</div>
+                    <div class="inv-stat-value">${lowCount}</div>
+                    <div class="inv-stat-sub">под минимума</div>
+                </div>
+                <div class="inv-stat-card danger">
+                    <div class="inv-stat-label"><i class="fas fa-times-circle"></i> Изчерпани</div>
+                    <div class="inv-stat-value">${outCount}</div>
+                    <div class="inv-stat-sub">нулева наличност</div>
+                </div>
+                <div class="inv-stat-card">
+                    <div class="inv-stat-label"><i class="fas fa-euro-sign"></i> Обща стойност</div>
+                    <div class="inv-stat-value">${formatPrice(totalValue)} €</div>
+                    <div class="inv-stat-sub">по единични цени</div>
+                </div>
+            `;
+        }
+
+        function renderInventoryCategoryChips() {
+            const chips = $('invCategoryChips');
+            if (!chips) return;
+            const counts = {};
+            Object.values(inventory).forEach(i => {
+                const c = i.category || 'Друго';
+                counts[c] = (counts[c] || 0) + 1;
+            });
+            const all = Object.keys(inventory).length;
+            let html = `<button class="inv-chip ${currentInvCategory === 'all' ? 'active' : ''}" data-inv-cat="all"><i class="fas fa-th-large"></i> Всички <span class="chip-count">${all}</span></button>`;
+            INV_CATEGORIES.forEach(cat => {
+                const c = counts[cat] || 0;
+                if (c === 0 && currentInvCategory !== cat) return;
+                const icon = INV_CATEGORY_ICONS[cat] || 'fa-cube';
+                html += `<button class="inv-chip ${currentInvCategory === cat ? 'active' : ''}" data-inv-cat="${cat}"><i class="fas ${icon}"></i> ${cat} <span class="chip-count">${c}</span></button>`;
+            });
+            chips.innerHTML = html;
+            chips.querySelectorAll('.inv-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    currentInvCategory = chip.dataset.invCat;
+                    renderInventoryCategoryChips();
+                    renderInventory();
+                });
+            });
+        }
+
+        $('invSearchInput')?.addEventListener('input', renderInventory);
+        $('invStockFilter')?.addEventListener('change', renderInventory);
+        $('invSortSelect')?.addEventListener('change', renderInventory);
+
+        document.querySelectorAll('.inv-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const t = tab.dataset.invTab;
+                document.querySelectorAll('.inv-tab').forEach(x => x.classList.toggle('active', x === tab));
+                document.querySelectorAll('.inv-pane').forEach(p => p.classList.toggle('active', p.dataset.invPane === t));
+            });
+        });
+
+        $('addInventoryBtn')?.addEventListener('click', () => openInventoryModal());
+        $('invCancelBtn')?.addEventListener('click', () => $('inventoryModal').classList.remove('active'));
+        $('invModalClose')?.addEventListener('click', () => $('inventoryModal').classList.remove('active'));
+
+        function openInventoryModal(itemId = null) {
+            const modal = $('inventoryModal');
+            const form = $('inventoryForm');
+            form.reset();
+            $('invItemId').value = '';
+            if (itemId && inventory[itemId]) {
+                const it = inventory[itemId];
+                $('invModalTitle').textContent = 'Редакция на артикул';
+                $('invItemId').value = itemId;
+                $('invName').value = it.name || '';
+                $('invCategory').value = it.category || '';
+                $('invUnit').value = it.unit || 'бр.';
+                $('invQuantity').value = it.quantity ?? 0;
+                $('invMinStock').value = it.minStock ?? 5;
+                $('invPrice').value = it.price ?? '';
+                $('invSupplier').value = it.supplier || '';
+                $('invNotes').value = it.notes || '';
+            } else {
+                $('invModalTitle').textContent = 'Нов артикул';
+            }
+            modal.classList.add('active');
+        }
+
+        $('inventoryForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = $('invItemId').value;
+            const name = $('invName').value.trim();
+            const category = $('invCategory').value;
+            const unit = $('invUnit').value;
+            const quantity = parseFloat($('invQuantity').value) || 0;
+            const minStock = parseFloat($('invMinStock').value) || 0;
+            const price = parseFloat($('invPrice').value) || 0;
+            const supplier = $('invSupplier').value.trim();
+            const notes = $('invNotes').value.trim();
+            if (!name || !category) { showToast('Попълнете име и категория.', 'error'); return; }
+            $('invSaveBtn').disabled = true;
+            try {
+                const data = { name, category, unit, quantity, minStock, price, supplier, notes, updatedAt: Date.now(), updatedBy: currentUser.id };
+                if (id) {
+                    await update(clinicRef(`inventory/${id}`), data);
+                    showToast('Обновен.', 'success');
+                } else {
+                    data.createdAt = Date.now();
+                    data.createdBy = currentUser.id;
+                    await set(push(clinicRef('inventory')), data);
+                    showToast('Добавен.', 'success');
+                }
+                $('inventoryModal').classList.remove('active');
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { $('invSaveBtn').disabled = false; }
+        });
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('[data-inv-action]');
+            if (!btn) return;
+            const action = btn.dataset.invAction;
+            const id = btn.dataset.invId;
+            if (action === 'edit') { openInventoryModal(id); return; }
+            if (action === 'delete') {
+                if (!confirm('Изтрий артикула?')) return;
+                try { await remove(clinicRef(`inventory/${id}`)); showToast('Изтрит.', 'success'); }
+                catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+                return;
+            }
+            if (action === 'in' || action === 'out') {
+                currentInvItemId = id;
+                const it = inventory[id];
+                if (!it) return;
+                $('invMovItemName').textContent = it.name;
+                $('invMovTitle').textContent = action === 'in' ? '📥 Доставка' : '📤 Употреба';
+                $('invMovType').value = action;
+                $('invMovQty').value = '';
+                $('invMovNote').value = '';
+                $('invMovementModal').classList.add('active');
+            }
+        });
+
+        $('invMovCancelBtn')?.addEventListener('click', () => { $('invMovementModal').classList.remove('active'); currentInvItemId = null; });
+
+        $('invMovConfirmBtn')?.addEventListener('click', async () => {
+            if (!currentInvItemId) return;
+            const it = inventory[currentInvItemId];
+            if (!it) return;
+            const type = $('invMovType').value;
+            const qty = parseFloat($('invMovQty').value) || 0;
+            const note = $('invMovNote').value.trim();
+            if (qty <= 0) { showToast('Въведете положително количество.', 'error'); return; }
+            const currentQty = parseFloat(it.quantity) || 0;
+            const newQty = type === 'in' ? currentQty + qty : currentQty - qty;
+            if (newQty < 0) { showToast('Недостатъчна наличност!', 'error'); return; }
+            $('invMovConfirmBtn').disabled = true;
+            try {
+                await update(clinicRef(`inventory/${currentInvItemId}`), { quantity: newQty, updatedAt: Date.now(), updatedBy: currentUser.id });
+                await set(push(clinicRef('inventoryMovements')), {
+                    itemId: currentInvItemId,
+                    itemName: it.name,
+                    type,
+                    qty,
+                    note,
+                    beforeQty: currentQty,
+                    afterQty: newQty,
+                    createdBy: currentUser.id,
+                    createdByName: currentUser.name,
+                    createdAt: Date.now()
+                });
+                showToast(type === 'in' ? 'Доставка записана.' : 'Употреба записана.', 'success');
+                $('invMovementModal').classList.remove('active');
+                currentInvItemId = null;
+            } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+            finally { $('invMovConfirmBtn').disabled = false; }
+        });
+
+        $('invMovFilterItem')?.addEventListener('change', renderInventoryMovementsList);
+        $('invMovFilterType')?.addEventListener('change', renderInventoryMovementsList);
+
+        function renderInvMovItemFilter() {
+            const sel = $('invMovFilterItem');
+            if (!sel) return;
+            const cur = sel.value;
+            const items = Object.entries(inventory).map(([id, it]) => ({ id, name: it.name })).sort((a, b) => a.name.localeCompare(b.name));
+            sel.innerHTML = '<option value="">-- Всички артикули --</option>' + items.map(i => `<option value="${i.id}">${escapeHtml(i.name)}</option>`).join('');
+            if (items.some(i => i.id === cur)) sel.value = cur;
+        }
+
+        function renderInventoryMovementsList() {
+            const list = $('invMovementsList');
+            if (!list) return;
+            const itemFilter = $('invMovFilterItem')?.value || '';
+            const typeFilter = $('invMovFilterType')?.value || '';
+            let movs = Object.entries(inventoryMovements).map(([id, m]) => ({ id, ...m }));
+            if (itemFilter) movs = movs.filter(m => m.itemId === itemFilter);
+            if (typeFilter) movs = movs.filter(m => m.type === typeFilter);
+            movs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            if (movs.length === 0) {
+                list.innerHTML = `<div class="empty-message">Няма движения</div>`;
+                return;
+            }
+            list.innerHTML = movs.slice(0, 100).map(m => {
+                const isIn = m.type === 'in';
+                return `<div class="inv-movement-item ${isIn ? 'in' : 'out'}">
+                    <div class="icon"><i class="fas ${isIn ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
+                    <div class="info">
+                        <div class="name">${escapeHtml(m.itemName || '—')}</div>
+                        <div class="meta">${m.createdByName ? escapeHtml(m.createdByName) + ' · ' : ''}${formatTimestamp(m.createdAt)} · ${m.beforeQty} → ${m.afterQty}${m.note ? ' · ' + escapeHtml(m.note) : ''}</div>
+                    </div>
+                    <div class="qty">${isIn ? '+' : '-'}${m.qty}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // ==================== END INVENTORY MODULE ====================
 
         // ==================== TESTS MODULE ====================
         const TESTS_DEFINITIONS = {
@@ -2127,8 +2727,7 @@
                 calculate: (answers) => {
                     let sum = 0;
                     answers.forEach(a => { if (a !== undefined && a !== null) sum += a; });
-                    const max = 50;
-                    return Math.round((sum / max) * 100);
+                    return Math.round((sum / 50) * 100);
                 },
                 scoreUnit: '%',
                 interpretation: (score) => {
@@ -2229,8 +2828,8 @@
                     { text: 'Стоене на един крак', options: [{label:'>10 сек',score:4},{label:'5–10 сек',score:3},{label:'3–5 сек',score:2},{label:'<3 сек',score:1},{label:'Не може',score:0}]}
                 ],
                 calculate: (answers) => {
-                    let sum = 0; let count = 0;
-                    answers.forEach(a => { if (a !== undefined && a !== null) { sum += a; count++; } });
+                    let sum = 0;
+                    answers.forEach(a => { if (a !== undefined && a !== null) sum += a; });
                     return sum;
                 },
                 scoreUnit: 'точки',
@@ -2531,7 +3130,6 @@
                 });
             });
         }
-
         // ==================== END TESTS MODULE ====================
 
         function renderDashboard() {
@@ -3463,7 +4061,7 @@
             const all = Object.entries(notifications).map(([id, n]) => ({ id, ...n })).filter(n => n.userId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             if (all.length === 0) { $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`; return; }
             $('notifList').innerHTML = all.map(n => {
-                const iconMap = { 'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','default':'fa-bell' };
+                const iconMap = { 'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','inventory':'fa-boxes','default':'fa-bell' };
                 const icon = iconMap[n.type] || iconMap['default'];
                 return `<div class="notif-item ${n.read ? 'read' : ''}" data-notif-id="${n.id}">
                     <button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий"><i class="fas fa-times"></i></button>
@@ -4013,6 +4611,7 @@
                 else if (mod === 'schedule') renderWeek();
                 else if (mod === 'procedures') { updatePatientDropdowns(); renderProcedures(); }
                 else if (mod === 'tests') { renderTestsModule(); }
+                else if (mod === 'inventory') { renderInventoryModule(); }
                 else if (mod === 'exercises') {
                     if (isPatient(currentUser)) {
                         $('exerciseTabsBar').style.display = 'none';
