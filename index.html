@@ -115,8 +115,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .dash-list-item .info .meta { font-size: 0.8rem; color: #7f95b0; }
 .dash-empty { text-align: center; padding: 1.5rem; color: #7f95b0; font-style: italic; font-size: 0.9rem; }
 .free-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
-.free-slot { padding: 0.6rem 0.4rem; background: #f8fbfe; border: 2px solid #cfddee; border-radius: 10px; text-align: center; font-weight: 600; color: #0b2b4f; font-size: 0.85rem; cursor: pointer; }
-.free-slot:hover { background: #e0f7fa; border-color: #0891b2; color: #0891b2; }
+.free-slot { padding: 0.6rem 0.4rem; background: #f8fbfe; border: 2px solid #cfddee; border-radius: 10px; text-align: center; font-weight: 600; color: #0b2b4f; font-size: 0.85rem; cursor: pointer; transition: 0.15s; }
+.free-slot:hover:not(.busy) { background: #e0f7fa; border-color: #0891b2; color: #0891b2; transform: scale(1.05); box-shadow: 0 4px 12px rgba(8,145,178,0.2); }
 .free-slot.busy { background: #f5f5f5; color: #b0b0b0; cursor: not-allowed; border-color: #e0e0e0; text-decoration: line-through; }
 .task-form { display: flex; gap: 10px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .task-form input { flex: 1; min-width: 200px; padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit; }
@@ -889,7 +889,7 @@ body * { visibility: hidden; }
 <form class="task-form" id="taskForm"><input type="text" id="taskInput" placeholder="Напр. Обади се на Иван Петров..."><button type="submit" class="btn" id="addTaskBtn"><i class="fas fa-plus"></i> Добави</button></form>
 <div class="dash-list" id="dashTasksList"></div>
 </div>
-<div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
+<div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><p style="color:#7f95b0; font-size:0.85rem; margin-bottom:1rem;"><i class="fas fa-info-circle"></i> Кликнете на свободен час за да го запазите</p><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
 </section>
 
 <section id="module-patients" class="module">
@@ -1840,8 +1840,6 @@ const modules = {
 const patientProfileModule = document.getElementById('module-patient-profile');
 const $ = id => document.getElementById(id);
 
-console.log('[PhysioBook] Firebase module loaded');
-
 function clinicPath(subPath = '') {
   if (!activeClinicId) return null;
   return `clinics/${activeClinicId}${subPath ? '/' + subPath : ''}`;
@@ -2032,6 +2030,7 @@ function openAptManageModal(aptId) {
     if (status !== 'no_show' && status !== 'completed' && status !== 'cancelled') actionsHtml += `<button class="btn" style="background:#ea580c;" data-apt-action="no_show"><i class="fas fa-user-slash"></i> Не се яви</button>`;
     if (status !== 'cancelled') actionsHtml += `<button class="btn-danger-outline btn" data-apt-action="cancelled"><i class="fas fa-times"></i> Откажи часа</button>`;
     if (status === 'pending') actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди</button>`;
+    actionsHtml += `<button class="btn" data-apt-action="delete" style="background:#b22234; color:#fff;"><i class="fas fa-trash-alt"></i> Изтрий час завинаги</button>`;
     actionsHtml += `<button class="btn-outline btn" id="aptManageCloseBtn">Затвори</button>`;
   } else {
     if (status === 'pending') actionsHtml += `<button class="btn btn-success" data-apt-action="confirmed"><i class="fas fa-check"></i> Потвърди часа</button>`;
@@ -2046,6 +2045,18 @@ document.addEventListener('click', async (e) => {
   const actionBtn = e.target.closest('[data-apt-action]');
   if (actionBtn && currentAptId) {
     const action = actionBtn.dataset.aptAction;
+    if (action === 'delete') {
+      if (!confirm('Сигурни ли сте, че искате да ИЗТРИЕТЕ този час завинаги?\n\n(Ако искате само да го откажете — използвайте "Откажи часа".)')) return;
+      try {
+        await remove(clinicRef(`appointments/${currentAptId}`));
+        showToast('Часът е изтрит.', 'success');
+        $('aptManageModal').classList.remove('active');
+        currentAptId = null;
+      } catch(err) {
+        showToast('Грешка при изтриване: ' + err.message, 'error');
+      }
+      return;
+    }
     if (action === 'cancelled') { const reason = prompt('Причина за отказ (по избор):') || ''; await changeAptStatus(currentAptId, 'cancelled', reason); }
     else { await changeAptStatus(currentAptId, action); }
     return;
@@ -3060,6 +3071,29 @@ function renderPatientsKineziFilter() {
 $('scheduleKineziFilter')?.addEventListener('change', renderWeek);
 $('patientsKineziFilter')?.addEventListener('change', renderPatients);
 
+// ==================== NEW APPOINTMENT FROM FREE SLOT ====================
+function openNewAppointmentWithTime(hour) {
+  navItems.forEach(n => n.classList.remove('active'));
+  const scheduleBtn = document.querySelector('.nav-item[data-module="schedule"]');
+  if (scheduleBtn) scheduleBtn.classList.add('active');
+  Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+  if (modules.schedule) modules.schedule.classList.add('active');
+
+  const timeStr = String(hour).padStart(2, '0') + ':00';
+  $('aptDate').value = toDateStr(new Date());
+  $('aptTime').value = timeStr;
+  $('aptNote').value = '';
+  $('aptPatient').value = '';
+  $('aptDuration').value = '60';
+  $('aptRecurringToggle').checked = false;
+  $('aptRecurringOptions').style.display = 'none';
+
+  const form = $('appointmentForm');
+  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => $('aptPatient').focus(), 300);
+  showToast('Попълнен час: ' + timeStr + ' — изберете пациент', 'info');
+}
+
 function renderDashboard() {
   if (!currentUser || currentPatient) return;
   const todayStr = toDateStr(new Date());
@@ -3088,9 +3122,16 @@ function renderDashboard() {
   const busyHours = new Set();
   todayApts.forEach(a=>{ if(a.time) busyHours.add(parseInt(a.time.split(':')[0])); });
   const slots = []; let free = 0;
-  for (let h = 9; h < 18; h++) { const isBusy = busyHours.has(h); if (!isBusy) free++; slots.push(`<div class="free-slot ${isBusy?'busy':''}" data-hour="${h}">${String(h).padStart(2,'0')}:00</div>`); }
+  for (let h = 9; h < 18; h++) { const isBusy = busyHours.has(h); if (!isBusy) free++; slots.push(`<div class="free-slot ${isBusy?'busy':''}" data-hour="${h}" title="${isBusy?'Заето':'Клик за нов час'}">${String(h).padStart(2,'0')}:00</div>`); }
   $('dashFreeSlots').textContent = free;
   $('dashFreeSlotsGrid').innerHTML = slots.join('');
+  // FIX: Click handler за свободните часове
+  $('dashFreeSlotsGrid').querySelectorAll('.free-slot:not(.busy)').forEach(slot => {
+    slot.addEventListener('click', () => {
+      const h = slot.dataset.hour;
+      openNewAppointmentWithTime(h);
+    });
+  });
 }
 
 document.addEventListener('click', (e)=>{ const item = e.target.closest('.dash-list-item[data-patient-id]'); if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) openPatientProfile(item.dataset.patientId); });
