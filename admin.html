@@ -45,7 +45,7 @@
         .app-body { display: flex; flex: 1; }
         .sidebar { width: 260px; background: #0b2b4f; color: #fff; padding: 1.5rem 0.5rem; display: flex; flex-direction: column; min-height: calc(100vh - 74px); }
         .nav { display: flex; flex-direction: column; gap: 0.4rem; padding: 0 0.7rem; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.1rem; border-radius: 12px; font-size: 0.95rem; font-weight: 500; color: #e0edff; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; transition: 0.15s; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.1rem; border-radius: 12px; font-size: 0.95rem; font-weight: 500; color: #e0edff; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; transition: 0.15s; position: relative; }
         .nav-item i { width: 22px; font-size: 1.05rem; color: #7fb2e5; }
         .nav-item:hover { background: #1f3f61; color: #fff; }
         .nav-item.active { background: #1e4a78; color: #fff; }
@@ -133,7 +133,7 @@
         .pkg-badge.max { background: linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 100%); color: #6b21a8; border: 1px solid #c4b5fd; }
         .pkg-badge.none { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
 
-        /* PACKAGE SELECTOR (в модала) */
+        /* PACKAGE SELECTOR */
         .pkg-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px; }
         @media (max-width: 700px) { .pkg-selector { grid-template-columns: 1fr; } }
         .pkg-option { border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 0.9rem; cursor: pointer; transition: 0.15s; background: #f8fbfe; text-align: center; position: relative; user-select: none; }
@@ -179,6 +179,17 @@
         .debug-box { background: #fff5f5; border: 1px solid #f0c0c0; border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.8rem; font-size: 0.78rem; color: #b22234; font-family: 'Courier New', monospace; text-align: left; display: none; max-height: 200px; overflow-y: auto; }
         .debug-box.active { display: block; }
         .debug-box strong { color: #0b2b4f; }
+
+        /* UPGRADE BADGE в sidebar */
+        .nav-badge { display: none; margin-left: auto; background: #b22234; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 10px; font-weight: 700; min-width: 20px; text-align: center; }
+        .nav-badge.visible { display: inline-block; }
+
+        /* UPGRADE REQUESTS */
+        .upgrade-request-card { background: #fff; border-radius: 16px; border: 1px solid #e9eef3; border-left: 5px solid #d97706; padding: 1.3rem 1.5rem; margin-bottom: 12px; transition: 0.15s; }
+        .upgrade-request-card:hover { box-shadow: 0 6px 20px rgba(11,43,79,0.08); }
+        .upgrade-request-card.contacted { border-left-color: #1e4a78; }
+        .upgrade-request-card.completed { border-left-color: #1a7a3e; background: #f0f9f1; opacity: 0.85; }
+        .upgrade-request-card.cancelled { border-left-color: #7f7f7f; background: #f5f5f5; opacity: 0.7; }
 
         @media (max-width: 800px) {
             .app-header { padding: 0.8rem 1rem; }
@@ -267,6 +278,7 @@
                     <button class="nav-item active" data-module="dashboard"><i class="fas fa-chart-pie"></i><span>Табло</span></button>
                     <button class="nav-item" data-module="clinics"><i class="fas fa-hospital"></i><span>Клиники</span></button>
                     <button class="nav-item" data-module="modules"><i class="fas fa-th-large"></i><span>Модули</span></button>
+                    <button class="nav-item" data-module="upgrades"><i class="fas fa-arrow-up"></i><span>Заявки за надграждане</span><span class="nav-badge" id="upgradesBadge">0</span></button>
                     <button class="nav-item" data-module="admins"><i class="fas fa-user-shield"></i><span>Админи</span></button>
                     <button class="nav-item" data-module="settings"><i class="fas fa-cog"></i><span>Настройки</span></button>
                 </nav>
@@ -340,6 +352,21 @@
                             <button class="btn btn-outline btn-sm" id="disableAllModulesBtn"><i class="fas fa-times"></i> Изключи всички (без Настройки)</button>
                         </div>
                     </div>
+                </section>
+
+                <!-- ==================== UPGRADE REQUESTS ==================== -->
+                <section class="module" id="module-upgrades">
+                    <div class="module-header">
+                        <h1><i class="fas fa-arrow-up"></i> Заявки за надграждане на абонамент</h1>
+                    </div>
+                    <div class="card" style="border-left:4px solid #d97706;">
+                        <p style="color:#7f95b0; font-size:0.9rem; margin:0;">
+                            <i class="fas fa-info-circle" style="color:#d97706;"></i> 
+                            Тук се показват всички заявки от клиники, които искат да надградят абонамента си. 
+                            Свържете се с тях на посочения телефон, за да финализирате плащането, след което обновете пакета от <strong>"Клиники"</strong>.
+                        </p>
+                    </div>
+                    <div id="upgradesList"></div>
                 </section>
 
                 <section class="module" id="module-admins">
@@ -425,7 +452,7 @@
                         <input type="text" id="clinicSub" placeholder="напр. Медицински център">
                     </div>
 
-                    <!-- ============== АБОНАМЕНТЕН ПАКЕТ ============== -->
+                    <!-- АБОНАМЕНТЕН ПАКЕТ -->
                     <div class="form-group" style="grid-column: span 2;">
                         <label><i class="fas fa-box" style="color:#6b3fa0;"></i> Абонаментен пакет *</label>
                         <div class="pkg-selector" id="pkgSelector">
@@ -433,19 +460,19 @@
                                 <div class="pkg-name">Начален</div>
                                 <div class="pkg-price">50 €<small> / год</small></div>
                                 <div class="pkg-desc">Табло, Пациенти, График, Процедури</div>
-                                <div class="pkg-modules-count" data-count>4 модула</div>
+                                <div class="pkg-modules-count">4 модула</div>
                             </div>
                             <div class="pkg-option" data-pkg="basic">
                                 <div class="pkg-name">Основен</div>
                                 <div class="pkg-price">80 €<small> / год</small></div>
                                 <div class="pkg-desc">+ Тестове, Ваучери, Досиета</div>
-                                <div class="pkg-modules-count" data-count>7 модула</div>
+                                <div class="pkg-modules-count">7 модула</div>
                             </div>
                             <div class="pkg-option" data-pkg="max">
                                 <div class="pkg-name">Максимален</div>
                                 <div class="pkg-price">120 €<small> / год</small></div>
                                 <div class="pkg-desc">+ Инвентар, Упражнения, Документация, Ценоразпис</div>
-                                <div class="pkg-modules-count" data-count>11 модула</div>
+                                <div class="pkg-modules-count">11 модула</div>
                             </div>
                         </div>
                         <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. Можеш да ги промениш допълнително от "Модули".</div>
@@ -458,7 +485,8 @@
                     </div>
                     <div class="form-group">
                         <label>Телефон на клиниката</label>
-                        <input type="text" id="clinicPhone">
+                        <input type="text" id="clinicPhone" placeholder="напр. 0888123456">
+                        <div class="hint">Този телефон ще вижда клиниката в портала си за връзка при надграждане.</div>
                     </div>
                     <div class="form-group">
                         <label>Имейл на клиниката</label>
@@ -522,7 +550,6 @@
         const db = getDatabase(app);
 
         // ==================== MODULES ====================
-        // ВАЖНО: id трябва да съвпада ТОЧНО с data-module атрибута в index.html!
         const MODULES = [
             { id: 'dashboard',     name: 'Табло',            icon: 'fa-chart-pie',       desc: 'Основно табло',                                     locked: false },
             { id: 'patients',      name: 'Пациенти',         icon: 'fa-users',           desc: 'Управление на пациенти',                            locked: false },
@@ -540,8 +567,6 @@
         ];
 
         // ==================== АБОНАМЕНТНИ ПАКЕТИ ====================
-        // Всеки пакет съдържа: име, цена, списък с включени модули (по id).
-        // 'settings' е ВИНАГИ включен, затова не е нужно да се добавя във всеки пакет.
         const PACKAGES = {
             start: {
                 name: 'Начален',
@@ -569,13 +594,12 @@
             }
         };
 
-        // Помощна функция: връща обект enabledModules от даден пакет
         function getModulesStateFromPackage(pkgId) {
             const pkg = PACKAGES[pkgId];
             const state = {};
             MODULES.forEach(m => {
                 if (m.locked) {
-                    state[m.id] = true; // settings винаги true
+                    state[m.id] = true;
                 } else {
                     state[m.id] = pkg ? pkg.modules.includes(m.id) : true;
                 }
@@ -597,7 +621,8 @@
         let clinicSearchQuery = '';
         let unsubscribers = [];
         let settingsUnsubscribers = {};
-        let selectedPackage = 'start'; // за модала за нова клиника
+        let selectedPackage = 'start';
+        let upgradeRequests = {};
 
         const $ = id => document.getElementById(id);
         const codeInputEls = document.querySelectorAll('#codeInputs input');
@@ -647,7 +672,6 @@
             return state;
         }
 
-        // Връща HTML за badge на пакета
         function getPackageBadgeHtml(pkgId) {
             const pkg = PACKAGES[pkgId];
             if (!pkg) return `<span class="pkg-badge none"><i class="fas fa-question"></i> Няма пакет</span>`;
@@ -811,6 +835,7 @@
                 renderDashboard();
                 renderClinics();
                 renderModulesClinicSelect();
+                renderUpgrades();
                 if (selectedClinicForModules) renderModulesEditor();
             }));
 
@@ -823,6 +848,21 @@
                         sessionStorage.clear();
                         location.reload();
                     }, 1500);
+                }
+            }));
+
+            unsubscribers.push(onValue(ref(db, 'upgradeRequests'), (snap) => {
+                upgradeRequests = snap.val() || {};
+                renderUpgrades();
+                updateUpgradesBadge();
+                // Известие при нова заявка
+                const pending = Object.values(upgradeRequests).filter(r => r.status === 'pending').length;
+                if (pending > 0) {
+                    const lastSeen = parseInt(sessionStorage.getItem('lastSeenUpgradeCount') || '0');
+                    if (pending > lastSeen) {
+                        showToast(`🔔 ${pending - lastSeen} нова заявка за надграждане!`, 'success');
+                        sessionStorage.setItem('lastSeenUpgradeCount', pending);
+                    }
                 }
             }));
         }
@@ -851,6 +891,8 @@
         function renderDashboard() {
             const clinicIds = Object.keys(clinics);
             const adminCount = Object.keys(admins).length;
+            const pendingUpgrades = Object.values(upgradeRequests).filter(r => r.status === 'pending').length;
+            
             $('statsGrid').innerHTML = `
                 <div class="stat-card">
                     <div class="lbl"><i class="fas fa-hospital"></i> Общо клиники</div>
@@ -861,6 +903,11 @@
                     <div class="lbl"><i class="fas fa-user-shield"></i> Супер админи</div>
                     <div class="val">${adminCount}</div>
                     <div class="sub">с достъп</div>
+                </div>
+                <div class="stat-card ${pendingUpgrades > 0 ? 'warning' : ''}">
+                    <div class="lbl"><i class="fas fa-arrow-up"></i> Заявки за надграждане</div>
+                    <div class="val">${pendingUpgrades}</div>
+                    <div class="sub">${pendingUpgrades > 0 ? 'чакат обработка' : 'няма нови'}</div>
                 </div>
                 <div class="stat-card success">
                     <div class="lbl"><i class="fas fa-th-large"></i> Модули</div>
@@ -933,9 +980,9 @@
                         <div style="font-size:0.78rem; color:#7f95b0; margin-top:6px;">${enabledCount} / ${MODULES.length}</div>
                     </td>
                     <td style="white-space:nowrap;">
-                        <button class="btn-outline btn btn-sm" data-clinic-action="modules" data-clinic-id="${cid}"><i class="fas fa-th-large"></i></button>
-                        <button class="btn-outline btn btn-sm" data-clinic-action="edit" data-clinic-id="${cid}"><i class="fas fa-edit"></i></button>
-                        <button class="btn-danger-outline btn btn-sm" data-clinic-action="delete" data-clinic-id="${cid}"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn-outline btn btn-sm" data-clinic-action="modules" data-clinic-id="${cid}" title="Модули"><i class="fas fa-th-large"></i></button>
+                        <button class="btn-outline btn btn-sm" data-clinic-action="edit" data-clinic-id="${cid}" title="Редакция"><i class="fas fa-edit"></i></button>
+                        <button class="btn-danger-outline btn btn-sm" data-clinic-action="delete" data-clinic-id="${cid}" title="Изтрий"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>`;
             }).join('');
@@ -1014,7 +1061,6 @@
                 $('clinicPhone').value = c.phone || '';
                 $('clinicEmail').value = c.email || '';
                 $('clinicAddress').value = c.address || '';
-                // Избираме текущия пакет
                 setPackageSelectorValue(c.packageId || c.package || 'start');
             } else {
                 $('clinicModalTitle').textContent = 'Нова клиника';
@@ -1093,6 +1139,21 @@
                         });
                     }
 
+                    // Ако е сменен пакетът - питаме дали да приложим модулите
+                    const oldPkgId = clinics[cid].packageId || clinics[cid].package;
+                    if (oldPkgId !== packageId) {
+                        if (confirm(`Пакетът е сменен от "${PACKAGES[oldPkgId]?.name || '?'}" на "${PACKAGES[packageId].name}".\n\nДа приложа ли модулите от новия пакет автоматично?`)) {
+                            const newModules = getModulesStateFromPackage(packageId);
+                            await update(ref(db, `clinics/${cid}/settings`), { 
+                                enabledModules: newModules,
+                                packageId: packageId
+                            });
+                            showToast('Модулите са обновени според новия пакет.', 'success');
+                        } else {
+                            await update(ref(db, `clinics/${cid}/settings`), { packageId: packageId });
+                        }
+                    }
+
                     showToast('Клиниката е обновена.', 'success');
                 } else {
                     clinicData.createdAt = Date.now();
@@ -1102,7 +1163,6 @@
                     clinicData.id = newId;
                     await set(newRef, clinicData);
 
-                    // ВАЖНО: генерираме модулите от избрания пакет!
                     const packageModules = getModulesStateFromPackage(packageId);
 
                     await set(ref(db, `clinics/${newId}/settings`), {
@@ -1181,7 +1241,6 @@
             const clinic = clinics[selectedClinicForModules] || {};
             const pkgId = clinic.packageId || clinic.package || null;
 
-            // Показваме badge на текущия пакет
             const badgeEl = $('modulesEditorPkgBadge');
             if (badgeEl) badgeEl.innerHTML = getPackageBadgeHtml(pkgId);
 
@@ -1231,7 +1290,6 @@
             });
         }
 
-        // ==================== APPLY PACKAGE MODULES ====================
         $('applyPackageModulesBtn')?.addEventListener('click', async () => {
             if (!selectedClinicForModules) return;
             const clinic = clinics[selectedClinicForModules] || {};
@@ -1277,6 +1335,138 @@
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
 
+        // ==================== UPGRADE REQUESTS ====================
+        function updateUpgradesBadge() {
+            const badge = $('upgradesBadge');
+            if (!badge) return;
+            const pending = Object.values(upgradeRequests).filter(r => r.status === 'pending').length;
+            if (pending > 0) {
+                badge.textContent = pending;
+                badge.classList.add('visible');
+            } else {
+                badge.classList.remove('visible');
+            }
+        }
+
+        function renderUpgrades() {
+            const list = $('upgradesList');
+            if (!list) return;
+            const all = Object.entries(upgradeRequests).map(([id, r]) => ({ id, ...r }))
+                .sort((a, b) => {
+                    // pending първо, после по дата
+                    if (a.status === 'pending' && b.status !== 'pending') return -1;
+                    if (a.status !== 'pending' && b.status === 'pending') return 1;
+                    return (b.createdAt || 0) - (a.createdAt || 0);
+                });
+            
+            if (all.length === 0) {
+                list.innerHTML = `<div class="card" style="text-align:center; padding:3rem 2rem;">
+                    <i class="fas fa-inbox" style="font-size:4rem; color:#cfddee; margin-bottom:1.5rem; display:block;"></i>
+                    <h3 style="color:#0b2b4f; font-size:1.2rem; margin-bottom:0.5rem; justify-content:center;">Няма заявки за надграждане</h3>
+                    <p style="color:#7f95b0; font-size:0.95rem;">Тук ще се появят заявките от клиники, които искат да надградят абонамента си.</p>
+                </div>`;
+                return;
+            }
+            
+            list.innerHTML = all.map(r => {
+                const clinic = clinics[r.clinicId];
+                const clinicName = clinic ? clinic.name : '(изтрита клиника)';
+                const clinicPhone = clinic ? (clinic.phone || '—') : '—';
+                const currentPkg = PACKAGES[r.currentPackage];
+                const wantedPkg = PACKAGES[r.requestedPackage];
+                
+                const statusMap = {
+                    pending: { label: 'Чака обработка', cls: 'background:#fff5e5; color:#b06d00;', icon: 'fa-hourglass-half' },
+                    contacted: { label: 'Осъществен контакт', cls: 'background:#e8f0fe; color:#1e4a78;', icon: 'fa-phone' },
+                    completed: { label: 'Завършена', cls: 'background:#e8f5e9; color:#1a7a3e;', icon: 'fa-check-double' },
+                    cancelled: { label: 'Отказана', cls: 'background:#f5f5f5; color:#7f7f7f;', icon: 'fa-times' }
+                };
+                const s = statusMap[r.status] || statusMap.pending;
+                
+                const isPending = r.status === 'pending';
+                
+                return `<div class="upgrade-request-card ${r.status}">
+                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:15px; flex-wrap:wrap; margin-bottom:1rem;">
+                        <div style="display:flex; align-items:center; gap:14px; flex:1; min-width:220px;">
+                            <div style="width:50px; height:50px; border-radius:12px; background:#e8f0fe; color:#1e4a78; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0;">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:800; color:#0b2b4f; font-size:1.1rem;">${escapeHtml(clinicName)}</div>
+                                <div style="font-size:0.85rem; color:#7f95b0; margin-top:2px;">
+                                    <i class="fas fa-phone"></i> ${escapeHtml(clinicPhone)}
+                                    ${clinic && clinic.email ? ` · <i class="fas fa-envelope"></i> ${escapeHtml(clinic.email)}` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <span class="admin-badge" style="${s.cls}"><i class="fas ${s.icon}"></i> ${s.label}</span>
+                    </div>
+                    
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:0.9rem 1rem; background:#f8fbfe; border-radius:12px; margin-bottom:1rem;">
+                        <div style="flex:1; min-width:150px;">
+                            <div style="font-size:0.72rem; color:#7f95b0; font-weight:700; text-transform:uppercase; margin-bottom:4px;">Текущ пакет</div>
+                            ${currentPkg ? `<span class="pkg-badge ${currentPkg.color}"><i class="fas ${currentPkg.icon}"></i> ${escapeHtml(currentPkg.name)} · ${currentPkg.price} €</span>` : '<span>—</span>'}
+                        </div>
+                        <div style="font-size:1.5rem; color:#7f95b0;"><i class="fas fa-arrow-right"></i></div>
+                        <div style="flex:1; min-width:150px;">
+                            <div style="font-size:0.72rem; color:#7f95b0; font-weight:700; text-transform:uppercase; margin-bottom:4px;">Желан пакет</div>
+                            ${wantedPkg ? `<span class="pkg-badge ${wantedPkg.color}"><i class="fas ${wantedPkg.icon}"></i> ${escapeHtml(wantedPkg.name)} · ${wantedPkg.price} €</span>` : '<span>—</span>'}
+                        </div>
+                    </div>
+                    
+                    <div style="font-size:0.85rem; color:#7f95b0; display:flex; flex-wrap:wrap; gap:15px; margin-bottom:1rem;">
+                        <span><i class="fas fa-calendar"></i> Заявено: ${new Date(r.createdAt).toLocaleString('bg-BG')}</span>
+                        ${r.requestedByName ? `<span><i class="fas fa-user"></i> От: ${escapeHtml(r.requestedByName)}</span>` : ''}
+                        ${r.contactedAt ? `<span><i class="fas fa-phone"></i> Контакт: ${new Date(r.contactedAt).toLocaleString('bg-BG')}</span>` : ''}
+                    </div>
+                    
+                    ${isPending ? `
+                        <div style="background:#fff5e5; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #d97706; font-size:0.85rem; color:#b45309; margin-bottom:1rem;">
+                            <i class="fas fa-exclamation-triangle"></i> <strong>Действие:</strong> Обадете се на клиниката на <strong>${escapeHtml(clinicPhone)}</strong>, за да финализирате надграждането.
+                        </div>
+                    ` : ''}
+                    
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; border-top:1px solid #edf2f8; padding-top:1rem;">
+                        ${isPending ? `<button class="btn-outline btn btn-sm" data-upgrade-action="contacted" data-upgrade-id="${r.id}"><i class="fas fa-phone"></i> Маркирай като осъществен контакт</button>` : ''}
+                        ${(isPending || r.status === 'contacted') ? `<button class="btn btn-success btn-sm" data-upgrade-action="completed" data-upgrade-id="${r.id}"><i class="fas fa-check"></i> Завърши (обнови клиниката ръчно)</button>` : ''}
+                        ${!['completed', 'cancelled'].includes(r.status) ? `<button class="btn-outline btn btn-sm" data-upgrade-action="cancelled" data-upgrade-id="${r.id}" style="border-color:#cfddee;"><i class="fas fa-times"></i> Откажи</button>` : ''}
+                        <div style="flex:1;"></div>
+                        <button class="btn-outline btn btn-sm" data-upgrade-action="editClinic" data-upgrade-id="${r.id}"><i class="fas fa-edit"></i> Редакция на клиниката</button>
+                        <button class="btn-danger-outline btn btn-sm" data-upgrade-action="delete" data-upgrade-id="${r.id}"><i class="fas fa-trash-alt"></i> Изтрий заявката</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('[data-upgrade-action]');
+            if (!btn) return;
+            const action = btn.dataset.upgradeAction;
+            const id = btn.dataset.upgradeId;
+            const req = upgradeRequests[id];
+            if (!req) return;
+            
+            if (action === 'contacted') {
+                await update(ref(db, `upgradeRequests/${id}`), { status: 'contacted', contactedAt: Date.now() });
+                showToast('Маркирано: осъществен контакт', 'success');
+            } else if (action === 'completed') {
+                if (!confirm('Завърши ли заявката?\n\nУвери се, че клиниката вече е с новия пакет (обнови го от "Редакция на клиниката").')) return;
+                await update(ref(db, `upgradeRequests/${id}`), { status: 'completed', completedAt: Date.now() });
+                showToast('Заявката е завършена.', 'success');
+            } else if (action === 'cancelled') {
+                if (!confirm('Откажи ли заявката?')) return;
+                await update(ref(db, `upgradeRequests/${id}`), { status: 'cancelled', cancelledAt: Date.now() });
+                showToast('Заявката е отказана.', 'success');
+            } else if (action === 'delete') {
+                if (!confirm('Изтрий заявката?')) return;
+                await remove(ref(db, `upgradeRequests/${id}`));
+                showToast('Изтрита.', 'success');
+            } else if (action === 'editClinic') {
+                openClinicModal(req.clinicId);
+            }
+        });
+
+        // ==================== ADMINS ====================
         function renderAdmins() {
             const ids = Object.keys(admins).sort((a,b) => {
                 if (a === PROTECTED_ADMIN_ID) return -1;
