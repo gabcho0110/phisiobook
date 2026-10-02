@@ -465,20 +465,23 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // ==================== MODULES ====================
+        // ВАЖНО: Тук се дефинират ВСИЧКИ модули, които могат да се включват/изключват от админ панела.
+        // id трябва да съвпада ТОЧНО с data-module атрибута в index.html!
         const MODULES = [
-            { id: 'dashboard', name: 'Табло', icon: 'fa-chart-pie', desc: 'Основно табло', locked: false },
-            { id: 'patients', name: 'Пациенти', icon: 'fa-users', desc: 'Управление на пациенти', locked: false },
-            { id: 'dossier', name: 'Досиета', icon: 'fa-folder-open', desc: 'Пълни досиета на пациенти', locked: false },
-            { id: 'schedule', name: 'График', icon: 'fa-calendar-alt', desc: 'Календар и часове', locked: false },
-            { id: 'procedures', name: 'Процедури', icon: 'fa-stethoscope', desc: 'Запис на процедури', locked: false },
-            { id: 'tests', name: 'Тестове и скали', icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg', locked: false },
-            { id: 'inventory', name: 'Инвентар', icon: 'fa-boxes', desc: 'Ластици, електроди, консумативи, масла, ортези', locked: false },
-            { id: 'vouchers', name: 'Ваучери', icon: 'fa-ticket-alt', desc: 'Подаръчни ваучери', locked: false },
-            { id: 'exercises', name: 'Упражнения', icon: 'fa-dumbbell', desc: 'Библиотека и програми', locked: false },
-            { id: 'documentation', name: 'Документация', icon: 'fa-file-medical-alt', desc: 'Бележки, SOAP, файлове', locked: false },
-            { id: 'pricing', name: 'Ценоразпис', icon: 'fa-euro-sign', desc: 'Цени и приходи', locked: false },
-            { id: 'settings', name: 'Настройки', icon: 'fa-cog', desc: 'Настройки (винаги включен)', locked: true },
-            { id: 'portal', name: 'Портал', icon: 'fa-user-circle', desc: 'Портал за пациенти', locked: false }
+            { id: 'dashboard',     name: 'Табло',            icon: 'fa-chart-pie',       desc: 'Основно табло',                                     locked: false },
+            { id: 'patients',      name: 'Пациенти',         icon: 'fa-users',           desc: 'Управление на пациенти',                            locked: false },
+            { id: 'dossier',       name: 'Досиета',          icon: 'fa-folder-open',     desc: 'Пълни досиета на пациенти',                         locked: false },
+            { id: 'schedule',      name: 'График',           icon: 'fa-calendar-alt',    desc: 'Календар и часове',                                 locked: false },
+            { id: 'procedures',    name: 'Процедури',        icon: 'fa-stethoscope',     desc: 'Запис на процедури',                                locked: false },
+            { id: 'tests',         name: 'Тестове и скали',  icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg',              locked: false },
+            { id: 'inventory',     name: 'Инвентар',         icon: 'fa-boxes',           desc: 'Ластици, електроди, консумативи, масла, ортези',    locked: false },
+            { id: 'vouchers',      name: 'Ваучери',          icon: 'fa-ticket-alt',      desc: 'Подаръчни ваучери',                                 locked: false },
+            { id: 'exercises',     name: 'Упражнения',       icon: 'fa-dumbbell',        desc: 'Библиотека и програми',                             locked: false },
+            { id: 'documentation', name: 'Документация',     icon: 'fa-file-medical-alt',desc: 'Бележки, SOAP, файлове',                            locked: false },
+            { id: 'pricing',       name: 'Ценоразпис',       icon: 'fa-euro-sign',       desc: 'Цени и приходи',                                    locked: false },
+            { id: 'settings',      name: 'Настройки',        icon: 'fa-cog',             desc: 'Настройки (винаги включен)',                        locked: true  },
+            { id: 'portal',        name: 'Портал',           icon: 'fa-user-circle',     desc: 'Портал за пациенти',                                locked: false }
         ];
 
         const DEFAULT_ADMIN_CODE = '123456';
@@ -527,9 +530,13 @@
             const enabled = settings.enabledModules || {};
             const result = {};
             MODULES.forEach(m => {
-                if (m.locked) result[m.id] = true;
-                else if (enabled[m.id] === undefined) result[m.id] = true;
-                else result[m.id] = enabled[m.id] !== false;
+                if (m.locked) {
+                    result[m.id] = true; // settings винаги е включен
+                } else if (enabled[m.id] === undefined) {
+                    result[m.id] = true; // по подразбиране всичко е включено
+                } else {
+                    result[m.id] = enabled[m.id] !== false;
+                }
             });
             return result;
         }
@@ -1032,7 +1039,7 @@
             grid.innerHTML = MODULES.map(m => {
                 const enabled = mods[m.id];
                 const locked = m.locked;
-                return `<div class="module-toggle ${enabled ? 'enabled' : ''} ${locked ? 'locked' : ''}" data-module-id="${m.id}">
+                return `<div class="module-toggle ${enabled ? 'enabled' : ''} ${locked ? 'locked' : ''}" data-module-id="${m.id}" title="${locked ? 'Този модул не може да бъде изключен' : 'Кликни за включване/изключване'}">
                     <div class="module-icon"><i class="fas ${m.icon}"></i></div>
                     <div class="module-info">
                         <div class="name">${escapeHtml(m.name)} ${locked ? '<i class="fas fa-lock" style="font-size:0.7rem; color:#7f95b0;"></i>' : ''}</div>
@@ -1046,22 +1053,36 @@
                 toggle.addEventListener('click', async () => {
                     const modId = toggle.dataset.moduleId;
                     const modDef = getModuleDef(modId);
-                    if (modDef.locked) { showToast(`${modDef.name} не може да бъде изключен.`, 'info'); return; }
+                    if (modDef.locked) { 
+                        showToast(`${modDef.name} не може да бъде изключен.`, 'info'); 
+                        return; 
+                    }
                     const currentlyEnabled = toggle.classList.contains('enabled');
                     const newValue = !currentlyEnabled;
+                    
+                    // Оптимистична UI промяна
                     toggle.classList.toggle('enabled', newValue);
 
                     try {
                         const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
                         const settings = settingsSnap.val() || {};
                         const enabledModules = settings.enabledModules || {};
+                        
+                        // Уверяваме се, че всички модули имат стойност
                         MODULES.forEach(m => {
                             if (enabledModules[m.id] === undefined) enabledModules[m.id] = true;
                         });
+                        
                         enabledModules[modId] = newValue;
-                        await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
-                        showToast(`${modDef.name}: ${newValue ? 'включен' : 'изключен'}`, 'success');
+                        
+                        await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { 
+                            enabledModules,
+                            updatedAt: Date.now()
+                        });
+                        
+                        showToast(`${modDef.name}: ${newValue ? '✓ включен' : '✗ изключен'}`, 'success');
                     } catch(err) {
+                        // Връщаме UI промяната при грешка
                         toggle.classList.toggle('enabled', currentlyEnabled);
                         showToast('Грешка: ' + err.message, 'error');
                     }
