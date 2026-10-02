@@ -126,14 +126,12 @@
         .module-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 5px; font-weight: 700; background: #e8f0fe; color: #1e4a78; text-transform: uppercase; }
         .module-badge.off { background: #f0f0f0; color: #a0a0a0; text-decoration: line-through; }
 
-        /* PACKAGE BADGES */
         .pkg-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .pkg-badge.start { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; border: 1px solid #7dd3fc; }
         .pkg-badge.basic { background: linear-gradient(135deg, #e8f0fe 0%, #c7dbfa 100%); color: #1e40af; border: 1px solid #93c5fd; }
         .pkg-badge.max { background: linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 100%); color: #6b21a8; border: 1px solid #c4b5fd; }
         .pkg-badge.none { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
 
-        /* PACKAGE SELECTOR */
         .pkg-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px; }
         @media (max-width: 700px) { .pkg-selector { grid-template-columns: 1fr; } }
         .pkg-option { border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 0.9rem; cursor: pointer; transition: 0.15s; background: #f8fbfe; text-align: center; position: relative; user-select: none; }
@@ -180,11 +178,9 @@
         .debug-box.active { display: block; }
         .debug-box strong { color: #0b2b4f; }
 
-        /* UPGRADE BADGE в sidebar */
         .nav-badge { display: none; margin-left: auto; background: #b22234; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 10px; font-weight: 700; min-width: 20px; text-align: center; }
         .nav-badge.visible { display: inline-block; }
 
-        /* UPGRADE REQUESTS */
         .upgrade-request-card { background: #fff; border-radius: 16px; border: 1px solid #e9eef3; border-left: 5px solid #d97706; padding: 1.3rem 1.5rem; margin-bottom: 12px; transition: 0.15s; }
         .upgrade-request-card:hover { box-shadow: 0 6px 20px rgba(11,43,79,0.08); }
         .upgrade-request-card.contacted { border-left-color: #1e4a78; }
@@ -354,7 +350,6 @@
                     </div>
                 </section>
 
-                <!-- ==================== UPGRADE REQUESTS ==================== -->
                 <section class="module" id="module-upgrades">
                     <div class="module-header">
                         <h1><i class="fas fa-arrow-up"></i> Заявки за надграждане на абонамент</h1>
@@ -363,7 +358,7 @@
                         <p style="color:#7f95b0; font-size:0.9rem; margin:0;">
                             <i class="fas fa-info-circle" style="color:#d97706;"></i> 
                             Тук се показват всички заявки от клиники, които искат да надградят абонамента си. 
-                            Свържете се с тях на посочения телефон, за да финализирате плащането, след което обновете пакета от <strong>"Клиники"</strong>.
+                            Свържете се с тях на посочения телефон, за да финализирате плащането, след което натиснете <strong>"Одобри и приложи модулите"</strong> — пакетът и модулите ще се обновят <strong>автоматично</strong>.
                         </p>
                     </div>
                     <div id="upgradesList"></div>
@@ -452,7 +447,6 @@
                         <input type="text" id="clinicSub" placeholder="напр. Медицински център">
                     </div>
 
-                    <!-- АБОНАМЕНТЕН ПАКЕТ -->
                     <div class="form-group" style="grid-column: span 2;">
                         <label><i class="fas fa-box" style="color:#6b3fa0;"></i> Абонаментен пакет *</label>
                         <div class="pkg-selector" id="pkgSelector">
@@ -855,7 +849,6 @@
                 upgradeRequests = snap.val() || {};
                 renderUpgrades();
                 updateUpgradesBadge();
-                // Известие при нова заявка
                 const pending = Object.values(upgradeRequests).filter(r => r.status === 'pending').length;
                 if (pending > 0) {
                     const lastSeen = parseInt(sessionStorage.getItem('lastSeenUpgradeCount') || '0');
@@ -1116,7 +1109,7 @@
                     for (const uid of Object.keys(usersData)) {
                         const u = usersData[uid];
                         const roles = u.roles || [u.role];
-                        if (roles.includes('Администратор') || roles.includes('Кинезитерапевт')) {
+                        if (roles.includes('Администратор') || roles.includes('Кинезandтерапевт') || roles.includes('Кинезитерапевт')) {
                             ownerUserId = uid;
                             break;
                         }
@@ -1139,7 +1132,6 @@
                         });
                     }
 
-                    // Ако е сменен пакетът - питаме дали да приложим модулите
                     const oldPkgId = clinics[cid].packageId || clinics[cid].package;
                     if (oldPkgId !== packageId) {
                         if (confirm(`Пакетът е сменен от "${PACKAGES[oldPkgId]?.name || '?'}" на "${PACKAGES[packageId].name}".\n\nДа приложа ли модулите от новия пакет автоматично?`)) {
@@ -1353,7 +1345,6 @@
             if (!list) return;
             const all = Object.entries(upgradeRequests).map(([id, r]) => ({ id, ...r }))
                 .sort((a, b) => {
-                    // pending първо, после по дата
                     if (a.status === 'pending' && b.status !== 'pending') return -1;
                     if (a.status !== 'pending' && b.status === 'pending') return 1;
                     return (b.createdAt || 0) - (a.createdAt || 0);
@@ -1384,6 +1375,7 @@
                 const s = statusMap[r.status] || statusMap.pending;
                 
                 const isPending = r.status === 'pending';
+                const isContacted = r.status === 'contacted';
                 
                 return `<div class="upgrade-request-card ${r.status}">
                     <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:15px; flex-wrap:wrap; margin-bottom:1rem;">
@@ -1422,13 +1414,18 @@
                     
                     ${isPending ? `
                         <div style="background:#fff5e5; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #d97706; font-size:0.85rem; color:#b45309; margin-bottom:1rem;">
-                            <i class="fas fa-exclamation-triangle"></i> <strong>Действие:</strong> Обадете се на клиниката на <strong>${escapeHtml(clinicPhone)}</strong>, за да финализирате надграждането.
+                            <i class="fas fa-exclamation-triangle"></i> <strong>Действие:</strong> Обадете се на клиниката на <strong>${escapeHtml(clinicPhone)}</strong>, за да финализирате плащането. След това натиснете <strong>"Одобри и приложи модулите"</strong> — пакетът и модулите ще се обновят <strong>автоматично</strong>.
+                        </div>
+                    ` : ''}
+                    ${isContacted ? `
+                        <div style="background:#e8f0fe; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #1e4a78; font-size:0.85rem; color:#1e4a78; margin-bottom:1rem;">
+                            <i class="fas fa-info-circle"></i> <strong>Контакт осъществен.</strong> Когато получите плащането, натиснете <strong>"Одобри и приложи модулите"</strong> за автоматично обновяване.
                         </div>
                     ` : ''}
                     
                     <div style="display:flex; gap:8px; flex-wrap:wrap; border-top:1px solid #edf2f8; padding-top:1rem;">
                         ${isPending ? `<button class="btn-outline btn btn-sm" data-upgrade-action="contacted" data-upgrade-id="${r.id}"><i class="fas fa-phone"></i> Маркирай като осъществен контакт</button>` : ''}
-                        ${(isPending || r.status === 'contacted') ? `<button class="btn btn-success btn-sm" data-upgrade-action="completed" data-upgrade-id="${r.id}"><i class="fas fa-check"></i> Завърши (обнови клиниката ръчно)</button>` : ''}
+                        ${(isPending || isContacted) ? `<button class="btn btn-success btn-sm" data-upgrade-action="completed" data-upgrade-id="${r.id}"><i class="fas fa-check-double"></i> Одобри и приложи модулите</button>` : ''}
                         ${!['completed', 'cancelled'].includes(r.status) ? `<button class="btn-outline btn btn-sm" data-upgrade-action="cancelled" data-upgrade-id="${r.id}" style="border-color:#cfddee;"><i class="fas fa-times"></i> Откажи</button>` : ''}
                         <div style="flex:1;"></div>
                         <button class="btn-outline btn btn-sm" data-upgrade-action="editClinic" data-upgrade-id="${r.id}"><i class="fas fa-edit"></i> Редакция на клиниката</button>
@@ -1450,9 +1447,60 @@
                 await update(ref(db, `upgradeRequests/${id}`), { status: 'contacted', contactedAt: Date.now() });
                 showToast('Маркирано: осъществен контакт', 'success');
             } else if (action === 'completed') {
-                if (!confirm('Завърши ли заявката?\n\nУвери се, че клиниката вече е с новия пакет (обнови го от "Редакция на клиниката").')) return;
-                await update(ref(db, `upgradeRequests/${id}`), { status: 'completed', completedAt: Date.now() });
-                showToast('Заявката е завършена.', 'success');
+                const clinic = clinics[req.clinicId];
+                const requestedPkg = PACKAGES[req.requestedPackage];
+                if (!clinic) {
+                    showToast('Клиниката не е намерена.', 'error');
+                    return;
+                }
+                if (!requestedPkg) {
+                    showToast('Невалиден пакет.', 'error');
+                    return;
+                }
+                const confirmMsg = `Ще завършиш заявката и ще приложиш:\n\n` +
+                    `🏥 Клиника: ${clinic.name}\n` +
+                    `📦 Нов пакет: ${requestedPkg.name} (${requestedPkg.price} €)\n` +
+                    `✅ Модули: ${requestedPkg.modules.length} модула ще бъдат включени\n` +
+                    `❌ Всички останали модули ще бъдат изключени\n\n` +
+                    `Продължи?`;
+                if (!confirm(confirmMsg)) return;
+
+                btn.disabled = true;
+                const origHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Прилагане...';
+                
+                try {
+                    // 1) Обновяваме пакета на клиниката
+                    await update(ref(db, `clinics/${req.clinicId}`), {
+                        packageId: req.requestedPackage,
+                        updatedAt: Date.now()
+                    });
+
+                    // 2) Генерираме модулите от новия пакет
+                    const newModulesState = getModulesStateFromPackage(req.requestedPackage);
+
+                    // 3) Обновяваме settings с новите модули
+                    await update(ref(db, `clinics/${req.clinicId}/settings`), {
+                        enabledModules: newModulesState,
+                        packageId: req.requestedPackage,
+                        updatedAt: Date.now()
+                    });
+
+                    // 4) Маркираме заявката като завършена
+                    await update(ref(db, `upgradeRequests/${id}`), {
+                        status: 'completed',
+                        completedAt: Date.now(),
+                        completedBy: currentAdmin?.id || 'admin',
+                        completedByName: currentAdmin?.name || 'Admin'
+                    });
+
+                    showToast(`✓ Заявката е завършена! Клиниката вече е с "${requestedPkg.name}".`, 'success');
+                } catch(err) {
+                    showToast('Грешка: ' + err.message, 'error');
+                    console.error(err);
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
+                }
             } else if (action === 'cancelled') {
                 if (!confirm('Откажи ли заявката?')) return;
                 await update(ref(db, `upgradeRequests/${id}`), { status: 'cancelled', cancelledAt: Date.now() });
