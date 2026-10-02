@@ -128,7 +128,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .form-group input, .form-group select, .form-group textarea { padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; background: #ffffff; font-family: inherit; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0b2b4f; box-shadow: 0 0 0 3px rgba(11, 43, 79, 0.1); }
 .form-group input:disabled, .form-group input.locked { background: #f5f5f5; color: #a0a0a0; cursor: not-allowed; border-color: #e0e0e0; }
-.form-group textarea { resize: vertical; min-height: 80px; }/* PATIENT FORM SECTIONS */
+.form-group textarea { resize: vertical; min-height: 80px; }
+/* PATIENT FORM SECTIONS */
 .form-section { background: #f8fbfe; border-radius: 18px; padding: 1.5rem 1.7rem; margin-bottom: 1.5rem; border: 1px solid #e9eef3; border-left: 5px solid #1e4a78; }
 .form-section.personal { border-left-color: #1e4a78; }
 .form-section.complaint { border-left-color: #d97706; }
@@ -296,7 +297,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .apt-manage-info .row:last-child { border-bottom: none; }
 .apt-manage-info .row .lbl { color: #7f95b0; font-weight: 600; }
 .apt-manage-info .row .val { color: #0b2b4f; font-weight: 700; }
-.apt-status-current { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.9rem; margin: 0 auto 1.2rem; }/* PRICING */
+.apt-status-current { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.9rem; margin: 0 auto 1.2rem; }
+/* PRICING */
 .price-date-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); padding: 1.5rem 2rem; border-radius: 20px; color: #ffffff; margin-bottom: 1.5rem; }
 .price-date-bar label { font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .price-date-bar input[type="date"] { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; }
@@ -445,6 +447,22 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .file-attachment:hover { background: #e0d0ff; }
 .doc-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
 .doc-filter-bar select, .doc-filter-bar input { padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #ffffff; }
+
+/* DOSSIER */
+.dossier-section-pane { display: none; animation: fade 0.2s ease; }
+.dossier-section-pane.active { display: block; }
+.dossier-list-item { background: #fff; border: 1px solid #e9eef3; border-left: 5px solid #1e4a78; border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; transition: 0.15s; }
+.dossier-list-item:hover { box-shadow: 0 6px 20px rgba(11,43,79,0.08); transform: translateX(3px); }
+.dossier-list-item .dossier-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #1e4a78, #4a90e2); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+.dossier-list-item .dossier-info { flex: 1; min-width: 200px; }
+.dossier-list-item .dossier-info .name { font-weight: 700; color: #0b2b4f; font-size: 1.05rem; margin-bottom: 4px; }
+.dossier-list-item .dossier-info .meta { font-size: 0.82rem; color: #7f95b0; display: flex; flex-wrap: wrap; gap: 12px; }
+.dossier-list-item .dossier-info .meta span { display: inline-flex; align-items: center; gap: 5px; }
+.dossier-list-item .dossier-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.dossier-status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+.dossier-status-badge.new { background: #e8f0fe; color: #1e4a78; }
+.dossier-status-badge.active { background: #e8f5e9; color: #1a7a3e; }
+.dossier-status-badge.completed { background: #f0f4f8; color: #5a7a9a; }
 
 /* SETTINGS */
 .settings-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -931,6 +949,7 @@ body * { visibility: hidden; }
 <nav class="nav">
 <button class="nav-item" data-module="dashboard"><i class="fas fa-chart-pie"></i><span>Табло</span></button>
 <button class="nav-item" data-module="patients"><i class="fas fa-users"></i><span>Пациенти</span></button>
+<button class="nav-item" data-module="dossier"><i class="fas fa-folder-open"></i><span>Досиета</span></button>
 <button class="nav-item" data-module="schedule"><i class="fas fa-calendar-alt"></i><span>График</span></button>
 <button class="nav-item" data-module="procedures"><i class="fas fa-stethoscope"></i><span>Процедури</span></button>
 <button class="nav-item" data-module="tests"><i class="fas fa-clipboard-check"></i><span>Тестове и скали</span></button>
@@ -944,11 +963,13 @@ body * { visibility: hidden; }
 </nav>
 <div class="sidebar-footer">
 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-<div class="sidebar-version">v9.0 · Final</div>
+<div class="sidebar-version">v9.1 · Dossier</div>
 </div>
 </aside>
 
-<main class="main"><section id="module-dashboard" class="module">
+<main class="main">
+
+<section id="module-dashboard" class="module">
 <div class="module-header">
 <h1><i class="fas fa-chart-pie"></i> Табло</h1>
 <div style="color:#7f95b0; font-size:0.9rem;"><i class="fas fa-calendar"></i> <span id="dashboardDate"></span></div>
@@ -1142,6 +1163,205 @@ body * { visibility: hidden; }
 
 </section>
 
+<!-- ==================== DOSSIER MODULE ==================== -->
+<section id="module-dossier" class="module">
+<div class="module-header">
+<h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1>
+</div>
+
+<div class="doc-tabs" id="dossierTabs">
+<button class="doc-tab active" data-dossier-tab="list"><i class="fas fa-list"></i> Списък досиета</button>
+<button class="doc-tab" data-dossier-tab="new"><i class="fas fa-plus"></i> Ново / редакция досие</button>
+</div>
+
+<div class="doc-pane active" data-dossier-pane="list">
+<div class="filter-bar">
+<h3 style="margin:0;"><i class="fas fa-folder-open"></i> Съществуващи досиета</h3>
+<input type="text" id="dossierSearchInput" placeholder="🔍 Търси по пациент..." style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; max-width:300px;">
+</div>
+<div id="dossierListContainer"></div>
+</div>
+
+<div class="doc-pane" data-dossier-pane="new">
+<div class="card">
+<h3 id="dossierFormTitle"><i class="fas fa-folder-plus"></i> Ново досие</h3>
+<form id="dossierForm">
+<input type="hidden" id="dossierId">
+
+<div class="patient-tabs" id="dossierSectionTabs" style="margin-bottom:1.5rem;">
+<button type="button" class="patient-tab active" data-dossier-section="patient"><i class="fas fa-user"></i> Данни</button>
+<button type="button" class="patient-tab" data-dossier-section="anamnesis"><i class="fas fa-history"></i> Анамнеза</button>
+<button type="button" class="patient-tab" data-dossier-section="docs"><i class="fas fa-file-medical"></i> Документация</button>
+<button type="button" class="patient-tab" data-dossier-section="exam"><i class="fas fa-user-md"></i> Преглед</button>
+<button type="button" class="patient-tab" data-dossier-section="assessment"><i class="fas fa-clipboard-check"></i> Оценка</button>
+<button type="button" class="patient-tab" data-dossier-section="plan"><i class="fas fa-notes-medical"></i> План</button>
+<button type="button" class="patient-tab" data-dossier-section="followup"><i class="fas fa-chart-line"></i> Проследяване</button>
+<button type="button" class="patient-tab" data-dossier-section="consent"><i class="fas fa-file-signature"></i> Съгласие</button>
+</div>
+
+<div class="dossier-section-pane active" data-dossier-section-pane="patient">
+<div class="form-section personal">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-user"></i></div>
+<div><h4>Данни за пациента</h4><div class="sec-sub">Основни идентификационни данни</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group"><label>Пациент *</label><select id="dossierPatient" required><option value="">-- избери пациент --</option></select></div>
+<div class="form-group"><label>Име и фамилия</label><input type="text" id="dossierName" readonly class="locked"></div>
+<div class="form-group"><label>Дата на раждане</label><input type="date" id="dossierBirthDate"></div>
+<div class="form-group"><label>Възраст</label><input type="text" id="dossierAge" readonly class="locked"></div>
+<div class="form-group"><label>Телефон</label><input type="text" id="dossierPhone" readonly class="locked"></div>
+<div class="form-group"><label>Имейл</label><input type="email" id="dossierEmail"></div>
+<div class="form-group" style="grid-column: span 2;"><label>Адрес</label><input type="text" id="dossierAddress"></div>
+<div class="form-group"><label>Дата на първия преглед *</label><input type="date" id="dossierFirstVisit" required></div>
+<div class="form-group"><label>Контакт за връзка (близък)</label><input type="text" id="dossierEmergencyContact"></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="anamnesis">
+<div class="form-section complaint">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-comment-medical"></i></div>
+<div><h4>Медицинска анамнеза</h4><div class="sec-sub">История на заболяването</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Основно оплакване *</label><textarea id="dossierChiefComplaint" rows="2" required></textarea></div>
+<div class="form-group"><label>От кога са симптомите</label><input type="text" id="dossierSymptomSince" placeholder="напр. от 3 месеца"></div>
+<div class="form-group"><label>Начало на симптомите</label><select id="dossierOnsetType"><option value="">-- избери --</option><option>Травма</option><option>Операция</option><option>Постепенно развитие</option><option>Внезапно</option><option>След заболяване</option><option>Друго</option></select></div>
+<div class="form-group"><label>Място на болката</label><input type="text" id="dossierPainLocation"></div>
+<div class="form-group"><label>Интензитет (0-10)</label><input type="number" id="dossierPainIntensity" min="0" max="10"></div>
+<div class="form-group" style="grid-column: span 2;"><label>Кога се появява/засилва болката</label><textarea id="dossierPainTrigger" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Предишни заболявания и операции</label><textarea id="dossierPrevDiseases" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Приемани лекарства</label><textarea id="dossierMeds" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Предишна физиотерапия/рехабилитация и резултат</label><textarea id="dossierPrevPhysio" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Алергии и други важни медицински обстоятелства</label><textarea id="dossierAllergies" rows="2"></textarea></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="docs">
+<div class="form-section history">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-file-medical"></i></div>
+<div><h4>Медицинска документация</h4><div class="sec-sub">Направления, епикризи, изследвания</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Диагноза и направление</label><textarea id="dossierDiagnosis" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Епикриза</label><textarea id="dossierEpicrisis" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Образни изследвания (рентген, ЯМР, скенер)</label><textarea id="dossierImaging" rows="2" placeholder="Опишете или добавете линк..."></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Лабораторни изследвания</label><textarea id="dossierLabs" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Консултации със специалисти</label><textarea id="dossierConsultations" rows="2"></textarea></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="exam">
+<div class="form-section exam">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-user-md"></i></div>
+<div><h4>Физиотерапевтичен преглед и оценка</h4><div class="sec-sub">Обективни находки</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Обхват на движение на ставите (ROM)</label><textarea id="dossierROM" rows="2"></textarea></div>
+<div class="form-group"><label>Мускулна сила</label><textarea id="dossierMuscleStrength" rows="2"></textarea></div>
+<div class="form-group"><label>Болка (оценка при преглед)</label><textarea id="dossierPainExam" rows="2"></textarea></div>
+<div class="form-group"><label>Оток</label><input type="text" id="dossierEdema"></div>
+<div class="form-group"><label>Мускулен тонус</label><input type="text" id="dossierTone"></div>
+<div class="form-group"><label>Чувствителност</label><input type="text" id="dossierSensitivity"></div>
+<div class="form-group"><label>Баланс и координация</label><textarea id="dossierBalance" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Походка и функционални движения</label><textarea id="dossierGait" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Други специфични тестове</label><textarea id="dossierSpecialTests" rows="2"></textarea></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="assessment">
+<div class="form-section initial">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-clipboard-check"></i></div>
+<div><h4>Физиотерапевтична оценка / заключение</h4><div class="sec-sub">Обобщение и цели</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Основни установени функционални нарушения</label><textarea id="dossierFunctionalIssues" rows="3"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Как те ограничават пациента в ежедневието</label><textarea id="dossierDailyLimitations" rows="3"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Цели на рехабилитацията</label><textarea id="dossierRehabGoals" rows="3"></textarea></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="plan">
+<div class="form-section plan">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-notes-medical"></i></div>
+<div><h4>План за лечение</h4><div class="sec-sub">Терапевтични интервенции</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Лечебна гимнастика / упражнения за сила и мобилност</label><textarea id="dossierTherapeuticExercise" rows="3"></textarea></div>
+<div class="form-group"><label>Мануална терапия</label><textarea id="dossierManualTherapy" rows="2"></textarea></div>
+<div class="form-group"><label>Електротерапия</label><textarea id="dossierElectrotherapy" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Ултразвук и други физикални фактори</label><textarea id="dossierPhysicalFactors" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Домашна програма</label><textarea id="dossierHomeProgram" rows="2"></textarea></div>
+<div class="form-group"><label>Честота на процедурите</label><input type="text" id="dossierFrequency" placeholder="напр. 3 пъти седмично"></div>
+<div class="form-group"><label>Продължителност</label><input type="text" id="dossierDuration" placeholder="напр. 4 седмици"></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="followup">
+<div class="form-section working">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-chart-line"></i></div>
+<div><h4>Проследяване на резултатите</h4><div class="sec-sub">Динамика и напредък</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Промяна в болката</label><textarea id="dossierPainChange" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Промяна в движенията и силата</label><textarea id="dossierMovementChange" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Функционален напредък</label><textarea id="dossierFunctionalProgress" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Изпълнение на поставените цели</label><textarea id="dossierGoalAchievement" rows="2"></textarea></div>
+<div class="form-group" style="grid-column: span 2;"><label>Нужда от промяна на терапевтичния план</label><textarea id="dossierPlanAdjustment" rows="2"></textarea></div>
+</div>
+</div>
+</div>
+
+<div class="dossier-section-pane" data-dossier-section-pane="consent">
+<div class="form-section allergies">
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-file-signature"></i></div>
+<div><h4>Информирано съгласие и административни документи</h4><div class="sec-sub">Съгласия и подписи</div></div>
+</div>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;">
+<label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;">
+<input type="checkbox" id="dossierConsentTherapy">
+<span>Пациентът е информиран и дава съгласие за терапията</span>
+</label>
+</div>
+<div class="form-group" style="grid-column: span 2;">
+<label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;">
+<input type="checkbox" id="dossierConsentGDPR">
+<span>Съгласие за обработка на лични данни (GDPR)</span>
+</label>
+</div>
+<div class="form-group"><label>Име на пациента (подпис)</label><input type="text" id="dossierPatientSignature"></div>
+<div class="form-group"><label>Дата на подпис (пациент)</label><input type="date" id="dossierPatientSignatureDate"></div>
+<div class="form-group"><label>Име на терапевта</label><input type="text" id="dossierTherapistName" readonly class="locked"></div>
+<div class="form-group"><label>Дата на подпис (терапевт)</label><input type="date" id="dossierTherapistSignatureDate"></div>
+<div class="form-group" style="grid-column: span 2;"><label>Допълнителни бележки</label><textarea id="dossierAdminNotes" rows="2"></textarea></div>
+</div>
+</div>
+</div>
+
+<div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem; flex-wrap:wrap;">
+<button type="button" class="btn-outline btn" id="dossierCancelBtn"><i class="fas fa-times"></i> Отказ</button>
+<button type="submit" class="btn btn-success" id="dossierSaveBtn"><i class="fas fa-save"></i> Запази досието</button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- ==================== END DOSSIER MODULE ==================== -->
+
 <section id="module-schedule" class="module">
 <div class="module-header">
 <h1><i class="fas fa-calendar-alt"></i> График</h1>
@@ -1220,7 +1440,9 @@ body * { visibility: hidden; }
 <div id="monthGrid" class="month-grid" style="display:none;"></div>
 <div id="dayGrid" class="day-view-grid" style="display:none;"></div>
 
-</section><section id="module-procedures" class="module">
+</section>
+
+<section id="module-procedures" class="module">
 <div class="module-header"><h1><i class="fas fa-stethoscope"></i> Процедури</h1></div>
 <div class="card">
 <h3><i class="fas fa-plus-circle"></i> Нова процедура</h3>
@@ -1691,7 +1913,9 @@ body * { visibility: hidden; }
 
 </main>
 </div>
-</div><div class="messages-panel" id="messagesPanel">
+</div>
+
+<div class="messages-panel" id="messagesPanel">
 <div class="messages-header">
 <h2><i class="fas fa-envelope"></i> Съобщения</h2>
 <button class="messages-close" id="messagesClose"><i class="fas fa-times"></i></button>
@@ -1949,7 +2173,8 @@ body * { visibility: hidden; }
 <button class="btn" id="vchViewOkBtn" style="background:#6b3fa0;"><i class="fas fa-check"></i> Готово</button>
 </div>
 </div>
-</div><script type="module">
+</div>
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
@@ -1975,6 +2200,7 @@ let activeClinicId = null;
 let activeClinic = null;
 let userClinics = [];
 let patients={}, procedures={}, users={}, appointments={}, pricing={}, tasks={}, exercises={}, programs={}, sessionNotes={}, soapNotes={}, documents={}, shortExercises={};
+let dossiers={};
 let clinicSettings = { name: 'PhysioBook', sub: 'Медицински център' };
 let services = {}, procedureTemplates = {}, categories = {}, templates = {};
 let messages = {};
@@ -2009,7 +2235,10 @@ let blockedTimes = {};
 let vacations = {};
 let workingHours = {};
 
-const DEFAULT_MODULES = { dashboard: true, patients: true, schedule: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
+// DOSSIER STATE
+let currentDossierId = null;
+
+const DEFAULT_MODULES = { dashboard: true, patients: true, dossier: true, schedule: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
 
 function getEnabledModules() { const saved = clinicSettings?.enabledModules || {}; const result = { ...DEFAULT_MODULES, ...saved }; result.settings = true; return result; }
 
@@ -2029,7 +2258,7 @@ const codeInputEls = document.querySelectorAll('#codeInputs input');
 const appEl = document.getElementById('app');
 const logoutBtn = document.getElementById('logoutBtn');
 const navItems = document.querySelectorAll('.nav-item');
-const modules = { dashboard: document.getElementById('module-dashboard'), patients: document.getElementById('module-patients'), schedule: document.getElementById('module-schedule'), procedures: document.getElementById('module-procedures'), tests: document.getElementById('module-tests'), inventory: document.getElementById('module-inventory'), vouchers: document.getElementById('module-vouchers'), exercises: document.getElementById('module-exercises'), documentation: document.getElementById('module-documentation'), pricing: document.getElementById('module-pricing'), settings: document.getElementById('module-settings'), portal: document.getElementById('module-portal') };
+const modules = { dashboard: document.getElementById('module-dashboard'), patients: document.getElementById('module-patients'), dossier: document.getElementById('module-dossier'), schedule: document.getElementById('module-schedule'), procedures: document.getElementById('module-procedures'), tests: document.getElementById('module-tests'), inventory: document.getElementById('module-inventory'), vouchers: document.getElementById('module-vouchers'), exercises: document.getElementById('module-exercises'), documentation: document.getElementById('module-documentation'), pricing: document.getElementById('module-pricing'), settings: document.getElementById('module-settings'), portal: document.getElementById('module-portal') };
 const patientProfileModule = document.getElementById('module-patient-profile');
 const $ = id => document.getElementById(id);
 
@@ -2051,6 +2280,7 @@ function normalizePhone(phone) { if (!phone) return ''; return String(phone).rep
 function getMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=dt.getDate()-day+(day===0?-6:1); return new Date(dt.setDate(diff)); }
 function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
 function toDateStr(d){ const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
+function calculateAge(birthDate) { if (!birthDate) return ''; const today = new Date(); const bd = new Date(birthDate); let age = today.getFullYear() - bd.getFullYear(); const m = today.getMonth() - bd.getMonth(); if (m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--; return age >= 0 ? age + ' г.' : ''; }
 
 const BG_DAYS=['Пон','Вто','Сря','Чет','Пет','Съб','Нед'];
 const BG_MONTHS=['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември'];
@@ -2093,7 +2323,9 @@ async function notifyAllStaff(title, text, type = 'default') { try { for (const 
 async function createNotification(userId, title, text, type = 'default') {
   try { await set(push(clinicRef('notifications')), { userId, title, text, type, read: false, createdAt: Date.now() }); }
   catch(err) { console.error('Notif error:', err); }
-}async function changeAptStatus(aptId, newStatus, reason = '') {
+}
+
+async function changeAptStatus(aptId, newStatus, reason = '') {
   const apt = appointments[aptId];
   if (!apt) { showToast('Часът не е намерен.', 'error'); return; }
   try {
@@ -2253,7 +2485,7 @@ async function switchClinic(newClinicId) {
   sessionStorage.setItem('activeClinicId', newClinicId);
   if (foundPatient) { currentPatient = foundPatient; currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], accessCode: foundPatient.accessCode, phone: foundPatient.phone }; sessionStorage.setItem('currentPatientId', foundPatient.id); sessionStorage.removeItem('currentUserId'); }
   else { currentUser = foundUser; currentPatient = null; sessionStorage.setItem('currentUserId', foundUser.id); sessionStorage.removeItem('currentPatientId'); }
-  patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={}; exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={};
+  patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={}; exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={}; dossiers={};
   services={}; procedureTemplates={}; categories={}; templates={}; messages={}; notifications={}; testResults={}; inventory={}; inventoryMovements={}; vouchers={};
   clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
   $('headerAvatar').textContent = getUserInitials(currentUser.name); $('headerUserName').textContent = currentUser.name;
@@ -2325,7 +2557,7 @@ function startDataListeners() {
     renderPatients(); renderProcedures(); renderSchedule(); renderPricing(); renderDaySummary(); updatePatientDropdowns();
     if (currentPatient) { renderPortal(); renderPatientExercises(); }
     if (currentUser && !currentPatient) renderDashboard();
-    renderTestPatientDropdown(); renderVoucherPatientDropdown();
+    renderTestPatientDropdown(); renderVoucherPatientDropdown(); renderDossierPatientDropdown(); renderDossierList();
   }));
   unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => { procedures = s.val() || {}; renderProcedures(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); if (currentUser && !currentPatient) renderDashboard(); }));
@@ -2344,11 +2576,363 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => { inventory = s.val() || {}; renderInventory(); renderInventoryStats(); renderInventoryCategoryChips(); renderInvMovItemFilter(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventoryMovements`), (s) => { inventoryMovements = s.val() || {}; renderInventoryMovementsList(); }));
   unsubscribers.push(onValue(ref(db, `${base}/vouchers`), (s) => { vouchers = s.val() || {}; renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); }));
+  // DOSSIER LISTENER
+  unsubscribers.push(onValue(ref(db, `${base}/dossiers`), (s) => { dossiers = s.val() || {}; renderDossierList(); }));
   // SCHEDULE EXTRA
   unsubscribers.push(onValue(ref(db, `${base}/blockedTimes`), (s) => { blockedTimes = s.val() || {}; if (currentScheduleView === 'week') renderWeek(); else if (currentScheduleView === 'month') renderMonth(); else if (currentScheduleView === 'day') renderDayView(); }));
   unsubscribers.push(onValue(ref(db, `${base}/vacations`), (s) => { vacations = s.val() || {}; if (currentScheduleView === 'week') renderWeek(); else if (currentScheduleView === 'month') renderMonth(); else if (currentScheduleView === 'day') renderDayView(); }));
   unsubscribers.push(onValue(ref(db, `${base}/workingHours`), (s) => { workingHours = s.val() || {}; }));
 }
+
+// ==================== DOSSIER ====================
+function renderDossierPatientDropdown() {
+  const sel = $('dossierPatient'); if (!sel) return;
+  const active = Object.entries(patients).filter(([,p]) => !p.archived).map(([id, p]) => ({ id, name: p.name })).sort((a,b) => a.name.localeCompare(b.name));
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+  if (active.some(p => p.id === cur)) sel.value = cur;
+}
+
+function renderDossierList() {
+  const container = $('dossierListContainer'); if (!container) return;
+  const search = ($('dossierSearchInput')?.value || '').toLowerCase().trim();
+  let items = Object.entries(dossiers).map(([id, d]) => ({ id, ...d }));
+  if (search) items = items.filter(d => {
+    const pat = patients[d.patientId];
+    const pn = pat ? pat.name.toLowerCase() : '';
+    return pn.includes(search) || (d.diagnosis || '').toLowerCase().includes(search) || (d.chiefComplaint || '').toLowerCase().includes(search);
+  });
+  items.sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
+  if (items.length === 0) {
+    container.innerHTML = `<div class="card" style="text-align:center; padding:3rem 2rem;"><i class="fas fa-folder-open" style="font-size:4rem; color:#cfddee; margin-bottom:1.5rem; display:block;"></i><h3 style="color:#0b2b4f; font-size:1.2rem; margin-bottom:0.5rem;">Няма досиета</h3><p style="color:#7f95b0; font-size:0.95rem;">Създайте първото досие от таб "Ново / редакция досие".</p></div>`;
+    return;
+  }
+  container.innerHTML = items.map(d => {
+    const pat = patients[d.patientId];
+    const pn = pat ? escapeHtml(pat.name) : 'неизвестен';
+    const initials = getUserInitials(pat?.name || '?');
+    const age = pat?.birthDate ? calculateAge(pat.birthDate) : '';
+    return `<div class="dossier-list-item">
+      <div class="dossier-avatar">${initials}</div>
+      <div class="dossier-info">
+        <div class="name">${pn}</div>
+        <div class="meta">
+          ${d.firstVisit ? `<span><i class="fas fa-calendar"></i> Първи преглед: ${formatDate(d.firstVisit)}</span>` : ''}
+          ${age ? `<span><i class="fas fa-birthday-cake"></i> ${age}</span>` : ''}
+          ${d.diagnosis ? `<span><i class="fas fa-stethoscope"></i> ${escapeHtml(d.diagnosis.slice(0, 60))}${d.diagnosis.length > 60 ? '...' : ''}</span>` : ''}
+          ${d.chiefComplaint ? `<span><i class="fas fa-comment-medical"></i> ${escapeHtml(d.chiefComplaint.slice(0, 60))}${d.chiefComplaint.length > 60 ? '...' : ''}</span>` : ''}
+          <span><i class="fas fa-clock"></i> Обновено: ${formatTimestamp(d.updatedAt || d.createdAt)}</span>
+        </div>
+      </div>
+      <div class="dossier-actions">
+        <button class="btn-outline btn btn-sm dossier-view-btn" data-dossier-id="${d.id}"><i class="fas fa-eye"></i> Преглед</button>
+        <button class="btn btn-sm dossier-edit-btn" data-dossier-id="${d.id}"><i class="fas fa-edit"></i> Редакция</button>
+        <button class="btn-danger-outline btn btn-sm dossier-delete-btn" data-dossier-id="${d.id}"><i class="fas fa-trash-alt"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('#dossierTabs .doc-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const t = tab.dataset.dossierTab;
+    document.querySelectorAll('#dossierTabs .doc-tab').forEach(x => x.classList.toggle('active', x === tab));
+    document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === t));
+  });
+});
+
+document.querySelectorAll('#dossierSectionTabs .patient-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const t = tab.dataset.dossierSection;
+    document.querySelectorAll('#dossierSectionTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab));
+    document.querySelectorAll('.dossier-section-pane').forEach(p => p.classList.toggle('active', p.dataset.dossierSectionPane === t));
+  });
+});
+
+$('dossierPatient')?.addEventListener('change', (e) => {
+  const pid = e.target.value;
+  if (!pid) return;
+  const pat = patients[pid];
+  if (!pat) return;
+  $('dossierName').value = pat.name || '';
+  $('dossierBirthDate').value = pat.birthDate || '';
+  $('dossierAge').value = pat.birthDate ? calculateAge(pat.birthDate) : '';
+  $('dossierPhone').value = pat.phone || '';
+  $('dossierEmail').value = pat.email || '';
+  $('dossierAddress').value = pat.address || '';
+  $('dossierTherapistName').value = currentUser?.name || '';
+  // Auto-populate from patient's existing data
+  if (pat.complaint && !$('dossierChiefComplaint').value) $('dossierChiefComplaint').value = pat.complaint;
+  if (pat.diagnosis && !$('dossierDiagnosis').value) $('dossierDiagnosis').value = pat.diagnosis;
+  if (pat.anamnesis && !$('dossierPrevDiseases').value) $('dossierPrevDiseases').value = pat.anamnesis;
+  if (pat.prevInjuries && !$('dossierPrevDiseases').value) $('dossierPrevDiseases').value = pat.prevInjuries;
+  if (pat.medications && !$('dossierMeds').value) $('dossierMeds').value = pat.medications;
+  if (pat.allergies && !$('dossierAllergies').value) $('dossierAllergies').value = pat.allergies;
+  if (pat.workingDiagnosis && !$('dossierDiagnosis').value) $('dossierDiagnosis').value = pat.workingDiagnosis;
+  if (pat.treatmentPlan && !$('dossierTherapeuticExercise').value) $('dossierTherapeuticExercise').value = pat.treatmentPlan;
+});
+
+$('dossierForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const patientId = $('dossierPatient').value;
+  if (!patientId) { showToast('Изберете пациент.', 'error'); return; }
+  const data = {
+    patientId,
+    name: $('dossierName').value.trim(),
+    birthDate: $('dossierBirthDate').value,
+    age: $('dossierAge').value.trim(),
+    phone: $('dossierPhone').value.trim(),
+    email: $('dossierEmail').value.trim(),
+    address: $('dossierAddress').value.trim(),
+    firstVisit: $('dossierFirstVisit').value,
+    emergencyContact: $('dossierEmergencyContact').value.trim(),
+    // Anamnesis
+    chiefComplaint: $('dossierChiefComplaint').value.trim(),
+    symptomSince: $('dossierSymptomSince').value.trim(),
+    onsetType: $('dossierOnsetType').value,
+    painLocation: $('dossierPainLocation').value.trim(),
+    painIntensity: $('dossierPainIntensity').value,
+    painTrigger: $('dossierPainTrigger').value.trim(),
+    prevDiseases: $('dossierPrevDiseases').value.trim(),
+    meds: $('dossierMeds').value.trim(),
+    prevPhysio: $('dossierPrevPhysio').value.trim(),
+    allergies: $('dossierAllergies').value.trim(),
+    // Documentation
+    diagnosis: $('dossierDiagnosis').value.trim(),
+    epicrisis: $('dossierEpicrisis').value.trim(),
+    imaging: $('dossierImaging').value.trim(),
+    labs: $('dossierLabs').value.trim(),
+    consultations: $('dossierConsultations').value.trim(),
+    // Exam
+    rom: $('dossierROM').value.trim(),
+    muscleStrength: $('dossierMuscleStrength').value.trim(),
+    painExam: $('dossierPainExam').value.trim(),
+    edema: $('dossierEdema').value.trim(),
+    tone: $('dossierTone').value.trim(),
+    sensitivity: $('dossierSensitivity').value.trim(),
+    balance: $('dossierBalance').value.trim(),
+    gait: $('dossierGait').value.trim(),
+    specialTests: $('dossierSpecialTests').value.trim(),
+    // Assessment
+    functionalIssues: $('dossierFunctionalIssues').value.trim(),
+    dailyLimitations: $('dossierDailyLimitations').value.trim(),
+    rehabGoals: $('dossierRehabGoals').value.trim(),
+    // Plan
+    therapeuticExercise: $('dossierTherapeuticExercise').value.trim(),
+    manualTherapy: $('dossierManualTherapy').value.trim(),
+    electrotherapy: $('dossierElectrotherapy').value.trim(),
+    physicalFactors: $('dossierPhysicalFactors').value.trim(),
+    homeProgram: $('dossierHomeProgram').value.trim(),
+    frequency: $('dossierFrequency').value.trim(),
+    duration: $('dossierDuration').value.trim(),
+    // Follow-up
+    painChange: $('dossierPainChange').value.trim(),
+    movementChange: $('dossierMovementChange').value.trim(),
+    functionalProgress: $('dossierFunctionalProgress').value.trim(),
+    goalAchievement: $('dossierGoalAchievement').value.trim(),
+    planAdjustment: $('dossierPlanAdjustment').value.trim(),
+    // Consent
+    consentTherapy: $('dossierConsentTherapy').checked,
+    consentGDPR: $('dossierConsentGDPR').checked,
+    patientSignature: $('dossierPatientSignature').value.trim(),
+    patientSignatureDate: $('dossierPatientSignatureDate').value,
+    therapistName: $('dossierTherapistName').value.trim(),
+    therapistSignatureDate: $('dossierTherapistSignatureDate').value,
+    adminNotes: $('dossierAdminNotes').value.trim(),
+    updatedAt: Date.now(),
+    updatedBy: currentUser.id,
+    updatedByName: currentUser.name
+  };
+  const id = $('dossierId').value;
+  $('dossierSaveBtn').disabled = true;
+  try {
+    if (id) {
+      await update(clinicRef(`dossiers/${id}`), data);
+      showToast('Досието е обновено.', 'success');
+    } else {
+      data.createdAt = Date.now();
+      data.createdBy = currentUser.id;
+      data.createdByName = currentUser.name;
+      await set(push(clinicRef('dossiers')), data);
+      showToast('Досието е създадено.', 'success');
+    }
+    resetDossierForm();
+    document.querySelectorAll('#dossierTabs .doc-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierTab === 'list'));
+    document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === 'list'));
+  } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+  finally { $('dossierSaveBtn').disabled = false; }
+});
+
+function resetDossierForm() {
+  $('dossierForm').reset();
+  $('dossierId').value = '';
+  currentDossierId = null;
+  $('dossierFormTitle').innerHTML = '<i class="fas fa-folder-plus"></i> Ново досие';
+  $('dossierSaveBtn').innerHTML = '<i class="fas fa-save"></i> Запази досието';
+  document.querySelectorAll('#dossierSectionTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierSection === 'patient'));
+  document.querySelectorAll('.dossier-section-pane').forEach(p => p.classList.toggle('active', p.dataset.dossierSectionPane === 'patient'));
+}
+
+$('dossierCancelBtn')?.addEventListener('click', () => {
+  if (!confirm('Да откажа ли промените?')) return;
+  resetDossierForm();
+  document.querySelectorAll('#dossierTabs .doc-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierTab === 'list'));
+  document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === 'list'));
+});
+
+function openDossierForEdit(dossierId) {
+  const d = dossiers[dossierId];
+  if (!d) { showToast('Досието не е намерено.', 'error'); return; }
+  currentDossierId = dossierId;
+  $('dossierId').value = dossierId;
+  $('dossierFormTitle').innerHTML = '<i class="fas fa-folder-open"></i> Редакция на досие';
+  $('dossierSaveBtn').innerHTML = '<i class="fas fa-save"></i> Обнови досието';
+  $('dossierPatient').value = d.patientId || '';
+  $('dossierName').value = d.name || '';
+  $('dossierBirthDate').value = d.birthDate || '';
+  $('dossierAge').value = d.age || '';
+  $('dossierPhone').value = d.phone || '';
+  $('dossierEmail').value = d.email || '';
+  $('dossierAddress').value = d.address || '';
+  $('dossierFirstVisit').value = d.firstVisit || '';
+  $('dossierEmergencyContact').value = d.emergencyContact || '';
+  $('dossierChiefComplaint').value = d.chiefComplaint || '';
+  $('dossierSymptomSince').value = d.symptomSince || '';
+  $('dossierOnsetType').value = d.onsetType || '';
+  $('dossierPainLocation').value = d.painLocation || '';
+  $('dossierPainIntensity').value = d.painIntensity || '';
+  $('dossierPainTrigger').value = d.painTrigger || '';
+  $('dossierPrevDiseases').value = d.prevDiseases || '';
+  $('dossierMeds').value = d.meds || '';
+  $('dossierPrevPhysio').value = d.prevPhysio || '';
+  $('dossierAllergies').value = d.allergies || '';
+  $('dossierDiagnosis').value = d.diagnosis || '';
+  $('dossierEpicrisis').value = d.epicrisis || '';
+  $('dossierImaging').value = d.imaging || '';
+  $('dossierLabs').value = d.labs || '';
+  $('dossierConsultations').value = d.consultations || '';
+  $('dossierROM').value = d.rom || '';
+  $('dossierMuscleStrength').value = d.muscleStrength || '';
+  $('dossierPainExam').value = d.painExam || '';
+  $('dossierEdema').value = d.edema || '';
+  $('dossierTone').value = d.tone || '';
+  $('dossierSensitivity').value = d.sensitivity || '';
+  $('dossierBalance').value = d.balance || '';
+  $('dossierGait').value = d.gait || '';
+  $('dossierSpecialTests').value = d.specialTests || '';
+  $('dossierFunctionalIssues').value = d.functionalIssues || '';
+  $('dossierDailyLimitations').value = d.dailyLimitations || '';
+  $('dossierRehabGoals').value = d.rehabGoals || '';
+  $('dossierTherapeuticExercise').value = d.therapeuticExercise || '';
+  $('dossierManualTherapy').value = d.manualTherapy || '';
+  $('dossierElectrotherapy').value = d.electrotherapy || '';
+  $('dossierPhysicalFactors').value = d.physicalFactors || '';
+  $('dossierHomeProgram').value = d.homeProgram || '';
+  $('dossierFrequency').value = d.frequency || '';
+  $('dossierDuration').value = d.duration || '';
+  $('dossierPainChange').value = d.painChange || '';
+  $('dossierMovementChange').value = d.movementChange || '';
+  $('dossierFunctionalProgress').value = d.functionalProgress || '';
+  $('dossierGoalAchievement').value = d.goalAchievement || '';
+  $('dossierPlanAdjustment').value = d.planAdjustment || '';
+  $('dossierConsentTherapy').checked = !!d.consentTherapy;
+  $('dossierConsentGDPR').checked = !!d.consentGDPR;
+  $('dossierPatientSignature').value = d.patientSignature || '';
+  $('dossierPatientSignatureDate').value = d.patientSignatureDate || '';
+  $('dossierTherapistName').value = d.therapistName || currentUser?.name || '';
+  $('dossierTherapistSignatureDate').value = d.therapistSignatureDate || '';
+  $('dossierAdminNotes').value = d.adminNotes || '';
+  document.querySelectorAll('#dossierTabs .doc-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierTab === 'new'));
+  document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === 'new'));
+  document.querySelectorAll('#dossierSectionTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierSection === 'patient'));
+  document.querySelectorAll('.dossier-section-pane').forEach(p => p.classList.toggle('active', p.dataset.dossierSectionPane === 'patient'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function viewDossier(dossierId) {
+  const d = dossiers[dossierId];
+  if (!d) { showToast('Досието не е намерено.', 'error'); return; }
+  const pat = patients[d.patientId];
+  const pn = pat ? pat.name : (d.name || 'неизвестен');
+  const field = (label, val, icon) => val ? `<div class="profile-field"><div class="profile-field-label"><i class="fas ${icon || 'fa-info-circle'}"></i> ${label}</div><div class="profile-field-value">${escapeHtml(String(val))}</div></div>` : '';
+  const html = `
+    <div class="profile-header">
+      <div class="profile-avatar">${getUserInitials(pn)}</div>
+      <div class="profile-info">
+        <h2>${escapeHtml(pn)}</h2>
+        <div class="contact">
+          ${d.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(d.phone)}</span>` : ''}
+          ${d.birthDate ? `<span><i class="fas fa-birthday-cake"></i> ${formatDate(d.birthDate)} ${d.age ? '(' + escapeHtml(d.age) + ')' : ''}</span>` : ''}
+          ${d.firstVisit ? `<span><i class="fas fa-calendar-check"></i> Първи преглед: ${formatDate(d.firstVisit)}</span>` : ''}
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end; margin-bottom:1.5rem; flex-wrap:wrap;">
+      <button class="btn-outline btn" id="viewDossierBackBtn"><i class="fas fa-arrow-left"></i> Назад</button>
+      <button class="btn" id="viewDossierEditBtn" data-dossier-id="${dossierId}"><i class="fas fa-edit"></i> Редакция</button>
+      <button class="btn-outline btn" id="viewDossierPrintBtn"><i class="fas fa-print"></i> Принтирай</button>
+    </div>
+    ${(d.email || d.address || d.emergencyContact) ? `<div class="dash-section"><h3><i class="fas fa-user"></i> Лични данни</h3><div class="profile-grid">${field('Имейл', d.email, 'fa-envelope')}${field('Адрес', d.address, 'fa-map-marker-alt')}${field('Контакт за връзка', d.emergencyContact, 'fa-phone-alt')}</div></div>` : ''}
+    ${(d.chiefComplaint || d.symptomSince || d.onsetType || d.painLocation || d.painIntensity || d.painTrigger) ? `<div class="dash-section" style="border-left:4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-comment-medical"></i> Медицинска анамнеза</h3><div class="profile-grid">${field('Основно оплакване', d.chiefComplaint, 'fa-comment-medical')}${field('От кога са симптомите', d.symptomSince, 'fa-clock')}${field('Начало на симптомите', d.onsetType, 'fa-play')}${field('Място на болката', d.painLocation, 'fa-map-pin')}${field('Интензитет', d.painIntensity ? d.painIntensity + '/10' : '', 'fa-bolt')}${field('Кога се появява/засилва', d.painTrigger, 'fa-exclamation')}${field('Предишни заболявания и операции', d.prevDiseases, 'fa-history')}${field('Приемани лекарства', d.meds, 'fa-pills')}${field('Предишна физиотерапия', d.prevPhysio, 'fa-redo')}${field('Алергии', d.allergies, 'fa-allergies')}</div></div>` : ''}
+    ${(d.diagnosis || d.epicrisis || d.imaging || d.labs || d.consultations) ? `<div class="dash-section" style="border-left:4px solid #7f95b0;"><h3 style="color:#5a7a9a;"><i class="fas fa-file-medical"></i> Медицинска документация</h3><div class="profile-grid">${field('Диагноза и направление', d.diagnosis, 'fa-stethoscope')}${field('Епикриза', d.epicrisis, 'fa-file-medical-alt')}${field('Образни изследвания', d.imaging, 'fa-x-ray')}${field('Лабораторни изследвания', d.labs, 'fa-flask')}${field('Консултации', d.consultations, 'fa-user-md')}</div></div>` : ''}
+    ${(d.rom || d.muscleStrength || d.painExam || d.edema || d.tone || d.sensitivity || d.balance || d.gait || d.specialTests) ? `<div class="dash-section" style="border-left:4px solid #1e4a78;"><h3 style="color:#1e4a78;"><i class="fas fa-user-md"></i> Физиотерапевтичен преглед</h3><div class="profile-grid">${field('Обхват на движение (ROM)', d.rom, 'fa-arrows-alt-h')}${field('Мускулна сила', d.muscleStrength, 'fa-dumbbell')}${field('Болка при преглед', d.painExam, 'fa-bolt')}${field('Оток', d.edema, 'fa-tint')}${field('Мускулен тонус', d.tone, 'fa-wave-square')}${field('Чувствителност', d.sensitivity, 'fa-hand-paper')}${field('Баланс и координация', d.balance, 'fa-balance-scale')}${field('Походка', d.gait, 'fa-walking')}${field('Специфични тестове', d.specialTests, 'fa-clipboard-check')}</div></div>` : ''}
+    ${(d.functionalIssues || d.dailyLimitations || d.rehabGoals) ? `<div class="dash-section" style="border-left:4px solid #6b3fa0;"><h3 style="color:#6b3fa0;"><i class="fas fa-clipboard-check"></i> Физиотерапевтична оценка</h3><div class="profile-grid">${field('Функционални нарушения', d.functionalIssues, 'fa-exclamation-triangle')}${field('Ограничения в ежедневието', d.dailyLimitations, 'fa-home')}${field('Цели на рехабилитацията', d.rehabGoals, 'fa-bullseye')}</div></div>` : ''}
+    ${(d.therapeuticExercise || d.manualTherapy || d.electrotherapy || d.physicalFactors || d.homeProgram || d.frequency || d.duration) ? `<div class="dash-section" style="border-left:4px solid #1a7a3e;"><h3 style="color:#1a7a3e;"><i class="fas fa-notes-medical"></i> План за лечение</h3><div class="profile-grid">${field('Лечебна гимнастика', d.therapeuticExercise, 'fa-dumbbell')}${field('Мануална терапия', d.manualTherapy, 'fa-hands')}${field('Електротерапия', d.electrotherapy, 'fa-bolt')}${field('Физикални фактори', d.physicalFactors, 'fa-wave-square')}${field('Домашна програма', d.homeProgram, 'fa-home')}${field('Честота', d.frequency, 'fa-calendar-check')}${field('Продължителност', d.duration, 'fa-hourglass-half')}</div></div>` : ''}
+    ${(d.painChange || d.movementChange || d.functionalProgress || d.goalAchievement || d.planAdjustment) ? `<div class="dash-section" style="border-left:4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-chart-line"></i> Проследяване на резултатите</h3><div class="profile-grid">${field('Промяна в болката', d.painChange, 'fa-chart-line')}${field('Промяна в движенията и силата', d.movementChange, 'fa-chart-bar')}${field('Функционален напредък', d.functionalProgress, 'fa-chart-area')}${field('Изпълнение на целите', d.goalAchievement, 'fa-check-circle')}${field('Нужда от промяна на плана', d.planAdjustment, 'fa-redo')}</div></div>` : ''}
+    ${(d.consentTherapy || d.consentGDPR || d.patientSignature || d.therapistName || d.adminNotes) ? `<div class="dash-section" style="border-left:4px solid #b22234;"><h3 style="color:#b22234;"><i class="fas fa-file-signature"></i> Информирано съгласие и административни документи</h3><div class="profile-grid">${field('Съгласие за терапия', d.consentTherapy ? 'ДА' : 'НЕ', 'fa-check')}${field('Съгласие за лични данни (GDPR)', d.consentGDPR ? 'ДА' : 'НЕ', 'fa-shield-alt')}${field('Подпис на пациент', d.patientSignature, 'fa-signature')}${field('Дата на подпис (пациент)', d.patientSignatureDate ? formatDate(d.patientSignatureDate) : '', 'fa-calendar')}${field('Терапевт', d.therapistName, 'fa-user-md')}${field('Дата на подпис (терапевт)', d.therapistSignatureDate ? formatDate(d.therapistSignatureDate) : '', 'fa-calendar')}${field('Допълнителни бележки', d.adminNotes, 'fa-sticky-note')}</div></div>` : ''}
+    <div style="text-align:center; color:#7f95b0; font-size:0.8rem; margin-top:2rem;">
+      Създадено: ${formatTimestamp(d.createdAt)}${d.updatedAt && d.updatedAt !== d.createdAt ? ' · Обновено: ' + formatTimestamp(d.updatedAt) : ''}${d.updatedByName ? ' от ' + escapeHtml(d.updatedByName) : ''}
+    </div>
+  `;
+  // Show in a modal-like view using patient profile module
+  navItems.forEach(n => n.classList.remove('active'));
+  Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+  patientProfileModule.classList.add('active');
+  patientProfileModule.classList.add('patient-profile');
+  $('profileContent').innerHTML = html;
+  window.currentProfilePatientId = null; // prevent patient profile re-render
+  document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => {
+    patientProfileModule.classList.remove('active');
+    patientProfileModule.classList.remove('patient-profile');
+    navItems.forEach(n => n.classList.remove('active'));
+    const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active');
+    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+    if (modules.dossier) modules.dossier.classList.add('active');
+  });
+  document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => {
+    patientProfileModule.classList.remove('active');
+    patientProfileModule.classList.remove('patient-profile');
+    navItems.forEach(n => n.classList.remove('active'));
+    const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active');
+    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+    if (modules.dossier) modules.dossier.classList.add('active');
+    openDossierForEdit(e.currentTarget.dataset.dossierId);
+  });
+  document.getElementById('viewDossierPrintBtn')?.addEventListener('click', () => { window.print(); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener('click', async (e) => {
+  const viewBtn = e.target.closest('.dossier-view-btn');
+  if (viewBtn) { viewDossier(viewBtn.dataset.dossierId); return; }
+  const editBtn = e.target.closest('.dossier-edit-btn');
+  if (editBtn) {
+    const id = editBtn.dataset.dossierId;
+    document.querySelectorAll('#dossierTabs .doc-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierTab === 'new'));
+    document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === 'new'));
+    openDossierForEdit(id);
+    return;
+  }
+  const delBtn = e.target.closest('.dossier-delete-btn');
+  if (delBtn) {
+    if (!confirm('Сигурни ли сте, че искате да изтриете това досие?')) return;
+    try { await remove(clinicRef(`dossiers/${delBtn.dataset.dossierId}`)); showToast('Досието е изтрито.', 'success'); }
+    catch(err) { showToast('Грешка: ' + err.message, 'error'); }
+    return;
+  }
+});
+
+$('dossierSearchInput')?.addEventListener('input', renderDossierList);
 
 // ==================== PATIENT TABS ====================
 document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => {
@@ -2379,7 +2963,7 @@ function updatePatientDropdowns() {
   ['procPatient','aptPatient','progPatient','notePatient','soapPatient','filePatient'].forEach(id=>{ const sel = $(id); if (!sel) return; const cur = sel.value; sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p=>p.id===cur)) sel.value = cur; });
   ['sessionFilterPatient','soapFilterPatient','fileFilterPatient'].forEach(id=>{ const sel = $(id); if (!sel) return; const cur = sel.value; sel.innerHTML = '<option value="">-- Всички пациенти --</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p=>p.id===cur)) sel.value = cur; });
   document.querySelectorAll('.short-row-patient').forEach(sel=>{ const cur = sel.value; sel.innerHTML = '<option value="">-- пациент *</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p=>p.id===cur)) sel.value = cur; });
-  renderTestPatientDropdown(); renderVoucherPatientDropdown();
+  renderTestPatientDropdown(); renderVoucherPatientDropdown(); renderDossierPatientDropdown();
 }
 
 $('patientForm').addEventListener('submit', async (e) => {
@@ -2466,7 +3050,9 @@ document.addEventListener('click', async (e) => {
   if (rest) { try { await update(clinicRef(`patients/${rest.dataset.id}`), { archived: false }); showToast('Върнат.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
   const del = e.target.closest('.delete-patient');
   if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
-});// ==================== SCHEDULE: COLORS ====================
+});
+
+// ==================== SCHEDULE: COLORS ====================
 const PROCEDURE_COLORS = {
   'физиотерапия': '#0891b2',
   'кинезитерапия': '#1e4a78',
@@ -2634,19 +3220,16 @@ function renderMonth() {
   $('weekLabel').textContent = `${BG_MONTHS[month]} ${year}`;
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
-  const startDay = (firstDay.getDay() + 6) % 7; // Понеделник = 0
+  const startDay = (firstDay.getDay() + 6) % 7;
   const daysInMonth = lastDay.getDate();
   const todayStr = toDateStr(new Date());
   const kineziFilter = $('scheduleKineziFilter')?.value || '';
 
   let html = '';
-  // Хедър
   BG_DAYS.forEach(d => { html += `<div class="month-header">${d}</div>`; });
-  // Празни клетки в началото
   for (let i = 0; i < startDay; i++) {
     html += `<div class="month-cell other-month"></div>`;
   }
-  // Дни
   for (let d = 1; d <= daysInMonth; d++) {
     const dateObj = new Date(year, month, d);
     const dateStr = toDateStr(dateObj);
@@ -2662,7 +3245,6 @@ function renderMonth() {
     const more = dayApts.length > 3 ? `<div style="font-size:0.7rem;color:#7f95b0;font-style:italic;">+${dayApts.length - 3} още</div>` : '';
     html += `<div class="month-cell ${isToday?'today':''}" data-date="${dateStr}"><div class="month-cell-num">${d}</div>${aptsHtml}${more}</div>`;
   }
-  // Празни клетки в края (за да запълним седмицата)
   const totalCells = startDay + daysInMonth;
   const remaining = (7 - (totalCells % 7)) % 7;
   for (let i = 0; i < remaining; i++) {
@@ -2670,19 +3252,17 @@ function renderMonth() {
   }
   $('monthGrid').innerHTML = html;
 
-  // Клик на ден → отвори нов час с тази дата
   $('monthGrid').querySelectorAll('.month-cell:not(.other-month)').forEach(cell => {
     cell.addEventListener('click', (e) => {
       if (e.target.closest('.month-cell-appt')) return;
       const dateStr = cell.dataset.date;
       if (dateStr) {
         $('aptDate').value = dateStr;
-        $('scheduleWeekView').scrollIntoView({ behavior: 'smooth' });
+        $('scheduleWeekView')?.scrollIntoView({ behavior: 'smooth' });
         showToast('Избрана дата: ' + formatDate(dateStr), 'info');
       }
     });
   });
-  // Клик на appointment → отвори модал
   $('monthGrid').querySelectorAll('.month-cell-appt').forEach(el => {
     el.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -3072,7 +3652,9 @@ function renderDashboard() {
 
 document.addEventListener('click', (e)=>{ const item = e.target.closest('.dash-list-item[data-patient-id]'); if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) openPatientProfile(item.dataset.patientId); });
 document.addEventListener('click', async (e)=>{ const d = e.target.closest('[data-task-done]'); if (d) { try { await update(clinicRef(`tasks/${d.dataset.taskDone}`),{done:true}); showToast('Изпълнена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const dl = e.target.closest('[data-task-delete]'); if (dl) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`tasks/${dl.dataset.taskDelete}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
-$('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const text = $('taskInput').value.trim(); if (!text) return; $('addTaskBtn').disabled = true; try { await set(push(clinicRef('tasks')), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() }); $('taskInput').value = ''; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addTaskBtn').disabled = false; } });// ==================== PROCEDURES ====================
+$('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const text = $('taskInput').value.trim(); if (!text) return; $('addTaskBtn').disabled = true; try { await set(push(clinicRef('tasks')), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() }); $('taskInput').value = ''; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addTaskBtn').disabled = false; } });
+
+// ==================== PROCEDURES ====================
 function renderProcedures() {
   const all = Object.entries(procedures).map(([id,p])=>({id,...p}));
   if (all.length===0) { $('proceduresBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; }
@@ -3357,6 +3939,7 @@ navItems.forEach(item => {
       modules[targetModule].classList.add('active');
       if (targetModule === 'dashboard') renderDashboard();
       else if (targetModule === 'patients') renderPatients();
+      else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
       else if (targetModule === 'schedule') renderSchedule();
       else if (targetModule === 'procedures') renderProcedures();
       else if (targetModule === 'tests') renderTestsModule();
@@ -3373,7 +3956,7 @@ navItems.forEach(item => {
 // ==================== INIT ====================
 function init() {
   const today = toDateStr(new Date());
-  ['aptDate', 'procDate', 'noteDate', 'soapDate', 'fileDate', 'testDate', 'blockedDate', 'vacationFrom', 'vacationTo'].forEach(id => { const el = $(id); if (el) el.value = today; });
+  ['aptDate', 'procDate', 'noteDate', 'soapDate', 'fileDate', 'testDate', 'blockedDate', 'vacationFrom', 'vacationTo', 'dossierFirstVisit', 'dossierPatientSignatureDate', 'dossierTherapistSignatureDate'].forEach(id => { const el = $(id); if (el) el.value = today; });
   $('priceDateInput').value = currentPriceDate;
   updateLegendModeBtns();
   startClinicsListener();
