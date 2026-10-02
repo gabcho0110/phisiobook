@@ -155,7 +155,7 @@
 
         .highlight { background: #fff5e5; padding: 0.15rem 0.35rem; border-radius: 4px; color: #b06d00; font-weight: 700; }
 
-        .debug-box { background: #fff5f5; border: 1px solid #f0c0c0; border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.8rem; font-size: 0.78rem; color: #b22234; font-family: 'Courier New', monospace; text-align: left; display: none; }
+        .debug-box { background: #fff5f5; border: 1px solid #f0c0c0; border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.8rem; font-size: 0.78rem; color: #b22234; font-family: 'Courier New', monospace; text-align: left; display: none; max-height: 200px; overflow-y: auto; }
         .debug-box.active { display: block; }
         .debug-box strong { color: #0b2b4f; }
 
@@ -352,6 +352,15 @@
                         </p>
                     </div>
 
+                    <div class="card" style="border-left:4px solid #d97706;">
+                        <h3 style="color:#d97706;"><i class="fas fa-user-shield"></i> Поправка на роли на PhysioBook Admin</h3>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">
+                            Премахва ролята "Кинезитерапевт" от всички защитени <strong>PhysioBook Admin</strong> профили във всички клиники. 
+                            Така той ще бъде <strong>само администратор</strong> и няма да се показва в списъците с кинезитерапевти.
+                        </p>
+                        <button class="btn" id="fixAdminRolesBtn" style="background:#d97706;"><i class="fas fa-wrench"></i> Поправи ролите на всички PhysioBook Admin</button>
+                    </div>
+
                     <div class="card" style="border-left:4px solid #b22234;">
                         <h3 style="color:#b22234;"><i class="fas fa-tools"></i> Възстановяване на достъп</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Натисни бутона, за да пресъздадеш защитения профил <strong>PhysioBook Admin</strong> с код <strong>123456</strong>.</p>
@@ -389,7 +398,7 @@
                     <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
                         <label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
                         <input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
-                        <div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката.</div>
+                        <div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката. Ролята му е <strong>САМО Администратор</strong>.</div>
                     </div>
                     <div class="form-group">
                         <label>Телефон на клиниката</label>
@@ -459,6 +468,7 @@
         const MODULES = [
             { id: 'dashboard', name: 'Табло', icon: 'fa-chart-pie', desc: 'Основно табло', locked: false },
             { id: 'patients', name: 'Пациенти', icon: 'fa-users', desc: 'Управление на пациенти', locked: false },
+            { id: 'dossier', name: 'Досиета', icon: 'fa-folder-open', desc: 'Пълни досиета на пациенти', locked: false },
             { id: 'schedule', name: 'График', icon: 'fa-calendar-alt', desc: 'Календар и часове', locked: false },
             { id: 'procedures', name: 'Процедури', icon: 'fa-stethoscope', desc: 'Запис на процедури', locked: false },
             { id: 'tests', name: 'Тестове и скали', icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg', locked: false },
@@ -925,13 +935,13 @@
                         await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
                             name: ADMIN_NAME,
                             accessCode: adminCode,
-                            roles: ['Кинезитерапевт', 'Администратор']
+                            roles: ['Администратор']
                         });
                     } else {
                         await set(push(ref(db, `clinics/${cid}/users`)), {
                             name: ADMIN_NAME,
                             phone: '',
-                            roles: ['Кинезитерапевт', 'Администратор'],
+                            roles: ['Администратор'],
                             accessCode: adminCode,
                             protected: true,
                             createdAt: Date.now(),
@@ -958,7 +968,7 @@
                     await set(push(ref(db, `clinics/${newId}/users`)), {
                         name: ADMIN_NAME,
                         phone: '',
-                        roles: ['Кинезитерапевт', 'Администратор'],
+                        roles: ['Администратор'],
                         accessCode: adminCode,
                         protected: true,
                         createdAt: Date.now(),
@@ -1241,6 +1251,80 @@
             } catch(err) {
                 showLoading(false);
                 showToast('Грешка: ' + err.message, 'error');
+            }
+        });
+
+        // ==================== FIX ADMIN ROLES ====================
+        async function fixAllAdminRoles() {
+            const results = { fixed: 0, alreadyOk: 0, total: 0, errors: 0 };
+            try {
+                showToast('Сканиране на клиники...', 'info');
+                const clinicsSnap = await get(ref(db, 'clinics'));
+                const clinicsData = clinicsSnap.val() || {};
+                const clinicIds = Object.keys(clinicsData);
+                
+                if (clinicIds.length === 0) {
+                    showToast('Няма клиники.', 'info');
+                    return results;
+                }
+
+                for (const cid of clinicIds) {
+                    const usersSnap = await get(ref(db, `clinics/${cid}/users`));
+                    const usersData = usersSnap.val() || {};
+                    
+                    for (const [uid, u] of Object.entries(usersData)) {
+                        results.total++;
+                        const roles = u.roles || (u.role ? [u.role] : []);
+                        const isProtectedUser = u.protected === true || u.locked === true;
+                        const isAdminUser = u.name === ADMIN_NAME || isProtectedUser;
+                        
+                        // Ако е PhysioBook Admin (или защитен) и има роля Кинезитерапевт → поправи
+                        if (isAdminUser && roles.includes('Кинезитерапевт')) {
+                            try {
+                                await update(ref(db, `clinics/${cid}/users/${uid}`), {
+                                    roles: ['Администратор'],
+                                    role: null,
+                                    updatedAt: Date.now()
+                                });
+                                results.fixed++;
+                                console.log(`✅ Поправен: ${clinicsData[cid].name} → ${u.name}`);
+                            } catch(err) {
+                                results.errors++;
+                                console.error(`Грешка при ${cid}/${uid}:`, err);
+                            }
+                        } else if (isAdminUser && roles.length === 1 && roles[0] === 'Администратор') {
+                            results.alreadyOk++;
+                        }
+                    }
+                }
+                
+                if (results.fixed > 0) {
+                    showToast(`✓ Поправени ${results.fixed} профила! (вече OK: ${results.alreadyOk}, грешки: ${results.errors})`, 'success');
+                } else {
+                    showToast(`Всички профили са OK. (${results.alreadyOk} проверени, грешки: ${results.errors})`, 'success');
+                }
+                console.log('Резултат от fixAllAdminRoles:', results);
+                return results;
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+                console.error(err);
+                return results;
+            }
+        }
+
+        $('fixAdminRolesBtn')?.addEventListener('click', async () => {
+            if (!confirm('Ще поправи ролите на всички защитени PhysioBook Admin профили — ще им остане САМО роля "Администратор". Продължи?')) return;
+            const btn = $('fixAdminRolesBtn');
+            btn.disabled = true;
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Поправяне...';
+            showLoading(true);
+            try {
+                await fixAllAdminRoles();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = orig;
+                showLoading(false);
             }
         });
 
