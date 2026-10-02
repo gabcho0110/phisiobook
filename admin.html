@@ -126,6 +126,27 @@
         .module-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 5px; font-weight: 700; background: #e8f0fe; color: #1e4a78; text-transform: uppercase; }
         .module-badge.off { background: #f0f0f0; color: #a0a0a0; text-decoration: line-through; }
 
+        /* PACKAGE BADGES */
+        .pkg-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .pkg-badge.start { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; border: 1px solid #7dd3fc; }
+        .pkg-badge.basic { background: linear-gradient(135deg, #e8f0fe 0%, #c7dbfa 100%); color: #1e40af; border: 1px solid #93c5fd; }
+        .pkg-badge.max { background: linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 100%); color: #6b21a8; border: 1px solid #c4b5fd; }
+        .pkg-badge.none { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
+
+        /* PACKAGE SELECTOR (в модала) */
+        .pkg-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px; }
+        @media (max-width: 700px) { .pkg-selector { grid-template-columns: 1fr; } }
+        .pkg-option { border: 2px solid #cfddee; border-radius: 14px; padding: 1rem 0.9rem; cursor: pointer; transition: 0.15s; background: #f8fbfe; text-align: center; position: relative; user-select: none; }
+        .pkg-option:hover { border-color: #1e4a78; background: #f5f9ff; }
+        .pkg-option.selected { border-color: #1a7a3e; background: #f0f9f1; box-shadow: 0 0 0 3px rgba(26,122,62,0.12); }
+        .pkg-option.selected::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; background: #1a7a3e; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; box-shadow: 0 3px 8px rgba(26,122,62,0.3); }
+        .pkg-option .pkg-name { font-weight: 800; font-size: 0.95rem; color: #0b2b4f; margin-bottom: 4px; }
+        .pkg-option .pkg-price { font-size: 1.3rem; font-weight: 800; color: #1e4a78; margin-bottom: 6px; }
+        .pkg-option .pkg-price small { font-size: 0.7rem; font-weight: 600; color: #7f95b0; }
+        .pkg-option .pkg-desc { font-size: 0.72rem; color: #7f95b0; line-height: 1.3; }
+        .pkg-option .pkg-modules-count { display: inline-block; margin-top: 6px; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 8px; background: #e8f0fe; color: #1e4a78; }
+        .pkg-option.selected .pkg-modules-count { background: #d1fae5; color: #166534; }
+
         .modal-overlay { position: fixed; inset: 0; background: rgba(11,43,79,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
         .modal-overlay.active { display: flex; }
         .modal { background: #fff; border-radius: 24px; padding: 2rem 2.2rem; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -281,7 +302,7 @@
                             <thead>
                                 <tr>
                                     <th>Име</th>
-                                    <th>Профил</th>
+                                    <th>Абонамент</th>
                                     <th>Телефон</th>
                                     <th>Модули</th>
                                     <th>Действия</th>
@@ -304,9 +325,17 @@
                     </div>
                     <div class="card" id="modulesEditorCard" style="display:none;">
                         <h3><i class="fas fa-toggle-on"></i> Включени модули</h3>
-                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Кликнете върху модул, за да го включите или изключите.</p>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">
+                            Кликнете върху модул, за да го включите или изключите. 
+                            <strong style="color:#6b3fa0;">Абонаментът на клиниката определя началния набор модули.</strong>
+                        </p>
+                        <div style="background:#f9f5ff; padding:0.8rem 1rem; border-radius:12px; border-left:4px solid #6b3fa0; margin-bottom:1rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-size:0.85rem; color:#5b21b6; font-weight:600;"><i class="fas fa-box"></i> Текущ пакет:</span>
+                            <span id="modulesEditorPkgBadge"></span>
+                        </div>
                         <div class="modules-grid" id="modulesGrid"></div>
                         <div style="margin-top:1.5rem; display:flex; gap:10px; flex-wrap:wrap;">
+                            <button class="btn btn-outline btn-sm" id="applyPackageModulesBtn" style="border-color:#6b3fa0; color:#6b3fa0;"><i class="fas fa-sync-alt"></i> Приложи модулите от пакета</button>
                             <button class="btn btn-outline btn-sm" id="enableAllModulesBtn"><i class="fas fa-check-double"></i> Включи всички</button>
                             <button class="btn btn-outline btn-sm" id="disableAllModulesBtn"><i class="fas fa-times"></i> Изключи всички (без Настройки)</button>
                         </div>
@@ -395,6 +424,33 @@
                         <label>Подзаглавие / Слоган</label>
                         <input type="text" id="clinicSub" placeholder="напр. Медицински център">
                     </div>
+
+                    <!-- ============== АБОНАМЕНТЕН ПАКЕТ ============== -->
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label><i class="fas fa-box" style="color:#6b3fa0;"></i> Абонаментен пакет *</label>
+                        <div class="pkg-selector" id="pkgSelector">
+                            <div class="pkg-option selected" data-pkg="start">
+                                <div class="pkg-name">Начален</div>
+                                <div class="pkg-price">50 €<small> / год</small></div>
+                                <div class="pkg-desc">Табло, Пациенти, График, Процедури</div>
+                                <div class="pkg-modules-count" data-count>4 модула</div>
+                            </div>
+                            <div class="pkg-option" data-pkg="basic">
+                                <div class="pkg-name">Основен</div>
+                                <div class="pkg-price">80 €<small> / год</small></div>
+                                <div class="pkg-desc">+ Тестове, Ваучери, Досиета</div>
+                                <div class="pkg-modules-count" data-count>7 модула</div>
+                            </div>
+                            <div class="pkg-option" data-pkg="max">
+                                <div class="pkg-name">Максимален</div>
+                                <div class="pkg-price">120 €<small> / год</small></div>
+                                <div class="pkg-desc">+ Инвентар, Упражнения, Документация, Ценоразпис</div>
+                                <div class="pkg-modules-count" data-count>11 модула</div>
+                            </div>
+                        </div>
+                        <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. Можеш да ги промениш допълнително от "Модули".</div>
+                    </div>
+
                     <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
                         <label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
                         <input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
@@ -459,15 +515,14 @@
             storageBucket: "physiobook-d6eff.firebasestorage.app",
             messagingSenderId: "72682142520",
             appId: "1:72682142520:web:ef39ae0e5ca3d48f5cdfcd",
-            measurementId: "G-S3S31S72B0"
+            measurementSId: "G-S3S31S72B0"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
         // ==================== MODULES ====================
-        // ВАЖНО: Тук се дефинират ВСИЧКИ модули, които могат да се включват/изключват от админ панела.
-        // id трябва да съвпада ТОЧНО с data-module атрибута в index.html!
+        // ВАЖНО: id трябва да съвпада ТОЧНО с data-module атрибута в index.html!
         const MODULES = [
             { id: 'dashboard',     name: 'Табло',            icon: 'fa-chart-pie',       desc: 'Основно табло',                                     locked: false },
             { id: 'patients',      name: 'Пациенти',         icon: 'fa-users',           desc: 'Управление на пациенти',                            locked: false },
@@ -484,6 +539,50 @@
             { id: 'portal',        name: 'Портал',           icon: 'fa-user-circle',     desc: 'Портал за пациенти',                                locked: false }
         ];
 
+        // ==================== АБОНАМЕНТНИ ПАКЕТИ ====================
+        // Всеки пакет съдържа: име, цена, списък с включени модули (по id).
+        // 'settings' е ВИНАГИ включен, затова не е нужно да се добавя във всеки пакет.
+        const PACKAGES = {
+            start: {
+                name: 'Начален',
+                price: 50,
+                color: 'start',
+                icon: 'fa-seedling',
+                desc: 'За малки практики',
+                modules: ['dashboard', 'patients', 'schedule', 'procedures']
+            },
+            basic: {
+                name: 'Основен',
+                price: 80,
+                color: 'basic',
+                icon: 'fa-rocket',
+                desc: 'За растящи клиники',
+                modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier']
+            },
+            max: {
+                name: 'Максимален',
+                price: 120,
+                color: 'max',
+                icon: 'fa-crown',
+                desc: 'Пълен набор от функции',
+                modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'inventory', 'exercises', 'documentation', 'pricing']
+            }
+        };
+
+        // Помощна функция: връща обект enabledModules от даден пакет
+        function getModulesStateFromPackage(pkgId) {
+            const pkg = PACKAGES[pkgId];
+            const state = {};
+            MODULES.forEach(m => {
+                if (m.locked) {
+                    state[m.id] = true; // settings винаги true
+                } else {
+                    state[m.id] = pkg ? pkg.modules.includes(m.id) : true;
+                }
+            });
+            return state;
+        }
+
         const DEFAULT_ADMIN_CODE = '123456';
         const ADMIN_NAME = 'PhysioBook Admin';
         const PROTECTED_ADMIN_ID = 'physiobook_admin';
@@ -498,6 +597,7 @@
         let clinicSearchQuery = '';
         let unsubscribers = [];
         let settingsUnsubscribers = {};
+        let selectedPackage = 'start'; // за модала за нова клиника
 
         const $ = id => document.getElementById(id);
         const codeInputEls = document.querySelectorAll('#codeInputs input');
@@ -531,9 +631,9 @@
             const result = {};
             MODULES.forEach(m => {
                 if (m.locked) {
-                    result[m.id] = true; // settings винаги е включен
+                    result[m.id] = true;
                 } else if (enabled[m.id] === undefined) {
-                    result[m.id] = true; // по подразбиране всичко е включено
+                    result[m.id] = true;
                 } else {
                     result[m.id] = enabled[m.id] !== false;
                 }
@@ -545,6 +645,13 @@
             const state = {};
             MODULES.forEach(m => { state[m.id] = true; });
             return state;
+        }
+
+        // Връща HTML за badge на пакета
+        function getPackageBadgeHtml(pkgId) {
+            const pkg = PACKAGES[pkgId];
+            if (!pkg) return `<span class="pkg-badge none"><i class="fas fa-question"></i> Няма пакет</span>`;
+            return `<span class="pkg-badge ${pkg.color}"><i class="fas ${pkg.icon}"></i> ${escapeHtml(pkg.name)}</span>`;
         }
 
         // ==================== CODE INPUT HANDLING ====================
@@ -769,14 +876,15 @@
             }
             list.innerHTML = clinicIds.slice(0, 10).map(cid => {
                 const c = clinics[cid];
-                const code = c.adminCode || c.ownerCode || '—';
+                const pkgId = c.packageId || c.package || null;
+                const pkg = PACKAGES[pkgId];
                 return `<div style="display:flex; align-items:center; gap:14px; padding:1rem 1.2rem; background:#f8fbfe; border-radius:14px; border-left:4px solid #1e4a78; margin-bottom:10px;">
                     <div style="width:48px; height:48px; border-radius:12px; background:#e8f0fe; color:#1e4a78; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0;"><i class="fas fa-hospital"></i></div>
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:700; color:#0b2b4f; font-size:1rem;">${escapeHtml(c.name || '—')}</div>
                         <div style="font-size:0.82rem; color:#7f95b0;">${escapeHtml(c.phone || '—')}</div>
                     </div>
-                    <div style="font-family:'Courier New',monospace; font-weight:700; color:#6b3fa0; background:#f9f5ff; padding:0.4rem 0.8rem; border-radius:8px; border:1px solid #b28cff;">${escapeHtml(code)}</div>
+                    ${pkg ? `<span class="pkg-badge ${pkg.color}"><i class="fas ${pkg.icon}"></i> ${escapeHtml(pkg.name)} · ${pkg.price} €</span>` : ''}
                 </div>`;
             }).join('');
         }
@@ -814,10 +922,11 @@
                 ).join('') + (MODULES.length > 6 ? `<span class="module-badge">+${MODULES.length - 6}</span>` : '');
 
                 const nameDisplay = q ? highlightText(c.name || '—', q) : escapeHtml(c.name || '—');
+                const pkgId = c.packageId || c.package || null;
 
                 return `<tr>
                     <td><strong>${nameDisplay}</strong></td>
-                    <td><span class="admin-badge protected" style="background:#f9f5ff; color:#6b3fa0;"><i class="fas fa-shield-alt"></i> PhysioBook Admin</span></td>
+                    <td>${getPackageBadgeHtml(pkgId)}</td>
                     <td>${escapeHtml(c.phone || '—')}</td>
                     <td>
                         <div class="modules-badges">${badges}</div>
@@ -862,6 +971,28 @@
             }
         });
 
+        // ==================== PACKAGE SELECTOR ====================
+        function initPackageSelector() {
+            const selector = $('pkgSelector');
+            if (!selector) return;
+            selector.querySelectorAll('.pkg-option').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    selector.querySelectorAll('.pkg-option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    selectedPackage = opt.dataset.pkg;
+                });
+            });
+        }
+
+        function setPackageSelectorValue(pkgId) {
+            selectedPackage = pkgId || 'start';
+            const selector = $('pkgSelector');
+            if (!selector) return;
+            selector.querySelectorAll('.pkg-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.pkg === selectedPackage);
+            });
+        }
+
         $('addClinicBtn').addEventListener('click', () => openClinicModal());
         $('clinicModalClose').addEventListener('click', () => $('clinicModal').classList.remove('active'));
         $('clinicCancelBtn').addEventListener('click', () => $('clinicModal').classList.remove('active'));
@@ -883,9 +1014,12 @@
                 $('clinicPhone').value = c.phone || '';
                 $('clinicEmail').value = c.email || '';
                 $('clinicAddress').value = c.address || '';
+                // Избираме текущия пакет
+                setPackageSelectorValue(c.packageId || c.package || 'start');
             } else {
                 $('clinicModalTitle').textContent = 'Нова клиника';
                 $('clinicAdminCode').value = generate6DigitCode();
+                setPackageSelectorValue('start');
             }
             modal.classList.add('active');
         }
@@ -899,9 +1033,11 @@
             const clinicPhone = $('clinicPhone').value.trim();
             const clinicEmail = $('clinicEmail').value.trim();
             const clinicAddress = $('clinicAddress').value.trim();
+            const packageId = selectedPackage;
 
             if (!name || !adminCode) { showToast('Попълнете име и код.', 'error'); return; }
             if (!/^\d{6}$/.test(adminCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
+            if (!PACKAGES[packageId]) { showToast('Изберете абонаментен пакет.', 'error'); return; }
 
             $('clinicSaveBtn').disabled = true;
             showLoading(true);
@@ -921,6 +1057,7 @@
                     phone: clinicPhone,
                     email: clinicEmail,
                     address: clinicAddress,
+                    packageId,
                     updatedAt: Date.now()
                 };
 
@@ -965,10 +1102,14 @@
                     clinicData.id = newId;
                     await set(newRef, clinicData);
 
+                    // ВАЖНО: генерираме модулите от избрания пакет!
+                    const packageModules = getModulesStateFromPackage(packageId);
+
                     await set(ref(db, `clinics/${newId}/settings`), {
                         name,
                         sub: sub || 'Медицински център',
-                        enabledModules: getDefaultModulesState(),
+                        enabledModules: packageModules,
+                        packageId,
                         createdAt: Date.now()
                     });
 
@@ -982,7 +1123,8 @@
                         createdBy: currentAdmin?.id || 'admin'
                     });
 
-                    showToast(`Клиниката е създадена! Код за достъп: ${adminCode}`, 'success');
+                    const pkg = PACKAGES[packageId];
+                    showToast(`Клиниката е създадена с пакет "${pkg.name}" (${pkg.price} €/год). Код: ${adminCode}`, 'success');
                 }
                 $('clinicModal').classList.remove('active');
             } catch(err) {
@@ -1036,6 +1178,13 @@
             if (!selectedClinicForModules) return;
             const grid = $('modulesGrid');
             const mods = getClinicModules(selectedClinicForModules);
+            const clinic = clinics[selectedClinicForModules] || {};
+            const pkgId = clinic.packageId || clinic.package || null;
+
+            // Показваме badge на текущия пакет
+            const badgeEl = $('modulesEditorPkgBadge');
+            if (badgeEl) badgeEl.innerHTML = getPackageBadgeHtml(pkgId);
+
             grid.innerHTML = MODULES.map(m => {
                 const enabled = mods[m.id];
                 const locked = m.locked;
@@ -1059,36 +1208,50 @@
                     }
                     const currentlyEnabled = toggle.classList.contains('enabled');
                     const newValue = !currentlyEnabled;
-                    
-                    // Оптимистична UI промяна
                     toggle.classList.toggle('enabled', newValue);
 
                     try {
                         const settingsSnap = await get(ref(db, `clinics/${selectedClinicForModules}/settings`));
                         const settings = settingsSnap.val() || {};
                         const enabledModules = settings.enabledModules || {};
-                        
-                        // Уверяваме се, че всички модули имат стойност
                         MODULES.forEach(m => {
                             if (enabledModules[m.id] === undefined) enabledModules[m.id] = true;
                         });
-                        
                         enabledModules[modId] = newValue;
-                        
                         await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { 
                             enabledModules,
                             updatedAt: Date.now()
                         });
-                        
                         showToast(`${modDef.name}: ${newValue ? '✓ включен' : '✗ изключен'}`, 'success');
                     } catch(err) {
-                        // Връщаме UI промяната при грешка
                         toggle.classList.toggle('enabled', currentlyEnabled);
                         showToast('Грешка: ' + err.message, 'error');
                     }
                 });
             });
         }
+
+        // ==================== APPLY PACKAGE MODULES ====================
+        $('applyPackageModulesBtn')?.addEventListener('click', async () => {
+            if (!selectedClinicForModules) return;
+            const clinic = clinics[selectedClinicForModules] || {};
+            const pkgId = clinic.packageId || clinic.package || null;
+            if (!pkgId || !PACKAGES[pkgId]) {
+                showToast('Тази клиника няма зададен пакет. Редактирайте я и изберете пакет.', 'error');
+                return;
+            }
+            const pkg = PACKAGES[pkgId];
+            if (!confirm(`Ще приложиш модулите от пакет "${pkg.name}" (${pkg.modules.length} модула).\n\nПродължи?`)) return;
+
+            try {
+                const enabledModules = getModulesStateFromPackage(pkgId);
+                await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
+                showToast(`Модулите от "${pkg.name}" са приложени.`, 'success');
+                renderModulesEditor();
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+            }
+        });
 
         $('enableAllModulesBtn').addEventListener('click', async () => {
             if (!selectedClinicForModules) return;
@@ -1275,7 +1438,6 @@
             }
         });
 
-        // ==================== FIX ADMIN ROLES ====================
         async function fixAllAdminRoles() {
             const results = { fixed: 0, alreadyOk: 0, total: 0, errors: 0 };
             try {
@@ -1299,7 +1461,6 @@
                         const isProtectedUser = u.protected === true || u.locked === true;
                         const isAdminUser = u.name === ADMIN_NAME || isProtectedUser;
                         
-                        // Ако е PhysioBook Admin (или защитен) и има роля Кинезитерапевт → поправи
                         if (isAdminUser && roles.includes('Кинезитерапевт')) {
                             try {
                                 await update(ref(db, `clinics/${cid}/users/${uid}`), {
@@ -1308,10 +1469,8 @@
                                     updatedAt: Date.now()
                                 });
                                 results.fixed++;
-                                console.log(`✅ Поправен: ${clinicsData[cid].name} → ${u.name}`);
                             } catch(err) {
                                 results.errors++;
-                                console.error(`Грешка при ${cid}/${uid}:`, err);
                             }
                         } else if (isAdminUser && roles.length === 1 && roles[0] === 'Администратор') {
                             results.alreadyOk++;
@@ -1320,33 +1479,26 @@
                 }
                 
                 if (results.fixed > 0) {
-                    showToast(`✓ Поправени ${results.fixed} профила! (вече OK: ${results.alreadyOk}, грешки: ${results.errors})`, 'success');
+                    showToast(`✓ Поправени ${results.fixed} профила! (OK: ${results.alreadyOk}, грешки: ${results.errors})`, 'success');
                 } else {
-                    showToast(`Всички профили са OK. (${results.alreadyOk} проверени, грешки: ${results.errors})`, 'success');
+                    showToast(`Всички профили са OK. (${results.alreadyOk} проверени)`, 'success');
                 }
-                console.log('Резултат от fixAllAdminRoles:', results);
                 return results;
             } catch(err) {
                 showToast('Грешка: ' + err.message, 'error');
-                console.error(err);
                 return results;
             }
         }
 
         $('fixAdminRolesBtn')?.addEventListener('click', async () => {
-            if (!confirm('Ще поправи ролите на всички защитени PhysioBook Admin профили — ще им остане САМО роля "Администратор". Продължи?')) return;
+            if (!confirm('Ще поправи ролите на всички защитени PhysioBook Admin профили. Продължи?')) return;
             const btn = $('fixAdminRolesBtn');
             btn.disabled = true;
             const orig = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Поправяне...';
             showLoading(true);
-            try {
-                await fixAllAdminRoles();
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = orig;
-                showLoading(false);
-            }
+            try { await fixAllAdminRoles(); }
+            finally { btn.disabled = false; btn.innerHTML = orig; showLoading(false); }
         });
 
         $('migrateModulesBtn').addEventListener('click', async () => {
@@ -1382,6 +1534,7 @@
         });
 
         async function init() {
+            initPackageSelector();
             await ensureProtectedAdmin();
 
             const code = sessionStorage.getItem('adminCode');
