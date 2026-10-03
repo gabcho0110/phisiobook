@@ -593,6 +593,9 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .test-card.dash::before { background: linear-gradient(90deg, #6b3fa0, #b28cff); }
 .test-card.womac::before { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
 .test-card.berg::before { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+.test-card.ndi::before { background: linear-gradient(90deg, #ea580c, #fb923c); }
+.test-card.lefs::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.test-card.quickdash::before { background: linear-gradient(90deg, #be185d, #f472b6); }
 .test-card.other::before { background: linear-gradient(90deg, #7f95b0, #b0c1d4); }
 .test-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; gap: 12px; }
 .test-card-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
@@ -601,6 +604,9 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .test-card.dash .test-card-icon { background: #f0e8ff; color: #6b3fa0; }
 .test-card.womac .test-card-icon { background: #e8f5e9; color: #1a7a3e; }
 .test-card.berg .test-card-icon { background: #e0f7fa; color: #0891b2; }
+.test-card.ndi .test-card-icon { background: #ffedd5; color: #ea580c; }
+.test-card.lefs .test-card-icon { background: #f0e8ff; color: #7c3aed; }
+.test-card.quickdash .test-card-icon { background: #fce7f3; color: #be185d; }
 .test-card.other .test-card-icon { background: #f0f4f8; color: #7f95b0; }
 .test-card h3 { font-size: 1.1rem; font-weight: 700; color: #0b2b4f; margin-bottom: 0.4rem; }
 .test-card .test-card-sub { font-size: 0.82rem; color: #7f95b0; margin-bottom: 0.8rem; line-height: 1.4; }
@@ -641,6 +647,7 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .test-result-interpretation.good { background: rgba(26,122,62,0.3); border-color: #4ade80; }
 .test-result-interpretation.moderate { background: rgba(217,119,6,0.3); border-color: #fbbf24; }
 .test-result-interpretation.severe { background: rgba(178,34,52,0.3); border-color: #ff6b6b; }
+.test-result-interpretation.minimal { background: rgba(8,145,178,0.3); border-color: #22d3ee; }
 .test-history-item { background: #fff; border: 1px solid #e9eef3; border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
 .test-history-item .test-history-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
 .test-history-item .test-history-info { flex: 1; min-width: 200px; }
@@ -939,7 +946,7 @@ body * { visibility: hidden; }
 <a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
 <div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
 </div>
-<div class="sidebar-version">v9.3 · Support</div>
+<div class="sidebar-version">v9.4 · Full Tests</div>
 </div>
 </aside>
 
@@ -1367,7 +1374,7 @@ body * { visibility: hidden; }
 <button class="test-category-tab" data-test-cat="upper"><i class="fas fa-hand-paper"></i> Горен крайник</button>
 <button class="test-category-tab" data-test-cat="lower"><i class="fas fa-shoe-prints"></i> Долен крайник</button>
 <button class="test-category-tab" data-test-cat="balance"><i class="fas fa-balance-scale"></i> Баланс</button>
-<button class="test-category-tab" data-test-cat="other"><i class="fas fa-clipboard-list"></i> Други</button>
+<button class="test-category-tab" data-test-cat="function"><i class="fas fa-heartbeat"></i> Функция</button>
 </div>
 <div class="test-grid" id="testGrid"></div>
 <div class="dash-section">
@@ -1814,6 +1821,10 @@ body * { visibility: hidden; }
 <h3><i class="fas fa-history"></i> Моите процедури</h3>
 <div id="portalProceduresBody"></div>
 </div>
+<div class="portal-section">
+<h3><i class="fas fa-clipboard-check"></i> Моите тестове и скали</h3>
+<div id="portalTestsBody"></div>
+</div>
 </section>
 
 </main>
@@ -2142,7 +2153,7 @@ let currentDossierId = null;
 
 const DEFAULT_MODULES = { dashboard: true, patients: true, dossier: true, schedule: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
 
-function getEnabledModules() { const saved = clinicSettings?.enabledModules || {}; const result = { ...DEFAULT_MODULES, ...saved }; result.settings = true; return result; }
+function getEnabledModules() { const saved = clinicSettings?.enabledModules || {}; const result = { ...DEFAULT_MODULES, ...saved }; result.settings = true; result.portal = true; return result; }
 
 function applyModuleVisibility() {
   const enabled = getEnabledModules();
@@ -2485,7 +2496,7 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/patients`), (snapshot) => {
     patients = snapshot.val() || {};
     renderPatients(); renderProcedures(); renderSchedule(); renderPricing(); renderDaySummary(); updatePatientDropdowns();
-    if (currentPatient) { renderPortal(); renderPatientExercises(); }
+    if (currentPatient) { renderPortal(); renderPatientExercises(); renderPatientTests(); }
     if (currentUser && !currentPatient) renderDashboard();
     renderTestPatientDropdown(); renderVoucherPatientDropdown(); renderDossierPatientDropdown(); renderDossierList();
   }));
@@ -2502,7 +2513,7 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/documents`), (s) => { documents = s.val() || {}; renderDocuments(); }));
   unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => { messages = s.val() || {}; renderInbox(); renderSent(); updateMessagesBadge(); if (currentChatUserId) renderChat(); }));
   unsubscribers.push(onValue(ref(db, `${base}/notifications`), (s) => { notifications = s.val() || {}; renderNotifications(); updateNotificationsBadge(); }));
-  unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); if (currentPatient) renderPatientTests(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => { inventory = s.val() || {}; renderInventory(); renderInventoryStats(); renderInventoryCategoryChips(); renderInvMovItemFilter(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventoryMovements`), (s) => { inventoryMovements = s.val() || {}; renderInventoryMovementsList(); }));
   unsubscribers.push(onValue(ref(db, `${base}/vouchers`), (s) => { vouchers = s.val() || {}; renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); }));
@@ -2899,28 +2910,277 @@ function renderProcedures() { const all = Object.entries(procedures).map(([id,p]
 $('procedureForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('procPatient').value; const description = $('procDescription').value.trim(); const date = $('procDate').value; const time = $('procTime').value; const result = $('procResult').value.trim(); if (!patientId || !description || !date || !time) { showToast('Попълнете полетата.', 'error'); return; } $('addProcedureBtn').disabled = true; try { await set(push(clinicRef('procedures')), { patientId, description, date, time, result, createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); $('procedureForm').reset(); $('procDate').value = toDateStr(new Date()); showToast('Процедурата е запазена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('addProcedureBtn').disabled = false; } });
 document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
 
-// ==================== TESTS ====================
+// ==================== TESTS - ПЪЛЕН СПИСЪК ====================
 const TESTS_DEFINITIONS = {
-  vas: { id: 'vas', name: 'VAS / NRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Визуална аналогова скала (VAS) или Числова рейтингова скала (NRS) за оценка на болка', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Най-силна възможна болка', interpretation: (score) => { if (score <= 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
-  nprs: { id: 'nprs', name: 'NPRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Числова рейтингова скала за болка -- 0 (няма) до 10 (максимална)', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Максимална болка', interpretation: (score) => { if (score === 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
-  tug: { id: 'tug', name: 'Timed Up and Go (TUG)', category: 'balance', icon: 'fa-stopwatch', colorClass: 'berg', description: 'Време за ставане от стол, ходене 3 м, обръщане и сядане обратно', type: 'numeric', min: 0, max: 60, step: 0.1, minLabel: '0 сек', maxLabel: '60 сек', interpretation: (score) => { if (score < 10) return { label: 'Нормално', class: 'good' }; if (score < 20) return { label: 'Добър баланс', class: 'good' }; if (score < 30) return { label: 'Умерен риск от падане', class: 'moderate' }; return { label: 'Висок риск от падане', class: 'severe' }; }}
+    vas: {
+        id: 'vas', name: 'VAS / NRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas',
+        description: 'Визуална аналогова скала (VAS) или Числова рейтингова скала (NRS) за оценка на болка',
+        type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Най-силна възможна болка',
+        interpretation: (score) => { if (score <= 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }
+    },
+    nprs: {
+        id: 'nprs', name: 'NPRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas',
+        description: 'Числова рейтингова скала за болка — 0 (няма) до 10 (максимална)',
+        type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Максимална болка',
+        interpretation: (score) => { if (score === 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }
+    },
+    oswestry: {
+        id: 'oswestry', name: 'Oswestry Disability Index (ODI)', category: 'spine', icon: 'fa-spine', colorClass: 'oswestry',
+        description: 'Оценка на функционалния капацитет при болки в кръста',
+        type: 'multi', scoreUnit: '%',
+        questions: [
+            { text: 'Интензитет на болката', options: [{ label: 'Нямам болка в момента', score: 0 }, { label: 'Много лека болка', score: 1 }, { label: 'Умерена болка', score: 2 }, { label: 'Доста силна болка', score: 3 }, { label: 'Много силна болка', score: 4 }, { label: 'Най-силна възможна болка', score: 5 }] },
+            { text: 'Самообслужване (миене, обличане)', options: [{ label: 'Правя всичко без болка', score: 0 }, { label: 'Правя всичко, но с болка', score: 1 }, { label: 'Правя всичко бавно и с болка', score: 2 }, { label: 'Нуждая се от помощ за някои неща', score: 3 }, { label: 'Нуждая се от помощ всеки ден', score: 4 }, { label: 'Не мога да се обслужвам сам', score: 5 }] },
+            { text: 'Повдигане на предмети', options: [{ label: 'Мога да повдигам тежки предмети', score: 0 }, { label: 'Мога да повдигам тежки предмети с болка', score: 1 }, { label: 'Болката ми пречи да повдигам от пода', score: 2 }, { label: 'Мога да повдигам само леки предмети', score: 3 }, { label: 'Мога да повдигам само много леки', score: 4 }, { label: 'Не мога да повдигам нищо', score: 5 }] },
+            { text: 'Ходене', options: [{ label: 'Ходя без ограничения', score: 0 }, { label: 'Ходя с болка, но без ограничения', score: 1 }, { label: 'Не мога да ходя повече от 1 км', score: 2 }, { label: 'Не мога да ходя повече от 500 м', score: 3 }, { label: 'Мога да ходя само с бастун', score: 4 }, { label: 'През повечето време съм в леглото', score: 5 }] },
+            { text: 'Сядане', options: [{ label: 'Сядам на всякакъв стол', score: 0 }, { label: 'Сядам само на удобен стол', score: 1 }, { label: 'Не мога да седя повече от 1 час', score: 2 }, { label: 'Не мога да седя повече от 30 мин', score: 3 }, { label: 'Не мога да седя повече от 10 мин', score: 4 }, { label: 'Не мога да седя изобщо', score: 5 }] },
+            { text: 'Изправяне', options: [{ label: 'Изправям се без болка', score: 0 }, { label: 'Изправям се с болка', score: 1 }, { label: 'Изправям се с болка и помощ', score: 2 }, { label: 'Не мога да се изправя сам', score: 3 }, { label: 'Изправям се само с чужда помощ', score: 4 }, { label: 'Не мога да се изправя изобщо', score: 5 }] },
+            { text: 'Сън', options: [{ label: 'Спя без болка', score: 0 }, { label: 'Спя с болка понякога', score: 1 }, { label: 'Спя по-малко от 6 часа', score: 2 }, { label: 'Спя по-малко от 4 часа', score: 3 }, { label: 'Спя по-малко от 2 часа', score: 4 }, { label: 'Не мога да спя изобщо', score: 5 }] },
+            { text: 'Социален живот', options: [{ label: 'Нормален социален живот', score: 0 }, { label: 'Нормален живот с лека болка', score: 1 }, { label: 'Болката ограничава активността', score: 2 }, { label: 'Рядко излизам поради болка', score: 3 }, { label: 'Не излизам поради болка', score: 4 }, { label: 'Не участвам в социален живот', score: 5 }] },
+            { text: 'Пътуване', options: [{ label: 'Пътувам без болка', score: 0 }, { label: 'Пътувам с лека болка', score: 1 }, { label: 'Пътувам с болка под 1 час', score: 2 }, { label: 'Пътувам само за кратки разстояния', score: 3 }, { label: 'Пътувам само с чужда помощ', score: 4 }, { label: 'Не мога да пътувам', score: 5 }] },
+            { text: 'Сексуален живот', options: [{ label: 'Нямам проблеми', score: 0 }, { label: 'Лека болка', score: 1 }, { label: 'Умерена болка', score: 2 }, { label: 'Сериозна болка', score: 3 }, { label: 'Почти невъзможно', score: 4 }, { label: 'Невъзможно', score: 5 }] }
+        ],
+        calculate: (answers) => Math.round((answers.reduce((a, b) => a + b, 0) / (answers.length * 5)) * 100),
+        interpretation: (score) => { if (score < 20) return { label: 'Минимално увреждане', class: 'good' }; if (score < 40) return { label: 'Умерено увреждане', class: 'moderate' }; if (score < 60) return { label: 'Сериозно увреждане', class: 'moderate' }; if (score < 80) return { label: 'Тежко увреждане', class: 'severe' }; return { label: 'Много тежко увреждане', class: 'severe' }; }
+    },
+    dash: {
+        id: 'dash', name: 'DASH', category: 'upper', icon: 'fa-hand-paper', colorClass: 'dash',
+        description: 'Disabilities of the Arm, Shoulder and Hand — оценка на горния крайник',
+        type: 'multi', scoreUnit: 'т.',
+        questions: [
+            { text: 'Отваряне на буркан с капак', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Писане', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Завъртане на ключ', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Приготвяне на храна', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Отваряне на тежка врата', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Поставяне на предмет на рафт над главата', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Тежка домакинска работа', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Градинарство', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Правене на легло', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Пазаруване с торби', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Слагане на раница', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] }
+        ],
+        calculate: (answers) => Math.round(((answers.reduce((a, b) => a + b, 0) / answers.length) - 1) * 25),
+        interpretation: (score) => { if (score < 15) return { label: 'Няма увреждане', class: 'good' }; if (score < 40) return { label: 'Леко увреждане', class: 'good' }; if (score < 60) return { label: 'Умерено увреждане', class: 'moderate' }; return { label: 'Сериозно увреждане', class: 'severe' }; }
+    },
+    quickdash: {
+        id: 'quickdash', name: 'QuickDASH', category: 'upper', icon: 'fa-hand-paper', colorClass: 'quickdash',
+        description: 'Кратка версия на DASH — 11 въпроса',
+        type: 'multi', scoreUnit: 'т.',
+        questions: [
+            { text: 'Отваряне на буркан', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Тежка домакинска работа', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Пазаруване с торби', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Миене на гърба', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Използване на нож', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Рекреационни дейности', options: [{ label: 'Без затруднение', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Ограничение в социални дейности', options: [{ label: 'Никакво', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Много', score: 5 }] },
+            { text: 'Ограничение в работа', options: [{ label: 'Никакво', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Много', score: 5 }] },
+            { text: 'Болка в рамото/ръката', options: [{ label: 'Няма', score: 1 }, { label: 'Лека', score: 2 }, { label: 'Умерена', score: 3 }, { label: 'Силна', score: 4 }, { label: 'Много силна', score: 5 }] },
+            { text: 'Изтръпване', options: [{ label: 'Няма', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Силно', score: 4 }, { label: 'Много силно', score: 5 }] },
+            { text: 'Затруднение при сън', options: [{ label: 'Няма', score: 1 }, { label: 'Леко', score: 2 }, { label: 'Умерено', score: 3 }, { label: 'Значително', score: 4 }, { label: 'Много', score: 5 }] }
+        ],
+        calculate: (answers) => Math.round(((answers.reduce((a, b) => a + b, 0) / answers.length) - 1) * 25),
+        interpretation: (score) => { if (score < 15) return { label: 'Няма увреждане', class: 'good' }; if (score < 40) return { label: 'Леко увреждане', class: 'good' }; if (score < 60) return { label: 'Умерено увреждане', class: 'moderate' }; return { label: 'Сериозно увреждане', class: 'severe' }; }
+    },
+    womac: {
+        id: 'womac', name: 'WOMAC', category: 'lower', icon: 'fa-shoe-prints', colorClass: 'womac',
+        description: 'Western Ontario and McMaster — оценка при остеоартрит на коляно/тазобедрена',
+        type: 'multi', scoreUnit: 'т.',
+        questions: [
+            { text: 'Болка при ходене', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Болка при стълби', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Нощна болка', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Болка при почивка', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Скованост сутрин', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Скованост след почивка', options: [{ label: 'Няма', score: 0 }, { label: 'Лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }] },
+            { text: 'Стълби надолу', options: [{ label: 'Без затруднение', score: 0 }, { label: 'Леко', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Сериозно', score: 3 }, { label: 'Не мога', score: 4 }] },
+            { text: 'Стълби нагоре', options: [{ label: 'Без затруднение', score: 0 }, { label: 'Леко', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Сериозно', score: 3 }, { label: 'Не мога', score: 4 }] },
+            { text: 'Ставане от стол', options: [{ label: 'Без затруднение', score: 0 }, { label: 'Леко', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Сериозно', score: 3 }, { label: 'Не мога', score: 4 }] },
+            { text: 'Стоене прав', options: [{ label: 'Без затруднение', score: 0 }, { label: 'Леко', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Сериозно', score: 3 }, { label: 'Не мога', score: 4 }] }
+        ],
+        calculate: (answers) => Math.round((answers.reduce((a, b) => a + b, 0) / (answers.length * 4)) * 100),
+        interpretation: (score) => { if (score < 25) return { label: 'Леко', class: 'good' }; if (score < 50) return { label: 'Умерено', class: 'moderate' }; if (score < 75) return { label: 'Сериозно', class: 'moderate' }; return { label: 'Много сериозно', class: 'severe' }; }
+    },
+    berg: {
+        id: 'berg', name: 'Berg Balance Scale', category: 'balance', icon: 'fa-balance-scale', colorClass: 'berg',
+        description: 'Оценка на баланса и риска от падане (14 задачи, 0-4 т.)',
+        type: 'multi', scoreUnit: 'т.',
+        questions: [
+            { text: 'Ставане от стол', options: [{ label: 'Самостоятелно без ръце', score: 4 }, { label: 'Самостоятелно с ръце', score: 3 }, { label: 'С помощ', score: 2 }, { label: 'Нужда от значителна помощ', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Стоене без опора', options: [{ label: '2 мин сигурно', score: 4 }, { label: '2 мин с надзор', score: 3 }, { label: '30 сек', score: 2 }, { label: 'Опит', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Стоене със затворени очи', options: [{ label: '10 сек сигурно', score: 4 }, { label: '10 сек с надзор', score: 3 }, { label: '3 сек', score: 2 }, { label: 'Опит', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Стоене с крака един до друг', options: [{ label: 'Самостоятелно 1 мин', score: 4 }, { label: '1 мин с надзор', score: 3 }, { label: '30 сек', score: 2 }, { label: 'Опит', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Стоене на един крак', options: [{ label: '>10 сек', score: 4 }, { label: '5-10 сек', score: 3 }, { label: '3-5 сек', score: 2 }, { label: '<3 сек', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text. Переместване от стол на стол', options: [{ label: 'Сигурно', score: 4 }, { label: 'С малка помощ', score: 3 }, { label: 'Средна помощ', score: 2 }, { label: 'Значителна помощ', score: 1 }, { label: 'Не мога', score: 0 }] }
+        ],
+        calculate: (answers) => answers.reduce((a, b) => a + b, 0),
+        interpretation: (score) => { if (score >= 45) return { label: 'Нисък риск от падане', class: 'good' }; if (score >= 21) return { label: 'Умерен риск от падане', class: 'moderate' }; return { label: 'Висок риск от падане', class: 'severe' }; }
+    },
+    tug: {
+        id: 'tug', name: 'Timed Up and Go (TUG)', category: 'balance', icon: 'fa-stopwatch', colorClass: 'berg',
+        description: 'Време за ставане от стол, ходене 3 м, обръщане и сядане обратно',
+        type: 'numeric', min: 0, max: 60, step: 0.1, scoreUnit: 'сек', minLabel: '0 сек', maxLabel: '60 сек',
+        interpretation: (score) => { if (score < 10) return { label: 'Нормално', class: 'good' }; if (score < 20) return { label: 'Добър баланс', class: 'good' }; if (score < 30) return { label: 'Умерен риск от падане', class: 'moderate' }; return { label: 'Висок риск от падане', class: 'severe' }; }
+    },
+    ndi: {
+        id: 'ndi', name: 'Neck Disability Index (NDI)', category: 'spine', icon: 'fa-spine', colorClass: 'ndi',
+        description: 'Оценка на увреждането при болки във врата',
+        type: 'multi', scoreUnit: '%',
+        questions: [
+            { text: 'Интензитет на болката', options: [{ label: 'Няма болка', score: 0 }, { label: 'Много лека', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }, { label: 'Най-силна', score: 5 }] },
+            { text: 'Самообслужване', options: [{ label: 'Нормално', score: 0 }, { label: 'С лека болка', score: 1 }, { label: 'С умерена болка', score: 2 }, { label: 'С помощ', score: 3 }, { label: 'Почти невъзможно', score: 4 }, { label: 'Невъзможно', score: 5 }] },
+            { text: 'Повдигане на тежести', options: [{ label: 'Без болка', score: 0 }, { label: 'Лека болка', score: 1 }, { label: 'Умерена болка', score: 2 }, { label: 'Силна болка', score: 3 }, { label: 'Много силна', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Четене', options: [{ label: 'Без болка', score: 0 }, { label: 'Лека болка', score: 1 }, { label: 'Умерена', score: 2 }, { label: 'Силна', score: 3 }, { label: 'Много силна', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Главоболие', options: [{ label: 'Няма', score: 0 }, { label: 'Леко', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Силно', score: 3 }, { label: 'Много силно', score: 4 }, { label: 'Постоянно', score: 5 }] },
+            { text: 'Концентрация', options: [{ label: 'Пълна', score: 0 }, { label: 'Леко намалена', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Значително', score: 3 }, { label: 'Трудна', score: 4 }, { label: 'Невъзможна', score: 5 }] },
+            { text: 'Работа', options: [{ label: 'Без ограничения', score: 0 }, { label: 'Леки ограничения', score: 1 }, { label: 'Умерени', score: 2 }, { label: 'Сериозни', score: 3 }, { label: 'Минимална работа', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Шофиране', options: [{ label: 'Без проблем', score: 0 }, { label: 'Леки проблеми', score: 1 }, { label: 'Умерени', score: 2 }, { label: 'Значителни', score: 3 }, { label: 'Ограничени', score: 4 }, { label: 'Не мога', score: 5 }] },
+            { text: 'Сън', options: [{ label: 'Нормален', score: 0 }, { label: 'Леко разстроен', score: 1 }, { label: 'Умерено', score: 2 }, { label: 'Значително', score: 3 }, { label: 'Много', score: 4 }, { label: 'Не мога да спя', score: 5 }] },
+            { text: 'Рекреация', options: [{ label: 'Без ограничения', score: 0 }, { label: 'Леки', score: 1 }, { label: 'Умерени', score: 2 }, { label: 'Сериозни', score: 3 }, { label: 'Минимална', score: 4 }, { label: 'Не мога', score: 5 }] }
+        ],
+        calculate: (answers) => Math.round((answers.reduce((a, b) => a + b, 0) / (answers.length * 5)) * 100),
+        interpretation: (score) => { if (score < 10) return { label: 'Без увреждане', class: 'good' }; if (score < 30) return { label: 'Леко увреждане', class: 'good' }; if (score < 50) return { label: 'Умерено', class: 'moderate' }; if (score < 70) return { label: 'Сериозно', class: 'severe' }; return { label: 'Пълно увреждане', class: 'severe' }; }
+    },
+    lefs: {
+        id: 'lefs', name: 'LEFS', category: 'lower', icon: 'fa-shoe-prints', colorClass: 'lefs',
+        description: 'Lower Extremity Functional Scale — функция на долен крайник',
+        type: 'multi', scoreUnit: 'т.',
+        questions: [
+            { text: 'Обичайна работа', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Хоби и спорт', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Влизане в баня', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Ходене между стаи', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Обуване на чорапи', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Клякане', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Повдигане на тежък предмет', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Обичайни дейности вкъщи', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Ходене 1 пресечка', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] },
+            { text: 'Стълби 10 стъпала', options: [{ label: 'Без ограничение', score: 4 }, { label: 'Малко', score: 3 }, { label: 'Умерено', score: 2 }, { label: 'Доста', score: 1 }, { label: 'Не мога', score: 0 }] }
+        ],
+        calculate: (answers) => answers.reduce((a, b) => a + b, 0),
+        interpretation: (score) => { if (score >= 30) return { label: 'Нормална функция', class: 'good' }; if (score >= 20) return { label: 'Леко ограничение', class: 'good' }; if (score >= 10) return { label: 'Умерено ограничение', class: 'moderate' }; return { label: 'Сериозно ограничение', class: 'severe' }; }
+    }
 };
 
-function renderTestsModule() { $('testsLibraryView').style.display = 'block'; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.remove('active'); renderTestGrid(); renderTestHistory(); renderTestPatientDropdown(); }
-function renderTestGrid() { const grid = $('testGrid'); const filtered = Object.values(TESTS_DEFINITIONS).filter(t => currentTestCategory === 'all' || t.category === currentTestCategory); if (filtered.length === 0) { grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма тестове в тази категория</div>`; return; } grid.innerHTML = filtered.map(t => `<div class="test-card ${t.colorClass}" data-test-id="${t.id}"><div class="test-card-header"><div class="test-card-icon"><i class="fas ${t.icon}"></i></div></div><h3>${escapeHtml(t.name)}</h3><div class="test-card-sub">${escapeHtml(t.description)}</div><div class="test-card-meta"><span><i class="fas fa-tag"></i> ${getTestCategoryLabel(t.category)}</span>${t.type === 'multi' ? `<span><i class="fas fa-list-ol"></i> ${t.questions.length} въпроса</span>` : `<span><i class="fas fa-sliders-h"></i> ${t.min}--${t.max}</span>`}</div></div>`).join(''); grid.querySelectorAll('.test-card').forEach(card => { card.addEventListener('click', () => openTestForm(card.dataset.testId)); }); }
-function getTestCategoryLabel(cat) { const map = { pain: 'Болка', spine: 'Гръб', upper: 'Горен крайник', lower: 'Долен крайник', balance: 'Баланс', other: 'Друго' }; return map[cat] || cat; }
+function renderTestsModule() { 
+    $('testsLibraryView').style.display = 'block'; 
+    $('testFormContainer').classList.remove('active'); 
+    $('testResultContainer').classList.remove('active'); 
+    renderTestGrid(); 
+    renderTestHistory(); 
+    renderTestPatientDropdown(); 
+}
+function renderTestGrid() { 
+    const grid = $('testGrid'); 
+    const filtered = Object.values(TESTS_DEFINITIONS).filter(t => currentTestCategory === 'all' || t.category === currentTestCategory); 
+    if (filtered.length === 0) { grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма тестове в тази категория</div>`; return; } 
+    grid.innerHTML = filtered.map(t => `<div class="test-card ${t.colorClass}" data-test-id="${t.id}"><div class="test-card-header"><div class="test-card-icon"><i class="fas ${t.icon}"></i></div></div><h3>${escapeHtml(t.name)}</h3><div class="test-card-sub">${escapeHtml(t.description)}</div><div class="test-card-meta"><span><i class="fas fa-tag"></i> ${getTestCategoryLabel(t.category)}</span>${t.type === 'multi' ? `<span><i class="fas fa-list-ol"></i> ${t.questions.length} въпроса</span>` : `<span><i class="fas fa-sliders-h"></i> ${t.min}–${t.max}</span>`}</div></div>`).join(''); 
+    grid.querySelectorAll('.test-card').forEach(card => { card.addEventListener('click', () => openTestForm(card.dataset.testId)); }); 
+}
+function getTestCategoryLabel(cat) { const map = { pain: 'Болка', spine: 'Гръб / Кръст', upper: 'Горен крайник', lower: 'Долен крайник', balance: 'Баланс', function: 'Функция', other: 'Друго' }; return map[cat] || cat; }
 document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(tab => { tab.addEventListener('click', () => { currentTestCategory = tab.dataset.testCat; document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(t => t.classList.toggle('active', t === tab)); renderTestGrid(); }); });
 function renderTestPatientDropdown() { const sel = $('testPatient'); if (!sel) return; const active = Object.entries(patients).filter(([,p]) => !p.archived).map(([id, p]) => ({ id, name: p.name })).sort((a,b) => a.name.localeCompare(b.name)); const cur = sel.value; sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p => p.id === cur)) sel.value = cur; }
-function openTestForm(testId) { const test = TESTS_DEFINITIONS[testId]; if (!test) return; currentTestId = testId; $('testCurrentId').value = testId; $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; $('testDate').value = new Date().toISOString().split('T')[0]; const container = $('testQuestionsContainer'); if (test.type === 'numeric') { const step = test.step || 1; container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} --- ${escapeHtml(test.maxLabel)}</span></div></div>`; } else { container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); } $('testsLibraryView').style.display = 'none'; $('testResultContainer').classList.remove('active'); $('testFormContainer').classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+function openTestForm(testId) { 
+    const test = TESTS_DEFINITIONS[testId]; 
+    if (!test) return; 
+    currentTestId = testId; 
+    $('testCurrentId').value = testId; 
+    $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; 
+    $('testDate').value = new Date().toISOString().split('T')[0]; 
+    const container = $('testQuestionsContainer'); 
+    if (test.type === 'numeric') { 
+        const step = test.step || 1; 
+        container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} — ${escapeHtml(test.maxLabel)}</span></div></div>`; 
+    } else { 
+        container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); 
+        container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); 
+    } 
+    $('testsLibraryView').style.display = 'none'; 
+    $('testResultContainer').classList.remove('active'); 
+    $('testFormContainer').classList.add('active'); 
+    window.scrollTo({top: 0, behavior: 'smooth'}); 
+}
 $('backToTestsBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
 $('testCancelBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
 $('testResetBtn').addEventListener('click', () => { if (!currentTestId) return; const test = TESTS_DEFINITIONS[currentTestId]; if (!confirm('Да изчистя ли отговорите?')) return; if (test.type === 'numeric') { $('testNumericInput').value = ''; } else { $('testQuestionsContainer').querySelectorAll('.test-option').forEach(o => o.classList.remove('selected')); $('testQuestionsContainer').querySelectorAll('input[type="radio"]').forEach(i => i.checked = false); } });
-$('testForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('testPatient').value; const date = $('testDate').value; if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; } if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; } const test = TESTS_DEFINITIONS[currentTestId]; let answers = [], score = 0; if (test.type === 'numeric') { const val = parseFloat($('testNumericInput').value); if (isNaN(val) || val < test.min || val > test.max) { showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error'); return; } score = val; answers = [val]; } else { const qCount = test.questions.length; for (let i = 0; i < qCount; i++) { const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`); if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; } answers.push(parseInt(selected.dataset.score)); } score = test.calculate(answers); } $('testSaveBtn').disabled = true; try { await set(push(clinicRef('testResults')), { testId: currentTestId, testName: test.name, patientId, date, answers, score, scoreUnit: test.scoreUnit || '', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); showTestResult(test, score, patientId, date); showToast('Резултатът е запазен.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('testSaveBtn').disabled = false; } });
-function showTestResult(test, score, patientId, date) { const interp = test.interpretation ? test.interpretation(score) : { label: '---', class: '' }; const patient = patients[patientId]; const pn = patient ? patient.name : '---'; $('testResultContent').innerHTML = `<div class="test-result-card"><div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div><div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div><div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div></div><div class="apt-manage-info"><div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div><div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div><div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div></div>`; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+$('testForm').addEventListener('submit', async (e) => { 
+    e.preventDefault(); 
+    const patientId = $('testPatient').value; 
+    const date = $('testDate').value; 
+    if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; } 
+    if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; } 
+    const test = TESTS_DEFINITIONS[currentTestId]; 
+    let answers = [], score = 0; 
+    if (test.type === 'numeric') { 
+        const val = parseFloat($('testNumericInput').value); 
+        if (isNaN(val) || val < test.min || val > test.max) { showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error'); return; } 
+        score = val; answers = [val]; 
+    } else { 
+        const qCount = test.questions.length; 
+        for (let i = 0; i < qCount; i++) { 
+            const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`); 
+            if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; } 
+            answers.push(parseInt(selected.dataset.score)); 
+        } 
+        score = test.calculate(answers); 
+    } 
+    $('testSaveBtn').disabled = true; 
+    try { 
+        await set(push(clinicRef('testResults')), { testId: currentTestId, testName: test.name, patientId, date, answers, score, scoreUnit: test.scoreUnit || '', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); 
+        showTestResult(test, score, patientId, date); 
+        showToast('Резултатът е запазен.', 'success'); 
+    } catch(err) { showToast('Грешка: ' + err.message, 'error'); } 
+    finally { $('testSaveBtn').disabled = false; } 
+});
+function showTestResult(test, score, patientId, date) { 
+    const interp = test.interpretation ? test.interpretation(score) : { label: '---', class: '' }; 
+    const patient = patients[patientId]; 
+    const pn = patient ? patient.name : '---'; 
+    $('testResultContent').innerHTML = `<div class="test-result-card"><div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div><div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div><div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div></div><div class="apt-manage-info"><div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div><div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div><div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div></div>`; 
+    $('testFormContainer').classList.remove('active'); 
+    $('testResultContainer').classList.add('active'); 
+    window.scrollTo({top: 0, behavior: 'smooth'}); 
+}
 $('backToTestsFromResultBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultCloseBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultNewBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
-function renderTestHistory() { const list = $('testHistoryList'); if (!list) return; const all = Object.entries(testResults).map(([id, t]) => ({ id, ...t })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (all.length === 0) { list.innerHTML = `<div class="empty-message">Няма попълнени тестове</div>`; return; } list.innerHTML = all.slice(0, 50).map(t => { const def = TESTS_DEFINITIONS[t.testId]; const icon = def ? def.icon : 'fa-clipboard-check'; const colorClass = def ? def.colorClass : 'other'; const pat = patients[t.patientId]; const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-calendar"></i> ${formatDate(t.date)} · ${t.createdByName ? escapeHtml(t.createdByName) : ''}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div><button class="btn-danger-outline btn btn-sm delete-test-result" data-id="${t.id}"><i class="fas fa-trash-alt"></i></button></div>`; }).join(''); list.querySelectorAll('.delete-test-result').forEach(btn => { btn.addEventListener('click', async (e) => { e.stopPropagation(); if (!confirm('Изтрий този резултат?')) return; try { await remove(clinicRef(`testResults/${btn.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }); }); }
+function renderTestHistory() { 
+    const list = $('testHistoryList'); 
+    if (!list) return; 
+    let all = Object.entries(testResults).map(([id, t]) => ({ id, ...t })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
+    // Пациентът вижда само своите
+    if (currentPatient) { all = all.filter(t => t.patientId === currentPatient.id); }
+    if (all.length === 0) { list.innerHTML = `<div class="empty-message">Няма попълнени тестове</div>`; return; } 
+    list.innerHTML = all.slice(0, 50).map(t => { 
+        const def = TESTS_DEFINITIONS[t.testId]; 
+        const icon = def ? def.icon : 'fa-clipboard-check'; 
+        const colorClass = def ? def.colorClass : 'other'; 
+        const pat = patients[t.patientId]; 
+        const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; 
+        const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; 
+        const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; 
+        return `<div class="test-history-item"><div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-calendar"></i> ${formatDate(t.date)} · ${t.createdByName ? escapeHtml(t.createdByName) : ''}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div>${!currentPatient ? `<button class="btn-danger-outline btn btn-sm delete-test-result" data-id="${t.id}"><i class="fas fa-trash-alt"></i></button>` : ''}</div>`; 
+    }).join(''); 
+    list.querySelectorAll('.delete-test-result').forEach(btn => { btn.addEventListener('click', async (e) => { e.stopPropagation(); if (!confirm('Изтрий този резултат?')) return; try { await remove(clinicRef(`testResults/${btn.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }); }); 
+}
+function renderPatientTests() {
+    const container = $('portalTestsBody');
+    if (!container || !currentPatient) return;
+    const myTests = Object.entries(testResults).map(([id, t]) => ({ id, ...t })).filter(t => t.patientId === currentPatient.id).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    if (myTests.length === 0) {
+        container.innerHTML = `<div class="empty-message">Все още нямате попълнени тестове</div>`;
+        return;
+    }
+    container.innerHTML = myTests.slice(0, 30).map(t => {
+        const def = TESTS_DEFINITIONS[t.testId];
+        const icon = def ? def.icon : 'fa-clipboard-check';
+        const colorClass = def ? def.colorClass : 'other';
+        const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' };
+        const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' };
+        return `<div class="test-history-item"><div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-calendar"></i> ${formatDate(t.date)}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div></div>`;
+    }).join('');
+}
 
 // ==================== INVENTORY ====================
 const INV_CATEGORY_ICONS = { 'Ластици': 'fa-circle-notch', 'Електроди': 'fa-bolt', 'Масла': 'fa-tint', 'Ортези': 'fa-shoe-prints', 'Консумативи': 'fa-box', 'Инструменти': 'fa-tools', 'Тейпове': 'fa-tape', 'Игли': 'fa-syringe', 'Друго': 'fa-cube' };
@@ -3077,7 +3337,7 @@ $('backToPatientsBtn').addEventListener('click', () => { patientProfileModule.cl
 
 // ==================== PORTAL ====================
 function renderPortalKineziSelect() { if (!$('portalAptKinezi')) return; const k = Object.entries(users).filter(([,u])=>hasRole(u,'Кинезитерапевт')).map(([id,u])=>({id,name:u.name})).sort((a,b)=>a.name.localeCompare(b.name)); const cur = $('portalAptKinezi').value; $('portalAptKinezi').innerHTML = '<option value="">-- избери --</option>' + k.map(x=>`<option value="${x.id}">${escapeHtml(x.name)}</option>`).join(''); if (k.some(x=>x.id===cur)) $('portalAptKinezi').value = cur; }
-function renderPortal() { if (!currentPatient) return; $('portalUserName').textContent = currentPatient.name; const myId = currentPatient.id; const myApts = Object.entries(appointments).map(([id, a]) => ({ id, ...a })).filter(a => a.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myApts.length === 0) { $('portalAppointmentsBody').innerHTML = `<tr><td colspan="6" class="empty-message">Нямате часове</td></tr>`; } else { $('portalAppointmentsBody').innerHTML = myApts.map(a => { const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '---'; const status = getAptStatus(a); const s = APT_STATUSES[status] || APT_STATUSES.confirmed; const canCancel = status !== 'cancelled' && status !== 'completed' && status !== 'no_show'; return `<tr><td>${formatDate(a.date)}</td><td>${a.time || '---'}</td><td>${escapeHtml(kn)}</td><td>${escapeHtml(a.note || '---')}</td><td><span class="apt-status-badge ${s.class}"><i class="fas ${s.icon}"></i> ${s.label}</span></td><td>${canCancel ? `<button class="btn-danger-outline btn btn-sm portal-cancel-apt" data-id="${a.id}"><i class="fas fa-times"></i> Откажи</button>` : '---'}</td></tr>`; }).join(''); } const myProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myProcs.length === 0) { $('portalProceduresBody').innerHTML = `<div class="empty-message">Няма процедури</div>`; } else { $('portalProceduresBody').innerHTML = `<div class="timeline">${myProcs.map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`; } renderPortalKineziSelect(); }
+function renderPortal() { if (!currentPatient) return; $('portalUserName').textContent = currentPatient.name; const myId = currentPatient.id; const myApts = Object.entries(appointments).map(([id, a]) => ({ id, ...a })).filter(a => a.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myApts.length === 0) { $('portalAppointmentsBody').innerHTML = `<tr><td colspan="6" class="empty-message">Нямате часове</td></tr>`; } else { $('portalAppointmentsBody').innerHTML = myApts.map(a => { const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '---'; const status = getAptStatus(a); const s = APT_STATUSES[status] || APT_STATUSES.confirmed; const canCancel = status !== 'cancelled' && status !== 'completed' && status !== 'no_show'; return `<tr><td>${formatDate(a.date)}</td><td>${a.time || '---'}</td><td>${escapeHtml(kn)}</td><td>${escapeHtml(a.note || '---')}</td><td><span class="apt-status-badge ${s.class}"><i class="fas ${s.icon}"></i> ${s.label}</span></td><td>${canCancel ? `<button class="btn-danger-outline btn btn-sm portal-cancel-apt" data-id="${a.id}"><i class="fas fa-times"></i> Откажи</button>` : '---'}</td></tr>`; }).join(''); } const myProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myProcs.length === 0) { $('portalProceduresBody').innerHTML = `<div class="empty-message">Няма процедури</div>`; } else { $('portalProceduresBody').innerHTML = `<div class="timeline">${myProcs.map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`; } renderPatientTests(); renderPortalKineziSelect(); }
 $('portalAppointmentForm').addEventListener('submit', async (e) => { e.preventDefault(); if (!currentPatient) return; const kineziId = $('portalAptKinezi').value; const date = $('portalAptDate').value; const time = $('portalAptTime').value; const duration = parseInt($('portalAptDuration').value) || 60; const note = $('portalAptNote').value.trim(); if (!kineziId || !date || !time || !note) { showToast('Попълнете всички полета.', 'error'); return; } $('portalAddAptBtn').disabled = true; try { await set(push(clinicRef('appointments')), { patientId: currentPatient.id, kineziId, date, time, duration, note, status: 'pending', createdBy: currentPatient.id, createdByName: currentPatient.name, createdAt: Date.now() }); const kn = users[kineziId]?.name || ''; await createNotification(kineziId, '📅 Нова заявка за час', `${currentPatient.name} заяви час на ${formatDate(date)} в ${time}`, 'appointment'); await notifyAllStaff('📅 Нова заявка за час', `${currentPatient.name} заяви час на ${formatDate(date)} в ${time} (${kn})`, 'appointment'); $('portalAppointmentForm').reset(); showToast('Заявката е изпратена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('portalAddAptBtn').disabled = false; } });
 document.addEventListener('click', async (e) => { const b = e.target.closest('.portal-cancel-apt'); if (b) { if (!confirm('Отказване на часа?')) return; try { await update(clinicRef(`appointments/${b.dataset.id}`), { status: 'cancelled', cancelledAt: Date.now(), cancelledBy: currentPatient.id, cancelledByName: currentPatient.name, cancelReason: 'Отказан от пациент' }); showToast('Часът е отказан.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
 function renderPatientExercises() { if (!currentPatient) return; const myId = currentPatient.id; const myProgs = Object.entries(programs).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); const myShortEx = Object.entries(shortExercises).map(([id, ex]) => ({ id, ...ex })).filter(ex => ex.patientId === myId).sort((a, b) => (a.number || 0) - (b.number || 0)); let html = ''; if (myProgs.length > 0) { html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7;"><h3 style="color:#1a7a3e; font-size:1.3rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:10px;"><i class="fas fa-home"></i> Моите домашни програми</h3>`; myProgs.forEach(prog => { let exList = []; if (prog.exercises && Array.isArray(prog.exercises)) { exList = prog.exercises.map(item => { if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 }; if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null; } else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null; } }).filter(Boolean); } html += `<div class="home-program-card" style="margin-bottom:1rem;"><div class="home-program-header"><div class="title-block"><div class="home-icon"><i class="fas fa-dumbbell"></i></div><div><h3>${escapeHtml(prog.title)}</h3><div class="meta">${exList.length} упражнения · ${formatDate(toDateStr(new Date(prog.createdAt)))}</div></div></div></div>${prog.notes ? `<div style="background:#fff;padding:0.8rem 1rem;border-radius:12px;border-left:3px solid #1a7a3e;margin-bottom:1rem;color:#5a7a9a;font-size:0.9rem;">${escapeHtml(prog.notes)}</div>` : ''}<div class="home-program-exercises">${exList.map((ex, i) => `<div class="home-exercise-item"><div class="num">${i + 1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps ? 'Повторения: ' + escapeHtml(ex.reps) : ''}${ex.sets ? ' · Серии: ' + ex.sets : ''}</div></div></div>`).join('')}</div></div>`; }); html += `</div>`; } if (myShortEx.length > 0) { html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%); border: 2px solid #a5c8f0;"><h3 style="color:#1e4a78; font-size:1.3rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:10px;"><i class="fas fa-list-ul"></i> Моите упражнения</h3><div class="home-program-exercises">`; myShortEx.forEach(ex => { html += `<div class="home-exercise-item" style="border-left-color:#1e4a78;"><div class="num" style="background:#1e4a78;">${ex.number || '•'}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps ? 'Повторения: ' + escapeHtml(ex.reps) : ''}${ex.description ? ' · ' + escapeHtml(ex.description) : ''}</div></div></div>`; }); html += `</div></div>`; } const container = $('patientHomePrograms'); if (container) container.innerHTML = html; }
@@ -3123,7 +3383,6 @@ function renderInbox() {
   $('inboxList').innerHTML = inbox.map(m => { 
     const isFromAdmin = m.from === 'physiobook_admin' || m.fromType === 'admin';
     let senderName, senderAvatarClass, senderAvatarHtml;
-    
     if (isFromAdmin) {
       senderName = 'PhysioBook Admin';
       senderAvatarClass = 'background:linear-gradient(135deg, #6b3fa0, #8b5fbf);';
@@ -3134,18 +3393,15 @@ function renderInbox() {
       senderAvatarClass = '';
       senderAvatarHtml = getUserInitials(senderName);
     }
-    
     const priority = m.priority || 'normal';
     const priorityBadge = priority === 'urgent' 
       ? '<span style="background:#b22234; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">🚨 СПЕШНО</span>'
       : priority === 'important'
       ? '<span style="background:#d97706; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">⚠️ ВАЖНО</span>'
       : '';
-    
     const adminBadge = isFromAdmin 
       ? '<span style="background:#f9f5ff; color:#6b3fa0; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px; border:1px solid #c4b5fd;"><i class="fas fa-shield-alt"></i> ADMIN</span>'
       : '';
-    
     return `<div class="msg-item ${!m.read ? 'unread' : ''} ${isFromAdmin ? 'from-admin' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}">
       <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
       <div class="msg-item-header">
