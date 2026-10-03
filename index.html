@@ -76,6 +76,13 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .logout-btn { width: 100%; padding: 0.8rem 1rem; border: 1px solid #2a4b6e; border-radius: 14px; background: transparent; color: #e0edff; font-size: 0.9rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 0.8rem; }
 .logout-btn:hover { background: #b22234; border-color: #b22234; }
 .sidebar-version { text-align: center; font-size: 0.75rem; color: #6a8cb0; }
+.support-info { background: rgba(255,255,255,0.05); border-radius: 14px; padding: 0.9rem 0.8rem; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.08); text-align: center; }
+.support-info .support-title { font-size: 0.78rem; color: #a6d0ff; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.3px; }
+.support-info .support-phone { display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 700; color: #ffffff; text-decoration: none; padding: 0.35rem 0.7rem; border-radius: 10px; transition: 0.15s; margin-bottom: 0.35rem; }
+.support-info .support-phone:hover { background: rgba(255,255,255,0.1); color: #3fb8b0; }
+.support-info .support-phone i { color: #3fb8b0; font-size: 0.85rem; }
+.support-info .support-hours { font-size: 0.75rem; color: #7fb2e5; font-style: italic; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.support-info .support-hours i { font-size: 0.7rem; }
 .main { flex: 1; background-color: #f8fbfe; padding: 2rem 2.5rem; overflow-y: auto; }
 .module { display: none; animation: fade 0.2s ease; }
 .module.active { display: block; }
@@ -468,9 +475,11 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .msg-item { background: #ffffff; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; border-left: 4px solid #1e4a78; box-shadow: 0 2px 8px rgba(0,0,0,0.03); cursor: pointer; transition: 0.15s; position: relative; }
 .msg-item:hover { transform: translateX(4px); box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
 .msg-item.unread { border-left-color: #d97706; background: #fff9ee; }
+.msg-item.from-admin { border-left: 4px solid #6b3fa0 !important; background: linear-gradient(90deg, #f9f5ff 0%, #ffffff 100%); }
+.msg-item.from-admin.unread { background: linear-gradient(90deg, #f0e8ff 0%, #ffffff 100%); }
 .msg-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
-.msg-item-sender { font-weight: 700; color: #0b2b4f; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
-.msg-item-sender .msg-avatar { width: 28px; height: 28px; border-radius: 50%; background: #1e4a78; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; }
+.msg-item-sender { font-weight: 700; color: #0b2b4f; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.msg-item-sender .msg-avatar { width: 28px; height: 28px; border-radius: 50%; background: #1e4a78; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; flex-shrink: 0; }
 .msg-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
 .msg-item-preview { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .msg-item-new-badge { display: inline-block; background: #d97706; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; margin-left: 6px; }
@@ -488,7 +497,7 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .chat-header { padding: 0.9rem 1.2rem; background: #ffffff; border-bottom: 1px solid #e9eef3; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .chat-header button { background: transparent; border: none; color: #1e4a78; cursor: pointer; font-size: 1rem; padding: 0.4rem; border-radius: 8px; }
 .chat-header button:hover { background: #e8f0fe; }
-.chat-header .chat-with { font-weight: 700; color: #0b2b4f; font-size: 0.95rem; flex: 1; }
+.chat-header .chat-with { font-weight: 700; color: #0b2b4f; font-size: 0.95rem; flex: 1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .chat-header .chat-with small { font-weight: 400; color: #7f95b0; font-size: 0.78rem; margin-left: 6px; }
 .chat-header .chat-delete-btn { background: transparent; border: 1px solid #f0c0c0; color: #b22234; cursor: pointer; font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; }
 .chat-header .chat-delete-btn:hover { background: #fff5f5; border-color: #b22234; }
@@ -496,6 +505,7 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .chat-bubble { max-width: 80%; padding: 0.7rem 1rem; border-radius: 16px; font-size: 0.9rem; line-height: 1.4; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; }
 .chat-bubble.mine { align-self: flex-end; background: #1e4a78; color: #fff; border-bottom-right-radius: 4px; }
 .chat-bubble.theirs { align-self: flex-start; background: #ffffff; color: #1f3f61; border-bottom-left-radius: 4px; border: 1px solid #e9eef3; }
+.chat-bubble.theirs.from-admin { background: linear-gradient(135deg, #f9f5ff 0%, #ede9fe 100%); border: 1px solid #c4b5fd; }
 .chat-bubble .bubble-time { font-size: 0.68rem; opacity: 0.7; margin-top: 4px; display: block; text-align: right; }
 .chat-bubble .bubble-sender { font-size: 0.72rem; font-weight: 700; margin-bottom: 3px; opacity: 0.85; }
 .chat-bubble .bubble-delete { position: absolute; top: 4px; right: 4px; background: transparent; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 0.7rem; padding: 2px 4px; border-radius: 4px; opacity: 0; transition: 0.15s; }
@@ -519,10 +529,13 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .notif-item { background: #ffffff; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 10px; border-left: 4px solid #d97706; box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: 0.15s; position: relative; cursor: pointer; }
 .notif-item:hover { box-shadow: 0 4px 14px rgba(11,43,79,0.08); }
 .notif-item.read { border-left-color: #cfddee; background: #fafbfc; opacity: 0.75; }
+.notif-item.from-admin { border-left-color: #6b3fa0 !important; background: linear-gradient(90deg, #f9f5ff 0%, #ffffff 100%); }
+.notif-item.from-admin.read { background: linear-gradient(90deg, #faf8ff 0%, #ffffff 100%); opacity: 0.85; }
 .notif-item-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 5px; padding-right: 30px; }
 .notif-item-title { font-weight: 700; color: #0b2b4f; font-size: 0.92rem; display: flex; align-items: center; gap: 8px; }
 .notif-item-title i { color: #d97706; }
 .notif-item.read .notif-item-title i { color: #7f95b0; }
+.notif-item.from-admin .notif-item-title i { color: #6b3fa0; }
 .notif-item-time { font-size: 0.75rem; color: #7f95b0; white-space: nowrap; }
 .notif-item-text { color: #5a7a9a; font-size: 0.88rem; line-height: 1.4; }
 .notif-item-delete { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: #b22234; cursor: pointer; padding: 4px 6px; border-radius: 6px; opacity: 0; transition: 0.15s; font-size: 0.85rem; }
@@ -766,7 +779,6 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .vch-print-card .vch-print-code { font-family: 'Courier New', monospace; font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; background: #f9f5ff; padding: 0.8rem 1rem; border-radius: 12px; color: #6b3fa0; margin: 0.8rem 0; }
 .vch-print-card .vch-print-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: #5a7a9a; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #cfddee; }
 .vch-print-card .vch-print-note { font-size: 0.78rem; color: #7f95b0; margin-top: 1rem; font-style: italic; }
-/* PACKAGE BADGES */
 .pkg-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 .pkg-badge.start { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; border: 1px solid #7dd3fc; }
 .pkg-badge.basic { background: linear-gradient(135deg, #e8f0fe 0%, #c7dbfa 100%); color: #1e40af; border: 1px solid #93c5fd; }
@@ -791,6 +803,7 @@ body * { visibility: hidden; }
 .header-clinic-sub { display: none; }
 .header-user .user-name { display: none; }
 .messages-panel, .notif-panel { width: 100vw; }
+.support-info { display: none; }
 }
 @media (max-width: 700px) {
 .test-grid { grid-template-columns: 1fr; }
@@ -921,7 +934,12 @@ body * { visibility: hidden; }
 </nav>
 <div class="sidebar-footer">
 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
-<div class="sidebar-version">v9.2 · Subscription</div>
+<div class="support-info">
+<div class="support-title">При технически проблем:</div>
+<a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
+<div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
+</div>
+<div class="sidebar-version">v9.3 · Support</div>
 </div>
 </aside>
 
@@ -951,10 +969,12 @@ body * { visibility: hidden; }
 
 <section id="module-patients" class="module">
 <div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
+
 <div class="patient-tabs" id="patientTabs">
 <button class="patient-tab active" data-patient-tab="new"><i class="fas fa-user-plus"></i> Нов пациент</button>
 <button class="patient-tab" data-patient-tab="list"><i class="fas fa-list"></i> Списък пациенти</button>
 </div>
+
 <div class="patient-pane active" data-patient-pane="new">
 <div class="card">
 <h3><i class="fas fa-user-plus"></i> Регистрация на нов пациент</h3>
@@ -1027,6 +1047,7 @@ body * { visibility: hidden; }
 </form>
 </div>
 </div>
+
 <div class="patient-pane" data-patient-pane="list">
 <div class="filter-bar">
 <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
@@ -1038,14 +1059,19 @@ body * { visibility: hidden; }
 <div style="margin-top: 2.5rem;"><h3><i class="fas fa-archive"></i> Архив</h3></div>
 <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
 </div>
+
 </section>
 
 <section id="module-dossier" class="module">
-<div class="module-header"><h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1></div>
+<div class="module-header">
+<h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1>
+</div>
+
 <div class="doc-tabs" id="dossierTabs">
 <button class="doc-tab active" data-dossier-tab="list"><i class="fas fa-list"></i> Списък досиета</button>
 <button class="doc-tab" data-dossier-tab="new"><i class="fas fa-plus"></i> Ново / редакция досие</button>
 </div>
+
 <div class="doc-pane active" data-dossier-pane="list">
 <div class="filter-bar">
 <h3 style="margin:0;"><i class="fas fa-folder-open"></i> Съществуващи досиета</h3>
@@ -1053,11 +1079,13 @@ body * { visibility: hidden; }
 </div>
 <div id="dossierListContainer"></div>
 </div>
+
 <div class="doc-pane" data-dossier-pane="new">
 <div class="card">
 <h3 id="dossierFormTitle"><i class="fas fa-folder-plus"></i> Ново досие</h3>
 <form id="dossierForm">
 <input type="hidden" id="dossierId">
+
 <div class="patient-tabs" id="dossierSectionTabs" style="margin-bottom:1.5rem;">
 <button type="button" class="patient-tab active" data-dossier-section="patient"><i class="fas fa-user"></i> Данни</button>
 <button type="button" class="patient-tab" data-dossier-section="anamnesis"><i class="fas fa-history"></i> Анамнеза</button>
@@ -1068,9 +1096,13 @@ body * { visibility: hidden; }
 <button type="button" class="patient-tab" data-dossier-section="followup"><i class="fas fa-chart-line"></i> Проследяване</button>
 <button type="button" class="patient-tab" data-dossier-section="consent"><i class="fas fa-file-signature"></i> Съгласие</button>
 </div>
+
 <div class="dossier-section-pane active" data-dossier-section-pane="patient">
 <div class="form-section personal">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-user"></i></div><div><h4>Данни за пациента</h4><div class="sec-sub">Основни идентификационни данни</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-user"></i></div>
+<div><h4>Данни за пациента</h4><div class="sec-sub">Основни идентификационни данни</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group"><label>Пациент *</label><select id="dossierPatient" required><option value="">-- избери пациент --</option></select></div>
 <div class="form-group"><label>Име и фамилия</label><input type="text" id="dossierName" readonly class="locked"></div>
@@ -1084,9 +1116,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="anamnesis">
 <div class="form-section complaint">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-comment-medical"></i></div><div><h4>Медицинска анамнеза</h4><div class="sec-sub">История на заболяването</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-comment-medical"></i></div>
+<div><h4>Медицинска анамнеза</h4><div class="sec-sub">История на заболяването</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Основно оплакване *</label><textarea id="dossierChiefComplaint" rows="2" required></textarea></div>
 <div class="form-group"><label>От кога са симптомите</label><input type="text" id="dossierSymptomSince" placeholder="напр. от 3 месеца"></div>
@@ -1101,9 +1137,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="docs">
 <div class="form-section history">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-file-medical"></i></div><div><h4>Медицинска документация</h4><div class="sec-sub">Направления, епикризи, изследвания</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-file-medical"></i></div>
+<div><h4>Медицинска документация</h4><div class="sec-sub">Направления, епикризи, изследвания</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Диагноза и направление</label><textarea id="dossierDiagnosis" rows="2"></textarea></div>
 <div class="form-group" style="grid-column: span 2;"><label>Епикриза</label><textarea id="dossierEpicrisis" rows="2"></textarea></div>
@@ -1113,9 +1153,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="exam">
 <div class="form-section exam">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-user-md"></i></div><div><h4>Физиотерапевтичен преглед и оценка</h4><div class="sec-sub">Обективни находки</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-user-md"></i></div>
+<div><h4>Физиотерапевтичен преглед и оценка</h4><div class="sec-sub">Обективни находки</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Обхват на движение на ставите (ROM)</label><textarea id="dossierROM" rows="2"></textarea></div>
 <div class="form-group"><label>Мускулна сила</label><textarea id="dossierMuscleStrength" rows="2"></textarea></div>
@@ -1129,9 +1173,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="assessment">
 <div class="form-section initial">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-clipboard-check"></i></div><div><h4>Физиотерапевтична оценка / заключение</h4><div class="sec-sub">Обобщение и цели</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-clipboard-check"></i></div>
+<div><h4>Физиотерапевтична оценка / заключение</h4><div class="sec-sub">Обобщение и цели</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Основни установени функционални нарушения</label><textarea id="dossierFunctionalIssues" rows="3"></textarea></div>
 <div class="form-group" style="grid-column: span 2;"><label>Как те ограничават пациента в ежедневието</label><textarea id="dossierDailyLimitations" rows="3"></textarea></div>
@@ -1139,9 +1187,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="plan">
 <div class="form-section plan">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-notes-medical"></i></div><div><h4>План за лечение</h4><div class="sec-sub">Терапевтични интервенции</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-notes-medical"></i></div>
+<div><h4>План за лечение</h4><div class="sec-sub">Терапевтични интервенции</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Лечебна гимнастика / упражнения за сила и мобилност</label><textarea id="dossierTherapeuticExercise" rows="3"></textarea></div>
 <div class="form-group"><label>Мануална терапия</label><textarea id="dossierManualTherapy" rows="2"></textarea></div>
@@ -1153,9 +1205,13 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="followup">
 <div class="form-section working">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-chart-line"></i></div><div><h4>Проследяване на резултатите</h4><div class="sec-sub">Динамика и напредък</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-chart-line"></i></div>
+<div><h4>Проследяване на резултатите</h4><div class="sec-sub">Динамика и напредък</div></div>
+</div>
 <div class="form-grid">
 <div class="form-group" style="grid-column: span 2;"><label>Промяна в болката</label><textarea id="dossierPainChange" rows="2"></textarea></div>
 <div class="form-group" style="grid-column: span 2;"><label>Промяна в движенията и силата</label><textarea id="dossierMovementChange" rows="2"></textarea></div>
@@ -1165,12 +1221,26 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div class="dossier-section-pane" data-dossier-section-pane="consent">
 <div class="form-section allergies">
-<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-file-signature"></i></div><div><h4>Информирано съгласие и административни документи</h4><div class="sec-sub">Съгласия и подписи</div></div></div>
+<div class="form-section-header">
+<div class="form-section-icon"><i class="fas fa-file-signature"></i></div>
+<div><h4>Информирано съгласие и административни документи</h4><div class="sec-sub">Съгласия и подписи</div></div>
+</div>
 <div class="form-grid">
-<div class="form-group" style="grid-column: span 2;"><label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;"><input type="checkbox" id="dossierConsentTherapy"><span>Пациентът е информиран и дава съгласие за терапията</span></label></div>
-<div class="form-group" style="grid-column: span 2;"><label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;"><input type="checkbox" id="dossierConsentGDPR"><span>Съгласие за обработка на лични данни (GDPR)</span></label></div>
+<div class="form-group" style="grid-column: span 2;">
+<label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;">
+<input type="checkbox" id="dossierConsentTherapy">
+<span>Пациентът е информиран и дава съгласие за терапията</span>
+</label>
+</div>
+<div class="form-group" style="grid-column: span 2;">
+<label style="display:flex; align-items:center; gap:8px; padding:0.7rem; background:#f8fbfe; border-radius:10px; border:1px solid #cfddee; cursor:pointer;">
+<input type="checkbox" id="dossierConsentGDPR">
+<span>Съгласие за обработка на лични данни (GDPR)</span>
+</label>
+</div>
 <div class="form-group"><label>Име на пациента (подпис)</label><input type="text" id="dossierPatientSignature"></div>
 <div class="form-group"><label>Дата на подпис (пациент)</label><input type="date" id="dossierPatientSignatureDate"></div>
 <div class="form-group"><label>Име на терапевта</label><input type="text" id="dossierTherapistName" readonly class="locked"></div>
@@ -1179,6 +1249,7 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
+
 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:1.5rem; flex-wrap:wrap;">
 <button type="button" class="btn-outline btn" id="dossierCancelBtn"><i class="fas fa-times"></i> Отказ</button>
 <button type="submit" class="btn btn-success" id="dossierSaveBtn"><i class="fas fa-save"></i> Запази досието</button>
@@ -1189,7 +1260,10 @@ body * { visibility: hidden; }
 </section>
 
 <section id="module-schedule" class="module">
-<div class="module-header"><h1><i class="fas fa-calendar-alt"></i> График</h1></div>
+<div class="module-header">
+<h1><i class="fas fa-calendar-alt"></i> График</h1>
+</div>
+
 <div class="schedule-view-tabs">
 <button class="schedule-view-tab" data-view="day"><i class="fas fa-calendar-day"></i> Ден</button>
 <button class="schedule-view-tab active" data-view="week"><i class="fas fa-calendar-week"></i> Седмица</button>
@@ -1199,6 +1273,7 @@ body * { visibility: hidden; }
 <button class="btn btn-outline btn-sm" id="addVacationBtn"><i class="fas fa-umbrella-beach"></i> Почивка</button>
 <button class="btn btn-outline btn-sm" id="openWorkingHoursBtn"><i class="fas fa-clock"></i> Работно време</button>
 </div>
+
 <div class="schedule-legend">
 <div class="schedule-legend-group">
 <span class="legend-title">По статус:</span>
@@ -1216,6 +1291,7 @@ body * { visibility: hidden; }
 <button class="btn-outline btn btn-sm" id="legendColorModeBtn2" data-mode="therapist"><i class="fas fa-user-md"></i> По терапевт</button>
 </div>
 </div>
+
 <div class="card">
 <h3><i class="fas fa-plus-circle"></i> Нов час</h3>
 <form id="appointmentForm" class="form-grid">
@@ -1242,6 +1318,7 @@ body * { visibility: hidden; }
 <div class="form-group" style="justify-content: end; grid-column: span 2;"><button type="submit" class="btn" id="addAppointmentBtn"><i class="fas fa-save"></i> Запази</button></div>
 </form>
 </div>
+
 <div class="schedule-controls">
 <div class="week-nav">
 <button id="prevPeriodBtn"><i class="fas fa-chevron-left"></i></button>
@@ -1255,9 +1332,11 @@ body * { visibility: hidden; }
 <button class="btn-outline btn btn-sm" id="todayBtn"><i class="fas fa-calendar-day"></i> Днес</button>
 </div>
 </div>
+
 <div id="weekGrid" class="week-grid"></div>
 <div id="monthGrid" class="month-grid" style="display:none;"></div>
 <div id="dayGrid" class="day-view-grid" style="display:none;"></div>
+
 </section>
 
 <section id="module-procedures" class="module">
@@ -1277,7 +1356,9 @@ body * { visibility: hidden; }
 </section>
 
 <section id="module-tests" class="module">
-<div class="module-header"><h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1></div>
+<div class="module-header">
+<h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1>
+</div>
 <div id="testsLibraryView">
 <div class="test-category-tabs" id="testCategoryTabs">
 <button class="test-category-tab active" data-test-cat="all"><i class="fas fa-th-large"></i> Всички</button>
@@ -1998,7 +2079,6 @@ body * { visibility: hidden; }
 </div>
 </div>
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -3006,7 +3086,21 @@ function renderPatientExercises() { if (!currentPatient) return; const myId = cu
 $('headerNotifBtn').addEventListener('click', () => { $('notifPanel').classList.toggle('open'); $('messagesPanel').classList.remove('open'); });
 $('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
 function updateNotificationsBadge() { if (!currentUser) return; const myId = currentUser.id; const unread = Object.values(notifications).filter(n => n.userId === myId && !n.read).length; if (unread > 0) { $('notificationsBadge').textContent = unread; $('notificationsBadge').style.display = 'flex'; } else { $('notificationsBadge').style.display = 'none'; } }
-function renderNotifications() { if (!currentUser) return; const myId = currentUser.id; const all = Object.entries(notifications).map(([id, n]) => ({ id, ...n })).filter(n => n.userId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (all.length === 0) { $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`; return; } $('notifList').innerHTML = all.map(n => { const iconMap = {'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','inventory':'fa-boxes','voucher':'fa-ticket-alt','default':'fa-bell'}; const icon = iconMap[n.type] || iconMap['default']; return `<div class="notif-item ${n.read ? 'read' : ''}" data-notif-id="${n.id}"><button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="notif-item-header"><div class="notif-item-title"><i class="fas ${icon}"></i> ${escapeHtml(n.title || 'Известие')}</div><div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div></div><div class="notif-item-text">${escapeHtml(n.text || '')}</div></div>`; }).join(''); }
+function renderNotifications() { 
+  if (!currentUser) return; 
+  const myId = currentUser.id; 
+  const all = Object.entries(notifications).map(([id, n]) => ({ id, ...n })).filter(n => n.userId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
+  if (all.length === 0) { 
+    $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`; 
+    return; 
+  } 
+  $('notifList').innerHTML = all.map(n => { 
+    const iconMap = {'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','inventory':'fa-boxes','voucher':'fa-ticket-alt','default':'fa-bell'}; 
+    const icon = iconMap[n.type] || iconMap['default']; 
+    const isFromAdmin = n.broadcastId || n.priority;
+    return `<div class="notif-item ${n.read ? 'read' : ''} ${isFromAdmin ? 'from-admin' : ''}" data-notif-id="${n.id}"><button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="notif-item-header"><div class="notif-item-title"><i class="fas ${icon}"></i> ${escapeHtml(n.title || 'Известие')}</div><div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div></div><div class="notif-item-text">${escapeHtml(n.text || '')}</div></div>`; 
+  }).join(''); 
+}
 $('notifList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.notif-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.notifId; try { await remove(clinicRef(`notifications/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.notif-item'); if (item) { const id = item.dataset.notifId; try { await update(clinicRef(`notifications/${id}`), { read: true }); } catch(err) { console.error(err); } } });
 $('notifMarkAllBtn').addEventListener('click', async () => { if (!currentUser) return; const myId = currentUser.id; const updates = {}; Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true; }); if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; } try { await update(clinicRef(), updates); showToast('Всички са маркирани.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
 $('notifClearAllBtn').addEventListener('click', async () => { if (!currentUser) return; if (!confirm('Да изтрия ли всички известия?')) return; const myId = currentUser.id; const updates = {}; Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId) updates[`notifications/${id}`] = null; }); if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; } try { await update(clinicRef(), updates); showToast('Всички са изтрити.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
@@ -3018,12 +3112,93 @@ document.querySelectorAll('.msg-tab').forEach(tab=>{ tab.addEventListener('click
 function updateMessagesBadge() { if (!currentUser) return; const myId = currentUser.id; const unread = Object.values(messages).filter(m => m.to === myId && !m.read).length; if (unread > 0) { $('messagesBadge').textContent = unread; $('messagesBadge').style.display = 'flex'; } else { $('messagesBadge').style.display = 'none'; } }
 function renderMessageRecipients() { const sel = $('msgRecipient'); if (!sel) return; const staff = Object.entries(users).filter(([id]) => !currentUser || id !== currentUser.id).map(([id, u]) => ({ id, name: u.name, type: 'staff' })); const pats = Object.entries(patients).filter(([, p]) => !p.archived).map(([id, p]) => ({ id, name: p.name, type: 'patient' })); const cur = sel.value; sel.innerHTML = '<option value="">-- избери получател --</option>'; if (staff.length > 0) { const g = document.createElement('optgroup'); g.label = 'Служители'; staff.forEach(s => { const o = document.createElement('option'); o.value = 'staff:' + s.id; o.textContent = s.name; g.appendChild(o); }); sel.appendChild(g); } if (pats.length > 0) { const g = document.createElement('optgroup'); g.label = 'Пациенти'; pats.forEach(p => { const o = document.createElement('option'); o.value = 'patient:' + p.id; o.textContent = p.name; g.appendChild(o); }); sel.appendChild(g); } if (cur) sel.value = cur; }
 function getRecipientInfo(value) { if (!value) return null; const [type, id] = value.split(':'); if (type === 'staff' && users[id]) return { id, name: users[id].name, type: 'staff' }; if (type === 'patient' && patients[id]) return { id, name: patients[id].name, type: 'patient' }; return null; }
-function renderInbox() { if (!currentUser) return; const myId = currentUser.id; const inbox = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.to === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (inbox.length === 0) { $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`; return; } $('inboxList').innerHTML = inbox.map(m => { const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from]; const senderName = sender ? sender.name : 'Неизвестен'; return `<div class="msg-item ${!m.read ? 'unread' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}"><button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="msg-item-header"><div class="msg-item-sender"><div class="msg-avatar">${getUserInitials(senderName)}</div>${escapeHtml(senderName)}${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}</div><div class="msg-item-time">${formatTimestamp(m.createdAt)}</div></div>${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}<div class="msg-item-preview">${escapeHtml(m.text)}</div></div>`; }).join(''); }
+function renderInbox() { 
+  if (!currentUser) return; 
+  const myId = currentUser.id; 
+  const inbox = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.to === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
+  if (inbox.length === 0) { 
+    $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`; 
+    return; 
+  } 
+  $('inboxList').innerHTML = inbox.map(m => { 
+    const isFromAdmin = m.from === 'physiobook_admin' || m.fromType === 'admin';
+    let senderName, senderAvatarClass, senderAvatarHtml;
+    
+    if (isFromAdmin) {
+      senderName = 'PhysioBook Admin';
+      senderAvatarClass = 'background:linear-gradient(135deg, #6b3fa0, #8b5fbf);';
+      senderAvatarHtml = '<i class="fas fa-shield-alt" style="font-size:0.75rem;"></i>';
+    } else {
+      const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from]; 
+      senderName = sender ? sender.name : 'Неизвестен';
+      senderAvatarClass = '';
+      senderAvatarHtml = getUserInitials(senderName);
+    }
+    
+    const priority = m.priority || 'normal';
+    const priorityBadge = priority === 'urgent' 
+      ? '<span style="background:#b22234; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">🚨 СПЕШНО</span>'
+      : priority === 'important'
+      ? '<span style="background:#d97706; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">⚠️ ВАЖНО</span>'
+      : '';
+    
+    const adminBadge = isFromAdmin 
+      ? '<span style="background:#f9f5ff; color:#6b3fa0; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px; border:1px solid #c4b5fd;"><i class="fas fa-shield-alt"></i> ADMIN</span>'
+      : '';
+    
+    return `<div class="msg-item ${!m.read ? 'unread' : ''} ${isFromAdmin ? 'from-admin' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}">
+      <button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>
+      <div class="msg-item-header">
+        <div class="msg-item-sender">
+          <div class="msg-avatar" style="${senderAvatarClass}">${senderAvatarHtml}</div>
+          ${escapeHtml(senderName)}${adminBadge}${priorityBadge}${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}
+        </div>
+        <div class="msg-item-time">${formatTimestamp(m.createdAt)}</div>
+      </div>
+      ${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}
+      <div class="msg-item-preview">${escapeHtml(m.text)}</div>
+    </div>`; 
+  }).join(''); 
+}
 function renderSent() { if (!currentUser) return; const myId = currentUser.id; const sent = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.from === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (sent.length === 0) { $('sentList').innerHTML = `<div class="msg-empty"><i class="fas fa-paper-plane"></i>Нямате изпратени съобщения</div>`; return; } $('sentList').innerHTML = sent.map(m => { const recipient = m.toType === 'staff' ? users[m.to] : patients[m.to]; const recipientName = recipient ? recipient.name : 'Неизвестен'; return `<div class="msg-item" data-msg-id="${m.id}" data-to-id="${m.to}" data-to-type="${m.toType}"><button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="msg-item-header"><div class="msg-item-sender"><div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>До: ${escapeHtml(recipientName)}</div><div class="msg-item-time">${formatTimestamp(m.createdAt)}</div></div>${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}<div class="msg-item-preview">${escapeHtml(m.text)}</div></div>`; }).join(''); }
 $('inboxList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.msg-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.msg-item'); if (!item) return; const fromId = item.dataset.fromId; const fromType = item.dataset.fromType; const myId = currentUser.id; const updates = {}; Object.entries(messages).forEach(([id, m]) => { if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true; }); if (Object.keys(updates).length > 0) { try { await update(clinicRef(), updates); } catch(err) { console.error(err); } } openChat(fromId, fromType); });
 $('sentList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.msg-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.msg-item'); if (!item) return; openChat(item.dataset.toId, item.dataset.toType); });
-function openChat(userId, userType) { currentChatUserId = { id: userId, type: userType }; const name = userType === 'staff' ? (users[userId]?.name || '---') : (patients[userId]?.name || '---'); $('chatWithName').innerHTML = `${escapeHtml(name)} <small>${userType === 'staff' ? '(служител)' : '(пациент)'}</small>`; $('chatView').classList.add('active'); document.querySelectorAll('.msg-pane').forEach(p => p.classList.remove('active')); renderChat(); setTimeout(() => $('chatInput').focus(), 100); }
-function renderChat() { if (!currentChatUserId || !currentUser) return; const myId = currentUser.id; const otherId = currentChatUserId.id; const chatMsgs = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); if (chatMsgs.length === 0) { $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения. Започнете разговор!</div>`; return; } $('chatBody').innerHTML = chatMsgs.map(m => { const isMine = m.from === myId; return `<div class="chat-bubble ${isMine ? 'mine' : 'theirs'}" data-msg-id="${m.id}">${isMine ? `<button class="bubble-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>` : ''}${!isMine ? `<div class="bubble-sender">${escapeHtml(m.fromType === 'staff' ? (users[m.from]?.name || '') : (patients[m.from]?.name || ''))}</div>` : ''}${m.subject ? `<div style="font-weight:700; font-size:0.78rem; opacity:0.9; margin-bottom:3px;"><i class="fas fa-tag"></i> ${escapeHtml(m.subject)}</div>` : ''}${escapeHtml(m.text)}<span class="bubble-time">${formatTimeShort(m.createdAt)}</span></div>`; }).join(''); setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50); }
+function openChat(userId, userType) { 
+  currentChatUserId = { id: userId, type: userType }; 
+  const isAdmin = userId === 'physiobook_admin' || userType === 'admin';
+  const name = isAdmin 
+    ? 'PhysioBook Admin' 
+    : (userType === 'staff' ? (users[userId]?.name || '---') : (patients[userId]?.name || '---')); 
+  const subtitle = isAdmin 
+    ? '<small style="color:#6b3fa0; background:#f9f5ff; padding:2px 8px; border-radius:8px; border:1px solid #c4b5fd;"><i class="fas fa-shield-alt"></i> Официално съобщение</small>' 
+    : `<small>${userType === 'staff' ? '(служител)' : '(пациент)'}</small>`;
+  $('chatWithName').innerHTML = `${escapeHtml(name)} ${subtitle}`; 
+  $('chatView').classList.add('active'); 
+  document.querySelectorAll('.msg-pane').forEach(p => p.classList.remove('active')); 
+  renderChat(); 
+  setTimeout(() => $('chatInput').focus(), 100); 
+}
+function renderChat() { 
+  if (!currentChatUserId || !currentUser) return; 
+  const myId = currentUser.id; 
+  const otherId = currentChatUserId.id; 
+  const chatMsgs = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); 
+  if (chatMsgs.length === 0) { 
+    $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения. Започнете разговор!</div>`; 
+    return; 
+  } 
+  $('chatBody').innerHTML = chatMsgs.map(m => { 
+    const isMine = m.from === myId; 
+    const isFromAdmin = m.from === 'physiobook_admin' || m.fromType === 'admin';
+    const bubbleClass = isMine ? 'mine' : (isFromAdmin ? 'theirs from-admin' : 'theirs');
+    return `<div class="chat-bubble ${bubbleClass}" data-msg-id="${m.id}">${isMine ? `<button class="bubble-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>` : ''}${!isMine ? `<div class="bubble-sender">${escapeHtml(
+      isFromAdmin 
+        ? '🛡️ PhysioBook Admin' 
+        : (m.fromType === 'staff' ? (users[m.from]?.name || '') : (patients[m.from]?.name || ''))
+    )}</div>` : ''}${m.subject ? `<div style="font-weight:700; font-size:0.78rem; opacity:0.9; margin-bottom:3px;"><i class="fas fa-tag"></i> ${escapeHtml(m.subject)}</div>` : ''}${escapeHtml(m.text)}<span class="bubble-time">${formatTimeShort(m.createdAt)}</span></div>`; 
+  }).join(''); 
+  setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50); 
+}
 $('chatBody').addEventListener('click', async (e) => { const delBtn = e.target.closest('.bubble-delete'); if (delBtn) { e.stopPropagation(); if (!confirm('Изтрий това съобщение?')) return; try { await remove(clinicRef(`messages/${delBtn.dataset.msgId}`)); showToast('Изтрито.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
 $('chatBackBtn').addEventListener('click', () => { $('chatView').classList.remove('active'); currentChatUserId = null; document.querySelectorAll('.msg-pane').forEach(p => p.classList.toggle('active', p.dataset.msgPane === 'inbox')); document.querySelectorAll('.msg-tab').forEach(t => t.classList.toggle('active', t.dataset.msgTab === 'inbox')); });
 $('chatDeleteBtn').addEventListener('click', async () => { if (!currentChatUserId || !currentUser) return; if (!confirm('Изтрий ЦЯЛАТА кореспонденция с този потребител?')) return; const myId = currentUser.id; const otherId = currentChatUserId.id; const updates = {}; Object.entries(messages).forEach(([id, m]) => { if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null; }); if (Object.keys(updates).length === 0) { showToast('Няма съобщения.', 'info'); return; } try { await update(clinicRef(), updates); showToast('Кореспонденцията е изтрита.', 'success'); $('chatView').classList.remove('active'); currentChatUserId = null; } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
