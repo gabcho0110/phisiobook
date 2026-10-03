@@ -187,50 +187,20 @@
         .upgrade-request-card.completed { border-left-color: #1a7a3e; background: #f0f9f1; opacity: 0.85; }
         .upgrade-request-card.cancelled { border-left-color: #7f7f7f; background: #f5f5f5; opacity: 0.7; }
 
-        /* BROADCAST TARGET SELECTOR */
-        .target-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0.9rem 1rem;
-            border: 2px solid #cfddee;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: 0.15s;
-            background: #f8fbfe;
-            user-select: none;
-        }
+        /* BROADCAST */
+        .target-option { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1rem; border: 2px solid #cfddee; border-radius: 14px; cursor: pointer; transition: 0.15s; background: #f8fbfe; user-select: none; }
         .target-option:hover { border-color: #1e4a78; background: #f5f9ff; }
         .target-option.selected { border-color: #0891b2; background: #ecfeff; box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
         .target-option input[type="radio"] { display: none; }
-        .target-option .target-icon {
-            width: 42px; height: 42px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.15rem; flex-shrink: 0;
-        }
+        .target-option .target-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
         .target-option .target-info { flex: 1; min-width: 0; }
         .target-option .target-title { font-weight: 700; color: #0b2b4f; font-size: 0.9rem; margin-bottom: 2px; }
         .target-option .target-desc { font-size: 0.75rem; color: #7f95b0; }
-
-        .broadcast-history-item {
-            background: #f8fbfe;
-            border-radius: 14px;
-            padding: 1.1rem 1.3rem;
-            margin-bottom: 10px;
-            border-left: 4px solid #0891b2;
-        }
+        .broadcast-history-item { background: #f8fbfe; border-radius: 14px; padding: 1.1rem 1.3rem; margin-bottom: 10px; border-left: 4px solid #0891b2; }
         .broadcast-history-item.important { border-left-color: #d97706; background: #fffbf0; }
         .broadcast-history-item.urgent { border-left-color: #b22234; background: #fff5f5; }
-
-        .broadcast-history-header {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 12px; margin-bottom: 0.6rem; flex-wrap: wrap;
-        }
-        .broadcast-history-target {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 0.25rem 0.7rem; border-radius: 8px;
-            font-size: 0.75rem; font-weight: 700;
-        }
+        .broadcast-history-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 0.6rem; flex-wrap: wrap; }
+        .broadcast-history-target { display: inline-flex; align-items: center; gap: 6px; padding: 0.25rem 0.7rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
         .broadcast-history-target.all { background: #fef3c7; color: #b45309; }
         .broadcast-history-target.clinic { background: #e8f0fe; color: #1e4a78; }
         .broadcast-history-target.user { background: #f0e8ff; color: #6b3fa0; }
@@ -332,9 +302,7 @@
             <main class="main">
 
                 <section class="module active" id="module-dashboard">
-                    <div class="module-header">
-                        <h1><i class="fas fa-chart-pie"></i> Табло</h1>
-                    </div>
+                    <div class="module-header"><h1><i class="fas fa-chart-pie"></i> Табло</h1></div>
                     <div class="stats-grid" id="statsGrid"></div>
                     <div class="card">
                         <h3><i class="fas fa-hospital"></i> Всички клиники</h3>
@@ -347,13 +315,11 @@
                         <h1><i class="fas fa-hospital"></i> Клиники</h1>
                         <button class="btn" id="addClinicBtn"><i class="fas fa-plus"></i> Нова клиника</button>
                     </div>
-
                     <div class="search-bar">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" id="clinicSearchInput" placeholder="Търси клиника по име, телефон или код...">
                         <span class="result-count" id="clinicSearchCount">0 клиники</span>
                     </div>
-
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -371,9 +337,7 @@
                 </section>
 
                 <section class="module" id="module-modules">
-                    <div class="module-header">
-                        <h1><i class="fas fa-th-large"></i> Модули по клиники</h1>
-                    </div>
+                    <div class="module-header"><h1><i class="fas fa-th-large"></i> Модули по клиники</h1></div>
                     <div class="card">
                         <h3><i class="fas fa-hospital"></i> Изберете клиника</h3>
                         <select id="modulesClinicSelect" style="width:100%; max-width:400px; padding:0.85rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; font-weight:600; color:#0b2b4f;">
@@ -384,7 +348,7 @@
                         <h3><i class="fas fa-toggle-on"></i> Включени модули</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">
                             Кликнете върху модул, за да го включите или изключите. 
-                            <strong style="color:#6b3fa0;">Абонаментът на клиниката определя началния набор модули.</strong>
+                            <strong style="color:#6b3fa0;">Модулите "Настройки" и "Портал" винаги са включени.</strong>
                         </p>
                         <div style="background:#f9f5ff; padding:0.8rem 1rem; border-radius:12px; border-left:4px solid #6b3fa0; margin-bottom:1rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                             <span style="font-size:0.85rem; color:#5b21b6; font-weight:600;"><i class="fas fa-box"></i> Текущ пакет:</span>
@@ -394,15 +358,13 @@
                         <div style="margin-top:1.5rem; display:flex; gap:10px; flex-wrap:wrap;">
                             <button class="btn btn-outline btn-sm" id="applyPackageModulesBtn" style="border-color:#6b3fa0; color:#6b3fa0;"><i class="fas fa-sync-alt"></i> Приложи модулите от пакета</button>
                             <button class="btn btn-outline btn-sm" id="enableAllModulesBtn"><i class="fas fa-check-double"></i> Включи всички</button>
-                            <button class="btn btn-outline btn-sm" id="disableAllModulesBtn"><i class="fas fa-times"></i> Изключи всички (без Настройки)</button>
+                            <button class="btn btn-outline btn-sm" id="disableAllModulesBtn"><i class="fas fa-times"></i> Изключи всички (без задължителните)</button>
                         </div>
                     </div>
                 </section>
 
                 <section class="module" id="module-upgrades">
-                    <div class="module-header">
-                        <h1><i class="fas fa-arrow-up"></i> Заявки за надграждане на абонамент</h1>
-                    </div>
+                    <div class="module-header"><h1><i class="fas fa-arrow-up"></i> Заявки за надграждане на абонамент</h1></div>
                     <div class="card" style="border-left:4px solid #d97706;">
                         <p style="color:#7f95b0; font-size:0.9rem; margin:0;">
                             <i class="fas fa-info-circle" style="color:#d97706;"></i> 
@@ -414,10 +376,7 @@
                 </section>
 
                 <section class="module" id="module-broadcast">
-                    <div class="module-header">
-                        <h1><i class="fas fa-bullhorn"></i> Съобщения до клиники</h1>
-                    </div>
-
+                    <div class="module-header"><h1><i class="fas fa-bullhorn"></i> Съобщения до клиники</h1></div>
                     <div class="card" style="border-left:4px solid #0891b2;">
                         <p style="color:#7f95b0; font-size:0.9rem; margin:0;">
                             <i class="fas fa-info-circle" style="color:#0891b2;"></i> 
@@ -425,7 +384,6 @@
                             Съобщенията ще се появят в секцията "Съобщения" (иконата ✉️) на съответните получатели.
                         </p>
                     </div>
-
                     <div class="card">
                         <h3><i class="fas fa-paper-plane"></i> Ново съобщение</h3>
                         <form id="broadcastForm">
@@ -458,14 +416,12 @@
                                     </label>
                                 </div>
                             </div>
-
                             <div class="form-group" id="broadcastClinicGroup" style="margin-bottom:1.2rem; display:none;">
                                 <label>Избери клиника *</label>
                                 <select id="broadcastClinicSelect" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
                                     <option value="">-- избери клиника --</option>
                                 </select>
                             </div>
-
                             <div class="form-group" id="broadcastUserGroup" style="margin-bottom:1.2rem; display:none;">
                                 <label>Избери потребител *</label>
                                 <select id="broadcastUserSelect" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
@@ -473,7 +429,6 @@
                                 </select>
                                 <div class="hint">Изберете клиника, за да се заредят потребителите.</div>
                             </div>
-
                             <div class="form-group" style="margin-bottom:1.2rem;">
                                 <label>Приоритет</label>
                                 <select id="broadcastPriority" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
@@ -482,25 +437,21 @@
                                     <option value="urgent">🚨 Спешно</option>
                                 </select>
                             </div>
-
                             <div class="form-group" style="margin-bottom:1.2rem;">
                                 <label>Относно (заглавие)</label>
                                 <input type="text" id="broadcastSubject" placeholder="напр. Нова версия / Планирана поддръжка" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
                             </div>
-
                             <div class="form-group" style="margin-bottom:1.5rem;">
                                 <label>Съобщение *</label>
                                 <textarea id="broadcastText" required placeholder="Напишете вашето съобщение..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe; min-height:140px; resize:vertical;"></textarea>
                                 <div class="hint">Може да използвате нови редове за по-добра четимост.</div>
                             </div>
-
                             <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
                                 <button type="button" class="btn-outline btn" id="broadcastClearBtn"><i class="fas fa-times"></i> Изчисти</button>
                                 <button type="submit" class="btn" id="broadcastSendBtn" style="background:#0891b2;"><i class="fas fa-paper-plane"></i> Изпрати</button>
                             </div>
                         </form>
                     </div>
-
                     <div class="card">
                         <h3><i class="fas fa-history"></i> История на изпратените съобщения</h3>
                         <div id="broadcastHistoryList"></div>
@@ -535,17 +486,13 @@
                 </section>
 
                 <section class="module" id="module-settings">
-                    <div class="module-header">
-                        <h1><i class="fas fa-cog"></i> Настройки</h1>
-                    </div>
-
+                    <div class="module-header"><h1><i class="fas fa-cog"></i> Настройки</h1></div>
                     <div class="card" style="border-left:4px solid #6b3fa0;">
                         <h3 style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Защитен профил</h3>
                         <p style="color:#7f95b0; font-size:0.9rem;">
                             Профилът <strong>"PhysioBook Admin"</strong> е защитен — не може да се редактира или изтрива.
                         </p>
                     </div>
-
                     <div class="card" style="border-left:4px solid #d97706;">
                         <h3 style="color:#d97706;"><i class="fas fa-user-shield"></i> Поправка на роли на PhysioBook Admin</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">
@@ -554,16 +501,14 @@
                         </p>
                         <button class="btn" id="fixAdminRolesBtn" style="background:#d97706;"><i class="fas fa-wrench"></i> Поправи ролите на всички PhysioBook Admin</button>
                     </div>
-
                     <div class="card" style="border-left:4px solid #b22234;">
                         <h3 style="color:#b22234;"><i class="fas fa-tools"></i> Възстановяване на достъп</h3>
                         <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Натисни бутона, за да пресъздадеш защитения профил <strong>PhysioBook Admin</strong> с код <strong>123456</strong>.</p>
                         <button class="btn-danger-outline btn" id="resetProtectedAdminBtn"><i class="fas fa-redo"></i> Възстанови PhysioBook Admin (123456)</button>
                     </div>
-
                     <div class="card" style="border-left:4px solid #0891b2;">
                         <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
-                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули към всички съществуващи клиники.</p>
+                        <p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Добавя новите модули към всички съществуващи клиники и заключва "Портал" като задължителен.</p>
                         <button class="btn" id="migrateModulesBtn" style="background:#0891b2;"><i class="fas fa-play"></i> Стартирай миграция</button>
                     </div>
                 </section>
@@ -589,7 +534,6 @@
                         <label>Подзаглавие / Слоган</label>
                         <input type="text" id="clinicSub" placeholder="напр. Медицински център">
                     </div>
-
                     <div class="form-group" style="grid-column: span 2;">
                         <label><i class="fas fa-box" style="color:#6b3fa0;"></i> Абонаментен пакет *</label>
                         <div class="pkg-selector" id="pkgSelector">
@@ -612,18 +556,16 @@
                                 <div class="pkg-modules-count">11 модула</div>
                             </div>
                         </div>
-                        <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. Можеш да ги промениш допълнително от "Модули".</div>
+                        <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. "Портал" винаги е включен.</div>
                     </div>
-
                     <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
                         <label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
                         <input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
-                        <div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката. Ролята му е <strong>САМО Администратор</strong>.</div>
+                        <div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката.</div>
                     </div>
                     <div class="form-group">
                         <label>Телефон на клиниката</label>
                         <input type="text" id="clinicPhone" placeholder="напр. 0888123456">
-                        <div class="hint">Този телефон ще вижда клиниката в портала си за връзка при надграждане.</div>
                     </div>
                     <div class="form-group">
                         <label>Имейл на клиниката</label>
@@ -687,46 +629,35 @@
         const db = getDatabase(app);
 
         // ==================== MODULES ====================
+        // locked: true означава, че модулът НЕ МОЖЕ да бъде изключен от никого.
+        // settings (Настройки) и portal (Портал) винаги са заключени.
         const MODULES = [
             { id: 'dashboard',     name: 'Табло',            icon: 'fa-chart-pie',       desc: 'Основно табло',                                     locked: false },
             { id: 'patients',      name: 'Пациенти',         icon: 'fa-users',           desc: 'Управление на пациенти',                            locked: false },
             { id: 'dossier',       name: 'Досиета',          icon: 'fa-folder-open',     desc: 'Пълни досиета на пациенти',                         locked: false },
             { id: 'schedule',      name: 'График',           icon: 'fa-calendar-alt',    desc: 'Календар и часове',                                 locked: false },
             { id: 'procedures',    name: 'Процедури',        icon: 'fa-stethoscope',     desc: 'Запис на процедури',                                locked: false },
-            { id: 'tests',         name: 'Тестове и скали',  icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg',              locked: false },
+            { id: 'tests',         name: 'Тестове и скали',  icon: 'fa-clipboard-check', desc: 'VAS/NRS, Oswestry, DASH, WOMAC, Berg, TUG',         locked: false },
             { id: 'inventory',     name: 'Инвентар',         icon: 'fa-boxes',           desc: 'Ластици, електроди, консумативи, масла, ортези',    locked: false },
             { id: 'vouchers',      name: 'Ваучери',          icon: 'fa-ticket-alt',      desc: 'Подаръчни ваучери',                                 locked: false },
             { id: 'exercises',     name: 'Упражнения',       icon: 'fa-dumbbell',        desc: 'Библиотека и програми',                             locked: false },
             { id: 'documentation', name: 'Документация',     icon: 'fa-file-medical-alt',desc: 'Бележки, SOAP, файлове',                            locked: false },
             { id: 'pricing',       name: 'Ценоразпис',       icon: 'fa-euro-sign',       desc: 'Цени и приходи',                                    locked: false },
-            { id: 'settings',      name: 'Настройки',        icon: 'fa-cog',             desc: 'Настройки (винаги включен)',                        locked: true  },
-            { id: 'portal',        name: 'Портал',           icon: 'fa-user-circle',     desc: 'Портал за пациенти',                                locked: false }
+            { id: 'settings',      name: 'Настройки',        icon: 'fa-cog',             desc: 'Настройки (ВИНАГИ включен)',                        locked: true  },
+            { id: 'portal',        name: 'Портал',           icon: 'fa-user-circle',     desc: 'Портал за пациенти (ВИНАГИ включен)',               locked: true  }
         ];
 
-        // ==================== АБОНАМЕНТНИ ПАКЕТИ ====================
         const PACKAGES = {
             start: {
-                name: 'Начален',
-                price: 50,
-                color: 'start',
-                icon: 'fa-seedling',
-                desc: 'За малки практики',
+                name: 'Начален', price: 50, color: 'start', icon: 'fa-seedling', desc: 'За малки практики',
                 modules: ['dashboard', 'patients', 'schedule', 'procedures']
             },
             basic: {
-                name: 'Основен',
-                price: 80,
-                color: 'basic',
-                icon: 'fa-rocket',
-                desc: 'За растящи клиники',
+                name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники',
                 modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier']
             },
             max: {
-                name: 'Максимален',
-                price: 120,
-                color: 'max',
-                icon: 'fa-crown',
-                desc: 'Пълен набор от функции',
+                name: 'Максимален', price: 120, color: 'max', icon: 'fa-crown', desc: 'Пълен набор от функции',
                 modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'inventory', 'exercises', 'documentation', 'pricing']
             }
         };
@@ -736,7 +667,7 @@
             const state = {};
             MODULES.forEach(m => {
                 if (m.locked) {
-                    state[m.id] = true;
+                    state[m.id] = true; // ВИНАГИ включен
                 } else {
                     state[m.id] = pkg ? pkg.modules.includes(m.id) : true;
                 }
@@ -795,7 +726,7 @@
             const result = {};
             MODULES.forEach(m => {
                 if (m.locked) {
-                    result[m.id] = true;
+                    result[m.id] = true; // ВИНАГИ включен
                 } else if (enabled[m.id] === undefined) {
                     result[m.id] = true;
                 } else {
@@ -1115,7 +1046,7 @@
                 const mods = getClinicModules(cid);
                 const enabledCount = Object.values(mods).filter(v => v).length;
                 const badges = MODULES.slice(0, 6).map(m => 
-                    `<span class="module-badge ${mods[m.id] ? '' : 'off'}" title="${escapeHtml(m.name)}">${escapeHtml(m.name.substring(0, 8))}</span>`
+                    `<span class="module-badge ${mods[m.id] ? '' : 'off'}" title="${escapeHtml(m.name)}${m.locked ? ' (задължителен)' : ''}">${escapeHtml(m.name.substring(0, 8))}</span>`
                 ).join('') + (MODULES.length > 6 ? `<span class="module-badge">+${MODULES.length - 6}</span>` : '');
 
                 const nameDisplay = q ? highlightText(c.name || '—', q) : escapeHtml(c.name || '—');
@@ -1248,18 +1179,13 @@
                 }
 
                 const clinicData = {
-                    name, sub,
-                    adminCode,
-                    phone: clinicPhone,
-                    email: clinicEmail,
-                    address: clinicAddress,
-                    packageId,
-                    updatedAt: Date.now()
+                    name, sub, adminCode,
+                    phone: clinicPhone, email: clinicEmail, address: clinicAddress,
+                    packageId, updatedAt: Date.now()
                 };
 
                 if (cid) {
                     await update(ref(db, `clinics/${cid}`), clinicData);
-
                     const usersSnap = await get(ref(db, `clinics/${cid}/users`));
                     const usersData = usersSnap.val() || {};
                     let ownerUserId = null;
@@ -1273,19 +1199,13 @@
                     }
                     if (ownerUserId) {
                         await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
-                            name: ADMIN_NAME,
-                            accessCode: adminCode,
-                            roles: ['Администратор']
+                            name: ADMIN_NAME, accessCode: adminCode, roles: ['Администратор']
                         });
                     } else {
                         await set(push(ref(db, `clinics/${cid}/users`)), {
-                            name: ADMIN_NAME,
-                            phone: '',
-                            roles: ['Администратор'],
-                            accessCode: adminCode,
-                            protected: true,
-                            createdAt: Date.now(),
-                            createdBy: currentAdmin?.id || 'admin'
+                            name: ADMIN_NAME, phone: '', roles: ['Администратор'],
+                            accessCode: adminCode, protected: true,
+                            createdAt: Date.now(), createdBy: currentAdmin?.id || 'admin'
                         });
                     }
 
@@ -1294,8 +1214,7 @@
                         if (confirm(`Пакетът е сменен от "${PACKAGES[oldPkgId]?.name || '?'}" на "${PACKAGES[packageId].name}".\n\nДа приложа ли модулите от новия пакет автоматично?`)) {
                             const newModules = getModulesStateFromPackage(packageId);
                             await update(ref(db, `clinics/${cid}/settings`), { 
-                                enabledModules: newModules,
-                                packageId: packageId
+                                enabledModules: newModules, packageId: packageId
                             });
                             showToast('Модулите са обновени според новия пакет.', 'success');
                         } else {
@@ -1306,30 +1225,22 @@
                     showToast('Клиниката е обновена.', 'success');
                 } else {
                     clinicData.createdAt = Date.now();
-
                     const newRef = push(ref(db, 'clinics'));
                     const newId = newRef.key;
                     clinicData.id = newId;
                     await set(newRef, clinicData);
 
                     const packageModules = getModulesStateFromPackage(packageId);
-
                     await set(ref(db, `clinics/${newId}/settings`), {
-                        name,
-                        sub: sub || 'Медицински център',
+                        name, sub: sub || 'Медицински център',
                         enabledModules: packageModules,
-                        packageId,
-                        createdAt: Date.now()
+                        packageId, createdAt: Date.now()
                     });
 
                     await set(push(ref(db, `clinics/${newId}/users`)), {
-                        name: ADMIN_NAME,
-                        phone: '',
-                        roles: ['Администратор'],
-                        accessCode: adminCode,
-                        protected: true,
-                        createdAt: Date.now(),
-                        createdBy: currentAdmin?.id || 'admin'
+                        name: ADMIN_NAME, phone: '', roles: ['Администратор'],
+                        accessCode: adminCode, protected: true,
+                        createdAt: Date.now(), createdBy: currentAdmin?.id || 'admin'
                     });
 
                     const pkg = PACKAGES[packageId];
@@ -1396,10 +1307,10 @@
             grid.innerHTML = MODULES.map(m => {
                 const enabled = mods[m.id];
                 const locked = m.locked;
-                return `<div class="module-toggle ${enabled ? 'enabled' : ''} ${locked ? 'locked' : ''}" data-module-id="${m.id}" title="${locked ? 'Този модул не може да бъде изключен' : 'Кликни за включване/изключване'}">
+                return `<div class="module-toggle ${enabled ? 'enabled' : ''} ${locked ? 'locked' : ''}" data-module-id="${m.id}" title="${locked ? '🔒 Този модул е ЗАДЪЛЖИТЕЛЕН и не може да бъде изключен' : 'Кликни за включване/изключване'}">
                     <div class="module-icon"><i class="fas ${m.icon}"></i></div>
                     <div class="module-info">
-                        <div class="name">${escapeHtml(m.name)} ${locked ? '<i class="fas fa-lock" style="font-size:0.7rem; color:#7f95b0;"></i>' : ''}</div>
+                        <div class="name">${escapeHtml(m.name)} ${locked ? '<i class="fas fa-lock" style="font-size:0.7rem; color:#6b3fa0;"></i>' : ''}</div>
                         <div class="desc">${escapeHtml(m.desc)}</div>
                     </div>
                     <div class="switch"></div>
@@ -1411,7 +1322,7 @@
                     const modId = toggle.dataset.moduleId;
                     const modDef = getModuleDef(modId);
                     if (modDef.locked) { 
-                        showToast(`${modDef.name} не може да бъде изключен.`, 'info'); 
+                        showToast(`🔒 ${modDef.name} е задължителен модул и не може да бъде изключен.`, 'error'); 
                         return; 
                     }
                     const currentlyEnabled = toggle.classList.contains('enabled');
@@ -1425,6 +1336,8 @@
                         MODULES.forEach(m => {
                             if (enabledModules[m.id] === undefined) enabledModules[m.id] = true;
                         });
+                        // Двойна защита: заключените модули винаги true
+                        MODULES.forEach(m => { if (m.locked) enabledModules[m.id] = true; });
                         enabledModules[modId] = newValue;
                         await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { 
                             enabledModules,
@@ -1444,11 +1357,11 @@
             const clinic = clinics[selectedClinicForModules] || {};
             const pkgId = clinic.packageId || clinic.package || null;
             if (!pkgId || !PACKAGES[pkgId]) {
-                showToast('Тази клиника няма зададен пакет. Редактирайте я и изберете пакет.', 'error');
+                showToast('Тази клиника няма зададен пакет.', 'error');
                 return;
             }
             const pkg = PACKAGES[pkgId];
-            if (!confirm(`Ще приложиш модулите от пакет "${pkg.name}" (${pkg.modules.length} модула).\n\nПродължи?`)) return;
+            if (!confirm(`Ще приложиш модулите от пакет "${pkg.name}".\n\nПродължи?`)) return;
 
             try {
                 const enabledModules = getModulesStateFromPackage(pkgId);
@@ -1474,12 +1387,12 @@
 
         $('disableAllModulesBtn').addEventListener('click', async () => {
             if (!selectedClinicForModules) return;
-            if (!confirm('Изключи ВСИЧКИ модули (без Настройки)?')) return;
+            if (!confirm('Изключи ВСИЧКИ модули (без задължителните)?')) return;
             try {
                 const enabledModules = {};
                 MODULES.forEach(m => { enabledModules[m.id] = m.locked ? true : false; });
                 await update(ref(db, `clinics/${selectedClinicForModules}/settings`), { enabledModules });
-                showToast('Всички модули са изключени.', 'success');
+                showToast('Всички модули са изключени (без задължителните).', 'success');
                 renderModulesEditor();
             } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
         });
@@ -1506,7 +1419,7 @@
                     if (a.status !== 'pending' && b.status === 'pending') return 1;
                     return (b.createdAt || 0) - (a.createdAt || 0);
                 });
-            
+
             if (all.length === 0) {
                 list.innerHTML = `<div class="card" style="text-align:center; padding:3rem 2rem;">
                     <i class="fas fa-inbox" style="font-size:4rem; color:#cfddee; margin-bottom:1.5rem; display:block;"></i>
@@ -1515,14 +1428,14 @@
                 </div>`;
                 return;
             }
-            
+
             list.innerHTML = all.map(r => {
                 const clinic = clinics[r.clinicId];
                 const clinicName = clinic ? clinic.name : '(изтрита клиника)';
                 const clinicPhone = clinic ? (clinic.phone || '—') : '—';
                 const currentPkg = PACKAGES[r.currentPackage];
                 const wantedPkg = PACKAGES[r.requestedPackage];
-                
+
                 const statusMap = {
                     pending: { label: 'Чака обработка', cls: 'background:#fff5e5; color:#b06d00;', icon: 'fa-hourglass-half' },
                     contacted: { label: 'Осъществен контакт', cls: 'background:#e8f0fe; color:#1e4a78;', icon: 'fa-phone' },
@@ -1530,10 +1443,9 @@
                     cancelled: { label: 'Отказана', cls: 'background:#f5f5f5; color:#7f7f7f;', icon: 'fa-times' }
                 };
                 const s = statusMap[r.status] || statusMap.pending;
-                
                 const isPending = r.status === 'pending';
                 const isContacted = r.status === 'contacted';
-                
+
                 return `<div class="upgrade-request-card ${r.status}">
                     <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:15px; flex-wrap:wrap; margin-bottom:1rem;">
                         <div style="display:flex; align-items:center; gap:14px; flex:1; min-width:220px;">
@@ -1550,7 +1462,6 @@
                         </div>
                         <span class="admin-badge" style="${s.cls}"><i class="fas ${s.icon}"></i> ${s.label}</span>
                     </div>
-                    
                     <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:0.9rem 1rem; background:#f8fbfe; border-radius:12px; margin-bottom:1rem;">
                         <div style="flex:1; min-width:150px;">
                             <div style="font-size:0.72rem; color:#7f95b0; font-weight:700; text-transform:uppercase; margin-bottom:4px;">Текущ пакет</div>
@@ -1562,31 +1473,28 @@
                             ${wantedPkg ? `<span class="pkg-badge ${wantedPkg.color}"><i class="fas ${wantedPkg.icon}"></i> ${escapeHtml(wantedPkg.name)} · ${wantedPkg.price} €</span>` : '<span>—</span>'}
                         </div>
                     </div>
-                    
                     <div style="font-size:0.85rem; color:#7f95b0; display:flex; flex-wrap:wrap; gap:15px; margin-bottom:1rem;">
                         <span><i class="fas fa-calendar"></i> Заявено: ${new Date(r.createdAt).toLocaleString('bg-BG')}</span>
                         ${r.requestedByName ? `<span><i class="fas fa-user"></i> От: ${escapeHtml(r.requestedByName)}</span>` : ''}
                         ${r.contactedAt ? `<span><i class="fas fa-phone"></i> Контакт: ${new Date(r.contactedAt).toLocaleString('bg-BG')}</span>` : ''}
                     </div>
-                    
                     ${isPending ? `
                         <div style="background:#fff5e5; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #d97706; font-size:0.85rem; color:#b45309; margin-bottom:1rem;">
-                            <i class="fas fa-exclamation-triangle"></i> <strong>Действие:</strong> Обадете се на клиниката на <strong>${escapeHtml(clinicPhone)}</strong>, за да финализирате плащането. След това натиснете <strong>"Одобри и приложи модулите"</strong> — пакетът и модулите ще се обновят <strong>автоматично</strong>.
+                            <i class="fas fa-exclamation-triangle"></i> <strong>Действие:</strong> Обадете се на <strong>${escapeHtml(clinicPhone)}</strong> и натиснете <strong>"Одобри и приложи модулите"</strong>.
                         </div>
                     ` : ''}
                     ${isContacted ? `
                         <div style="background:#e8f0fe; padding:0.8rem 1rem; border-radius:10px; border-left:3px solid #1e4a78; font-size:0.85rem; color:#1e4a78; margin-bottom:1rem;">
-                            <i class="fas fa-info-circle"></i> <strong>Контакт осъществен.</strong> Когато получите плащането, натиснете <strong>"Одобри и приложи модулите"</strong> за автоматично обновяване.
+                            <i class="fas fa-info-circle"></i> <strong>Контакт осъществен.</strong> Натиснете <strong>"Одобри и приложи модулите"</strong>.
                         </div>
                     ` : ''}
-                    
                     <div style="display:flex; gap:8px; flex-wrap:wrap; border-top:1px solid #edf2f8; padding-top:1rem;">
-                        ${isPending ? `<button class="btn-outline btn btn-sm" data-upgrade-action="contacted" data-upgrade-id="${r.id}"><i class="fas fa-phone"></i> Маркирай като осъществен контакт</button>` : ''}
+                        ${isPending ? `<button class="btn-outline btn btn-sm" data-upgrade-action="contacted" data-upgrade-id="${r.id}"><i class="fas fa-phone"></i> Маркирай контакт</button>` : ''}
                         ${(isPending || isContacted) ? `<button class="btn btn-success btn-sm" data-upgrade-action="completed" data-upgrade-id="${r.id}"><i class="fas fa-check-double"></i> Одобри и приложи модулите</button>` : ''}
                         ${!['completed', 'cancelled'].includes(r.status) ? `<button class="btn-outline btn btn-sm" data-upgrade-action="cancelled" data-upgrade-id="${r.id}" style="border-color:#cfddee;"><i class="fas fa-times"></i> Откажи</button>` : ''}
                         <div style="flex:1;"></div>
-                        <button class="btn-outline btn btn-sm" data-upgrade-action="editClinic" data-upgrade-id="${r.id}"><i class="fas fa-edit"></i> Редакция на клиниката</button>
-                        <button class="btn-danger-outline btn btn-sm" data-upgrade-action="delete" data-upgrade-id="${r.id}"><i class="fas fa-trash-alt"></i> Изтрий заявката</button>
+                        <button class="btn-outline btn btn-sm" data-upgrade-action="editClinic" data-upgrade-id="${r.id}"><i class="fas fa-edit"></i> Редакция клиника</button>
+                        <button class="btn-danger-outline btn btn-sm" data-upgrade-action="delete" data-upgrade-id="${r.id}"><i class="fas fa-trash-alt"></i> Изтрий</button>
                     </div>
                 </div>`;
             }).join('');
@@ -1599,62 +1507,47 @@
             const id = btn.dataset.upgradeId;
             const req = upgradeRequests[id];
             if (!req) return;
-            
+
             if (action === 'contacted') {
                 await update(ref(db, `upgradeRequests/${id}`), { status: 'contacted', contactedAt: Date.now() });
                 showToast('Маркирано: осъществен контакт', 'success');
             } else if (action === 'completed') {
                 const clinic = clinics[req.clinicId];
                 const requestedPkg = PACKAGES[req.requestedPackage];
-                if (!clinic) {
-                    showToast('Клиниката не е намерена.', 'error');
-                    return;
-                }
-                if (!requestedPkg) {
-                    showToast('Невалиден пакет.', 'error');
-                    return;
-                }
+                if (!clinic) { showToast('Клиниката не е намерена.', 'error'); return; }
+                if (!requestedPkg) { showToast('Невалиден пакет.', 'error'); return; }
                 const confirmMsg = `Ще завършиш заявката и ще приложиш:\n\n` +
                     `🏥 Клиника: ${clinic.name}\n` +
                     `📦 Нов пакет: ${requestedPkg.name} (${requestedPkg.price} €)\n` +
                     `✅ Модули: ${requestedPkg.modules.length} модула ще бъдат включени\n` +
-                    `❌ Всички останали модули ще бъдат изключени\n\n` +
+                    `🔒 Настройки и Портал винаги остават включени\n\n` +
                     `Продължи?`;
                 if (!confirm(confirmMsg)) return;
 
                 btn.disabled = true;
                 const origHtml = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Прилагане...';
-                
+
                 try {
-                    // 1) Обновяваме пакета на клиниката
                     await update(ref(db, `clinics/${req.clinicId}`), {
                         packageId: req.requestedPackage,
                         updatedAt: Date.now()
                     });
-
-                    // 2) Генерираме модулите от новия пакет
                     const newModulesState = getModulesStateFromPackage(req.requestedPackage);
-
-                    // 3) Обновяваме settings с новите модули
                     await update(ref(db, `clinics/${req.clinicId}/settings`), {
                         enabledModules: newModulesState,
                         packageId: req.requestedPackage,
                         updatedAt: Date.now()
                     });
-
-                    // 4) Маркираме заявката като завършена
                     await update(ref(db, `upgradeRequests/${id}`), {
                         status: 'completed',
                         completedAt: Date.now(),
                         completedBy: currentAdmin?.id || 'admin',
                         completedByName: currentAdmin?.name || 'Admin'
                     });
-
                     showToast(`✓ Заявката е завършена! Клиниката вече е с "${requestedPkg.name}".`, 'success');
                 } catch(err) {
                     showToast('Грешка: ' + err.message, 'error');
-                    console.error(err);
                     btn.disabled = false;
                     btn.innerHTML = origHtml;
                 }
@@ -1671,7 +1564,7 @@
             }
         });
 
-        // ==================== BROADCAST / MESSAGES ====================
+        // ==================== BROADCAST ====================
         function initBroadcastTargets() {
             document.querySelectorAll('#broadcastTargetType .target-option').forEach(opt => {
                 opt.addEventListener('click', () => {
@@ -1729,13 +1622,13 @@
                 const usersData = snap.val() || {};
                 const patientsSnap = await get(ref(db, `clinics/${cid}/patients`));
                 const patientsData = patientsSnap.val() || {};
-                
+
                 let html = '<option value="">-- избери потребител --</option>';
                 const staffList = Object.entries(usersData).map(([id, u]) => ({ id, name: u.name, type: 'staff' }))
                     .sort((a,b) => a.name.localeCompare(b.name));
                 const patientList = Object.entries(patientsData).filter(([,p]) => !p.archived).map(([id, p]) => ({ id, name: p.name, type: 'patient' }))
                     .sort((a,b) => a.name.localeCompare(b.name));
-                
+
                 if (staffList.length > 0) {
                     html += '<optgroup label="Служители">' + staffList.map(u => 
                         `<option value="${u.type}:${u.id}">${escapeHtml(u.name)}</option>`
@@ -1749,8 +1642,7 @@
                 sel.innerHTML = html;
                 if (cur) sel.value = cur;
             } catch(err) {
-                sel.innerHTML = '<option value="">-- грешка при зареждане --</option>';
-                console.error(err);
+                sel.innerHTML = '<option value="">-- грешка --</option>';
             }
         }
 
@@ -1806,15 +1698,15 @@
             const text = $('broadcastText').value.trim();
             const subject = $('broadcastSubject').value.trim();
             const priority = $('broadcastPriority').value;
-            
+
             if (!text) { showToast('Въведете текст на съобщението.', 'error'); return; }
-            
+
             const recipients = getBroadcastRecipients();
             if (recipients.length === 0) {
-                showToast('Няма избрани получатели. Проверете избора.', 'error');
+                showToast('Няма избрани получатели.', 'error');
                 return;
             }
-            
+
             const priorityLabels = { normal: '📩 Обикновено', important: '⚠️ Важно', urgent: '🚨 Спешно' };
             const targetLabels = { all: 'ВСИЧКИ КЛИНИКИ', clinic: 'конкретна клиника', user: 'конкретен потребител' };
             const confirmMsg = `Ще изпратиш съобщение до:\n\n` +
@@ -1824,25 +1716,23 @@
                 `${subject ? `📌 Относно: ${subject}\n` : ''}` +
                 `\n📝 Съобщение:\n"${text.slice(0, 200)}${text.length > 200 ? '...' : ''}"\n\n` +
                 `Продължи?`;
-            
+
             if (!confirm(confirmMsg)) return;
-            
+
             $('broadcastSendBtn').disabled = true;
             const origHtml = $('broadcastSendBtn').innerHTML;
             $('broadcastSendBtn').innerHTML = `<i class="fas fa-spinner fa-spin"></i> Изпращане (0/${recipients.length})...`;
-            
+
             try {
                 const broadcastId = `bc_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-                const broadcastRef = ref(db, `broadcasts/${broadcastId}`);
-                
                 const messages = [];
                 const notifications = [];
                 let sentCount = 0;
-                
+
                 for (const r of recipients) {
                     messages.push(set(push(ref(db, `clinics/${r.clinicId}/messages`)), {
                         from: 'physiobook_admin',
-                        fromType: 'staff',
+                        fromType: 'admin',
                         to: r.userId,
                         toType: r.userType,
                         subject: subject || (priority === 'urgent' ? '🚨 Спешно съобщение от PhysioBook' : priority === 'important' ? '⚠️ Важно съобщение от PhysioBook' : '📢 Съобщение от PhysioBook'),
@@ -1852,7 +1742,6 @@
                         read: false,
                         createdAt: Date.now()
                     }));
-                    
                     notifications.push(set(push(ref(db, `clinics/${r.clinicId}/notifications`)), {
                         userId: r.userId,
                         title: priority === 'urgent' ? '🚨 Спешно съобщение' : priority === 'important' ? '⚠️ Важно съобщение' : '📢 Ново съобщение',
@@ -1863,16 +1752,16 @@
                         read: false,
                         createdAt: Date.now()
                     }));
-                    
+
                     sentCount++;
                     if (sentCount % 5 === 0 || sentCount === recipients.length) {
                         $('broadcastSendBtn').innerHTML = `<i class="fas fa-spinner fa-spin"></i> Изпращане (${sentCount}/${recipients.length})...`;
                     }
                 }
-                
+
                 await Promise.all([...messages, ...notifications]);
-                
-                await set(broadcastRef, {
+
+                await set(ref(db, `broadcasts/${broadcastId}`), {
                     targetType: broadcastTargetType,
                     targetClinicId: broadcastTargetType !== 'all' ? $('broadcastClinicSelect').value : null,
                     targetClinicName: broadcastTargetType !== 'all' ? clinics[$('broadcastClinicSelect').value]?.name : null,
@@ -1887,9 +1776,9 @@
                     sentByName: currentAdmin?.name || 'PhysioBook Admin',
                     createdAt: Date.now()
                 });
-                
-                showToast(`✓ Съобщението е изпратено до ${recipients.length} ${recipients.length === 1 ? 'получател' : 'получатели'}!`, 'success');
-                
+
+                showToast(`✓ Съобщението е изпратено до ${recipients.length} получатели!`, 'success');
+
                 $('broadcastText').value = '';
                 $('broadcastSubject').value = '';
                 $('broadcastPriority').value = 'normal';
@@ -1900,10 +1789,8 @@
                     o.classList.toggle('selected', o.dataset.target === 'all');
                 });
                 updateBroadcastForm();
-                
             } catch(err) {
                 showToast('Грешка: ' + err.message, 'error');
-                console.error(err);
             } finally {
                 $('broadcastSendBtn').disabled = false;
                 $('broadcastSendBtn').innerHTML = origHtml;
@@ -1935,15 +1822,15 @@
             if (!list) return;
             const all = Object.entries(broadcasts).map(([id, b]) => ({ id, ...b }))
                 .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            
+
             if (all.length === 0) {
                 list.innerHTML = `<div class="empty-message">Няма изпратени съобщения</div>`;
                 return;
             }
-            
+
             const priorityIcons = { normal: 'fa-envelope', important: 'fa-exclamation-triangle', urgent: 'fa-fire' };
             const priorityColors = { normal: 'color:#0891b2;', important: 'color:#d97706;', urgent: 'color:#b22234;' };
-            
+
             list.innerHTML = all.slice(0, 50).map(b => {
                 const priority = b.priority || 'normal';
                 const targetLabels = {
@@ -1952,7 +1839,7 @@
                     user: { text: `Потребител: ${b.targetUserName || '?'}`, icon: 'fa-user' }
                 };
                 const t = targetLabels[b.targetType] || targetLabels.all;
-                
+
                 return `<div class="broadcast-history-item ${priority}">
                     <div class="broadcast-history-header">
                         <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:200px;">
@@ -1976,7 +1863,7 @@
                     </div>
                 </div>`;
             }).join('');
-            
+
             list.querySelectorAll('[data-broadcast-delete]').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (!confirm('Изтрий този запис от историята?\n\n(Съобщенията в клиниките ще останат непокътнати.)')) return;
@@ -2159,7 +2046,7 @@
                 const clinicsSnap = await get(ref(db, 'clinics'));
                 const clinicsData = clinicsSnap.val() || {};
                 const clinicIds = Object.keys(clinicsData);
-                
+
                 if (clinicIds.length === 0) {
                     showToast('Няма клиники.', 'info');
                     return results;
@@ -2168,13 +2055,13 @@
                 for (const cid of clinicIds) {
                     const usersSnap = await get(ref(db, `clinics/${cid}/users`));
                     const usersData = usersSnap.val() || {};
-                    
+
                     for (const [uid, u] of Object.entries(usersData)) {
                         results.total++;
                         const roles = u.roles || (u.role ? [u.role] : []);
                         const isProtectedUser = u.protected === true || u.locked === true;
                         const isAdminUser = u.name === ADMIN_NAME || isProtectedUser;
-                        
+
                         if (isAdminUser && roles.includes('Кинезитерапевт')) {
                             try {
                                 await update(ref(db, `clinics/${cid}/users/${uid}`), {
@@ -2191,9 +2078,9 @@
                         }
                     }
                 }
-                
+
                 if (results.fixed > 0) {
-                    showToast(`✓ Поправени ${results.fixed} профила! (OK: ${results.alreadyOk}, грешки: ${results.errors})`, 'success');
+                    showToast(`✓ Поправени ${results.fixed} профила! (OK: ${results.alreadyOk})`, 'success');
                 } else {
                     showToast(`Всички профили са OK. (${results.alreadyOk} проверени)`, 'success');
                 }
@@ -2216,7 +2103,7 @@
         });
 
         $('migrateModulesBtn').addEventListener('click', async () => {
-            if (!confirm('Ще добави новите модули към всички клиники. Продължи?')) return;
+            if (!confirm('Ще добави новите модули към всички клиники и ще заключи "Портал" като задължителен. Продължи?')) return;
             $('migrateModulesBtn').disabled = true;
             showLoading(true);
             try {
@@ -2229,6 +2116,11 @@
                     let needsUpdate = false;
                     MODULES.forEach(m => {
                         if (enabledModules[m.id] === undefined) {
+                            enabledModules[m.id] = true;
+                            needsUpdate = true;
+                        }
+                        // Накрая: заключените модули винаги true
+                        if (m.locked && enabledModules[m.id] !== true) {
                             enabledModules[m.id] = true;
                             needsUpdate = true;
                         }
@@ -2266,9 +2158,7 @@
                         sessionStorage.removeItem('adminCode');
                         sessionStorage.removeItem('adminId');
                     }
-                } catch(e) {
-                    console.error(e);
-                }
+                } catch(e) {}
             }
             $('loginScreen').classList.remove('hidden');
             codeInputEls[0].focus();
