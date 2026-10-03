@@ -187,6 +187,54 @@
         .upgrade-request-card.completed { border-left-color: #1a7a3e; background: #f0f9f1; opacity: 0.85; }
         .upgrade-request-card.cancelled { border-left-color: #7f7f7f; background: #f5f5f5; opacity: 0.7; }
 
+        /* BROADCAST TARGET SELECTOR */
+        .target-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 1rem;
+            border: 2px solid #cfddee;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.15s;
+            background: #f8fbfe;
+            user-select: none;
+        }
+        .target-option:hover { border-color: #1e4a78; background: #f5f9ff; }
+        .target-option.selected { border-color: #0891b2; background: #ecfeff; box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
+        .target-option input[type="radio"] { display: none; }
+        .target-option .target-icon {
+            width: 42px; height: 42px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.15rem; flex-shrink: 0;
+        }
+        .target-option .target-info { flex: 1; min-width: 0; }
+        .target-option .target-title { font-weight: 700; color: #0b2b4f; font-size: 0.9rem; margin-bottom: 2px; }
+        .target-option .target-desc { font-size: 0.75rem; color: #7f95b0; }
+
+        .broadcast-history-item {
+            background: #f8fbfe;
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem;
+            margin-bottom: 10px;
+            border-left: 4px solid #0891b2;
+        }
+        .broadcast-history-item.important { border-left-color: #d97706; background: #fffbf0; }
+        .broadcast-history-item.urgent { border-left-color: #b22234; background: #fff5f5; }
+
+        .broadcast-history-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; margin-bottom: 0.6rem; flex-wrap: wrap;
+        }
+        .broadcast-history-target {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.25rem 0.7rem; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 700;
+        }
+        .broadcast-history-target.all { background: #fef3c7; color: #b45309; }
+        .broadcast-history-target.clinic { background: #e8f0fe; color: #1e4a78; }
+        .broadcast-history-target.user { background: #f0e8ff; color: #6b3fa0; }
+
         @media (max-width: 800px) {
             .app-header { padding: 0.8rem 1rem; }
             .header-title { font-size: 1.05rem; }
@@ -275,6 +323,7 @@
                     <button class="nav-item" data-module="clinics"><i class="fas fa-hospital"></i><span>Клиники</span></button>
                     <button class="nav-item" data-module="modules"><i class="fas fa-th-large"></i><span>Модули</span></button>
                     <button class="nav-item" data-module="upgrades"><i class="fas fa-arrow-up"></i><span>Заявки за надграждане</span><span class="nav-badge" id="upgradesBadge">0</span></button>
+                    <button class="nav-item" data-module="broadcast"><i class="fas fa-bullhorn"></i><span>Съобщения</span></button>
                     <button class="nav-item" data-module="admins"><i class="fas fa-user-shield"></i><span>Админи</span></button>
                     <button class="nav-item" data-module="settings"><i class="fas fa-cog"></i><span>Настройки</span></button>
                 </nav>
@@ -362,6 +411,100 @@
                         </p>
                     </div>
                     <div id="upgradesList"></div>
+                </section>
+
+                <section class="module" id="module-broadcast">
+                    <div class="module-header">
+                        <h1><i class="fas fa-bullhorn"></i> Съобщения до клиники</h1>
+                    </div>
+
+                    <div class="card" style="border-left:4px solid #0891b2;">
+                        <p style="color:#7f95b0; font-size:0.9rem; margin:0;">
+                            <i class="fas fa-info-circle" style="color:#0891b2;"></i> 
+                            Изпращайте съобщения до <strong>всички клиники наведнъж</strong>, до <strong>конкретна клиника</strong> или до <strong>конкретен потребител</strong>.
+                            Съобщенията ще се появят в секцията "Съобщения" (иконата ✉️) на съответните получатели.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-paper-plane"></i> Ново съобщение</h3>
+                        <form id="broadcastForm">
+                            <div class="form-group" style="margin-bottom:1.2rem;">
+                                <label>Изпрати до *</label>
+                                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-top:6px;" id="broadcastTargetType">
+                                    <label class="target-option selected" data-target="all">
+                                        <input type="radio" name="broadcastTarget" value="all" checked>
+                                        <div class="target-icon" style="background:#fef3c7; color:#b45309;"><i class="fas fa-bullhorn"></i></div>
+                                        <div class="target-info">
+                                            <div class="target-title">Всички клиники</div>
+                                            <div class="target-desc">Broadcast до всички</div>
+                                        </div>
+                                    </label>
+                                    <label class="target-option" data-target="clinic">
+                                        <input type="radio" name="broadcastTarget" value="clinic">
+                                        <div class="target-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas fa-hospital"></i></div>
+                                        <div class="target-info">
+                                            <div class="target-title">Конкретна клиника</div>
+                                            <div class="target-desc">Всички потребители в нея</div>
+                                        </div>
+                                    </label>
+                                    <label class="target-option" data-target="user">
+                                        <input type="radio" name="broadcastTarget" value="user">
+                                        <div class="target-icon" style="background:#f0e8ff; color:#6b3fa0;"><i class="fas fa-user"></i></div>
+                                        <div class="target-info">
+                                            <div class="target-title">Конкретен потребител</div>
+                                            <div class="target-desc">Един човек</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="broadcastClinicGroup" style="margin-bottom:1.2rem; display:none;">
+                                <label>Избери клиника *</label>
+                                <select id="broadcastClinicSelect" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
+                                    <option value="">-- избери клиника --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="broadcastUserGroup" style="margin-bottom:1.2rem; display:none;">
+                                <label>Избери потребител *</label>
+                                <select id="broadcastUserSelect" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
+                                    <option value="">-- първо избери клиника --</option>
+                                </select>
+                                <div class="hint">Изберете клиника, за да се заредят потребителите.</div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1.2rem;">
+                                <label>Приоритет</label>
+                                <select id="broadcastPriority" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
+                                    <option value="normal">📩 Обикновено</option>
+                                    <option value="important">⚠️ Важно</option>
+                                    <option value="urgent">🚨 Спешно</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1.2rem;">
+                                <label>Относно (заглавие)</label>
+                                <input type="text" id="broadcastSubject" placeholder="напр. Нова версия / Планирана поддръжка" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe;">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1.5rem;">
+                                <label>Съобщение *</label>
+                                <textarea id="broadcastText" required placeholder="Напишете вашето съобщение..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#f8fbfe; min-height:140px; resize:vertical;"></textarea>
+                                <div class="hint">Може да използвате нови редове за по-добра четимост.</div>
+                            </div>
+
+                            <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+                                <button type="button" class="btn-outline btn" id="broadcastClearBtn"><i class="fas fa-times"></i> Изчисти</button>
+                                <button type="submit" class="btn" id="broadcastSendBtn" style="background:#0891b2;"><i class="fas fa-paper-plane"></i> Изпрати</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-history"></i> История на изпратените съобщения</h3>
+                        <div id="broadcastHistoryList"></div>
+                    </div>
                 </section>
 
                 <section class="module" id="module-admins">
@@ -537,7 +680,7 @@
             storageBucket: "physiobook-d6eff.firebasestorage.app",
             messagingSenderId: "72682142520",
             appId: "1:72682142520:web:ef39ae0e5ca3d48f5cdfcd",
-            measurementSId: "G-S3S31S72B0"
+            measurementId: "G-S3S31S72B0"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -617,6 +760,8 @@
         let settingsUnsubscribers = {};
         let selectedPackage = 'start';
         let upgradeRequests = {};
+        let broadcasts = {};
+        let broadcastTargetType = 'all';
 
         const $ = id => document.getElementById(id);
         const codeInputEls = document.querySelectorAll('#codeInputs input');
@@ -830,6 +975,7 @@
                 renderClinics();
                 renderModulesClinicSelect();
                 renderUpgrades();
+                renderBroadcastClinicSelect();
                 if (selectedClinicForModules) renderModulesEditor();
             }));
 
@@ -858,6 +1004,11 @@
                     }
                 }
             }));
+
+            unsubscribers.push(onValue(ref(db, 'broadcasts'), (snap) => {
+                broadcasts = snap.val() || {};
+                renderBroadcastHistory();
+            }));
         }
 
         function syncSettingsListeners() {
@@ -885,7 +1036,8 @@
             const clinicIds = Object.keys(clinics);
             const adminCount = Object.keys(admins).length;
             const pendingUpgrades = Object.values(upgradeRequests).filter(r => r.status === 'pending').length;
-            
+            const broadcastCount = Object.keys(broadcasts).length;
+
             $('statsGrid').innerHTML = `
                 <div class="stat-card">
                     <div class="lbl"><i class="fas fa-hospital"></i> Общо клиники</div>
@@ -906,6 +1058,11 @@
                     <div class="lbl"><i class="fas fa-th-large"></i> Модули</div>
                     <div class="val">${MODULES.length}</div>
                     <div class="sub">налични</div>
+                </div>
+                <div class="stat-card">
+                    <div class="lbl"><i class="fas fa-bullhorn"></i> Изпратени съобщения</div>
+                    <div class="val">${broadcastCount}</div>
+                    <div class="sub">общо broadcast-и</div>
                 </div>
             `;
 
@@ -1109,7 +1266,7 @@
                     for (const uid of Object.keys(usersData)) {
                         const u = usersData[uid];
                         const roles = u.roles || [u.role];
-                        if (roles.includes('Администратор') || roles.includes('Кинезandтерапевт') || roles.includes('Кинезитерапевт')) {
+                        if (roles.includes('Администратор') || roles.includes('Кинезитерапевт')) {
                             ownerUserId = uid;
                             break;
                         }
@@ -1514,6 +1671,325 @@
             }
         });
 
+        // ==================== BROADCAST / MESSAGES ====================
+        function initBroadcastTargets() {
+            document.querySelectorAll('#broadcastTargetType .target-option').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    document.querySelectorAll('#broadcastTargetType .target-option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    const radio = opt.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = true;
+                    broadcastTargetType = opt.dataset.target;
+                    updateBroadcastForm();
+                });
+            });
+        }
+
+        function updateBroadcastForm() {
+            const clinicGroup = $('broadcastClinicGroup');
+            const userGroup = $('broadcastUserGroup');
+            if (broadcastTargetType === 'all') {
+                clinicGroup.style.display = 'none';
+                userGroup.style.display = 'none';
+            } else if (broadcastTargetType === 'clinic') {
+                clinicGroup.style.display = 'block';
+                userGroup.style.display = 'none';
+                renderBroadcastClinicSelect();
+            } else if (broadcastTargetType === 'user') {
+                clinicGroup.style.display = 'block';
+                userGroup.style.display = 'block';
+                renderBroadcastClinicSelect();
+                renderBroadcastUserSelect();
+            }
+        }
+
+        function renderBroadcastClinicSelect() {
+            const sel = $('broadcastClinicSelect');
+            if (!sel) return;
+            const cur = sel.value;
+            const ids = Object.keys(clinics).sort((a,b) => (clinics[a].name||'').localeCompare(clinics[b].name||''));
+            sel.innerHTML = '<option value="">-- избери клиника --</option>' + ids.map(cid => 
+                `<option value="${cid}">${escapeHtml(clinics[cid].name || '—')}</option>`
+            ).join('');
+            if (ids.includes(cur)) sel.value = cur;
+        }
+
+        async function renderBroadcastUserSelect() {
+            const sel = $('broadcastUserSelect');
+            if (!sel) return;
+            const cid = $('broadcastClinicSelect')?.value;
+            if (!cid) {
+                sel.innerHTML = '<option value="">-- първо избери клиника --</option>';
+                return;
+            }
+            const cur = sel.value;
+            sel.innerHTML = '<option value="">-- зареждане... --</option>';
+            try {
+                const snap = await get(ref(db, `clinics/${cid}/users`));
+                const usersData = snap.val() || {};
+                const patientsSnap = await get(ref(db, `clinics/${cid}/patients`));
+                const patientsData = patientsSnap.val() || {};
+                
+                let html = '<option value="">-- избери потребител --</option>';
+                const staffList = Object.entries(usersData).map(([id, u]) => ({ id, name: u.name, type: 'staff' }))
+                    .sort((a,b) => a.name.localeCompare(b.name));
+                const patientList = Object.entries(patientsData).filter(([,p]) => !p.archived).map(([id, p]) => ({ id, name: p.name, type: 'patient' }))
+                    .sort((a,b) => a.name.localeCompare(b.name));
+                
+                if (staffList.length > 0) {
+                    html += '<optgroup label="Служители">' + staffList.map(u => 
+                        `<option value="${u.type}:${u.id}">${escapeHtml(u.name)}</option>`
+                    ).join('') + '</optgroup>';
+                }
+                if (patientList.length > 0) {
+                    html += '<optgroup label="Пациенти">' + patientList.map(p => 
+                        `<option value="${p.type}:${p.id}">${escapeHtml(p.name)}</option>`
+                    ).join('') + '</optgroup>';
+                }
+                sel.innerHTML = html;
+                if (cur) sel.value = cur;
+            } catch(err) {
+                sel.innerHTML = '<option value="">-- грешка при зареждане --</option>';
+                console.error(err);
+            }
+        }
+
+        $('broadcastClinicSelect')?.addEventListener('change', () => {
+            if (broadcastTargetType === 'user') renderBroadcastUserSelect();
+        });
+
+        function getBroadcastRecipients() {
+            const recipients = [];
+            if (broadcastTargetType === 'all') {
+                Object.entries(clinics).forEach(([cid, clinic]) => {
+                    const staff = clinic.users || {};
+                    const patients = clinic.patients || {};
+                    Object.entries(staff).forEach(([uid, u]) => {
+                        recipients.push({ clinicId: cid, userId: uid, userType: 'staff', userName: u.name, clinicName: clinic.name });
+                    });
+                    Object.entries(patients).forEach(([pid, p]) => {
+                        if (!p.archived) {
+                            recipients.push({ clinicId: cid, userId: pid, userType: 'patient', userName: p.name, clinicName: clinic.name });
+                        }
+                    });
+                });
+            } else if (broadcastTargetType === 'clinic') {
+                const cid = $('broadcastClinicSelect').value;
+                if (!cid || !clinics[cid]) return [];
+                const clinic = clinics[cid];
+                const staff = clinic.users || {};
+                const patients = clinic.patients || {};
+                Object.entries(staff).forEach(([uid, u]) => {
+                    recipients.push({ clinicId: cid, userId: uid, userType: 'staff', userName: u.name, clinicName: clinic.name });
+                });
+                Object.entries(patients).forEach(([pid, p]) => {
+                    if (!p.archived) {
+                        recipients.push({ clinicId: cid, userId: pid, userType: 'patient', userName: p.name, clinicName: clinic.name });
+                    }
+                });
+            } else if (broadcastTargetType === 'user') {
+                const cid = $('broadcastClinicSelect').value;
+                const userVal = $('broadcastUserSelect').value;
+                if (!cid || !userVal) return [];
+                const [type, uid] = userVal.split(':');
+                const clinic = clinics[cid];
+                const source = type === 'staff' ? (clinic.users || {}) : (clinic.patients || {});
+                const u = source[uid];
+                if (u) {
+                    recipients.push({ clinicId: cid, userId: uid, userType: type, userName: u.name, clinicName: clinic.name });
+                }
+            }
+            return recipients;
+        }
+
+        async function sendBroadcast() {
+            const text = $('broadcastText').value.trim();
+            const subject = $('broadcastSubject').value.trim();
+            const priority = $('broadcastPriority').value;
+            
+            if (!text) { showToast('Въведете текст на съобщението.', 'error'); return; }
+            
+            const recipients = getBroadcastRecipients();
+            if (recipients.length === 0) {
+                showToast('Няма избрани получатели. Проверете избора.', 'error');
+                return;
+            }
+            
+            const priorityLabels = { normal: '📩 Обикновено', important: '⚠️ Важно', urgent: '🚨 Спешно' };
+            const targetLabels = { all: 'ВСИЧКИ КЛИНИКИ', clinic: 'конкретна клиника', user: 'конкретен потребител' };
+            const confirmMsg = `Ще изпратиш съобщение до:\n\n` +
+                `🎯 Цел: ${targetLabels[broadcastTargetType]}\n` +
+                `👥 Получатели: ${recipients.length} ${recipients.length === 1 ? 'човек' : 'души'}\n` +
+                `⚡ Приоритет: ${priorityLabels[priority]}\n` +
+                `${subject ? `📌 Относно: ${subject}\n` : ''}` +
+                `\n📝 Съобщение:\n"${text.slice(0, 200)}${text.length > 200 ? '...' : ''}"\n\n` +
+                `Продължи?`;
+            
+            if (!confirm(confirmMsg)) return;
+            
+            $('broadcastSendBtn').disabled = true;
+            const origHtml = $('broadcastSendBtn').innerHTML;
+            $('broadcastSendBtn').innerHTML = `<i class="fas fa-spinner fa-spin"></i> Изпращане (0/${recipients.length})...`;
+            
+            try {
+                const broadcastId = `bc_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+                const broadcastRef = ref(db, `broadcasts/${broadcastId}`);
+                
+                const messages = [];
+                const notifications = [];
+                let sentCount = 0;
+                
+                for (const r of recipients) {
+                    messages.push(set(push(ref(db, `clinics/${r.clinicId}/messages`)), {
+                        from: 'physiobook_admin',
+                        fromType: 'staff',
+                        to: r.userId,
+                        toType: r.userType,
+                        subject: subject || (priority === 'urgent' ? '🚨 Спешно съобщение от PhysioBook' : priority === 'important' ? '⚠️ Важно съобщение от PhysioBook' : '📢 Съобщение от PhysioBook'),
+                        text: text,
+                        priority: priority,
+                        broadcastId: broadcastId,
+                        read: false,
+                        createdAt: Date.now()
+                    }));
+                    
+                    notifications.push(set(push(ref(db, `clinics/${r.clinicId}/notifications`)), {
+                        userId: r.userId,
+                        title: priority === 'urgent' ? '🚨 Спешно съобщение' : priority === 'important' ? '⚠️ Важно съобщение' : '📢 Ново съобщение',
+                        text: subject ? `${subject}: ${text.slice(0, 80)}${text.length > 80 ? '...' : ''}` : `${text.slice(0, 100)}${text.length > 100 ? '...' : ''}`,
+                        type: 'message',
+                        priority: priority,
+                        broadcastId: broadcastId,
+                        read: false,
+                        createdAt: Date.now()
+                    }));
+                    
+                    sentCount++;
+                    if (sentCount % 5 === 0 || sentCount === recipients.length) {
+                        $('broadcastSendBtn').innerHTML = `<i class="fas fa-spinner fa-spin"></i> Изпращане (${sentCount}/${recipients.length})...`;
+                    }
+                }
+                
+                await Promise.all([...messages, ...notifications]);
+                
+                await set(broadcastRef, {
+                    targetType: broadcastTargetType,
+                    targetClinicId: broadcastTargetType !== 'all' ? $('broadcastClinicSelect').value : null,
+                    targetClinicName: broadcastTargetType !== 'all' ? clinics[$('broadcastClinicSelect').value]?.name : null,
+                    targetUserId: broadcastTargetType === 'user' ? $('broadcastUserSelect').value : null,
+                    targetUserName: broadcastTargetType === 'user' ? getBroadcastRecipients()[0]?.userName : null,
+                    priority: priority,
+                    subject: subject,
+                    text: text,
+                    recipientCount: recipients.length,
+                    recipients: recipients.map(r => ({ clinicId: r.clinicId, userId: r.userId, userType: r.userType })),
+                    sentBy: currentAdmin?.id || 'admin',
+                    sentByName: currentAdmin?.name || 'PhysioBook Admin',
+                    createdAt: Date.now()
+                });
+                
+                showToast(`✓ Съобщението е изпратено до ${recipients.length} ${recipients.length === 1 ? 'получател' : 'получатели'}!`, 'success');
+                
+                $('broadcastText').value = '';
+                $('broadcastSubject').value = '';
+                $('broadcastPriority').value = 'normal';
+                $('broadcastClinicSelect').value = '';
+                $('broadcastUserSelect').value = '';
+                broadcastTargetType = 'all';
+                document.querySelectorAll('#broadcastTargetType .target-option').forEach(o => {
+                    o.classList.toggle('selected', o.dataset.target === 'all');
+                });
+                updateBroadcastForm();
+                
+            } catch(err) {
+                showToast('Грешка: ' + err.message, 'error');
+                console.error(err);
+            } finally {
+                $('broadcastSendBtn').disabled = false;
+                $('broadcastSendBtn').innerHTML = origHtml;
+            }
+        }
+
+        $('broadcastForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            sendBroadcast();
+        });
+
+        $('broadcastClearBtn')?.addEventListener('click', () => {
+            if (!$('broadcastText').value && !$('broadcastSubject').value) return;
+            if (!confirm('Да изчистя ли съобщението?')) return;
+            $('broadcastText').value = '';
+            $('broadcastSubject').value = '';
+            $('broadcastPriority').value = 'normal';
+            $('broadcastClinicSelect').value = '';
+            $('broadcastUserSelect').value = '';
+            broadcastTargetType = 'all';
+            document.querySelectorAll('#broadcastTargetType .target-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.target === 'all');
+            });
+            updateBroadcastForm();
+        });
+
+        function renderBroadcastHistory() {
+            const list = $('broadcastHistoryList');
+            if (!list) return;
+            const all = Object.entries(broadcasts).map(([id, b]) => ({ id, ...b }))
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            
+            if (all.length === 0) {
+                list.innerHTML = `<div class="empty-message">Няма изпратени съобщения</div>`;
+                return;
+            }
+            
+            const priorityIcons = { normal: 'fa-envelope', important: 'fa-exclamation-triangle', urgent: 'fa-fire' };
+            const priorityColors = { normal: 'color:#0891b2;', important: 'color:#d97706;', urgent: 'color:#b22234;' };
+            
+            list.innerHTML = all.slice(0, 50).map(b => {
+                const priority = b.priority || 'normal';
+                const targetLabels = {
+                    all: { text: 'Всички клиники', icon: 'fa-bullhorn' },
+                    clinic: { text: `Клиника: ${b.targetClinicName || '?'}`, icon: 'fa-hospital' },
+                    user: { text: `Потребител: ${b.targetUserName || '?'}`, icon: 'fa-user' }
+                };
+                const t = targetLabels[b.targetType] || targetLabels.all;
+                
+                return `<div class="broadcast-history-item ${priority}">
+                    <div class="broadcast-history-header">
+                        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:200px;">
+                            <i class="fas ${priorityIcons[priority]}" style="${priorityColors[priority]} font-size:1.2rem;"></i>
+                            <div>
+                                <div style="font-weight:700; color:#0b2b4f; font-size:0.95rem;">${escapeHtml(b.subject || '(без заглавие)')}</div>
+                                <div style="font-size:0.78rem; color:#7f95b0; margin-top:2px;">
+                                    ${new Date(b.createdAt).toLocaleString('bg-BG')}
+                                    · от ${escapeHtml(b.sentByName || 'Admin')}
+                                    · <strong>${b.recipientCount || 0}</strong> получатели
+                                </div>
+                            </div>
+                        </div>
+                        <span class="broadcast-history-target ${b.targetType || 'all'}">
+                            <i class="fas ${t.icon}"></i> ${escapeHtml(t.text)}
+                        </span>
+                    </div>
+                    <div style="background:#fff; padding:0.8rem 1rem; border-radius:10px; color:#1f3f61; font-size:0.9rem; line-height:1.5; white-space:pre-wrap; word-break:break-word; margin-top:0.6rem;">${escapeHtml(b.text || '')}</div>
+                    <div style="display:flex; gap:8px; margin-top:0.8rem; justify-content:flex-end;">
+                        <button class="btn-danger-outline btn btn-sm" data-broadcast-delete="${b.id}"><i class="fas fa-trash-alt"></i> Изтрий от историята</button>
+                    </div>
+                </div>`;
+            }).join('');
+            
+            list.querySelectorAll('[data-broadcast-delete]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!confirm('Изтрий този запис от историята?\n\n(Съобщенията в клиниките ще останат непокътнати.)')) return;
+                    try {
+                        await remove(ref(db, `broadcasts/${btn.dataset.broadcastDelete}`));
+                        showToast('Изтрито от историята.', 'success');
+                    } catch(err) {
+                        showToast('Грешка: ' + err.message, 'error');
+                    }
+                });
+            });
+        }
+
         // ==================== ADMINS ====================
         function renderAdmins() {
             const ids = Object.keys(admins).sort((a,b) => {
@@ -1773,6 +2249,7 @@
 
         async function init() {
             initPackageSelector();
+            initBroadcastTargets();
             await ensureProtectedAdmin();
 
             const code = sessionStorage.getItem('adminCode');
