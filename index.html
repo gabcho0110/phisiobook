@@ -1,3 +1,5 @@
+Index.html
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -8,6 +10,8 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
 body { background-color: #ffffff; display: flex; min-height: 100vh; }
+
+/* ===== LOGIN ===== */
 .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1.5rem; }
 .login-screen.hidden { display: none !important; }
 .login-card { background: #ffffff; border-radius: 28px; padding: 2.5rem 2.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); text-align: center; }
@@ -25,6 +29,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .login-error { background: #fff5f5; color: #b22234; padding: 0.8rem 1rem; border-radius: 12px; margin-bottom: 1.2rem; font-size: 0.9rem; display: none; align-items: center; gap: 8px; }
 .login-error.active { display: flex; }
 .login-footer { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #edf2f8; font-size: 0.8rem; color: #7f95b0; }
+
+/* ===== APP ===== */
 .app { display: flex; flex-direction: column; width: 100%; min-height: 100vh; }
 .app.hidden { display: none !important; }
 .app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.9rem 1.5rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: sticky; top: 0; z-index: 100; }
@@ -62,6 +68,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .header-user .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
 .header-user .user-name { font-size: 0.85rem; font-weight: 500; color: #ffffff; }
 .app-body { display: flex; flex: 1; min-height: calc(100vh - 70px); }
+
+/* ===== SIDEBAR ===== */
 .sidebar { width: 280px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.5rem 0.5rem; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; flex-shrink: 0; }
 .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; }
 .nav { display: flex; flex-direction: column; gap: 0.4rem; padding: 0 0.8rem; }
@@ -83,6 +91,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .support-info .support-phone i { color: #3fb8b0; font-size: 0.85rem; }
 .support-info .support-hours { font-size: 0.75rem; color: #7fb2e5; font-style: italic; display: flex; align-items: center; justify-content: center; gap: 5px; }
 .support-info .support-hours i { font-size: 0.7rem; }
+
+/* ===== MAIN ===== */
 .main { flex: 1; background-color: #f8fbfe; padding: 2rem 2.5rem; overflow-y: auto; }
 .module { display: none; animation: fade 0.2s ease; }
 .module.active { display: block; }
@@ -90,6 +100,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 .module-header h1 { font-size: 2rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
 .module-header h1 i { color: #1e4a78; }
+
+/* ===== DASHBOARD ===== */
 .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
 .dash-card { background: #ffffff; border-radius: 20px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; }
@@ -127,6 +139,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .free-slot.busy { background: #f5f5f5; color: #b0b0b0; cursor: not-allowed; border-color: #e0e0e0; text-decoration: line-through; }
 .task-form { display: flex; gap: 10px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .task-form input { flex: 1; min-width: 200px; padding: 0.8rem 1rem; border-radius: 14px; border: 1px solid #cfddee; font-size: 0.95rem; font-family: inherit; }
+
+/* ===== CARDS & FORMS ===== */
 .card { background: #ffffff; border-radius: 24px; padding: 1.8rem 2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; margin-bottom: 2rem; }
 .card h3 { font-size: 1.3rem; font-weight: 500; color: #0b2b4f; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem 1.5rem; align-items: end; }
@@ -167,6 +181,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .form-section.plan .form-section-icon { background: #e8f5e9; color: #1a7a3e; }
 .form-section-header h4 { font-size: 1.05rem; font-weight: 700; color: #0b2b4f; margin: 0; }
 .form-section-header .sec-sub { font-size: 0.78rem; color: #7f95b0; font-weight: 500; }
+
+/* ===== PATIENT TABS ===== */
 .patient-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .patient-tab { padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .patient-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -178,6 +194,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .profile-field-label { font-size: 0.75rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
 .profile-field-label i { color: #1e4a78; }
 .profile-field-value { color: #0b2b4f; font-weight: 600; font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+
+/* ===== BUTTONS ===== */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.8rem 1.8rem; border-radius: 40px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; background-color: #0b2b4f; color: #ffffff; box-shadow: 0 6px 14px rgba(11, 43, 79, 0.15); white-space: nowrap; }
 .btn:hover:not(:disabled) { background-color: #1e4a78; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -188,6 +206,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .btn-danger-outline:hover:not(:disabled) { background: #fff5f5; border-color: #b22234; }
 .btn-success { background: #1a7a3e; }
 .btn-success:hover:not(:disabled) { background: #15642f; }
+
+/* ===== TABLES ===== */
 .table-wrapper { overflow-x: auto; border-radius: 18px; border: 1px solid #e9eef3; background: #ffffff; }
 table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 600px; }
 th { text-align: left; padding: 1rem 1.2rem; background: #f8fbfe; color: #0b2b4f; font-weight: 600; border-bottom: 1px solid #dee9f2; font-size: 0.85rem; text-transform: uppercase; }
@@ -199,6 +219,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .patient-link { color: #0b2b4f; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 8px; }
 .patient-link:hover { background: #e8f0fe; }
 .patient-link i { color: #7fb2e5; font-size: 0.85rem; }
+
+/* ===== PROFILE ===== */
 .patient-profile { display: none; }
 .patient-profile.active { display: block; }
 .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; border: 1px solid #cfddee; border-radius: 40px; background: transparent; color: #0b2b4f; font-weight: 500; cursor: pointer; margin-bottom: 1.5rem; font-size: 0.9rem; }
@@ -218,6 +240,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .timeline-item .date { font-size: 0.85rem; color: #1e4a78; font-weight: 600; margin-bottom: 0.4rem; }
 .timeline-item .title { font-size: 1.05rem; font-weight: 600; color: #0b2b4f; margin-bottom: 0.5rem; }
 .timeline-item .result { font-size: 0.9rem; color: #5a7a9a; background: #f8fbfe; padding: 0.7rem 1rem; border-radius: 10px; border-left: 3px solid #1e4a78; margin-top: 0.6rem; }
+
+/* ===== SCHEDULE ===== */
 .schedule-view-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
 .schedule-view-tab { padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .schedule-view-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -278,12 +302,16 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .day-view-slot { padding: 0.5rem; border-bottom: 1px solid #edf2f8; min-height: 70px; position: relative; transition: 0.15s; }
 .day-view-slot:hover { background: #f5f9ff; }
 .day-view-slot.drop-target { background: #e8f0fe; border: 2px dashed #1e4a78; }
+
+/* ===== MODALS ===== */
 .apt-manage-info { background: #f8fbfe; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; text-align: left; }
 .apt-manage-info .row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.9rem; border-bottom: 1px solid #edf2f8; }
 .apt-manage-info .row:last-child { border-bottom: none; }
 .apt-manage-info .row .lbl { color: #7f95b0; font-weight: 600; }
 .apt-manage-info .row .val { color: #0b2b4f; font-weight: 700; }
 .apt-status-current { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.9rem; margin: 0 auto 1.2rem; }
+
+/* ===== PRICING ===== */
 .price-date-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); padding: 1.5rem 2rem; border-radius: 20px; color: #ffffff; margin-bottom: 1.5rem; }
 .price-date-bar label { font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .price-date-bar input[type="date"] { padding: 0.7rem 1rem; border-radius: 12px; border: none; font-weight: 600; color: #0b2b4f; }
@@ -304,6 +332,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .day-summary-card .day-title { font-size: 0.85rem; font-weight: 700; color: #1e4a78; margin-bottom: 0.5rem; }
 .day-summary-card .day-total { font-size: 1.4rem; font-weight: 700; color: #0b2b4f; }
 .day-summary-card .day-count { font-size: 0.8rem; color: #7f95b0; margin-top: 0.3rem; }
+
+/* ===== EXERCISES ===== */
 .exercise-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .exercise-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .exercise-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -378,6 +408,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .program-row input.required-missing { border-color: #b22234; background: #fff5f5; }
 .program-row .row-label { font-size: 0.78rem; color: #7f95b0; font-weight: 600; text-align: center; }
 @media (max-width: 900px) { .program-row { grid-template-columns: 1fr 1fr; padding: 1rem; } }
+
+/* ===== DOCUMENTATION ===== */
 .doc-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .doc-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .doc-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -428,6 +460,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .file-attachment:hover { background: #e0d0ff; }
 .doc-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
 .doc-filter-bar select, .doc-filter-bar input { padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; background: #ffffff; }
+
+/* ===== DOSSIER ===== */
 .dossier-section-pane { display: none; animation: fade 0.2s ease; }
 .dossier-section-pane.active { display: block; }
 .dossier-list-item { background: #fff; border: 1px solid #e9eef3; border-left: 5px solid #1e4a78; border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; transition: 0.15s; }
@@ -442,6 +476,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .dossier-status-badge.new { background: #e8f0fe; color: #1e4a78; }
 .dossier-status-badge.active { background: #e8f5e9; color: #1a7a3e; }
 .dossier-status-badge.completed { background: #f0f4f8; color: #5a7a9a; }
+
+/* ===== SETTINGS ===== */
 .settings-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .settings-tab { padding: 0.8rem 1.5rem; border-radius: 12px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .settings-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -459,6 +495,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .role-checkbox-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cfddee; display: flex; align-items: center; justify-content: center; color: transparent; font-size: 0.7rem; flex-shrink: 0; transition: 0.15s; }
 .role-checkbox input:checked ~ .role-checkbox-box { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
 .role-checkbox:has(input:checked) { border-color: #1e4a78; background: #e8f0fe; }
+
+/* ===== MESSAGES ===== */
 .messages-panel { position: fixed; top: 70px; right: 0; width: 440px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .messages-panel.open { transform: translateX(0); }
 .messages-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -518,6 +556,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .chat-send-btn:hover { background: #0b2b4f; transform: scale(1.05); }
 .msg-empty { text-align: center; padding: 2.5rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.9rem; }
 .msg-empty i { display: block; font-size: 2.5rem; margin-bottom: 0.8rem; color: #cfddee; }
+
+/* ===== NOTIFICATIONS ===== */
 .notif-panel { position: fixed; top: 70px; right: 0; width: 420px; max-width: 100vw; height: calc(100vh - 70px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .notif-panel.open { transform: translateX(0); }
 .notif-header { padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -543,11 +583,15 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .notif-item-delete:hover { background: #fff5f5; }
 .notif-mark-btn { background: transparent; border: 1px solid #cfddee; color: #1e4a78; cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
 .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
+
+/* ===== ROLE BADGES ===== */
 .role-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; background: #e8f0fe; color: #0b2b4f; margin: 2px 4px 2px 0; }
 .role-badge.admin { background: #fff5e5; color: #b06d00; }
 .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
 .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
 .role-badge.locked { background: #ede9fe; color: #5b21b6; }
+
+/* ===== OVERLAYS ===== */
 .loading-overlay { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.2rem; }
 .loading-overlay.active { display: flex; }
 .loading-overlay i { font-size: 2.5rem; margin-right: 1rem; animation: spin 1s linear infinite; }
@@ -556,6 +600,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .toast { padding: 1rem 1.5rem; border-radius: 14px; background: #0b2b4f; color: #ffffff; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); display: flex; align-items: center; gap: 10px; font-weight: 500; max-width: 380px; }
 .toast.error { background: #b22234; }
 .toast.success { background: #1a7a3e; }
+
+/* ===== MODALS ===== */
 .modal-overlay { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.6); display: none; justify-content: center; align-items: center; z-index: 10001; padding: 1.5rem; }
 .modal-overlay.active { display: flex; }
 .modal { background: #ffffff; border-radius: 24px; padding: 2.5rem; max-width: 420px; width: 100%; text-align: center; }
@@ -573,6 +619,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .modal .new-code { font-family: 'Courier New', monospace; font-size: 2.5rem; font-weight: 700; letter-spacing: 8px; color: #0b2b4f; background: #e8f0fe; padding: 1rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; }
 .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
 .modal-actions .btn { min-width: 120px; }
+
+/* ===== PORTAL ===== */
 .portal-welcome { background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%); color: #ffffff; border-radius: 24px; padding: 2rem 2.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.5rem; }
 .portal-logo { width: 70px; height: 70px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .portal-logo svg { width: 90%; height: 90%; }
@@ -580,6 +628,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .portal-section { background: #ffffff; border-radius: 20px; padding: 1.8rem 2rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid #e9eef3; margin-bottom: 1.5rem; }
 .portal-section h3 { font-size: 1.2rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
 .portal-section h3 i { color: #6b3fa0; }
+
+/* ===== TESTS ===== */
 .test-category-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .test-category-tab { padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .test-category-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -648,6 +698,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .test-history-item .test-history-info .meta { font-size: 0.8rem; color: #7f95b0; }
 .test-history-item .test-history-score { font-size: 1.5rem; font-weight: 700; color: #1e4a78; }
 .test-history-item .test-history-badge { padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; }
+
+/* ===== INVENTORY ===== */
 .inv-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
 .inv-stat-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .inv-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
@@ -716,6 +768,8 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .inv-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
 .inv-pane { display: none; }
 .inv-pane.active { display: block; animation: fade 0.2s ease; }
+
+/* ===== VOUCHERS ===== */
 .vch-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
 .vch-stat-card { background: #fff; border-radius: 18px; padding: 1.3rem 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .vch-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6b3fa0, #b28cff); }
@@ -779,54 +833,301 @@ td { padding: 1rem 1.2rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; ver
 .vch-print-card .vch-print-code { font-family: 'Courier New', monospace; font-size: 1.6rem; font-weight: 700; letter-spacing: 5px; background: #f9f5ff; padding: 0.8rem 1rem; border-radius: 12px; color: #6b3fa0; margin: 0.8rem 0; }
 .vch-print-card .vch-print-meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: #5a7a9a; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #cfddee; }
 .vch-print-card .vch-print-note { font-size: 0.78rem; color: #7f95b0; margin-top: 1rem; font-style: italic; }
+
+/* ===== SUBSCRIPTION PACKAGES ===== */
 .pkg-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 .pkg-badge.start { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; border: 1px solid #7dd3fc; }
 .pkg-badge.basic { background: linear-gradient(135deg, #e8f0fe 0%, #c7dbfa 100%); color: #1e40af; border: 1px solid #93c5fd; }
 .pkg-badge.max { background: linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 100%); color: #6b21a8; border: 1px solid #c4b5fd; }
 .pkg-badge.none { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
+
+/* ===== PRINT ===== */
 @media print {
-body * { visibility: hidden; }
-#voucherPrintContainer, #voucherPrintContainer * { visibility: visible; }
-#voucherPrintContainer { position: absolute; left: 0; top: 0; width: 100%; }
+  body * { visibility: hidden; }
+  #voucherPrintContainer, #voucherPrintContainer * { visibility: visible; }
+  #voucherPrintContainer { position: absolute; left: 0; top: 0; width: 100%; }
 }
-@media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 380px; } }
-@media (max-width: 800px) {
-.sidebar { width: 80px; }
-.nav-item span, .sidebar-footer .logout-btn span { display: none; }
-.nav-item { justify-content: center; padding: 0.9rem; }
-.nav-item i { width: auto; }
-.main { padding: 1.5rem; }
-.week-grid { grid-template-columns: repeat(2, 1fr); }
-.profile-header { flex-direction: column; text-align: center; }
-.app-header { grid-template-columns: auto 1fr auto; padding: 0.8rem 1rem; }
-.header-clinic-name { font-size: 1.05rem; }
-.header-clinic-sub { display: none; }
-.header-user .user-name { display: none; }
-.messages-panel, .notif-panel { width: 100vw; }
-.support-info { display: none; }
-}
-@media (max-width: 700px) {
-.test-grid { grid-template-columns: 1fr; }
-.test-options { margin-left: 0; }
-.test-numeric-input { margin-left: 0; }
-.test-result-score { font-size: 2.5rem; }
-}
-@media (max-width: 480px) {
-.code-inputs { gap: 6px; }
-.code-inputs input { width: 38px; height: 48px; font-size: 1.15rem; border-radius: 10px; }
-.login-card { padding: 2rem 1.5rem; }
-.week-grid { grid-template-columns: 1fr; }
-.dash-card-value { font-size: 1.8rem; }
-.exercise-grid { grid-template-columns: 1fr; }
-.header-clinic-name { font-size: 0.95rem; }
-}
+
+/* ===== WORKING HOURS ===== */
 .working-hours-row { display: grid; grid-template-columns: 90px 100px 1fr 1fr 60px; gap: 8px; align-items: center; padding: 0.6rem 0.8rem; background: #f8fbfe; border-radius: 10px; margin-bottom: 6px; }
 .working-hours-row label { font-weight: 700; color: #0b2b4f; font-size: 0.88rem; }
 .working-hours-row input[type="time"] { padding: 0.5rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.85rem; font-family: inherit; }
 @media (max-width: 700px) { .working-hours-row { grid-template-columns: 1fr 1fr; } .working-hours-row label { grid-column: span 2; } }
+
+/* ================================================== */
+/* ============== MOBILE BOTTOM NAVIGATION ========== */
+/* ================================================== */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: #0b2b4f;
+  border-top: 1px solid #1d3a57;
+  z-index: 800;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.18);
+}
+
+.mobile-bottom-nav-items {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 68px;
+}
+
+.mobile-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  color: #7fb2e5;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 6px 2px;
+  position: relative;
+  transition: color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-btn i {
+  font-size: 1.15rem;
+}
+
+.mobile-nav-btn span {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.mobile-nav-btn.active {
+  color: #ffffff;
+}
+
+.mobile-nav-btn.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  background: #3fb8b0;
+  border-radius: 0 0 3px 3px;
+}
+
+.mobile-nav-btn .mobile-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 20px);
+  background: #b22234;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.62rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  padding: 0 3px;
+}
+
+/* More menu (sheet от долу) */
+.mobile-more-sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 43, 79, 0.55);
+  z-index: 900;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+
+.mobile-more-sheet.open {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mobile-more-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 24px 24px 0 0;
+  padding: 1rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+  animation: slideUp 0.25s ease;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.mobile-more-handle {
+  width: 40px;
+  height: 4px;
+  background: #cfddee;
+  border-radius: 4px;
+  margin: 0 auto 1rem;
+}
+
+.mobile-more-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #7f95b0;
+  margin-bottom: 0.8rem;
+  padding: 0 0.4rem;
+}
+
+.mobile-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.mobile-more-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 1rem 0.4rem;
+  background: #f8fbfe;
+  border: 1px solid #e9eef3;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  color: #1f3f61;
+  transition: 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-more-item:active {
+  background: #e8f0fe;
+  transform: scale(0.97);
+}
+
+.mobile-more-item i {
+  font-size: 1.4rem;
+  color: #1e4a78;
+}
+
+.mobile-more-item span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.mobile-more-item.active {
+  background: #1e4a78;
+  border-color: #1e4a78;
+}
+
+.mobile-more-item.active i,
+.mobile-more-item.active span {
+  color: #ffffff;
+}
+
+.mobile-more-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.9rem;
+  background: transparent;
+  border: 1px solid #f0c0c0;
+  color: #b22234;
+  border-radius: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.mobile-more-logout:active {
+  background: #fff5f5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .week-grid { grid-template-columns: repeat(4, 1fr); }
+  .messages-panel, .notif-panel { width: 380px; }
+}
+
+@media (max-width: 800px) {
+  /* Скриваме sidebar-а и toggle бутона на телефон */
+  .sidebar { display: none !important; }
+  .header-nav-toggle { display: none !important; }
+
+  /* Показваме мобилната навигация */
+  .mobile-bottom-nav { display: block; }
+
+  /* Отстъп за съдържанието, за да не се застъпва с долния бар */
+  .app-body { padding-bottom: 68px; }
+  .main { padding: 1.25rem 1rem 5.5rem 1rem; }
+
+  .week-grid { grid-template-columns: repeat(2, 1fr); }
+  .profile-header { flex-direction: column; text-align: center; }
+  .app-header { grid-template-columns: auto 1fr auto; padding: 0.8rem 1rem; gap: 0.8rem; }
+  .header-clinic-name { font-size: 1.05rem; }
+  .header-clinic-sub { display: none; }
+  .header-user .user-name { display: none; }
+  .messages-panel, .notif-panel { width: 100vw; }
+  .support-info { display: none; }
+  .module-header h1 { font-size: 1.5rem; }
+  .card { padding: 1.25rem 1.2rem; }
+  .dash-section { padding: 1.2rem 1.2rem; }
+  .price-date-bar { padding: 1rem 1.2rem; }
+  .price-date-bar .summary { margin-left: 0; width: 100%; justify-content: space-between; }
+  .toast-container { bottom: 84px; left: 16px; right: 16px; }
+  .toast { max-width: none; width: 100%; }
+}
+
+@media (max-width: 700px) {
+  .test-grid { grid-template-columns: 1fr; }
+  .test-options { margin-left: 0; }
+  .test-numeric-input { margin-left: 0; }
+  .test-result-score { font-size: 2.5rem; }
+}
+
+@media (max-width: 480px) {
+  .code-inputs { gap: 6px; }
+  .code-inputs input { width: 38px; height: 48px; font-size: 1.15rem; border-radius: 10px; }
+  .login-card { padding: 2rem 1.5rem; }
+  .week-grid { grid-template-columns: 1fr; }
+  .dash-card-value { font-size: 1.8rem; }
+  .exercise-grid { grid-template-columns: 1fr; }
+  .header-clinic-name { font-size: 0.95rem; }
+  .module-header h1 { font-size: 1.3rem; }
+  .mobile-more-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .mobile-more-item { padding: 0.85rem 0.3rem; }
+  .mobile-more-item i { font-size: 1.2rem; }
+  .mobile-more-item span { font-size: 0.66rem; }
+}
 </style>
 </head>
-<body><svg width="0" height="0" style="position:absolute;">
+<body>
+
+<svg width="0" height="0" style="position:absolute;">
 <defs>
 <symbol id="physio-logo" viewBox="0 0 200 200">
 <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
@@ -939,7 +1240,7 @@ body * { visibility: hidden; }
 <a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
 <div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
 </div>
-<div class="sidebar-version">v9.3 · Support</div>
+<div class="sidebar-version">v9.4 · Mobile</div>
 </div>
 </aside>
 
@@ -1820,6 +2121,90 @@ body * { visibility: hidden; }
 </div>
 </div>
 
+<!-- МОБИЛНА ДОЛНА НАВИГАЦИЯ -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <div class="mobile-bottom-nav-items">
+    <button class="mobile-nav-btn active" data-mobile-nav="dashboard">
+      <i class="fas fa-chart-pie"></i>
+      <span>Табло</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="patients">
+      <i class="fas fa-users"></i>
+      <span>Пациенти</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="schedule">
+      <i class="fas fa-calendar-alt"></i>
+      <span>График</span>
+      <span class="mobile-badge" id="mobileAptBadge" style="display:none;">0</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="procedures">
+      <i class="fas fa-stethoscope"></i>
+      <span>Процедури</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="more">
+      <i class="fas fa-ellipsis-h"></i>
+      <span>Още</span>
+    </button>
+  </div>
+</nav>
+
+<!-- МОБИЛНО "ОЩЕ" МЕНЮ -->
+<div class="mobile-more-sheet" id="mobileMoreSheet">
+  <div class="mobile-more-content">
+    <div class="mobile-more-handle"></div>
+    <div class="mobile-more-title">Всички модули</div>
+    <div class="mobile-more-grid" id="mobileMoreGrid">
+      <button class="mobile-more-item" data-more-nav="dossier">
+        <i class="fas fa-folder-open"></i>
+        <span>Досиета</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="tests">
+        <i class="fas fa-clipboard-check"></i>
+        <span>Тестове</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="inventory">
+        <i class="fas fa-boxes"></i>
+        <span>Инвентар</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="vouchers">
+        <i class="fas fa-ticket-alt"></i>
+        <span>Ваучери</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="exercises">
+        <i class="fas fa-dumbbell"></i>
+        <span>Упражнения</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="documentation">
+        <i class="fas fa-file-medical-alt"></i>
+        <span>Документация</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="pricing">
+        <i class="fas fa-euro-sign"></i>
+        <span>Ценоразпис</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="settings">
+        <i class="fas fa-cog"></i>
+        <span>Настройки</span>
+      </button>
+      <button class="mobile-more-item" data-more-nav="portal">
+        <i class="fas fa-user-circle"></i>
+        <span>Моят портал</span>
+      </button>
+    </div>
+    <div style="display:flex; gap:10px; margin-bottom:0.5rem;">
+      <button class="btn" id="mobileMessagesBtn" style="flex:1; background:#1e4a78;">
+        <i class="fas fa-envelope"></i> Съобщения
+      </button>
+      <button class="btn" id="mobileNotifBtn" style="flex:1; background:#d97706;">
+        <i class="fas fa-bell"></i> Известия
+      </button>
+    </div>
+    <button class="mobile-more-logout" id="mobileLogoutBtn">
+      <i class="fas fa-sign-out-alt"></i> Изход от профила
+    </button>
+  </div>
+</div>
+
 <div class="messages-panel" id="messagesPanel">
 <div class="messages-header">
 <h2><i class="fas fa-envelope"></i> Съобщения</h2>
@@ -2279,6 +2664,7 @@ function openSOAPForAppointment(apt) {
   if (modules.documentation) modules.documentation.classList.add('active');
   document.querySelectorAll('.doc-tab').forEach(x => x.classList.toggle('active', x.dataset.docTab === 'soap'));
   document.querySelectorAll('.doc-pane').forEach(p => p.classList.toggle('active', p.dataset.docPane === 'soap'));
+  if (typeof updateMobileNavActive === 'function') updateMobileNavActive('documentation');
 }
 
 function openAptManageModal(aptId) {
@@ -2428,6 +2814,7 @@ function applyPermissions() {
   navItems.forEach(item => { const mod = item.dataset.module; if (patientOnly) { if (mod === 'portal' || mod === 'exercises' || mod === 'tests') item.classList.remove('hidden'); else item.classList.add('hidden'); } else { if (mod === 'portal') item.classList.add('hidden'); else if (mod === 'settings' && !admin) item.classList.add('hidden'); else item.classList.remove('hidden'); } });
   if (patientOnly) { navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="portal"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.portal) modules.portal.classList.add('active'); renderPortal(); }
   else { navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dashboard"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dashboard) modules.dashboard.classList.add('active'); renderDashboard(); }
+  if (typeof applyMobileNavPermissions === 'function') applyMobileNavPermissions();
 }
 
 logoutBtn.addEventListener('click', doLogout);
@@ -2488,10 +2875,11 @@ function startDataListeners() {
     if (currentPatient) { renderPortal(); renderPatientExercises(); }
     if (currentUser && !currentPatient) renderDashboard();
     renderTestPatientDropdown(); renderVoucherPatientDropdown(); renderDossierPatientDropdown(); renderDossierList();
+    if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge();
   }));
   unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => { procedures = s.val() || {}; renderProcedures(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); if (currentUser && !currentPatient) renderDashboard(); }));
-  unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => { appointments = s.val() || {}; renderSchedule(); renderPatients(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => { appointments = s.val() || {}; renderSchedule(); renderPatients(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge(); }));
   unsubscribers.push(onValue(ref(db, `${base}/pricing`), (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/tasks`), (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/exercises`), (s) => { exercises = s.val() || {}; renderExerciseLibrary(); if (currentPatient) { renderPortal(); renderPatientExercises(); } }));
@@ -2668,8 +3056,8 @@ function viewDossier(dossierId) {
   patientProfileModule.classList.add('patient-profile');
   $('profileContent').innerHTML = html;
   window.currentProfilePatientId = null;
-  document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); });
-  document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); openDossierForEdit(e.currentTarget.dataset.dossierId); });
+  document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
+  document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); openDossierForEdit(e.currentTarget.dataset.dossierId); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
   document.getElementById('viewDossierPrintBtn')?.addEventListener('click', () => { window.print(); });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2859,7 +3247,26 @@ function renderPatientsKineziFilter() { const sel = $('patientsKineziFilter'); i
 $('scheduleKineziFilter')?.addEventListener('change', renderSchedule);
 $('patientsKineziFilter')?.addEventListener('change', renderPatients);
 
-function openNewAppointmentWithTime(hour) { navItems.forEach(n => n.classList.remove('active')); const scheduleBtn = document.querySelector('.nav-item[data-module="schedule"]'); if (scheduleBtn) scheduleBtn.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.schedule) modules.schedule.classList.add('active'); const timeStr = String(hour).padStart(2, '0') + ':00'; $('aptDate').value = toDateStr(new Date()); $('aptTime').value = timeStr; $('aptNote').value = ''; $('aptPatient').value = ''; $('aptDuration').value = '60'; $('aptRecurringToggle').checked = false; $('aptRecurringOptions').style.display = 'none'; const form = $('appointmentForm'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => $('aptPatient').focus(), 300); showToast('Попълнен час: ' + timeStr + ' — изберете пациент', 'info'); }
+function openNewAppointmentWithTime(hour) { 
+  navItems.forEach(n => n.classList.remove('active')); 
+  const scheduleBtn = document.querySelector('.nav-item[data-module="schedule"]'); 
+  if (scheduleBtn) scheduleBtn.classList.add('active'); 
+  Object.keys(modules).forEach(k => modules[k].classList.remove('active')); 
+  if (modules.schedule) modules.schedule.classList.add('active'); 
+  if (typeof updateMobileNavActive === 'function') updateMobileNavActive('schedule');
+  const timeStr = String(hour).padStart(2, '0') + ':00'; 
+  $('aptDate').value = toDateStr(new Date()); 
+  $('aptTime').value = timeStr; 
+  $('aptNote').value = ''; 
+  $('aptPatient').value = ''; 
+  $('aptDuration').value = '60'; 
+  $('aptRecurringToggle').checked = false; 
+  $('aptRecurringOptions').style.display = 'none'; 
+  const form = $('appointmentForm'); 
+  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+  setTimeout(() => $('aptPatient').focus(), 300); 
+  showToast('Попълнен час: ' + timeStr + ' — изберете пациент', 'info'); 
+}
 
 // ==================== DASHBOARD ====================
 function renderDashboard() {
@@ -3060,6 +3467,7 @@ function openPatientProfile(patientId) {
   Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
   patientProfileModule.classList.add('active');
   patientProfileModule.classList.add('patient-profile');
+  if (typeof updateMobileNavActive === 'function') updateMobileNavActive('patients');
   const myApts = Object.entries(appointments).map(([id, a]) => ({ id, ...a })).filter(a => a.patientId === patientId);
   const myProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === patientId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
   const myNotes = Object.entries(sessionNotes).map(([id, n]) => ({ id, ...n })).filter(n => n.patientId === patientId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -3073,7 +3481,7 @@ function openPatientProfile(patientId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-$('backToPatientsBtn').addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="patients"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.patients) modules.patients.classList.add('active'); window.currentProfilePatientId = null; });
+$('backToPatientsBtn').addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="patients"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.patients) modules.patients.classList.add('active'); window.currentProfilePatientId = null; if (typeof updateMobileNavActive === 'function') updateMobileNavActive('patients'); });
 
 // ==================== PORTAL ====================
 function renderPortalKineziSelect() { if (!$('portalAptKinezi')) return; const k = Object.entries(users).filter(([,u])=>hasRole(u,'Кинезитерапевт')).map(([id,u])=>({id,name:u.name})).sort((a,b)=>a.name.localeCompare(b.name)); const cur = $('portalAptKinezi').value; $('portalAptKinezi').innerHTML = '<option value="">-- избери --</option>' + k.map(x=>`<option value="${x.id}">${escapeHtml(x.name)}</option>`).join(''); if (k.some(x=>x.id===cur)) $('portalAptKinezi').value = cur; }
@@ -3208,6 +3616,162 @@ async function sendChatMessage() { if (!currentChatUserId || !currentUser) retur
 $('msgSendBtn').addEventListener('click', async () => { const recipientVal = $('msgRecipient').value; const recipient = getRecipientInfo(recipientVal); const subject = $('msgSubject').value.trim(); const text = $('msgText').value.trim(); if (!recipient) { showToast('Изберете получател.', 'error'); return; } if (!text) { showToast('Въведете съобщение.', 'error'); return; } $('msgSendBtn').disabled = true; try { const myType = isPatient(currentUser) ? 'patient' : 'staff'; await set(push(clinicRef('messages')), { from: currentUser.id, fromType: myType, to: recipient.id, toType: recipient.type, subject, text, read: false, createdAt: Date.now() }); await createNotification(recipient.id, '💬 Ново съобщение', `${currentUser.name}: ${text.slice(0, 60)}${text.length > 60 ? '...' : ''}`, 'message'); showToast('Изпратено.', 'success'); $('msgSubject').value = ''; $('msgText').value = ''; $('msgRecipient').value = ''; document.querySelectorAll('.msg-tab').forEach(t => t.classList.toggle('active', t.dataset.msgTab === 'sent')); document.querySelectorAll('.msg-pane').forEach(p => p.classList.toggle('active', p.dataset.msgPane === 'sent')); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('msgSendBtn').disabled = false; } });
 $('msgClearBtn').addEventListener('click', () => { $('msgSubject').value = ''; $('msgText').value = ''; $('msgRecipient').value = ''; });
 
+// ==================== MOBILE BOTTOM NAV ====================
+const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+const mobileMoreSheet = document.getElementById('mobileMoreSheet');
+const mobileMoreGrid = document.getElementById('mobileMoreGrid');
+
+function goToModule(targetModule) {
+  const enabled = getEnabledModules();
+  if (enabled[targetModule] === false) {
+    showToast('Този модул е изключен за вашата клиника.', 'error');
+    return;
+  }
+  // Синхронизиране със sidebar навигацията
+  navItems.forEach(n => n.classList.remove('active'));
+  const sidebarBtn = document.querySelector(`.nav-item[data-module="${targetModule}"]`);
+  if (sidebarBtn) sidebarBtn.classList.add('active');
+
+  Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+  patientProfileModule.classList.remove('active');
+  patientProfileModule.classList.remove('patient-profile');
+
+  if (modules[targetModule]) {
+    modules[targetModule].classList.add('active');
+    if (targetModule === 'dashboard') renderDashboard();
+    else if (targetModule === 'patients') renderPatients();
+    else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
+    else if (targetModule === 'schedule') renderSchedule();
+    else if (targetModule === 'procedures') renderProcedures();
+    else if (targetModule === 'tests') renderTestsModule();
+    else if (targetModule === 'inventory') renderInventoryModule();
+    else if (targetModule === 'vouchers') renderVouchersModule();
+    else if (targetModule === 'exercises') { renderExerciseLibrary(); renderProgramsList(); if (currentPatient) renderPatientExercises(); }
+    else if (targetModule === 'documentation') { renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
+    else if (targetModule === 'pricing') { renderPricing(); renderDaySummary(); }
+    else if (targetModule === 'portal') renderPortal();
+  }
+  updateMobileNavActive(targetModule);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateMobileNavActive(targetModule) {
+  // Ако модулът е в "Още" групата
+  const moreModules = ['dossier','tests','inventory','vouchers','exercises','documentation','pricing','settings','portal'];
+  const isMore = moreModules.includes(targetModule);
+
+  mobileNavBtns.forEach(btn => {
+    const nav = btn.dataset.mobileNav;
+    if (nav === 'more') {
+      btn.classList.toggle('active', isMore);
+    } else {
+      btn.classList.toggle('active', nav === targetModule);
+    }
+  });
+
+  // Маркираме активния елемент в "Още" менюто
+  mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.moreNav === targetModule);
+  });
+}
+
+mobileNavBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.mobileNav;
+    if (target === 'more') {
+      mobileMoreSheet.classList.add('open');
+      // Маркираме активния модул
+      const activeSidebar = document.querySelector('.nav-item.active');
+      if (activeSidebar) updateMobileNavActive(activeSidebar.dataset.module);
+    } else {
+      mobileMoreSheet.classList.remove('open');
+      goToModule(target);
+    }
+  });
+});
+
+mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const target = item.dataset.moreNav;
+    mobileMoreSheet.classList.remove('open');
+    goToModule(target);
+  });
+});
+
+// Затваряне при клик извън sheet-а
+mobileMoreSheet.addEventListener('click', (e) => {
+  if (e.target === mobileMoreSheet) mobileMoreSheet.classList.remove('open');
+});
+
+// Мобилни бутони за съобщения/известия
+document.getElementById('mobileMessagesBtn')?.addEventListener('click', () => {
+  mobileMoreSheet.classList.remove('open');
+  $('messagesPanel').classList.add('open');
+  $('notifPanel').classList.remove('open');
+});
+
+document.getElementById('mobileNotifBtn')?.addEventListener('click', () => {
+  mobileMoreSheet.classList.remove('open');
+  $('notifPanel').classList.add('open');
+  $('messagesPanel').classList.remove('open');
+});
+
+document.getElementById('mobileLogoutBtn')?.addEventListener('click', () => {
+  mobileMoreSheet.classList.remove('open');
+  doLogout();
+});
+
+// Обновяване на badge за днешни часове
+function updateMobileAptBadge() {
+  const badge = document.getElementById('mobileAptBadge');
+  if (!badge) return;
+  const todayStr = toDateStr(new Date());
+  const todayCount = Object.values(appointments).filter(a => a.date === todayStr && (a.status !== 'cancelled' && a.status !== 'completed')).length;
+  if (todayCount > 0) {
+    badge.textContent = todayCount;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// Скриване/показване на mobile nav според ролята
+function applyMobileNavPermissions() {
+  if (!currentUser) return;
+  const patientOnly = isOnlyPatient(currentUser);
+  const enabled = getEnabledModules();
+
+  // При пациент - показваме само Портал и Упражнения в "Още"
+  mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
+    const mod = item.dataset.moreNav;
+    if (patientOnly) {
+      item.style.display = (mod === 'portal' || mod === 'exercises' || mod === 'tests') ? '' : 'none';
+    } else {
+      item.style.display = (mod === 'portal') ? 'none' : '';
+      if (enabled[mod] === false) item.style.display = 'none';
+    }
+  });
+
+  // Скриване на bottom nav бутоните за изключени модули
+  mobileNavBtns.forEach(btn => {
+    const mod = btn.dataset.mobileNav;
+    if (mod === 'more') return;
+    if (enabled[mod] === false) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+    }
+  });
+
+  // Ако потребителят е само пациент - маркираме "Още" като активен
+  if (patientOnly) {
+    mobileNavBtns.forEach(btn => {
+      const nav = btn.dataset.mobileNav;
+      btn.classList.toggle('active', nav === 'more');
+    });
+  }
+}
+
 // ==================== NAVIGATION ====================
 navItems.forEach(item => {
   item.addEventListener('click', () => {
@@ -3233,6 +3797,10 @@ navItems.forEach(item => {
       else if (targetModule === 'documentation') { renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
       else if (targetModule === 'pricing') { renderPricing(); renderDaySummary(); }
       else if (targetModule === 'portal') renderPortal();
+    }
+    // Синхронизиране с мобилната навигация
+    if (typeof updateMobileNavActive === 'function') {
+      updateMobileNavActive(targetModule);
     }
   });
 });
