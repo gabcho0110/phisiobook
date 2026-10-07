@@ -23,7 +23,7 @@
 <meta name="language" content="Bulgarian">
 <meta name="geo.region" content="BG">
 
-<!-- Open Graph (Facebook, Viber, Messenger) -->
+<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PhysioBook">
 <meta property="og:title" content="PhysioBook – Дигитален асистент за физиотерапевти">
@@ -42,7 +42,6 @@
 html, body { overflow-x: hidden; max-width: 100vw; }
 body { background-color: #ffffff; display: flex; min-height: 100vh; }
 
-/* ===== LOGIN ===== */
 .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
 .login-screen.hidden { display: none !important; }
 .login-card { background: #ffffff; border-radius: 20px; padding: 1.5rem 2rem; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); text-align: center; max-height: 95vh; overflow-y: auto; }
@@ -61,7 +60,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .login-error.active { display: flex; }
 .login-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #edf2f8; font-size: 0.75rem; color: #7f95b0; }
 
-/* ===== APP ===== */
 .app { display: flex; flex-direction: column; width: 100%; min-height: 100vh; max-width: 100vw; overflow-x: hidden; }
 .app.hidden { display: none !important; }
 .app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.6rem 1rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: sticky; top: 0; z-index: 100; max-width: 100vw; }
@@ -100,7 +98,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .header-user .user-name { font-size: 0.8rem; font-weight: 500; color: #ffffff; }
 .app-body { display: flex; flex: 1; min-height: calc(100vh - 60px); max-width: 100vw; overflow-x: hidden; }
 
-/* ===== SIDEBAR ===== */
 .sidebar { width: 260px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.2rem 0.5rem; position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto; flex-shrink: 0; }
 .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; }
 .nav { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0.6rem; }
@@ -123,14 +120,14 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .support-info .support-hours { font-size: 0.7rem; color: #7fb2e5; font-style: italic; display: flex; align-items: center; justify-content: center; gap: 4px; }
 .support-info .support-hours i { font-size: 0.65rem; }
 
-/* ===== MAIN ===== */
 .main { flex: 1; background-color: #f8fbfe; padding: 1.5rem 2rem; overflow-y: auto; width: 100%; max-width: 100vw; overflow-x: hidden; }
 .module { display: none; animation: fade 0.2s ease; }
 .module.active { display: block; }
 @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
 .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .module-header h1 { font-size: 1.6rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 10px; }
-.module-header h1 i { color: #1e4a78; }/* ===== DASHBOARD ===== */
+.module-header h1 i { color: #1e4a78; }
+
 .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .dash-card { background: #ffffff; border-radius: 16px; padding: 1.2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
@@ -169,7 +166,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .task-form { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
 .task-form input { flex: 1; min-width: 180px; padding: 0.6rem 0.8rem; border-radius: 12px; border: 1px solid #cfddee; font-size: 0.9rem; font-family: inherit; }
 
-/* ===== CARDS & FORMS ===== */
 .card { background: #ffffff; border-radius: 20px; padding: 1.5rem 1.8rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; margin-bottom: 1.5rem; }
 .card h3 { font-size: 1.1rem; font-weight: 500; color: #0b2b4f; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem 1.2rem; align-items: end; }
@@ -211,7 +207,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .form-section-header h4 { font-size: 0.95rem; font-weight: 700; color: #0b2b4f; margin: 0; }
 .form-section-header .sec-sub { font-size: 0.75rem; color: #7f95b0; font-weight: 500; }
 
-/* ===== PATIENT TABS ===== */
 .patient-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .patient-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .patient-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -224,7 +219,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .profile-field-label i { color: #1e4a78; }
 .profile-field-value { color: #0b2b4f; font-weight: 600; font-size: 0.9rem; line-height: 1.4; white-space: pre-wrap; word-break: break-word; }
 
-/* ===== BUTTONS ===== */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0.7rem 1.5rem; border-radius: 40px; border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; background-color: #0b2b4f; color: #ffffff; box-shadow: 0 6px 14px rgba(11, 43, 79, 0.15); white-space: nowrap; }
 .btn:hover:not(:disabled) { background-color: #1e4a78; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -236,7 +230,6 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .btn-success { background: #1a7a3e; }
 .btn-success:hover:not(:disabled) { background: #15642f; }
 
-/* ===== TABLES ===== */
 .table-wrapper { overflow-x: auto; border-radius: 16px; border: 1px solid #e9eef3; background: #ffffff; -webkit-overflow-scrolling: touch; max-width: 100%; }
 table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 th { text-align: left; padding: 0.8rem 0.9rem; background: #f8fbfe; color: #0b2b4f; font-weight: 600; border-bottom: 1px solid #dee9f2; font-size: 0.75rem; text-transform: uppercase; }
@@ -249,7 +242,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .patient-link:hover { background: #e8f0fe; }
 .patient-link i { color: #7fb2e5; font-size: 0.8rem; }
 
-/* ===== PROFILE ===== */
 .patient-profile { display: none; }
 .patient-profile.active { display: block; }
 .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; border: 1px solid #cfddee; border-radius: 40px; background: transparent; color: #0b2b4f; font-weight: 500; cursor: pointer; margin-bottom: 1.2rem; font-size: 0.85rem; }
@@ -270,7 +262,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .timeline-item .title { font-size: 0.95rem; font-weight: 600; color: #0b2b4f; margin-bottom: 0.4rem; }
 .timeline-item .result { font-size: 0.85rem; color: #5a7a9a; background: #f8fbfe; padding: 0.6rem 0.8rem; border-radius: 8px; border-left: 3px solid #1e4a78; margin-top: 0.5rem; }
 
-/* ===== SCHEDULE ===== */
 .schedule-view-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; align-items: center; }
 .schedule-view-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .schedule-view-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -334,7 +325,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .day-view-slot:hover { background: #f5f9ff; }
 .day-view-slot.drop-target { background: #e8f0fe; border: 2px dashed #1e4a78; }
 
-/* ===== MODALS ===== */
 .apt-manage-info { background: #f8fbfe; border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 1.2rem; text-align: left; }
 .apt-manage-info .row { display: flex; justify-content: space-between; padding: 0.3rem 0; font-size: 0.85rem; border-bottom: 1px solid #edf2f8; }
 .apt-manage-info .row:last-child { border-bottom: none; }
@@ -342,7 +332,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .apt-manage-info .row .val { color: #0b2b4f; font-weight: 700; }
 .apt-status-current { display: inline-flex; align-items: center; gap: 6px; padding: 0.4rem 0.8rem; border-radius: 10px; font-weight: 700; font-size: 0.85rem; margin: 0 auto 1rem; }
 
-/* ===== PRICING ===== */
 .price-date-bar { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); padding: 1.2rem 1.5rem; border-radius: 16px; color: #ffffff; margin-bottom: 1.2rem; }
 .price-date-bar label { font-weight: 600; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
 .price-date-bar input[type="date"] { padding: 0.6rem 0.8rem; border-radius: 10px; border: none; font-weight: 600; color: #0b2b4f; }
@@ -364,7 +353,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .day-summary-card .day-total { font-size: 1.2rem; font-weight: 700; color: #0b2b4f; }
 .day-summary-card .day-count { font-size: 0.75rem; color: #7f95b0; margin-top: 0.2rem; }
 
-/* ===== EXERCISES ===== */
 .exercise-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .exercise-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .exercise-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -437,7 +425,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .program-row input.required-missing { border-color: #b22234; background: #fff5f5; }
 .program-row .row-label { font-size: 0.72rem; color: #7f95b0; font-weight: 600; text-align: center; }
 
-/* ===== DOCUMENTATION ===== */
 .doc-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .doc-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .doc-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -487,7 +474,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .doc-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.2rem; align-items: center; }
 .doc-filter-bar select, .doc-filter-bar input { padding: 0.6rem 0.9rem; border-radius: 10px; border: 1px solid #cfddee; font-size: 0.85rem; font-family: inherit; background: #ffffff; }
 
-/* ===== DOSSIER ===== */
 .dossier-section-pane { display: none; animation: fade 0.2s ease; }
 .dossier-section-pane.active { display: block; }
 .dossier-list-item { background: #fff; border: 1px solid #e9eef3; border-left: 5px solid #1e4a78; border-radius: 14px; padding: 1rem 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; transition: 0.15s; }
@@ -503,7 +489,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .dossier-status-badge.active { background: #e8f5e9; color: #1a7a3e; }
 .dossier-status-badge.completed { background: #f0f4f8; color: #5a7a9a; }
 
-/* ===== SETTINGS ===== */
 .settings-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .settings-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .settings-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -521,7 +506,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .role-checkbox input:checked ~ .role-checkbox-box { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
 .role-checkbox:has(input:checked) { border-color: #1e4a78; background: #e8f0fe; }
 
-/* ===== MESSAGES ===== */
 .messages-panel { position: fixed; top: 60px; right: 0; width: 420px; max-width: 100vw; height: calc(100vh - 60px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .messages-panel.open { transform: translateX(0); }
 .messages-header { padding: 1rem 1.2rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -582,7 +566,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .msg-empty { text-align: center; padding: 2rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.85rem; }
 .msg-empty i { display: block; font-size: 2rem; margin-bottom: 0.6rem; color: #cfddee; }
 
-/* ===== NOTIFICATIONS ===== */
 .notif-panel { position: fixed; top: 60px; right: 0; width: 400px; max-width: 100vw; height: calc(100vh - 60px); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .notif-panel.open { transform: translateX(0); }
 .notif-header { padding: 1rem 1.2rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -609,14 +592,12 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .notif-mark-btn { background: transparent; border: 1px solid #cfddee; color: #1e4a78; cursor: pointer; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px; }
 .notif-mark-btn:hover { background: #e8f0fe; border-color: #1e4a78; }
 
-/* ===== ROLE BADGES ===== */
 .role-badge { display: inline-flex; align-items: center; gap: 4px; padding: 0.25rem 0.7rem; border-radius: 8px; font-size: 0.72rem; font-weight: 600; background: #e8f0fe; color: #0b2b4f; margin: 2px 3px 2px 0; }
 .role-badge.admin { background: #fff5e5; color: #b06d00; }
 .role-badge.kinezi { background: #e8f5e9; color: #1a7a3e; }
 .role-badge.patient { background: #f0e8ff; color: #6b3fa0; }
 .role-badge.locked { background: #ede9fe; color: #5b21b6; }
 
-/* ===== OVERLAYS ===== */
 .loading-overlay { position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); display: none; justify-content: center; align-items: center; z-index: 9999; color: #0b2b4f; font-size: 1.1rem; }
 .loading-overlay.active { display: flex; }
 .loading-overlay i { font-size: 2rem; margin-right: 0.8rem; animation: spin 1s linear infinite; }
@@ -626,7 +607,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .toast.error { background: #b22234; }
 .toast.success { background: #1a7a3e; }
 
-/* ===== MODALS ===== */
 .modal-overlay { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.6); display: none; justify-content: center; align-items: center; z-index: 10001; padding: 1rem; }
 .modal-overlay.active { display: flex; }
 .modal { background: #ffffff; border-radius: 20px; padding: 1.8rem; max-width: 400px; width: 100%; text-align: center; max-height: 95vh; overflow-y: auto; }
@@ -645,7 +625,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .modal-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; }
 .modal-actions .btn { min-width: 100px; }
 
-/* ===== PORTAL ===== */
 .portal-welcome { background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%); color: #ffffff; border-radius: 20px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.2rem; }
 .portal-logo { width: 60px; height: 60px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .portal-logo svg { width: 90%; height: 90%; }
@@ -654,7 +633,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .portal-section h3 { font-size: 1.1rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
 .portal-section h3 i { color: #6b3fa0; }
 
-/* ===== TESTS ===== */
 .test-category-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .test-category-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .test-category-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -724,7 +702,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .test-history-item .test-history-score { font-size: 1.3rem; font-weight: 700; color: #1e4a78; }
 .test-history-item .test-history-badge { padding: 0.25rem 0.7rem; border-radius: 8px; font-size: 0.72rem; font-weight: 700; }
 
-/* ===== INVENTORY ===== */
 .inv-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .inv-stat-card { background: #fff; border-radius: 16px; padding: 1.1rem 1.3rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .inv-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
@@ -793,7 +770,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .inv-pane { display: none; }
 .inv-pane.active { display: block; animation: fade 0.2s ease; }
 
-/* ===== VOUCHERS ===== */
 .vch-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .vch-stat-card { background: #fff; border-radius: 16px; padding: 1.1rem 1.3rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .vch-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6b3fa0, #b28cff); }
@@ -857,7 +833,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .vch-print-card .vch-print-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: #5a7a9a; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px dashed #cfddee; }
 .vch-print-card .vch-print-note { font-size: 0.75rem; color: #7f95b0; margin-top: 0.8rem; font-style: italic; }
 
-/* ===== SUBSTITUTIONS ===== */
 .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .sub-card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9eef3; position: relative; }
 .sub-card-top { background: linear-gradient(135deg, #6b3fa0 0%, #8b5fbf 100%); color: #fff; padding: 1rem 1.3rem; display: flex; justify-content: space-between; align-items: center; }
@@ -877,21 +852,16 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .sub-apt-item .apt-select { flex-shrink: 0; }
 .sub-apt-item .apt-select select { padding: 0.4rem 0.7rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.8rem; font-family: inherit; background: #fff; font-weight: 600; color: #0b2b4f; }
 
-/* ===== PRINT ===== */
 @media print {
   body * { visibility: hidden; }
   #voucherPrintContainer, #voucherPrintContainer * { visibility: visible; }
   #voucherPrintContainer { position: absolute; left: 0; top: 0; width: 100%; }
 }
 
-/* ===== WORKING HOURS ===== */
 .working-hours-row { display: grid; grid-template-columns: 80px 90px 1fr 1fr 50px; gap: 6px; align-items: center; padding: 0.5rem 0.7rem; background: #f8fbfe; border-radius: 10px; margin-bottom: 5px; }
 .working-hours-row label { font-weight: 700; color: #0b2b4f; font-size: 0.82rem; }
 .working-hours-row input[type="time"] { padding: 0.4rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.8rem; font-family: inherit; }
 
-/* ================================================== */
-/* ============== MOBILE BOTTOM NAVIGATION ========== */
-/* ================================================== */
 .mobile-bottom-nav {
   display: none;
   position: fixed;
@@ -935,7 +905,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .mobile-nav-btn.active::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 32px; height: 3px; background: #3fb8b0; border-radius: 0 0 3px 3px; }
 .mobile-nav-btn .mobile-badge { position: absolute; top: 2px; right: calc(50% - 18px); background: #b22234; color: #fff; border-radius: 50%; min-width: 14px; height: 14px; font-size: 0.58rem; display: flex; align-items: center; justify-content: center; font-weight: 700; padding: 0 2px; }
 
-/* More menu (sheet от долу) */
 .mobile-more-sheet { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.55); z-index: 900; display: none; align-items: flex-end; justify-content: center; animation: fadeIn 0.15s ease; }
 .mobile-more-sheet.open { display: flex; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -953,13 +922,11 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .mobile-more-logout { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 0.7rem; background: transparent; border: 1px solid #f0c0c0; color: #b22234; border-radius: 12px; font-weight: 600; font-family: inherit; font-size: 0.85rem; cursor: pointer; margin-top: 0.4rem; }
 .mobile-more-logout:active { background: #fff5f5; }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .week-grid { grid-template-columns: repeat(4, 1fr); }
   .messages-panel, .notif-panel { width: 360px; }
 }
 
-/* ===== LANDSCAPE PHONE (хоризонтален телефон) ===== */
 @media (max-height: 500px) and (orientation: landscape) {
   .app-header { padding: 0.4rem 0.8rem; gap: 0.6rem; }
   .header-logo { width: 30px; height: 30px; }
@@ -1059,7 +1026,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
   .toast { padding: 0.6rem 1rem; font-size: 0.8rem; max-width: none; width: 100%; }
 }
 
-/* ===== MOBILE PORTRAIT (вертикален телефон) ===== */
 @media (max-width: 800px) {
   .sidebar { display: none !important; }
   .header-nav-toggle { display: none !important; }
@@ -1267,7 +1233,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
   .schedule-legend-dot { width: 10px; height: 10px; }
 }
 
-/* ===== МНОГО ТЕСЕН ЕКРАН (под 400px) ===== */
 @media (max-width: 400px) {
   .main { padding: 0.6rem 0.4rem 4.5rem 0.4rem; }
   .card { padding: 0.7rem 0.6rem !important; }
@@ -1284,7 +1249,9 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 }
 </style>
 </head>
-<body><svg width="0" height="0" style="position:absolute;">
+<body>
+
+<svg width="0" height="0" style="position:absolute;">
 <defs>
 <symbol id="physio-logo" viewBox="0 0 200 200">
 <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
@@ -1327,9 +1294,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </form>
 <div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп</div>
 </div>
-</div>
-
-<div class="app hidden" id="app">
+</div><div class="app hidden" id="app">
 <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1524,7 +1489,9 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
 </div>
 
-</section><section id="module-dossier" class="module">
+</section>
+
+<section id="module-dossier" class="module">
 <div class="module-header">
 <h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1>
 </div>
@@ -1824,7 +1791,9 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </form>
 </div>
 <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
-</section><section id="module-tests" class="module">
+</section>
+
+<section id="module-tests" class="module">
 <div class="module-header">
 <h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1>
 </div>
@@ -2287,7 +2256,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </div>
 </div>
 
-<!-- МОБИЛНА ДОЛНА НАВИГАЦИЯ -->
 <nav class="mobile-bottom-nav" id="mobileBottomNav">
   <div class="mobile-bottom-nav-items">
     <button class="mobile-nav-btn active" data-mobile-nav="dashboard">
@@ -2314,7 +2282,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
   </div>
 </nav>
 
-<!-- МОБИЛНО "ОЩЕ" МЕНЮ -->
 <div class="mobile-more-sheet" id="mobileMoreSheet">
   <div class="mobile-more-content">
     <div class="mobile-more-handle"></div>
@@ -2674,8 +2641,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const clinicsRootRef = ref(db, 'clinics');
 const LEGACY_PATIENTS_REF = ref(db, 'patients');
-const LEGACY_USERS_REF = ref(db, 'users');
-</script>let clinics = {};
+const LEGACY_USERS_REF = ref(db, 'users');let clinics = {};
 let activeClinicId = null;
 let activeClinic = null;
 let userClinics = [];
@@ -3376,7 +3342,9 @@ document.addEventListener('click', async (e) => {
 
 $('dossierSearchInput')?.addEventListener('input', renderDossierList);
 
-document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });// ==================== PATIENTS & KINEZI ASSIGNMENT ====================
+document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });
+
+// ==================== PATIENTS & KINEZI ASSIGNMENT ====================
 function renderPatientKineziCheckboxes() {
   const container = $('patientKineziCheckboxes');
   if (!container) return;
@@ -3499,9 +3467,7 @@ document.addEventListener('click', async (e) => {
   if (rest) { try { await update(clinicRef(`patients/${rest.dataset.id}`), { archived: false }); showToast('Върнат.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
   const del = e.target.closest('.delete-patient');
   if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
-});
-
-// ==================== SCHEDULE COLORS ====================
+});// ==================== SCHEDULE COLORS ====================
 const PROCEDURE_COLORS = { 'физиотерапия': '#0891b2', 'кинезитерапия': '#1e4a78', 'масаж': '#6b3fa0', 'мануална терапия': '#d97706', 'упражнения': '#1a7a3e', 'електротерапия': '#ea580c', 'рехабилитация': '#b22234' };
 const THERAPIST_COLORS = ['#1e4a78','#6b3fa0','#0891b2','#1a7a3e','#d97706','#b22234','#ea580c','#7f95b0','#0f766e','#7c3aed'];
 
@@ -3675,7 +3641,9 @@ $('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const 
 // ==================== PROCEDURES ====================
 function renderProcedures() { const all = getProceduresForUser(); if (all.length===0) { $('proceduresBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; } const sorted = all.sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); $('proceduresBody').innerHTML = sorted.map(p=>{ const pat = patients[p.patientId]; const pn = pat?`<a class="patient-link" data-id="${pat.id}">${escapeHtml(pat.name)}</a>`:'<i>неизвестен</i>'; return `<tr><td>${pn}</td><td>${escapeHtml(p.description)}</td><td>${formatDate(p.date)} ${p.time||''}</td><td>${escapeHtml(p.result||'---')}</td><td><button class="btn-outline btn btn-sm delete-procedure" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`; }).join(''); }
 $('procedureForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('procPatient').value; const description = $('procDescription').value.trim(); const date = $('procDate').value; const time = $('procTime').value; const result = $('procResult').value.trim(); if (!patientId || !description || !date || !time) { showToast('Попълнете полетата.', 'error'); return; } $('addProcedureBtn').disabled = true; try { await set(push(clinicRef('procedures')), { patientId, description, date, time, result, createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); $('procedureForm').reset(); $('procDate').value = toDateStr(new Date()); showToast('Процедурата е запазена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('addProcedureBtn').disabled = false; } });
-document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });// ==================== TESTS ====================
+document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
+
+// ==================== TESTS ====================
 const TESTS_DEFINITIONS = {
   vas: { id: 'vas', name: 'VAS / NRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Визуална аналогова скала (VAS) или Числова рейтингова скала (NRS) за оценка на болка', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Най-силна възможна болка', interpretation: (score) => { if (score <= 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
   nprs: { id: 'nprs', name: 'NPRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Числова рейтингова скала за болка -- 0 (няма) до 10 (максимална)', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Максимална болка', interpretation: (score) => { if (score === 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
@@ -3854,7 +3822,9 @@ $('usersBody').addEventListener('click', async (e)=>{ const eb = e.target.closes
 $('saveRolesBtn').addEventListener('click', async ()=>{ if (!editingUserId) return; const u = users[editingUserId]; if (u && isLockedUser(u)) { showToast('🔒 Заключен.', 'error'); return; } const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value); if (roles.length===0) { showToast('Изберете роля.','error'); return; } $('saveRolesBtn').disabled = true; try { await update(clinicRef(`users/${editingUserId}`), { roles, role: null }); showToast('Обновени.','success'); $('editRolesModal').classList.remove('active'); editingUserId = null; } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('saveRolesBtn').disabled = false; } });
 $('cancelRolesBtn').addEventListener('click', ()=>{ $('editRolesModal').classList.remove('active'); editingUserId = null; });
 $('modalCopyBtn').addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText($('modalNewCode').textContent); showToast('Копиран.','success'); } catch { showToast('Не е разрешено.','error'); } });
-$('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });// ==================== PATIENT PROFILE ====================
+$('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
+
+// ==================== PATIENT PROFILE ====================
 function openPatientProfile(patientId) {
   const pat = patients[patientId]; if (!pat) { showToast('Пациентът не е намерен.', 'error'); return; }
   if (isPatient(currentUser) && currentPatient?.id !== patientId) { showToast('Нямате достъп до този профил.', 'error'); return; }
