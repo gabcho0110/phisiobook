@@ -1,15 +1,18 @@
 {
   "name": "PhysioBook",
   "short_name": "PhysioBook",
-  "description": "PhysioBook е специализирано мобилно приложение, създадено изцяло в подкрепа на физиотерапевти, рехабилитатори и кинезитерапевти. Дигитализира и улеснява ежедневната ви практика – управление на пациенти, интелигентен график, проследяване на процедури и сесии, всичко от вашето мобилно устройство.",
+  "description": "PhysioBook е специализирано мобилно приложение за физиотерапевти, рехабилитатори и кинезитерапевти. Управление на пациенти, график, процедури и сесии.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "#0d6efd",
+  "theme_color": "#1e4a78",
   "lang": "bg",
   "categories": ["medical", "health", "productivity"],
+  "developer": {
+    "name": "Алекс Тодоров, Габриел Атанасов"
+  },
   "icons": [
     {
       "src": "/icon-192.png",
