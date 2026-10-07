@@ -1249,9 +1249,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 }
 </style>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute;">
+<body><svg width="0" height="0" style="position:absolute;">
 <defs>
 <symbol id="physio-logo" viewBox="0 0 200 200">
 <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
@@ -1294,7 +1292,9 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </form>
 <div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп</div>
 </div>
-</div><div class="app hidden" id="app">
+</div>
+
+<div class="app hidden" id="app">
 <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
 <div class="toast-container" id="toastContainer"></div>
 
@@ -2000,7 +2000,9 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3></div>
 <div id="programsList"></div>
 </div>
-</section><section id="module-documentation" class="module">
+</section>
+
+<section id="module-documentation" class="module">
 <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
 <div class="doc-tabs">
 <button class="doc-tab active" data-doc-tab="sessions"><i class="fas fa-notes-medical"></i> Бележки</button>
@@ -2278,6 +2280,14 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
     <button class="mobile-nav-btn" data-mobile-nav="more">
       <i class="fas fa-ellipsis-h"></i>
       <span>Още</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="portal" style="display:none;">
+      <i class="fas fa-user-circle"></i>
+      <span>Портал</span>
+    </button>
+    <button class="mobile-nav-btn" data-mobile-nav="exercises" style="display:none;">
+      <i class="fas fa-dumbbell"></i>
+      <span>Упражнения</span>
     </button>
   </div>
 </nav>
@@ -2967,12 +2977,40 @@ async function switchClinic(newClinicId) {
   isSwitchingClinic = false;
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// ⚠️ ПРОМЯНА ЗА ПАЦИЕНТИ: Виждат само "Моят портал" и "Упражнения"
+// ═══════════════════════════════════════════════════════════════════
 function applyPermissions() {
   const admin = isAdmin(currentUser);
   const patientOnly = isOnlyPatient(currentUser);
-  navItems.forEach(item => { const mod = item.dataset.module; if (patientOnly) { if (mod === 'portal' || mod === 'exercises' || mod === 'tests') item.classList.remove('hidden'); else item.classList.add('hidden'); } else { if (mod === 'portal') item.classList.add('hidden'); else if (mod === 'settings' && !admin) item.classList.add('hidden'); else item.classList.remove('hidden'); } });
-  if (patientOnly) { navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="portal"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.portal) modules.portal.classList.add('active'); renderPortal(); }
-  else { navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dashboard"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dashboard) modules.dashboard.classList.add('active'); renderDashboard(); }
+  navItems.forEach(item => { 
+    const mod = item.dataset.module; 
+    if (patientOnly) { 
+      // ПАЦИЕНТИ: само Портал и Упражнения
+      if (mod === 'portal' || mod === 'exercises') item.classList.remove('hidden'); 
+      else item.classList.add('hidden'); 
+    } else { 
+      // СЛУЖИТЕЛИ: скрий Портал, покажи всичко друго
+      if (mod === 'portal') item.classList.add('hidden'); 
+      else if (mod === 'settings' && !admin) item.classList.add('hidden'); 
+      else item.classList.remove('hidden'); 
+    } 
+  });
+  if (patientOnly) { 
+    navItems.forEach(n => n.classList.remove('active')); 
+    const p = document.querySelector('.nav-item[data-module="portal"]'); 
+    if (p) p.classList.add('active'); 
+    Object.keys(modules).forEach(k => modules[k].classList.remove('active')); 
+    if (modules.portal) modules.portal.classList.add('active'); 
+    renderPortal(); 
+  } else { 
+    navItems.forEach(n => n.classList.remove('active')); 
+    const d = document.querySelector('.nav-item[data-module="dashboard"]'); 
+    if (d) d.classList.add('active'); 
+    Object.keys(modules).forEach(k => modules[k].classList.remove('active')); 
+    if (modules.dashboard) modules.dashboard.classList.add('active'); 
+    renderDashboard(); 
+  }
   if (typeof applyMobileNavPermissions === 'function') applyMobileNavPermissions();
 }
 
@@ -3063,7 +3101,9 @@ function startDataListeners() {
     const subPane = document.querySelector('.settings-pane[data-set-pane="subscription"]');
     if (subPane && subPane.classList.contains('active')) renderSubscriptionPane();
   }));
-}// ==================== SUBSCRIPTION ====================
+}
+
+// ==================== SUBSCRIPTION ====================
 const PACKAGES_DEF = {
     start: { name: 'Начален', price: 50, color: 'start', icon: 'fa-seedling', desc: 'За малки практики', modules: ['dashboard', 'patients', 'schedule', 'procedures'] },
     basic: { name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники', modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier'] },
@@ -3444,30 +3484,7 @@ $('patientForm').addEventListener('submit', async (e) => {
   } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
   finally { $('addPatientBtn').disabled = false; }
 });
-
-document.addEventListener('click', async (e) => {
-  const editBtn = e.target.closest('.edit-patient');
-  if (editBtn) {
-    const pat = patients[editBtn.dataset.id]; if (!pat) return;
-    editingPatientId = editBtn.dataset.id;
-    $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || '';
-    renderPatientKineziCheckboxes();
-    $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Запази промените';
-    document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.patientTab === 'new'));
-    document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === 'new'));
-    document.querySelector('#module-patients .card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    showToast('Редактиране на: ' + pat.name, 'info');
-    return;
-  }
-  const link = e.target.closest('.patient-link');
-  if (link) { openPatientProfile(link.dataset.id); return; }
-  const arch = e.target.closest('.archive-single');
-  if (arch) { if (!confirm('Архивирай пациента?')) return; try { await update(clinicRef(`patients/${arch.dataset.id}`), { archived: true, archivedAt: Date.now() }); showToast('Архивиран.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
-  const rest = e.target.closest('.restore-patient');
-  if (rest) { try { await update(clinicRef(`patients/${rest.dataset.id}`), { archived: false }); showToast('Върнат.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
-  const del = e.target.closest('.delete-patient');
-  if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
-});// ==================== SCHEDULE COLORS ====================
+// ==================== SCHEDULE COLORS ====================
 const PROCEDURE_COLORS = { 'физиотерапия': '#0891b2', 'кинезитерапия': '#1e4a78', 'масаж': '#6b3fa0', 'мануална терапия': '#d97706', 'упражнения': '#1a7a3e', 'електротерапия': '#ea580c', 'рехабилитация': '#b22234' };
 const THERAPIST_COLORS = ['#1e4a78','#6b3fa0','#0891b2','#1a7a3e','#d97706','#b22234','#ea580c','#7f95b0','#0f766e','#7c3aed'];
 
@@ -3738,7 +3755,9 @@ document.addEventListener('click', async (e) => { const btn = e.target.closest('
 function openVoucherViewModal(id) { const v = vouchers[id]; if (!v) return; currentVoucherId = id; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const status = getVoucherStatus(v); const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const val = parseFloat(v.value) || 0; const clinicName = clinicSettings.name || activeClinic?.name || 'PhysioBook'; const clinicSub = clinicSettings.sub || ''; $('voucherPrintContainer').innerHTML = `<div class="vch-print-card"><div class="vch-print-logo"><svg width="80" height="80"><use href="#physio-logo"></use></svg></div><h2>${escapeHtml(clinicName)}</h2><div class="vch-print-sub">${escapeHtml(clinicSub || 'Подаръчен ваучер')}</div><div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.5rem;">ПОДАРЪЧЕН ВАУЧЕР</div><div class="vch-print-title">${escapeHtml(v.title)}</div><div class="vch-print-value">${formatPrice(val)} €</div><div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:0.5rem;">Код за активиране:</div><div class="vch-print-code">${escapeHtml(v.code)}</div><div style="margin-top:1rem; padding:0.8rem 1rem; background:#f9f5ff; border-radius:12px; display:inline-block;"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></div><div class="vch-print-meta"><div><strong>Получател:</strong><br>${escapeHtml(v.recipientName)}</div><div style="text-align:right;"><strong>Валиден до:</strong><br>${formatDate(v.expiryDate)}</div></div>${v.notes ? `<div class="vch-print-note">${escapeHtml(v.notes)}</div>` : ''}<div style="margin-top:1rem; font-size:0.78rem; color:#7f95b0;">За: ${escapeHtml(pn)}<br>Издаден: ${formatDate(toDateStr(new Date(v.createdAt)))}</div></div>`; $('voucherViewModal').classList.add('active'); }
 $('vchViewClose')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
 $('vchViewOkBtn')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
-$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });// ==================== EXERCISES ====================
+$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });
+
+// ==================== EXERCISES ====================
 document.querySelectorAll('.exercise-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.exTab; document.querySelectorAll('.exercise-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.exercise-pane').forEach(p=>p.classList.toggle('active', p.dataset.exPane === t)); }); });
 document.querySelectorAll('.doc-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.docTab; document.querySelectorAll('.doc-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.doc-pane').forEach(p=>p.classList.toggle('active', p.dataset.docPane === t)); }); });
 $('addExerciseMainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
@@ -4100,6 +4119,9 @@ function updateMobileAptBadge() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// ⚠️ ПРОМЯНА ЗА ПАЦИЕНТИ: Mobile nav — само "Портал" и "Упражнения"
+// ═══════════════════════════════════════════════════════════════════
 function applyMobileNavPermissions() {
   if (!currentUser) return;
   const patientOnly = isOnlyPatient(currentUser);
@@ -4108,8 +4130,10 @@ function applyMobileNavPermissions() {
   mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
     const mod = item.dataset.moreNav;
     if (patientOnly) {
-      item.style.display = (mod === 'portal' || mod === 'exercises' || mod === 'tests') ? '' : 'none';
+      // ПАЦИЕНТИ: само "Моят портал" и "Упражнения" в "Още" менюто
+      item.style.display = (mod === 'portal' || mod === 'exercises') ? '' : 'none';
     } else {
+      // СЛУЖИТЕЛИ: скрий "Моят портал"
       item.style.display = (mod === 'portal') ? 'none' : '';
       if (enabled[mod] === false) item.style.display = 'none';
     }
@@ -4194,3 +4218,26 @@ init();
 </script>
 </body>
 </html>
+document.addEventListener('click', async (e) => {
+  const editBtn = e.target.closest('.edit-patient');
+  if (editBtn) {
+    const pat = patients[editBtn.dataset.id]; if (!pat) return;
+    editingPatientId = editBtn.dataset.id;
+    $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || '';
+    renderPatientKineziCheckboxes();
+    $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Запази промените';
+    document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.patientTab === 'new'));
+    document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === 'new'));
+    document.querySelector('#module-patients .card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showToast('Редактиране на: ' + pat.name, 'info');
+    return;
+  }
+  const link = e.target.closest('.patient-link');
+  if (link) { openPatientProfile(link.dataset.id); return; }
+  const arch = e.target.closest('.archive-single');
+  if (arch) { if (!confirm('Архивирай пациента?')) return; try { await update(clinicRef(`patients/${arch.dataset.id}`), { archived: true, archivedAt: Date.now() }); showToast('Архивиран.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
+  const rest = e.target.closest('.restore-patient');
+  if (rest) { try { await update(clinicRef(`patients/${rest.dataset.id}`), { archived: false }); showToast('Върнат.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
+  const del = e.target.closest('.delete-patient');
+  if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
+});
