@@ -34,7 +34,10 @@
 <meta property="article:author" content="Алекс Тодоров">
 <meta property="article:author" content="Габриел Атанасов">
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+<style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
 html, body { overflow-x: hidden; max-width: 100vw; }
 body { background-color: #ffffff; display: flex; min-height: 100vh; }
@@ -127,9 +130,7 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
 .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .module-header h1 { font-size: 1.6rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 10px; }
-.module-header h1 i { color: #1e4a78; }
-
-/* ===== DASHBOARD ===== */
+.module-header h1 i { color: #1e4a78; }/* ===== DASHBOARD ===== */
 .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .dash-card { background: #ffffff; border-radius: 16px; padding: 1.2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
@@ -1283,9 +1284,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 }
 </style>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute;">
+<body><svg width="0" height="0" style="position:absolute;">
 <defs>
 <symbol id="physio-logo" viewBox="0 0 200 200">
 <circle cx="100" cy="100" r="95" fill="none" stroke="#3fb8b0" stroke-width="5"/>
@@ -1525,9 +1524,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
 </div>
 
-</section>
-
-<section id="module-dossier" class="module">
+</section><section id="module-dossier" class="module">
 <div class="module-header">
 <h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1>
 </div>
@@ -1827,9 +1824,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </form>
 </div>
 <div class="table-wrapper"><table><thead><tr><th>Пациент</th><th>Процедура</th><th>Дата / Час</th><th>Резултат</th><th></th></tr></thead><tbody id="proceduresBody"></tbody></table></div>
-</section>
-
-<section id="module-tests" class="module">
+</section><section id="module-tests" class="module">
 <div class="module-header">
 <h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1>
 </div>
@@ -2036,9 +2031,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3></div>
 <div id="programsList"></div>
 </div>
-</section>
-
-<section id="module-documentation" class="module">
+</section><section id="module-documentation" class="module">
 <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
 <div class="doc-tabs">
 <button class="doc-tab active" data-doc-tab="sessions"><i class="fas fa-notes-medical"></i> Бележки</button>
@@ -2642,7 +2635,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </div>
 </div>
 
-<!-- SUBSTITUTION MODAL -->
 <div class="modal-overlay" id="substitutionModal">
 <div class="modal large">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
@@ -2683,8 +2675,7 @@ const db = getDatabase(app);
 const clinicsRootRef = ref(db, 'clinics');
 const LEGACY_PATIENTS_REF = ref(db, 'patients');
 const LEGACY_USERS_REF = ref(db, 'users');
-
-let clinics = {};
+</script>let clinics = {};
 let activeClinicId = null;
 let activeClinic = null;
 let userClinics = [];
@@ -3106,9 +3097,7 @@ function startDataListeners() {
     const subPane = document.querySelector('.settings-pane[data-set-pane="subscription"]');
     if (subPane && subPane.classList.contains('active')) renderSubscriptionPane();
   }));
-}
-
-// ==================== SUBSCRIPTION ====================
+}// ==================== SUBSCRIPTION ====================
 const PACKAGES_DEF = {
     start: { name: 'Начален', price: 50, color: 'start', icon: 'fa-seedling', desc: 'За малки практики', modules: ['dashboard', 'patients', 'schedule', 'procedures'] },
     basic: { name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники', modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier'] },
@@ -3370,8 +3359,8 @@ function viewDossier(dossierId) {
   patientProfileModule.classList.add('patient-profile');
   $('profileContent').innerHTML = html;
   window.currentProfilePatientId = null;
-  document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
-  document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const d = document.querySelector('.nav-item[data-module="dossier"]'); if (d) d.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); openDossierForEdit(e.currentTarget.dataset.dossierId); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
+  document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const dd = document.querySelector('.nav-item[data-module="dossier"]'); if (dd) dd.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
+  document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const dd = document.querySelector('.nav-item[data-module="dossier"]'); if (dd) dd.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); openDossierForEdit(e.currentTarget.dataset.dossierId); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
   document.getElementById('viewDossierPrintBtn')?.addEventListener('click', () => { window.print(); });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -3387,9 +3376,7 @@ document.addEventListener('click', async (e) => {
 
 $('dossierSearchInput')?.addEventListener('input', renderDossierList);
 
-document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });
-
-// ==================== PATIENTS & KINEZI ASSIGNMENT ====================
+document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });// ==================== PATIENTS & KINEZI ASSIGNMENT ====================
 function renderPatientKineziCheckboxes() {
   const container = $('patientKineziCheckboxes');
   if (!container) return;
@@ -3514,7 +3501,7 @@ document.addEventListener('click', async (e) => {
   if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
 });
 
-// SCHEDULE COLORS
+// ==================== SCHEDULE COLORS ====================
 const PROCEDURE_COLORS = { 'физиотерапия': '#0891b2', 'кинезитерапия': '#1e4a78', 'масаж': '#6b3fa0', 'мануална терапия': '#d97706', 'упражнения': '#1a7a3e', 'електротерапия': '#ea580c', 'рехабилитация': '#b22234' };
 const THERAPIST_COLORS = ['#1e4a78','#6b3fa0','#0891b2','#1a7a3e','#d97706','#b22234','#ea580c','#7f95b0','#0f766e','#7c3aed'];
 
@@ -3688,9 +3675,7 @@ $('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const 
 // ==================== PROCEDURES ====================
 function renderProcedures() { const all = getProceduresForUser(); if (all.length===0) { $('proceduresBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; } const sorted = all.sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); $('proceduresBody').innerHTML = sorted.map(p=>{ const pat = patients[p.patientId]; const pn = pat?`<a class="patient-link" data-id="${pat.id}">${escapeHtml(pat.name)}</a>`:'<i>неизвестен</i>'; return `<tr><td>${pn}</td><td>${escapeHtml(p.description)}</td><td>${formatDate(p.date)} ${p.time||''}</td><td>${escapeHtml(p.result||'---')}</td><td><button class="btn-outline btn btn-sm delete-procedure" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`; }).join(''); }
 $('procedureForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('procPatient').value; const description = $('procDescription').value.trim(); const date = $('procDate').value; const time = $('procTime').value; const result = $('procResult').value.trim(); if (!patientId || !description || !date || !time) { showToast('Попълнете полетата.', 'error'); return; } $('addProcedureBtn').disabled = true; try { await set(push(clinicRef('procedures')), { patientId, description, date, time, result, createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); $('procedureForm').reset(); $('procDate').value = toDateStr(new Date()); showToast('Процедурата е запазена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('addProcedureBtn').disabled = false; } });
-document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
-
-// ==================== TESTS ====================
+document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });// ==================== TESTS ====================
 const TESTS_DEFINITIONS = {
   vas: { id: 'vas', name: 'VAS / NRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Визуална аналогова скала (VAS) или Числова рейтингова скала (NRS) за оценка на болка', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Най-силна възможна болка', interpretation: (score) => { if (score <= 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
   nprs: { id: 'nprs', name: 'NPRS', category: 'pain', icon: 'fa-bolt', colorClass: 'vas', description: 'Числова рейтингова скала за болка -- 0 (няма) до 10 (максимална)', type: 'numeric', min: 0, max: 10, minLabel: '0 = Няма болка', maxLabel: '10 = Максимална болка', interpretation: (score) => { if (score === 0) return { label: 'Няма болка', class: 'good' }; if (score <= 3) return { label: 'Лека болка', class: 'good' }; if (score <= 6) return { label: 'Умерена болка', class: 'moderate' }; return { label: 'Силна болка', class: 'severe' }; }},
@@ -3785,9 +3770,7 @@ document.addEventListener('click', async (e) => { const btn = e.target.closest('
 function openVoucherViewModal(id) { const v = vouchers[id]; if (!v) return; currentVoucherId = id; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const status = getVoucherStatus(v); const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const val = parseFloat(v.value) || 0; const clinicName = clinicSettings.name || activeClinic?.name || 'PhysioBook'; const clinicSub = clinicSettings.sub || ''; $('voucherPrintContainer').innerHTML = `<div class="vch-print-card"><div class="vch-print-logo"><svg width="80" height="80"><use href="#physio-logo"></use></svg></div><h2>${escapeHtml(clinicName)}</h2><div class="vch-print-sub">${escapeHtml(clinicSub || 'Подаръчен ваучер')}</div><div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.5rem;">ПОДАРЪЧЕН ВАУЧЕР</div><div class="vch-print-title">${escapeHtml(v.title)}</div><div class="vch-print-value">${formatPrice(val)} €</div><div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:0.5rem;">Код за активиране:</div><div class="vch-print-code">${escapeHtml(v.code)}</div><div style="margin-top:1rem; padding:0.8rem 1rem; background:#f9f5ff; border-radius:12px; display:inline-block;"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></div><div class="vch-print-meta"><div><strong>Получател:</strong><br>${escapeHtml(v.recipientName)}</div><div style="text-align:right;"><strong>Валиден до:</strong><br>${formatDate(v.expiryDate)}</div></div>${v.notes ? `<div class="vch-print-note">${escapeHtml(v.notes)}</div>` : ''}<div style="margin-top:1rem; font-size:0.78rem; color:#7f95b0;">За: ${escapeHtml(pn)}<br>Издаден: ${formatDate(toDateStr(new Date(v.createdAt)))}</div></div>`; $('voucherViewModal').classList.add('active'); }
 $('vchViewClose')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
 $('vchViewOkBtn')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
-$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });
-
-// ==================== EXERCISES ====================
+$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });// ==================== EXERCISES ====================
 document.querySelectorAll('.exercise-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.exTab; document.querySelectorAll('.exercise-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.exercise-pane').forEach(p=>p.classList.toggle('active', p.dataset.exPane === t)); }); });
 document.querySelectorAll('.doc-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.docTab; document.querySelectorAll('.doc-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.doc-pane').forEach(p=>p.classList.toggle('active', p.dataset.docPane === t)); }); });
 $('addExerciseMainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
@@ -3871,9 +3854,7 @@ $('usersBody').addEventListener('click', async (e)=>{ const eb = e.target.closes
 $('saveRolesBtn').addEventListener('click', async ()=>{ if (!editingUserId) return; const u = users[editingUserId]; if (u && isLockedUser(u)) { showToast('🔒 Заключен.', 'error'); return; } const roles = Array.from($('editRolesList').querySelectorAll('input:checked')).map(c=>c.value); if (roles.length===0) { showToast('Изберете роля.','error'); return; } $('saveRolesBtn').disabled = true; try { await update(clinicRef(`users/${editingUserId}`), { roles, role: null }); showToast('Обновени.','success'); $('editRolesModal').classList.remove('active'); editingUserId = null; } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('saveRolesBtn').disabled = false; } });
 $('cancelRolesBtn').addEventListener('click', ()=>{ $('editRolesModal').classList.remove('active'); editingUserId = null; });
 $('modalCopyBtn').addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText($('modalNewCode').textContent); showToast('Копиран.','success'); } catch { showToast('Не е разрешено.','error'); } });
-$('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
-
-// ==================== PATIENT PROFILE ====================
+$('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });// ==================== PATIENT PROFILE ====================
 function openPatientProfile(patientId) {
   const pat = patients[patientId]; if (!pat) { showToast('Пациентът не е намерен.', 'error'); return; }
   if (isPatient(currentUser) && currentPatient?.id !== patientId) { showToast('Нямате достъп до този профил.', 'error'); return; }
@@ -4230,6 +4211,16 @@ function init() {
 }
 init();
 
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((reg) => console.log('SW registered:', reg.scope))
+        .catch((err) => console.log('SW error:', err));
+    });
+  }
 </script>
 </body>
 </html>
