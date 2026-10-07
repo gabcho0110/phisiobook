@@ -128,7 +128,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
 .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .module-header h1 { font-size: 1.6rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 10px; }
-.module-header h1 i { color: #1e4a78; }/* ===== DASHBOARD ===== */
+.module-header h1 i { color: #1e4a78; }
+</style>/* ===== DASHBOARD ===== */
 .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .dash-card { background: #ffffff; border-radius: 16px; padding: 1.2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
@@ -266,9 +267,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .timeline-item::before { content: ''; position: absolute; left: -23px; top: 1.2rem; width: 10px; height: 10px; border-radius: 50%; background: #1e4a78; border: 3px solid #ffffff; box-shadow: 0 0 0 3px #e8f0fe; }
 .timeline-item .date { font-size: 0.8rem; color: #1e4a78; font-weight: 600; margin-bottom: 0.3rem; }
 .timeline-item .title { font-size: 0.95rem; font-weight: 600; color: #0b2b4f; margin-bottom: 0.4rem; }
-.timeline-item .result { font-size: 0.85rem; color: #5a7a9a; background: #f8fbfe; padding: 0.6rem 0.8rem; border-radius: 8px; border-left: 3px solid #1e4a78; margin-top: 0.5rem; }
-
-/* ===== SCHEDULE ===== */
+.timeline-item .result { font-size: 0.85rem; color: #5a7a9a; background: #f8fbfe; padding: 0.6rem 0.8rem; border-radius: 8px; border-left: 3px solid #1e4a78; margin-top: 0.5rem; }/* ===== SCHEDULE ===== */
 .schedule-view-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; align-items: center; }
 .schedule-view-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #fff; color: #1f3f61; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .schedule-view-tab.active { background: #1e4a78; color: #fff; border-color: #1e4a78; }
@@ -885,9 +884,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 /* ===== WORKING HOURS ===== */
 .working-hours-row { display: grid; grid-template-columns: 80px 90px 1fr 1fr 50px; gap: 6px; align-items: center; padding: 0.5rem 0.7rem; background: #f8fbfe; border-radius: 10px; margin-bottom: 5px; }
 .working-hours-row label { font-weight: 700; color: #0b2b4f; font-size: 0.82rem; }
-.working-hours-row input[type="time"] { padding: 0.4rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.8rem; font-family: inherit; }
-
-/* ================================================== */
+.working-hours-row input[type="time"] { padding: 0.4rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.8rem; font-family: inherit; }/* ================================================== */
 /* ============== MOBILE BOTTOM NAVIGATION ========== */
 /* ================================================== */
 .mobile-bottom-nav {
@@ -1235,6 +1232,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </style>
 </head>
 <body>
+
 <svg width="0" height="0" style="position:absolute;">
 <defs>
 <symbol id="physio-logo" viewBox="0 0 200 200">
@@ -1278,9 +1276,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </form>
 <div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп</div>
 </div>
-</div>
-
-<div class="app hidden" id="app">
+</div><div class="app hidden" id="app">
 <div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1472,9 +1468,199 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div style="margin-top: 2.5rem;"><h3><i class="fas fa-archive"></i> Архив</h3></div>
 <div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
 </div>
+</section><div class="app hidden" id="app">
+<div class="loading-overlay" id="loadingOverlay"><i class="fas fa-spinner"></i><span>Зареждане...</span></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="app-header">
+<div class="header-left">
+<div class="header-logo"><svg><use href="#physio-logo"></use></svg></div>
+<button class="header-nav-toggle" id="headerNavToggle" title="Скрий/покажи менюто"><i class="fas fa-bars"></i></button>
+</div>
+<div class="header-center">
+<div class="header-clinic-name" id="headerClinicName">
+<i class="fas fa-clinic-medical"></i>
+<span>PhysioBook</span>
+</div>
+<div class="header-clinic-sub" id="headerClinicSub">Медицински център</div>
+</div>
+<div class="header-actions">
+<div class="clinic-switcher" id="clinicSwitcher" style="display:none;">
+<button class="clinic-switcher-btn" id="clinicSwitcherBtn">
+<i class="fas fa-hospital"></i>
+<span class="clinic-label" id="clinicSwitcherLabel">---</span>
+<i class="fas fa-chevron-down" style="font-size:0.7rem; opacity:0.7;"></i>
+</button>
+<div class="clinic-switcher-menu" id="clinicSwitcherMenu">
+<div class="clinic-switcher-menu-header">Смяна на клиника</div>
+<div id="clinicSwitcherItems"></div>
+</div>
+</div>
+<button class="header-icon-btn" id="headerMessagesBtn" title="Съобщения">
+<i class="fas fa-envelope"></i>
+<span class="notif-badge" id="messagesBadge" style="display:none;">0</span>
+</button>
+<button class="header-icon-btn" id="headerNotifBtn" title="Известия">
+<i class="fas fa-bell"></i>
+<span class="notif-badge" id="notificationsBadge" style="display:none;">0</span>
+</button>
+<div class="header-user" id="headerUser">
+<div class="user-avatar" id="headerAvatar">?</div>
+<span class="user-name" id="headerUserName">Потребител</span>
+<i class="fas fa-sign-out-alt" id="headerLogoutBtn" style="font-size:0.85rem; opacity:0.7; margin-left:4px;" title="Изход"></i>
+</div>
+</div>
+</header>
+
+<div class="app-body">
+<aside class="sidebar" id="sidebar">
+<nav class="nav">
+<button class="nav-item" data-module="dashboard"><i class="fas fa-chart-pie"></i><span>Табло</span></button>
+<button class="nav-item" data-module="patients"><i class="fas fa-users"></i><span>Пациенти</span></button>
+<button class="nav-item" data-module="dossier"><i class="fas fa-folder-open"></i><span>Досиета</span></button>
+<button class="nav-item" data-module="schedule"><i class="fas fa-calendar-alt"></i><span>График</span></button>
+<button class="nav-item" data-module="substitutions"><i class="fas fa-user-friends"></i><span>Замествания</span></button>
+<button class="nav-item" data-module="procedures"><i class="fas fa-stethoscope"></i><span>Процедури</span></button>
+<button class="nav-item" data-module="tests"><i class="fas fa-clipboard-check"></i><span>Тестове и скали</span></button>
+<button class="nav-item" data-module="inventory"><i class="fas fa-boxes"></i><span>Инвентар</span></button>
+<button class="nav-item" data-module="vouchers"><i class="fas fa-ticket-alt"></i><span>Ваучери</span></button>
+<button class="nav-item" data-module="exercises"><i class="fas fa-dumbbell"></i><span>Упражнения</span></button>
+<button class="nav-item" data-module="documentation"><i class="fas fa-file-medical-alt"></i><span>Документация</span></button>
+<button class="nav-item" data-module="pricing"><i class="fas fa-euro-sign"></i><span>Ценоразпис</span></button>
+<button class="nav-item" data-module="settings"><i class="fas fa-cog"></i><span>Настройки</span></button>
+<button class="nav-item" data-module="portal"><i class="fas fa-user-circle"></i><span>Моят портал</span></button>
+</nav>
+<div class="sidebar-footer">
+<button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Изход</span></button>
+<div class="support-info">
+<div class="support-title">При технически проблем:</div>
+<a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
+<div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
+</div>
+<div class="sidebar-version">v9.4 · Mobile</div>
+</div>
+</aside>
+
+<main class="main">
+
+<section id="module-dashboard" class="module">
+<div class="module-header">
+<h1><i class="fas fa-chart-pie"></i> Табло</h1>
+<div style="color:#7f95b0; font-size:0.9rem;"><i class="fas fa-calendar"></i> <span id="dashboardDate"></span></div>
+</div>
+<div class="dash-top-grid">
+<div class="dash-card today"><div class="dash-card-header"><span class="dash-card-title">Днешни пациенти</span><div class="dash-card-icon"><i class="fas fa-user-check"></i></div></div><div class="dash-card-value" id="dashTodayPatients">0</div><div class="dash-card-sub" id="dashTodaySub">за днес</div></div>
+<div class="dash-card upcoming"><div class="dash-card-header"><span class="dash-card-title">Предстоящи процедури</span><div class="dash-card-icon"><i class="fas fa-clock"></i></div></div><div class="dash-card-value" id="dashUpcoming">0</div><div class="dash-card-sub">в следващите 7 дни</div></div>
+<div class="dash-card tasks"><div class="dash-card-header"><span class="dash-card-title">Задачи</span><div class="dash-card-icon"><i class="fas fa-tasks"></i></div></div><div class="dash-card-value" id="dashTasks">0</div><div class="dash-card-sub" id="dashTasksSub">незавършени</div></div>
+<div class="dash-card income"><div class="dash-card-header"><span class="dash-card-title">Приходи (днес)</span><div class="dash-card-icon"><i class="fas fa-euro-sign"></i></div></div><div class="dash-card-value" id="dashIncome">0.00 €</div><div class="dash-card-sub" id="dashIncomeSub">от 0 пациента</div><div class="income-progress"><div class="income-progress-bar" id="dashIncomeBar" style="width:0%"></div></div></div>
+<div class="dash-card free"><div class="dash-card-header"><span class="dash-card-title">Свободни часове</span><div class="dash-card-icon"><i class="fas fa-calendar-plus"></i></div></div><div class="dash-card-value" id="dashFreeSlots">0</div><div class="dash-card-sub">днес (9:00 -- 18:00)</div></div>
+</div>
+<div class="dash-section"><h3><i class="fas fa-user-clock"></i> Днешни пациенти</h3><div class="dash-list" id="dashTodayList"></div></div>
+<div class="dash-section"><h3><i class="fas fa-hourglass-half"></i> Предстоящи процедури (следващите 7 дни)</h3><div class="dash-list" id="dashUpcomingList"></div></div>
+<div class="dash-section">
+<h3><i class="fas fa-tasks"></i> Задачи</h3>
+<form class="task-form" id="taskForm"><input type="text" id="taskInput" placeholder="Напр. Обади се на Иван Петров..."><button type="submit" class="btn" id="addTaskBtn"><i class="fas fa-plus"></i> Добави</button></form>
+<div class="dash-list" id="dashTasksList"></div>
+</div>
+<div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><p style="color:#7f95b0; font-size:0.85rem; margin-bottom:1rem;"><i class="fas fa-info-circle"></i> Кликнете на свободен час за да го запазите</p><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
 </section>
 
-<section id="module-dossier" class="module">
+<section id="module-patients" class="module">
+<div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
+<div class="patient-tabs" id="patientTabs">
+<button class="patient-tab active" data-patient-tab="new"><i class="fas fa-user-plus"></i> Нов пациент</button>
+<button class="patient-tab" data-patient-tab="list"><i class="fas fa-list"></i> Списък пациенти</button>
+</div>
+<div class="patient-pane active" data-patient-pane="new">
+<div class="card">
+<h3><i class="fas fa-user-plus"></i> Регистрация на нов пациент</h3>
+<form id="patientForm">
+<div class="form-section personal">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-user"></i></div><div><h4>Лични данни</h4><div class="sec-sub">Основни данни за пациента</div></div></div>
+<div class="form-grid">
+<div class="form-group"><label>Име и фамилия *</label><input type="text" id="patientName" required></div>
+<div class="form-group"><label>ЕГН</label><input type="text" id="patientEgn" maxlength="10"></div>
+<div class="form-group"><label>Телефон</label><input type="text" id="patientPhone"></div>
+<div class="form-group"><label>Имейл</label><input type="email" id="patientEmail"></div>
+<div class="form-group"><label>Дата на раждане</label><input type="date" id="patientBirthDate"></div>
+<div class="form-group"><label>Пол</label><select id="patientGender"><option value="">-- избери --</option><option>Мъж</option><option>Жена</option><option>Друго</option></select></div>
+<div class="form-group" style="grid-column: span 2;"><label>Адрес</label><input type="text" id="patientAddress"></div>
+<div class="form-group"><label>Професия</label><input type="text" id="patientOccupation"></div>
+<div class="form-group"><label>Застраховка</label><input type="text" id="patientInsurance"></div>
+<div class="form-group" style="grid-column: span 2;">
+  <label>Обслужващи кинезитерапевти *</label>
+  <div class="roles-checkboxes" id="patientKineziCheckboxes"></div>
+  <div style="font-size:0.78rem; color:#7f95b0; margin-top:4px;">Изберете един или няколко кинезитерапевта, които да обслужват този пациент.</div>
+</div>
+</div>
+</div>
+<div class="form-section complaint">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-comment-medical"></i></div><div><h4>Основно оплакване</h4><div class="sec-sub">Какво оплаква пациента?</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientComplaint" rows="3" placeholder="Опишете основното оплакване на пациента..."></textarea></div></div>
+</div>
+<div class="form-section diagnosis">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-stethoscope"></i></div><div><h4>Диагноза</h4><div class="sec-sub">Медицинска диагноза</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientDiagnosis" rows="3" placeholder="Въведете диагноза..."></textarea></div></div>
+</div>
+<div class="form-section anamnesis">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-history"></i></div><div><h4>Анамнеза</h4><div class="sec-sub">История на заболяването</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientAnamnesis" rows="3" placeholder="Анамнеза..."></textarea></div></div>
+</div>
+<div class="form-section history">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-bone"></i></div><div><h4>Предишни травми / операции</h4><div class="sec-sub">Хирургична история</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientPrevInjuries" rows="3" placeholder="Предишни травми и операции..."></textarea></div></div>
+</div>
+<div class="form-section meds">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-pills"></i></div><div><h4>Медикаменти</h4><div class="sec-sub">Приемани лекарства</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientMedications" rows="3" placeholder="Приемани медикаменти..."></textarea></div></div>
+</div>
+<div class="form-section allergies">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-allergies"></i></div><div><h4>Алергии</h4><div class="sec-sub">Известни алергии</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientAllergies" rows="3" placeholder="Алергии..."></textarea></div></div>
+</div>
+<div class="form-section contra">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-ban"></i></div><div><h4>Противопоказания</h4><div class="sec-sub">Какво не трябва да се прави</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientContraindications" rows="3" placeholder="Противопоказания..."></textarea></div></div>
+</div>
+<div class="form-section goals">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-bullseye"></i></div><div><h4>Цели на пациента</h4><div class="sec-sub">Какво иска да постигне</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientGoals" rows="3" placeholder="Цели на пациента..."></textarea></div></div>
+</div>
+<div class="form-section initial">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-clipboard-list"></i></div><div><h4>Първоначална оценка</h4><div class="sec-sub">Начална оценка на състоянието</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientInitialAssessment" rows="3" placeholder="Първоначална оценка..."></textarea></div></div>
+</div>
+<div class="form-section exam">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-user-md"></i></div><div><h4>Физикален преглед</h4><div class="sec-sub">Резултати от прегледа</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientPhysicalExam" rows="3" placeholder="Физикален преглед..."></textarea></div></div>
+</div>
+<div class="form-section working">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-clipboard-check"></i></div><div><h4>Работна диагноза</h4><div class="sec-sub">Работна диагноза от кинезитерапевта</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientWorkingDiagnosis" rows="3" placeholder="Работна диагноза..."></textarea></div></div>
+</div>
+<div class="form-section plan">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-notes-medical"></i></div><div><h4>План за лечение</h4><div class="sec-sub">Планирани процедури и цели</div></div></div>
+<div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientTreatmentPlan" rows="3" placeholder="План за лечение..."></textarea></div></div>
+</div>
+<div class="form-group" style="justify-content: end;">
+<button type="submit" class="btn" id="addPatientBtn"><i class="fas fa-save"></i> Регистрирай пациента</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="patient-pane" data-patient-pane="list">
+<div class="filter-bar">
+<h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
+<select id="patientsKineziFilter" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#fff; font-weight:600; color:#0b2b4f; min-width:220px;">
+<option value="">👨‍⚕️ Всички кинезитерапевти</option>
+</select>
+</div>
+<div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Кинезитерапевти</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="activePatientsBody"></tbody></table></div>
+<div style="margin-top: 2.5rem;"><h3><i class="fas fa-archive"></i> Архив</h3></div>
+<div class="table-wrapper"><table><thead><tr><th>Име</th><th>Телефон</th><th>Код</th><th>Бележки</th><th>Действия</th></tr></thead><tbody id="archivedPatientsBody"></tbody></table></div>
+</div>
+</section><section id="module-dossier" class="module">
 <div class="module-header">
 <h1><i class="fas fa-folder-open"></i> Досиета на пациенти</h1>
 </div>
@@ -1964,9 +2150,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="filter-bar"><h3 style="margin:0;"><i class="fas fa-home"></i> Създадени програми</h3></div>
 <div id="programsList"></div>
 </div>
-</section>
-
-<section id="module-documentation" class="module">
+</section><section id="module-documentation" class="module">
 <div class="module-header"><h1><i class="fas fa-file-medical-alt"></i> Документация</h1></div>
 <div class="doc-tabs">
 <button class="doc-tab active" data-doc-tab="sessions"><i class="fas fa-notes-medical"></i> Бележки</button>
@@ -2246,7 +2430,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
       <i class="fas fa-ellipsis-h"></i>
       <span>Още</span>
     </button>
-    <!-- Скрити пациентски бутони -->
     <button class="mobile-nav-btn" data-mobile-nav="portal" style="display:none;">
       <i class="fas fa-user-circle"></i>
       <span>Портал</span>
@@ -2258,7 +2441,6 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
   </div>
 </nav>
 
-<!-- МОБИЛНО "ОЩЕ" МЕНЮ -->
 <div class="mobile-more-sheet" id="mobileMoreSheet">
   <div class="mobile-more-content">
     <div class="mobile-more-handle"></div>
@@ -2342,9 +2524,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <button class="notif-mark-btn" id="notifClearAllBtn"><i class="fas fa-trash-alt"></i> Изтрий всички</button>
 </div>
 <div class="notif-list" id="notifList"></div>
-</div>
-
-<div class="modal-overlay" id="codeModal">
+</div><div class="modal-overlay" id="codeModal">
 <div class="modal">
 <div class="modal-icon"><i class="fas fa-key"></i></div>
 <h3>Код за достъп</h3>
@@ -2818,31 +2998,80 @@ async function findInLegacy(code) {
   try { const usersSnap = await get(LEGACY_USERS_REF); const u = usersSnap.val() || {}; for (const [id, x] of Object.entries(u)) { if (x.accessCode === code) return { type: 'user', data: { id, ...x } }; } const patientsSnap = await get(LEGACY_PATIENTS_REF); const p = patientsSnap.val() || {}; for (const [id, x] of Object.entries(p)) { if (x.accessCode === code) return { type: 'patient', data: { id, ...x } }; } }
   catch (e) { console.error(e); }
   return null;
-}
-
-loginForm.addEventListener('submit', async (e) => {
+}loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const code = Array.from(codeInputEls).map(i => i.value).join('');
   if (code.length !== 6) return;
   showLoading(true);
+
+  // ═══════════════════════════════════════════════════════════
+  // ВАЖНО: Винаги fetch-ваме свежи данни от Firebase,
+  // за да избегнем race condition (клиниките още не са заредени)
+  // ═══════════════════════════════════════════════════════════
+  try {
+    const freshSnap = await get(clinicsRootRef);
+    clinics = freshSnap.val() || {};
+  } catch (err) {
+    console.error('Грешка при зареждане на клиники:', err);
+  }
+
   let found = findUserByCodeInAllClinics(code, clinics);
-  if (!found) { const legacy = await findInLegacy(code); if (legacy) { showLoading(false); showLoginError('Този код е от старата система.'); clearCodeInputs(); return; } }
+
+  if (!found) {
+    const legacy = await findInLegacy(code);
+    if (legacy) {
+      showLoading(false);
+      showLoginError('Този код е от старата система.');
+      clearCodeInputs();
+      return;
+    }
+  }
+
   if (found) {
     const clinicId = found.clinicId;
-    activeClinicId = clinicId; activeClinic = clinics[clinicId];
-    if (found.isPatient) { currentPatient = found.patient; currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode, phone: found.patient.phone }; }
-    else { currentUser = found.user; currentPatient = null; }
+    activeClinicId = clinicId;
+    activeClinic = clinics[clinicId];
+    if (found.isPatient) {
+      currentPatient = found.patient;
+      currentUser = {
+        id: found.patient.id,
+        name: found.patient.name,
+        roles: ['Пациент'],
+        accessCode: found.patient.accessCode,
+        phone: found.patient.phone
+      };
+    } else {
+      currentUser = found.user;
+      currentPatient = null;
+    }
     userClinics = [];
     const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
-    for (const [cid, clinic] of Object.entries(clinics)) { const us = clinic.users || {}, ps = clinic.patients || {}; const hasByCode = Object.values(us).some(u => u.accessCode === code) || Object.values(ps).some(p => p.accessCode === code); const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)); if (hasByCode || hasByPhone) userClinics.push(cid); }
+    for (const [cid, clinic] of Object.entries(clinics)) {
+      const us = clinic.users || {}, ps = clinic.patients || {};
+      const hasByCode = Object.values(us).some(u => u.accessCode === code) ||
+                        Object.values(ps).some(p => p.accessCode === code);
+      const hasByPhone = userPhone && (
+        Object.values(us).some(u => normalizePhone(u.phone) === userPhone) ||
+        Object.values(ps).some(p => normalizePhone(p.phone) === userPhone)
+      );
+      if (hasByCode || hasByPhone) userClinics.push(cid);
+    }
     sessionStorage.setItem('activeClinicId', clinicId);
     sessionStorage.setItem('authCode', code);
-    if (currentPatient) { sessionStorage.setItem('currentPatientId', currentPatient.id); sessionStorage.removeItem('currentUserId'); }
-    else { sessionStorage.setItem('currentUserId', currentUser.id); sessionStorage.removeItem('currentPatientId'); }
+    if (currentPatient) {
+      sessionStorage.setItem('currentPatientId', currentPatient.id);
+      sessionStorage.removeItem('currentUserId');
+    } else {
+      sessionStorage.setItem('currentUserId', currentUser.id);
+      sessionStorage.removeItem('currentPatientId');
+    }
     loginSuccess();
     return;
   }
-  showLoading(false); showLoginError('Грешен код. Опитайте отново.'); clearCodeInputs();
+
+  showLoading(false);
+  showLoginError('Грешен код. Опитайте отново.');
+  clearCodeInputs();
 });
 
 function loginSuccess() {
@@ -2990,23 +3219,7 @@ function startDataListeners() {
     const subPane = document.querySelector('.settings-pane[data-set-pane="subscription"]');
     if (subPane && subPane.classList.contains('active')) renderSubscriptionPane();
   }));
-}
-
-// ... (останалите функции - renderDashboard, renderPatients, renderPortal и т.н. са идентични с предишния пълен файл) ...
-
-</script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((reg) => console.log('SW registered:', reg.scope))
-        .catch((err) => console.log('SW error:', err));
-    });
-  }
-</script>
-</body>
-</html>// ==================== SUBSCRIPTION ====================
+}// ==================== SUBSCRIPTION ====================
 const PACKAGES_DEF = {
     start: { name: 'Начален', price: 50, color: 'start', icon: 'fa-seedling', desc: 'За малки практики', modules: ['dashboard', 'patients', 'schedule', 'procedures'] },
     basic: { name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники', modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier'] },
@@ -3192,9 +3405,7 @@ function renderDashboard() {
 
 document.addEventListener('click', (e)=>{ const item = e.target.closest('.dash-list-item[data-patient-id]'); if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) openPatientProfile(item.dataset.patientId); });
 document.addEventListener('click', async (e)=>{ const d = e.target.closest('[data-task-done]'); if (d) { try { await update(clinicRef(`tasks/${d.dataset.taskDone}`),{done:true}); showToast('Изпълнена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const dl = e.target.closest('[data-task-delete]'); if (dl) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`tasks/${dl.dataset.taskDelete}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
-$('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const text = $('taskInput').value.trim(); if (!text) return; $('addTaskBtn').disabled = true; try { await set(push(clinicRef('tasks')), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() }); $('taskInput').value = ''; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addTaskBtn').disabled = false; } });
-
-// ==================== PATIENTS ====================
+$('taskForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const text = $('taskInput').value.trim(); if (!text) return; $('addTaskBtn').disabled = true; try { await set(push(clinicRef('tasks')), { text, done: false, createdBy: currentUser.id, createdAt: Date.now() }); $('taskInput').value = ''; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addTaskBtn').disabled = false; } });// ==================== PATIENTS ====================
 function renderPatientKineziCheckboxes() {
   const container = $('patientKineziCheckboxes');
   if (!container) return;
@@ -3436,9 +3647,7 @@ function openNewAppointmentWithTime(hour) {
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
   setTimeout(() => $('aptPatient').focus(), 300); 
   showToast('Попълнен час: ' + timeStr + ' — изберете пациент', 'info'); 
-}
-
-// ==================== PROCEDURES ====================
+}// ==================== PROCEDURES ====================
 function renderProcedures() { const all = getProceduresForUser(); if (all.length===0) { $('proceduresBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; } const sorted = all.sort((a,b)=>`${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); $('proceduresBody').innerHTML = sorted.map(p=>{ const pat = patients[p.patientId]; const pn = pat?`<a class="patient-link" data-id="${pat.id}">${escapeHtml(pat.name)}</a>`:'<i>неизвестен</i>'; return `<tr><td>${pn}</td><td>${escapeHtml(p.description)}</td><td>${formatDate(p.date)} ${p.time||''}</td><td>${escapeHtml(p.result||'---')}</td><td><button class="btn-outline btn btn-sm delete-procedure" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`; }).join(''); }
 $('procedureForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('procPatient').value; const description = $('procDescription').value.trim(); const date = $('procDate').value; const time = $('procTime').value; const result = $('procResult').value.trim(); if (!patientId || !description || !date || !time) { showToast('Попълнете полетата.', 'error'); return; } $('addProcedureBtn').disabled = true; try { await set(push(clinicRef('procedures')), { patientId, description, date, time, result, createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); $('procedureForm').reset(); $('procDate').value = toDateStr(new Date()); showToast('Процедурата е запазена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('addProcedureBtn').disabled = false; } });
 document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
@@ -3538,9 +3747,7 @@ document.addEventListener('click', async (e) => { const btn = e.target.closest('
 function openVoucherViewModal(id) { const v = vouchers[id]; if (!v) return; currentVoucherId = id; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const status = getVoucherStatus(v); const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const val = parseFloat(v.value) || 0; const clinicName = clinicSettings.name || activeClinic?.name || 'PhysioBook'; const clinicSub = clinicSettings.sub || ''; $('voucherPrintContainer').innerHTML = `<div class="vch-print-card"><div class="vch-print-logo"><svg width="80" height="80"><use href="#physio-logo"></use></svg></div><h2>${escapeHtml(clinicName)}</h2><div class="vch-print-sub">${escapeHtml(clinicSub || 'Подаръчен ваучер')}</div><div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.5rem;">ПОДАРЪЧЕН ВАУЧЕР</div><div class="vch-print-title">${escapeHtml(v.title)}</div><div class="vch-print-value">${formatPrice(val)} €</div><div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:0.5rem;">Код за активиране:</div><div class="vch-print-code">${escapeHtml(v.code)}</div><div style="margin-top:1rem; padding:0.8rem 1rem; background:#f9f5ff; border-radius:12px; display:inline-block;"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></div><div class="vch-print-meta"><div><strong>Получател:</strong><br>${escapeHtml(v.recipientName)}</div><div style="text-align:right;"><strong>Валиден до:</strong><br>${formatDate(v.expiryDate)}</div></div>${v.notes ? `<div class="vch-print-note">${escapeHtml(v.notes)}</div>` : ''}<div style="margin-top:1rem; font-size:0.78rem; color:#7f95b0;">За: ${escapeHtml(pn)}<br>Издаден: ${formatDate(toDateStr(new Date(v.createdAt)))}</div></div>`; $('voucherViewModal').classList.add('active'); }
 $('vchViewClose')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
 $('vchViewOkBtn')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
-$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });
-
-// ==================== EXERCISES ====================
+$('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });// ==================== EXERCISES ====================
 document.querySelectorAll('.exercise-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.exTab; document.querySelectorAll('.exercise-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.exercise-pane').forEach(p=>p.classList.toggle('active', p.dataset.exPane === t)); }); });
 document.querySelectorAll('.doc-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.docTab; document.querySelectorAll('.doc-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.doc-pane').forEach(p=>p.classList.toggle('active', p.dataset.docPane === t)); }); });
 $('addExerciseMainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
@@ -3625,294 +3832,3 @@ $('saveRolesBtn').addEventListener('click', async ()=>{ if (!editingUserId) retu
 $('cancelRolesBtn').addEventListener('click', ()=>{ $('editRolesModal').classList.remove('active'); editingUserId = null; });
 $('modalCopyBtn').addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText($('modalNewCode').textContent); showToast('Копиран.','success'); } catch { showToast('Не е разрешено.','error'); } });
 $('modalCloseBtn').addEventListener('click', ()=>{ $('codeModal').classList.remove('active'); });
-
-// ==================== PATIENT PROFILE ====================
-function openPatientProfile(patientId) {
-  const pat = patients[patientId]; if (!pat) { showToast('Пациентът не е намерен.', 'error'); return; }
-  if (isPatient(currentUser) && currentPatient?.id !== patientId) { showToast('Нямате достъп.', 'error'); return; }
-  if (isKinezi(currentUser)) { const allowed = getPatientsForUser().some(p => p.id === patientId); if (!allowed) { showToast('Нямате достъп до този пациент.', 'error'); return; } }
-  window.currentProfilePatientId = patientId;
-  navItems.forEach(n => n.classList.remove('active'));
-  Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
-  patientProfileModule.classList.add('active');
-  patientProfileModule.classList.add('patient-profile');
-  if (typeof updateMobileNavActive === 'function') updateMobileNavActive('patients');
-  const myApts = Object.entries(appointments).map(([id, a]) => ({ id, ...a })).filter(a => a.patientId === patientId);
-  const myProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === patientId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
-  const myNotes = Object.entries(sessionNotes).map(([id, n]) => ({ id, ...n })).filter(n => n.patientId === patientId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  const mySoaps = Object.entries(soapNotes).map(([id, n]) => ({ id, ...n })).filter(n => n.patientId === patientId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  const myDocs = Object.entries(documents).map(([id, d]) => ({ id, ...d })).filter(d => d.patientId === patientId);
-  const myTests = getTestResultsForUser().filter(t => t.patientId === patientId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  let totalSpent = 0;
-  Object.entries(pricing).forEach(([, item]) => { if (item.patientId === patientId && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) totalSpent += v; } });
-  const field = (label, val, icon) => val ? `<div class="profile-field"><div class="profile-field-label"><i class="fas ${icon || 'fa-info-circle'}"></i> ${label}</div><div class="profile-field-value">${escapeHtml(val)}</div></div>` : '';
-  const assignedNames = (pat.assignedKineziIds || []).map(id => users[id]?.name || '?').join(', ') || '---';
-  $('profileContent').innerHTML = `<div class="profile-header"><div class="profile-avatar">${getUserInitials(pat.name)}</div><div class="profile-info"><h2>${escapeHtml(pat.name)}</h2><div class="contact">${pat.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(pat.phone)}</span>` : ''}${pat.email ? `<span><i class="fas fa-envelope"></i> ${escapeHtml(pat.email)}</span>` : ''}${pat.accessCode ? `<span><i class="fas fa-key"></i> ${pat.accessCode}</span>` : ''}${pat.archived ? `<span style="color:#ffb3b3;"><i class="fas fa-archive"></i> Архивиран</span>` : ''}</div></div></div><div class="stats-row"><div class="stat-card"><div class="label">Часове</div><div class="value">${myApts.length}</div></div><div class="stat-card"><div class="label">Процедури</div><div class="value">${myProcs.length}</div></div><div class="stat-card"><div class="label">Бележки</div><div class="value">${myNotes.length}</div></div><div class="stat-card"><div class="label">Тестове</div><div class="value">${myTests.length}</div></div><div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(totalSpent)} €</div></div></div>${(pat.egn || pat.birthDate || pat.gender || pat.address || pat.occupation || pat.insurance || pat.assignedKineziIds) ? `<div class="dash-section"><h3><i class="fas fa-user"></i> Лични данни</h3><div class="profile-grid">${field('ЕГН', pat.egn, 'fa-id-card')}${field('Дата на раждане', pat.birthDate ? formatDate(pat.birthDate) : '', 'fa-birthday-cake')}${field('Пол', pat.gender, 'fa-venus-mars')}${field('Професия', pat.occupation, 'fa-briefcase')}${field('Застраховка', pat.insurance, 'fa-shield-alt')}${field('Адрес', pat.address, 'fa-map-marker-alt')}${field('Обслужващи кинезитерапевти', assignedNames, 'fa-hands')}</div></div>` : ''}${(pat.complaint || pat.diagnosis || pat.anamnesis || pat.prevInjuries) ? `<div class="dash-section" style="border-left: 4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-stethoscope"></i> Клинична информация</h3>${field('Основно оплакване', pat.complaint, 'fa-comment-medical')}${field('Диагноза', pat.diagnosis, 'fa-file-medical')}${field('Анамнеза', pat.anamnesis, 'fa-history')}${field('Предишни травми / операции', pat.prevInjuries, 'fa-bone')}</div>` : ''}${(pat.medications || pat.allergies || pat.contraindications) ? `<div class="dash-section" style="border-left: 4px solid #b22234;"><h3 style="color:#b22234;"><i class="fas fa-pills"></i> Медикаменти и алергии</h3>${field('Медикаменти', pat.medications, 'fa-capsules')}${field('Алергии', pat.allergies, 'fa-allergies')}${field('Противопоказания', pat.contraindications, 'fa-ban')}</div>` : ''}${pat.goals ? `<div class="dash-section" style="border-left: 4px solid #0891b2;"><h3 style="color:#0891b2;"><i class="fas fa-bullseye"></i> Цели на пациента</h3>${field('', pat.goals, 'fa-flag-checkered')}</div>` : ''}${(pat.initialAssessment || pat.physicalExam || pat.workingDiagnosis || pat.treatmentPlan) ? `<div class="dash-section" style="border-left: 4px solid #6b3fa0;"><h3 style="color:#6b3fa0;"><i class="fas fa-clipboard-check"></i> Оценка и план</h3>${field('Първоначална оценка', pat.initialAssessment, 'fa-clipboard-list')}${field('Физикален преглед', pat.physicalExam, 'fa-user-md')}${field('Работна диагноза', pat.workingDiagnosis, 'fa-file-signature')}${field('План за лечение', pat.treatmentPlan, 'fa-notes-medical')}</div>` : ''}<div class="dash-section"><h3><i class="fas fa-history"></i> История на процедурите</h3>${myProcs.length === 0 ? `<div class="empty-message">Няма процедури</div>` : `<div class="timeline">${myProcs.slice(0, 20).map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`}</div>`;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-$('backToPatientsBtn').addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="patients"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.patients) modules.patients.classList.add('active'); window.currentProfilePatientId = null; if (typeof updateMobileNavActive === 'function') updateMobileNavActive('patients'); });
-
-// ==================== PORTAL ====================
-function renderPortalKineziSelect() { if (!$('portalAptKinezi')) return; const k = Object.entries(users).filter(([,u])=>hasRole(u,'Кинезитерапевт')).map(([id,u])=>({id,name:u.name})).sort((a,b)=>a.name.localeCompare(b.name)); const cur = $('portalAptKinezi').value; $('portalAptKinezi').innerHTML = '<option value="">-- избери --</option>' + k.map(x=>`<option value="${x.id}">${escapeHtml(x.name)}</option>`).join(''); if (k.some(x=>x.id===cur)) $('portalAptKinezi').value = cur; }
-function renderPortal() { if (!currentPatient) return; $('portalUserName').textContent = currentPatient.name; const myId = currentPatient.id; const myApts = Object.entries(appointments).map(([id, a]) => ({ id, ...a })).filter(a => a.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myApts.length === 0) { $('portalAppointmentsBody').innerHTML = `<tr><td colspan="6" class="empty-message">Нямате часове</td></tr>`; } else { $('portalAppointmentsBody').innerHTML = myApts.map(a => { const kn = a.kineziId && users[a.kineziId] ? users[a.kineziId].name : '---'; const status = getAptStatus(a); const s = APT_STATUSES[status] || APT_STATUSES.confirmed; const canCancel = status !== 'cancelled' && status !== 'completed' && status !== 'no_show'; return `<tr><td>${formatDate(a.date)}</td><td>${a.time || '---'}</td><td>${escapeHtml(kn)}</td><td>${escapeHtml(a.note || '---')}</td><td><span class="apt-status-badge ${s.class}"><i class="fas ${s.icon}"></i> ${s.label}</span></td><td>${canCancel ? `<button class="btn-danger-outline btn btn-sm portal-cancel-apt" data-id="${a.id}"><i class="fas fa-times"></i> Откажи</button>` : '---'}</td></tr>`; }).join(''); } const myProcs = Object.entries(procedures).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === myId).sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`)); if (myProcs.length === 0) { $('portalProceduresBody').innerHTML = `<div class="empty-message">Няма процедури</div>`; } else { $('portalProceduresBody').innerHTML = `<div class="timeline">${myProcs.map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`; } renderPortalKineziSelect(); }
-$('portalAppointmentForm').addEventListener('submit', async (e) => { e.preventDefault(); if (!currentPatient) return; const kineziId = $('portalAptKinezi').value; const date = $('portalAptDate').value; const time = $('portalAptTime').value; const duration = parseInt($('portalAptDuration').value) || 60; const note = $('portalAptNote').value.trim(); if (!kineziId || !date || !time || !note) { showToast('Попълнете всички полета.', 'error'); return; } $('portalAddAptBtn').disabled = true; try { await set(push(clinicRef('appointments')), { patientId: currentPatient.id, kineziId, date, time, duration, note, status: 'pending', createdBy: currentPatient.id, createdByName: currentPatient.name, createdAt: Date.now() }); const kn = users[kineziId]?.name || ''; await createNotification(kineziId, '📅 Нова заявка', `${currentPatient.name} заяви час на ${formatDate(date)} в ${time}`, 'appointment'); await notifyAllStaff('📅 Нова заявка', `${currentPatient.name} заяви час на ${formatDate(date)} в ${time} (${kn})`, 'appointment'); $('portalAppointmentForm').reset(); showToast('Заявката е изпратена.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('portalAddAptBtn').disabled = false; } });
-document.addEventListener('click', async (e) => { const b = e.target.closest('.portal-cancel-apt'); if (b) { if (!confirm('Отказване на часа?')) return; try { await update(clinicRef(`appointments/${b.dataset.id}`), { status: 'cancelled', cancelledAt: Date.now(), cancelledBy: currentPatient.id, cancelledByName: currentPatient.name, cancelReason: 'Отказан от пациент' }); showToast('Часът е отказан.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
-function renderPatientExercises() { if (!currentPatient) return; const myId = currentPatient.id; const myProgs = Object.entries(programs).map(([id, p]) => ({ id, ...p })).filter(p => p.patientId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); const myShortEx = Object.entries(shortExercises).map(([id, ex]) => ({ id, ...ex })).filter(ex => ex.patientId === myId).sort((a, b) => (a.number || 0) - (b.number || 0)); let html = ''; if (myProgs.length > 0) { html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f1 100%); border: 2px solid #a5d6a7;"><h3 style="color:#1a7a3e; font-size:1.3rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:10px;"><i class="fas fa-home"></i> Моите домашни програми</h3>`; myProgs.forEach(prog => { let exList = []; if (prog.exercises && Array.isArray(prog.exercises)) { exList = prog.exercises.map(item => { if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 }; if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null; } else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null; } }).filter(Boolean); } html += `<div class="home-program-card" style="margin-bottom:1rem;"><div class="home-program-header"><div class="title-block"><div class="home-icon"><i class="fas fa-dumbbell"></i></div><div><h3>${escapeHtml(prog.title)}</h3><div class="meta">${exList.length} упражнения</div></div></div></div>${prog.notes ? `<div style="background:#fff;padding:0.8rem 1rem;border-radius:12px;border-left:3px solid #1a7a3e;margin-bottom:1rem;color:#5a7a9a;font-size:0.9rem;">${escapeHtml(prog.notes)}</div>` : ''}<div class="home-program-exercises">${exList.map((ex, i) => `<div class="home-exercise-item"><div class="num">${i + 1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps ? 'Повторения: ' + escapeHtml(ex.reps) : ''}${ex.sets ? ' · Серии: ' + ex.sets : ''}</div></div></div>`).join('')}</div></div>`; }); html += `</div>`; } if (myShortEx.length > 0) { html += `<div class="portal-section" style="background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%); border: 2px solid #a5c8f0;"><h3 style="color:#1e4a78; font-size:1.3rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:10px;"><i class="fas fa-list-ul"></i> Моите упражнения</h3><div class="home-program-exercises">`; myShortEx.forEach(ex => { html += `<div class="home-exercise-item" style="border-left-color:#1e4a78;"><div class="num" style="background:#1e4a78;">${ex.number || '•'}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps ? 'Повторения: ' + escapeHtml(ex.reps) : ''}${ex.description ? ' · ' + escapeHtml(ex.description) : ''}</div></div></div>`; }); html += `</div></div>`; } const container = $('patientHomePrograms'); if (container) container.innerHTML = html; }
-
-// ==================== NOTIFICATIONS ====================
-$('headerNotifBtn').addEventListener('click', () => { $('notifPanel').classList.toggle('open'); $('messagesPanel').classList.remove('open'); });
-$('notifClose').addEventListener('click', () => { $('notifPanel').classList.remove('open'); });
-function updateNotificationsBadge() { if (!currentUser) return; const myId = currentUser.id; const unread = Object.values(notifications).filter(n => n.userId === myId && !n.read).length; if (unread > 0) { $('notificationsBadge').textContent = unread; $('notificationsBadge').style.display = 'flex'; } else { $('notificationsBadge').style.display = 'none'; } }
-function renderNotifications() { 
-  if (!currentUser) return; 
-  const myId = currentUser.id; 
-  const all = Object.entries(notifications).map(([id, n]) => ({ id, ...n })).filter(n => n.userId === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
-  if (all.length === 0) { 
-    $('notifList').innerHTML = `<div class="msg-empty"><i class="fas fa-bell-slash"></i>Нямате известия</div>`; 
-    return; 
-  } 
-  $('notifList').innerHTML = all.map(n => { 
-    const iconMap = {'appointment':'fa-calendar-check','procedure':'fa-stethoscope','message':'fa-envelope','task':'fa-tasks','document':'fa-file-medical-alt','exercise':'fa-dumbbell','inventory':'fa-boxes','voucher':'fa-ticket-alt','default':'fa-bell'}; 
-    const icon = iconMap[n.type] || iconMap['default']; 
-    const isFromAdmin = n.broadcastId || n.priority;
-    return `<div class="notif-item ${n.read ? 'read' : ''} ${isFromAdmin ? 'from-admin' : ''}" data-notif-id="${n.id}"><button class="notif-item-delete" data-notif-id="${n.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="notif-item-header"><div class="notif-item-title"><i class="fas ${icon}"></i> ${escapeHtml(n.title || 'Известие')}</div><div class="notif-item-time">${formatRelativeTime(n.createdAt)}</div></div><div class="notif-item-text">${escapeHtml(n.text || '')}</div></div>`; 
-  }).join(''); 
-}
-$('notifList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.notif-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.notifId; try { await remove(clinicRef(`notifications/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.notif-item'); if (item) { const id = item.dataset.notifId; try { await update(clinicRef(`notifications/${id}`), { read: true }); } catch(err) { console.error(err); } } });
-$('notifMarkAllBtn').addEventListener('click', async () => { if (!currentUser) return; const myId = currentUser.id; const updates = {}; Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId && !n.read) updates[`notifications/${id}/read`] = true; }); if (Object.keys(updates).length === 0) { showToast('Няма непрочетени.','info'); return; } try { await update(clinicRef(), updates); showToast('Всички са маркирани.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
-$('notifClearAllBtn').addEventListener('click', async () => { if (!currentUser) return; if (!confirm('Да изтрия ли всички известия?')) return; const myId = currentUser.id; const updates = {}; Object.entries(notifications).forEach(([id, n]) => { if (n.userId === myId) updates[`notifications/${id}`] = null; }); if (Object.keys(updates).length === 0) { showToast('Няма известия.','info'); return; } try { await update(clinicRef(), updates); showToast('Всички са изтрити.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
-
-// ==================== MESSAGES ====================
-$('headerMessagesBtn').addEventListener('click', () => { $('messagesPanel').classList.toggle('open'); $('notifPanel').classList.remove('open'); });
-$('messagesClose').addEventListener('click', () => { $('messagesPanel').classList.remove('open'); $('chatView').classList.remove('active'); });
-document.querySelectorAll('.msg-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.msgTab; document.querySelectorAll('.msg-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.msg-pane').forEach(p=>p.classList.toggle('active', p.dataset.msgPane === t)); $('chatView').classList.remove('active'); currentChatUserId = null; }); });
-function updateMessagesBadge() { if (!currentUser) return; const myId = currentUser.id; const unread = Object.values(messages).filter(m => m.to === myId && !m.read).length; if (unread > 0) { $('messagesBadge').textContent = unread; $('messagesBadge').style.display = 'flex'; } else { $('messagesBadge').style.display = 'none'; } }
-function renderMessageRecipients() { const sel = $('msgRecipient'); if (!sel) return; const staff = Object.entries(users).filter(([id]) => !currentUser || id !== currentUser.id).map(([id, u]) => ({ id, name: u.name, type: 'staff' })); const pats = getPatientsForUser().filter(p => !p.archived).map(p => ({ id: p.id, name: p.name, type: 'patient' })); const cur = sel.value; sel.innerHTML = '<option value="">-- избери получател --</option>'; if (staff.length > 0) { const g = document.createElement('optgroup'); g.label = 'Служители'; staff.forEach(s => { const o = document.createElement('option'); o.value = 'staff:' + s.id; o.textContent = s.name; g.appendChild(o); }); sel.appendChild(g); } if (pats.length > 0) { const g = document.createElement('optgroup'); g.label = 'Пациенти'; pats.forEach(p => { const o = document.createElement('option'); o.value = 'patient:' + p.id; o.textContent = p.name; g.appendChild(o); }); sel.appendChild(g); } if (cur) sel.value = cur; }
-function getRecipientInfo(value) { if (!value) return null; const [type, id] = value.split(':'); if (type === 'staff' && users[id]) return { id, name: users[id].name, type: 'staff' }; if (type === 'patient' && patients[id]) return { id, name: patients[id].name, type: 'patient' }; return null; }
-function renderInbox() { 
-  if (!currentUser) return; 
-  const myId = currentUser.id; 
-  const inbox = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.to === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); 
-  if (inbox.length === 0) { 
-    $('inboxList').innerHTML = `<div class="msg-empty"><i class="fas fa-inbox"></i>Нямате входящи съобщения</div>`; 
-    return; 
-  } 
-  $('inboxList').innerHTML = inbox.map(m => { 
-    const isFromAdmin = m.from === 'physiobook_admin' || m.fromType === 'admin';
-    let senderName, senderAvatarClass, senderAvatarHtml;
-    if (isFromAdmin) { senderName = 'PhysioBook Admin'; senderAvatarClass = 'background:linear-gradient(135deg, #6b3fa0, #8b5fbf);'; senderAvatarHtml = '<i class="fas fa-shield-alt" style="font-size:0.75rem;"></i>'; }
-    else { const sender = m.fromType === 'staff' ? users[m.from] : patients[m.from]; senderName = sender ? sender.name : 'Неизвестен'; senderAvatarClass = ''; senderAvatarHtml = getUserInitials(senderName); }
-    const priority = m.priority || 'normal';
-    const priorityBadge = priority === 'urgent' ? '<span style="background:#b22234; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">🚨 СПЕШНО</span>' : priority === 'important' ? '<span style="background:#d97706; color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px;">⚠️ ВАЖНО</span>' : '';
-    const adminBadge = isFromAdmin ? '<span style="background:#f9f5ff; color:#6b3fa0; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:6px; margin-left:6px; border:1px solid #c4b5fd;"><i class="fas fa-shield-alt"></i> ADMIN</span>' : '';
-    return `<div class="msg-item ${!m.read ? 'unread' : ''} ${isFromAdmin ? 'from-admin' : ''}" data-msg-id="${m.id}" data-from-id="${m.from}" data-from-type="${m.fromType}"><button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="msg-item-header"><div class="msg-item-sender"><div class="msg-avatar" style="${senderAvatarClass}">${senderAvatarHtml}</div>${escapeHtml(senderName)}${adminBadge}${priorityBadge}${!m.read ? '<span class="msg-item-new-badge">НОВО</span>' : ''}</div><div class="msg-item-time">${formatTimestamp(m.createdAt)}</div></div>${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}<div class="msg-item-preview">${escapeHtml(m.text)}</div></div>`; 
-  }).join(''); 
-}
-function renderSent() { if (!currentUser) return; const myId = currentUser.id; const sent = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => m.from === myId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (sent.length === 0) { $('sentList').innerHTML = `<div class="msg-empty"><i class="fas fa-paper-plane"></i>Нямате изпратени съобщения</div>`; return; } $('sentList').innerHTML = sent.map(m => { const recipient = m.toType === 'staff' ? users[m.to] : patients[m.to]; const recipientName = recipient ? recipient.name : 'Неизвестен'; return `<div class="msg-item" data-msg-id="${m.id}" data-to-id="${m.to}" data-to-type="${m.toType}"><button class="msg-item-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button><div class="msg-item-header"><div class="msg-item-sender"><div class="msg-avatar" style="background:#1a7a3e;">${getUserInitials(recipientName)}</div>До: ${escapeHtml(recipientName)}</div><div class="msg-item-time">${formatTimestamp(m.createdAt)}</div></div>${m.subject ? `<div style="font-weight:600; color:#1e4a78; font-size:0.85rem; margin-bottom:3px;">${escapeHtml(m.subject)}</div>` : ''}<div class="msg-item-preview">${escapeHtml(m.text)}</div></div>`; }).join(''); }
-$('inboxList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.msg-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.msg-item'); if (!item) return; const fromId = item.dataset.fromId; const fromType = item.dataset.fromType; const myId = currentUser.id; const updates = {}; Object.entries(messages).forEach(([id, m]) => { if (m.to === myId && m.from === fromId && !m.read) updates[`messages/${id}/read`] = true; }); if (Object.keys(updates).length > 0) { try { await update(clinicRef(), updates); } catch(err) { console.error(err); } } openChat(fromId, fromType); });
-$('sentList').addEventListener('click', async (e) => { const delBtn = e.target.closest('.msg-item-delete'); if (delBtn) { e.stopPropagation(); const id = delBtn.dataset.msgId; if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`messages/${id}`)); showToast('Изтрито.','success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } const item = e.target.closest('.msg-item'); if (!item) return; openChat(item.dataset.toId, item.dataset.toType); });
-function openChat(userId, userType) { 
-  currentChatUserId = { id: userId, type: userType }; 
-  const isAdmin = userId === 'physiobook_admin' || userType === 'admin';
-  const name = isAdmin ? 'PhysioBook Admin' : (userType === 'staff' ? (users[userId]?.name || '---') : (patients[userId]?.name || '---')); 
-  const subtitle = isAdmin ? '<small style="color:#6b3fa0; background:#f9f5ff; padding:2px 8px; border-radius:8px; border:1px solid #c4b5fd;"><i class="fas fa-shield-alt"></i> Официално съобщение</small>' : `<small>${userType === 'staff' ? '(служител)' : '(пациент)'}</small>`;
-  $('chatWithName').innerHTML = `${escapeHtml(name)} ${subtitle}`; 
-  $('chatView').classList.add('active'); 
-  document.querySelectorAll('.msg-pane').forEach(p => p.classList.remove('active')); 
-  renderChat(); 
-  setTimeout(() => $('chatInput').focus(), 100); 
-}
-function renderChat() { 
-  if (!currentChatUserId || !currentUser) return; 
-  const myId = currentUser.id; 
-  const otherId = currentChatUserId.id; 
-  const chatMsgs = Object.entries(messages).map(([id, m]) => ({ id, ...m })).filter(m => (m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); 
-  if (chatMsgs.length === 0) { $('chatBody').innerHTML = `<div class="msg-empty"><i class="fas fa-comments"></i>Все още няма съобщения.</div>`; return; } 
-  $('chatBody').innerHTML = chatMsgs.map(m => { 
-    const isMine = m.from === myId; 
-    const isFromAdmin = m.from === 'physiobook_admin' || m.fromType === 'admin';
-    const bubbleClass = isMine ? 'mine' : (isFromAdmin ? 'theirs from-admin' : 'theirs');
-    return `<div class="chat-bubble ${bubbleClass}" data-msg-id="${m.id}">${isMine ? `<button class="bubble-delete" data-msg-id="${m.id}" title="Изтрий"><i class="fas fa-times"></i></button>` : ''}${!isMine ? `<div class="bubble-sender">${escapeHtml(isFromAdmin ? '🛡️ PhysioBook Admin' : (m.fromType === 'staff' ? (users[m.from]?.name || '') : (patients[m.from]?.name || '')))}</div>` : ''}${m.subject ? `<div style="font-weight:700; font-size:0.78rem; opacity:0.9; margin-bottom:3px;"><i class="fas fa-tag"></i> ${escapeHtml(m.subject)}</div>` : ''}${escapeHtml(m.text)}<span class="bubble-time">${formatTimeShort(m.createdAt)}</span></div>`; 
-  }).join(''); 
-  setTimeout(() => { $('chatBody').scrollTop = $('chatBody').scrollHeight; }, 50); 
-}
-$('chatBody').addEventListener('click', async (e) => { const delBtn = e.target.closest('.bubble-delete'); if (delBtn) { e.stopPropagation(); if (!confirm('Изтрий това съобщение?')) return; try { await remove(clinicRef(`messages/${delBtn.dataset.msgId}`)); showToast('Изтрито.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
-$('chatBackBtn').addEventListener('click', () => { $('chatView').classList.remove('active'); currentChatUserId = null; document.querySelectorAll('.msg-pane').forEach(p => p.classList.toggle('active', p.dataset.msgPane === 'inbox')); document.querySelectorAll('.msg-tab').forEach(t => t.classList.toggle('active', t.dataset.msgTab === 'inbox')); });
-$('chatDeleteBtn').addEventListener('click', async () => { if (!currentChatUserId || !currentUser) return; if (!confirm('Изтрий ЦЯЛАТА кореспонденция?')) return; const myId = currentUser.id; const otherId = currentChatUserId.id; const updates = {}; Object.entries(messages).forEach(([id, m]) => { if ((m.from === myId && m.to === otherId) || (m.from === otherId && m.to === myId)) updates[`messages/${id}`] = null; }); if (Object.keys(updates).length === 0) { showToast('Няма съобщения.', 'info'); return; } try { await update(clinicRef(), updates); showToast('Кореспонденцията е изтрита.', 'success'); $('chatView').classList.remove('active'); currentChatUserId = null; } catch(err) { showToast('Грешка: ' + err.message, 'error'); } });
-$('chatSendBtn').addEventListener('click', sendChatMessage);
-$('chatInput').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } });
-async function sendChatMessage() { if (!currentChatUserId || !currentUser) return; const text = $('chatInput').value.trim(); if (!text) return; $('chatSendBtn').disabled = true; try { const myType = isPatient(currentUser) ? 'patient' : 'staff'; await set(push(clinicRef('messages')), { from: currentUser.id, fromType: myType, to: currentChatUserId.id, toType: currentChatUserId.type, subject: '', text, read: false, createdAt: Date.now() }); $('chatInput').value = ''; await createNotification(currentChatUserId.id, '💬 Ново съобщение', `${currentUser.name}: ${text.slice(0, 60)}${text.length > 60 ? '...' : ''}`, 'message'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('chatSendBtn').disabled = false; } }
-$('msgSendBtn').addEventListener('click', async () => { const recipientVal = $('msgRecipient').value; const recipient = getRecipientInfo(recipientVal); const subject = $('msgSubject').value.trim(); const text = $('msgText').value.trim(); if (!recipient) { showToast('Изберете получател.', 'error'); return; } if (!text) { showToast('Въведете съобщение.', 'error'); return; } $('msgSendBtn').disabled = true; try { const myType = isPatient(currentUser) ? 'patient' : 'staff'; await set(push(clinicRef('messages')), { from: currentUser.id, fromType: myType, to: recipient.id, toType: recipient.type, subject, text, read: false, createdAt: Date.now() }); await createNotification(recipient.id, '💬 Ново съобщение', `${currentUser.name}: ${text.slice(0, 60)}${text.length > 60 ? '...' : ''}`, 'message'); showToast('Изпратено.', 'success'); $('msgSubject').value = ''; $('msgText').value = ''; $('msgRecipient').value = ''; document.querySelectorAll('.msg-tab').forEach(t => t.classList.toggle('active', t.dataset.msgTab === 'sent')); document.querySelectorAll('.msg-pane').forEach(p => p.classList.toggle('active', p.dataset.msgPane === 'sent')); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('msgSendBtn').disabled = false; } });
-$('msgClearBtn').addEventListener('click', () => { $('msgSubject').value = ''; $('msgText').value = ''; $('msgRecipient').value = ''; });
-
-// ==================== MOBILE BOTTOM NAV ====================
-const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
-const mobileMoreSheet = document.getElementById('mobileMoreSheet');
-const mobileMoreGrid = document.getElementById('mobileMoreGrid');
-
-function goToModule(targetModule) {
-  const enabled = getEnabledModules();
-  if (enabled[targetModule] === false) { showToast('Този модул е изключен.', 'error'); return; }
-  navItems.forEach(n => n.classList.remove('active'));
-  const sidebarBtn = document.querySelector(`.nav-item[data-module="${targetModule}"]`);
-  if (sidebarBtn) sidebarBtn.classList.add('active');
-  Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
-  patientProfileModule.classList.remove('active');
-  patientProfileModule.classList.remove('patient-profile');
-  if (modules[targetModule]) {
-    modules[targetModule].classList.add('active');
-    if (targetModule === 'dashboard') renderDashboard();
-    else if (targetModule === 'patients') renderPatients();
-    else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
-    else if (targetModule === 'schedule') renderSchedule();
-    else if (targetModule === 'substitutions') { renderSubKineziSelect(); renderSubstitutions(); }
-    else if (targetModule === 'procedures') renderProcedures();
-    else if (targetModule === 'tests') renderTestsModule();
-    else if (targetModule === 'inventory') renderInventoryModule();
-    else if (targetModule === 'vouchers') renderVouchersModule();
-    else if (targetModule === 'exercises') { renderExerciseLibrary(); renderProgramsList(); if (currentPatient) renderPatientExercises(); }
-    else if (targetModule === 'documentation') { renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
-    else if (targetModule === 'pricing') { renderPricing(); renderDaySummary(); }
-    else if (targetModule === 'portal') renderPortal();
-  }
-  updateMobileNavActive(targetModule);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function updateMobileNavActive(targetModule) {
-  const moreModules = ['dossier','substitutions','tests','inventory','vouchers','exercises','documentation','pricing','settings','portal'];
-  const isMore = moreModules.includes(targetModule);
-  mobileNavBtns.forEach(btn => { const nav = btn.dataset.mobileNav; if (nav === 'more') { btn.classList.toggle('active', isMore); } else { btn.classList.toggle('active', nav === targetModule); } });
-  mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => { item.classList.toggle('active', item.dataset.moreNav === targetModule); });
-}
-
-mobileNavBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.mobileNav;
-    if (target === 'more') {
-      mobileMoreSheet.classList.add('open');
-      const activeSidebar = document.querySelector('.nav-item.active');
-      if (activeSidebar) updateMobileNavActive(activeSidebar.dataset.module);
-    } else {
-      mobileMoreSheet.classList.remove('open');
-      goToModule(target);
-    }
-  });
-});
-
-mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const target = item.dataset.moreNav;
-    mobileMoreSheet.classList.remove('open');
-    goToModule(target);
-  });
-});
-
-mobileMoreSheet.addEventListener('click', (e) => { if (e.target === mobileMoreSheet) mobileMoreSheet.classList.remove('open'); });
-
-document.getElementById('mobileMessagesBtn')?.addEventListener('click', () => { mobileMoreSheet.classList.remove('open'); $('messagesPanel').classList.add('open'); $('notifPanel').classList.remove('open'); });
-document.getElementById('mobileNotifBtn')?.addEventListener('click', () => { mobileMoreSheet.classList.remove('open'); $('notifPanel').classList.add('open'); $('messagesPanel').classList.remove('open'); });
-document.getElementById('mobileLogoutBtn')?.addEventListener('click', () => { mobileMoreSheet.classList.remove('open'); doLogout(); });
-
-function updateMobileAptBadge() {
-  const badge = document.getElementById('mobileAptBadge');
-  if (!badge) return;
-  const todayStr = toDateStr(new Date());
-  const todayCount = getAppointmentsForUser().filter(a => a.date === todayStr && (a.status !== 'cancelled' && a.status !== 'completed')).length;
-  if (todayCount > 0) { badge.textContent = todayCount; badge.style.display = 'flex'; } else { badge.style.display = 'none'; }
-}
-
-// ПРОМЯНА: Пациент вижда само Портал и Упражнения в mobile nav
-function applyMobileNavPermissions() {
-  if (!currentUser) return;
-  const patientOnly = isOnlyPatient(currentUser);
-  const enabled = getEnabledModules();
-  const portalBtn = document.querySelector('.mobile-nav-btn[data-mobile-nav="portal"]');
-  const exercisesBtn = document.querySelector('.mobile-nav-btn[data-mobile-nav="exercises"]');
-  const otherBtns = Array.from(mobileNavBtns).filter(btn => { const nav = btn.dataset.mobileNav; return nav !== 'portal' && nav !== 'exercises'; });
-  if (patientOnly) {
-    otherBtns.forEach(btn => { btn.style.display = 'none'; });
-    if (portalBtn) portalBtn.style.display = '';
-    if (exercisesBtn) exercisesBtn.style.display = '';
-    if (mobileMoreSheet) mobileMoreSheet.classList.remove('open');
-    const navItems_container = document.getElementById('mobileBottomNavItems');
-    if (navItems_container) navItems_container.style.gridTemplateColumns = 'repeat(2, 1fr)';
-    mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => { const mod = item.dataset.moreNav; item.style.display = (mod === 'exercises' || mod === 'tests') ? '' : 'none'; });
-    const msgBtn = document.getElementById('mobileMessagesBtn');
-    const notifBtn = document.getElementById('mobileNotifBtn');
-    if (msgBtn) msgBtn.style.display = 'none';
-    if (notifBtn) notifBtn.style.display = 'none';
-  } else {
-    otherBtns.forEach(btn => { const mod = btn.dataset.mobileNav; if (mod === 'more') { btn.style.display = ''; return; } if (enabled[mod] === false) { btn.style.display = 'none'; } else { btn.style.display = ''; } });
-    if (portalBtn) portalBtn.style.display = 'none';
-    if (exercisesBtn) exercisesBtn.style.display = 'none';
-    const navItems_container = document.getElementById('mobileBottomNavItems');
-    if (navItems_container) navItems_container.style.gridTemplateColumns = 'repeat(5, 1fr)';
-    const msgBtn = document.getElementById('mobileMessagesBtn');
-    const notifBtn = document.getElementById('mobileNotifBtn');
-    if (msgBtn) msgBtn.style.display = '';
-    if (notifBtn) notifBtn.style.display = '';
-    mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => { const mod = item.dataset.moreNav; if (mod === 'portal') { item.style.display = 'none'; return; } if (enabled[mod] === false) { item.style.display = 'none'; } else { item.style.display = ''; } });
-  }
-}
-
-// ==================== NAVIGATION ====================
-navItems.forEach(item => {
-  item.addEventListener('click', () => {
-    const targetModule = item.dataset.module;
-    const enabled = getEnabledModules();
-    if (enabled[targetModule] === false) { showToast('Този модул е изключен.', 'error'); return; }
-    navItems.forEach(n => n.classList.remove('active'));
-    item.classList.add('active');
-    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
-    patientProfileModule.classList.remove('active');
-    patientProfileModule.classList.remove('patient-profile');
-    if (modules[targetModule]) {
-      modules[targetModule].classList.add('active');
-      if (targetModule === 'dashboard') renderDashboard();
-      else if (targetModule === 'patients') renderPatients();
-      else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
-      else if (targetModule === 'schedule') renderSchedule();
-      else if (targetModule === 'substitutions') { renderSubKineziSelect(); renderSubstitutions(); }
-      else if (targetModule === 'procedures') renderProcedures();
-      else if (targetModule === 'tests') renderTestsModule();
-      else if (targetModule === 'inventory') renderInventoryModule();
-      else if (targetModule === 'vouchers') renderVouchersModule();
-      else if (targetModule === 'exercises') { renderExerciseLibrary(); renderProgramsList(); if (currentPatient) renderPatientExercises(); }
-      else if (targetModule === 'documentation') { renderSessionNotes(); renderSoapNotes(); renderDocuments(); }
-      else if (targetModule === 'pricing') { renderPricing(); renderDaySummary(); }
-      else if (targetModule === 'portal') renderPortal();
-    }
-    if (typeof updateMobileNavActive === 'function') updateMobileNavActive(targetModule);
-  });
-});
-
-// ==================== INIT ====================
-function init() {
-  const today = toDateStr(new Date());
-  ['aptDate', 'procDate', 'noteDate', 'soapDate', 'fileDate', 'testDate', 'blockedDate', 'vacationFrom', 'vacationTo', 'dossierFirstVisit', 'dossierPatientSignatureDate', 'dossierTherapistSignatureDate'].forEach(id => { const el = $(id); if (el) el.value = today; });
-  $('priceDateInput').value = currentPriceDate;
-  updateLegendModeBtns();
-  startClinicsListener();
-  const sid = sessionStorage.getItem('currentUserId');
-  const pid = sessionStorage.getItem('currentPatientId');
-  const cid = sessionStorage.getItem('activeClinicId');
-  const authCode = sessionStorage.getItem('authCode');
-  if (!sid && !pid && !cid && !authCode) { codeInputEls[0].focus(); }
-}
-init();
-
-</script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((reg) => console.log('SW registered:', reg.scope))
-        .catch((err) => console.log('SW error:', err));
-    });
-  }
-</script>
-</body>
-</html>
