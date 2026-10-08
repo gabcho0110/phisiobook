@@ -1277,14 +1277,14 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <i class="fas fa-exclamation-circle"></i>
 <span id="loginErrorText">Грешен код. Опитайте отново.</span>
 </div>
-<form id="loginForm" autocomplete="off" onsubmit="event.preventDefault();">
+<form id="loginForm" autocomplete="off" novalidate><div class="code-inputs" id="codeInputs">
 <div class="code-inputs" id="codeInputs">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,1); this.classList.toggle('filled',!!this.value); var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(this.value&&idx<arr.length-1)arr[idx+1].focus(); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeyup="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onchange="var arr=Array.from(document.querySelectorAll('#codeInputs input')); document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onpaste="event.preventDefault(); var p=(event.clipboardData||window.clipboardData).getData('text').replace(/[^0-9]/g,'').slice(0,6); var arr=Array.from(document.querySelectorAll('#codeInputs input')); for(var i=0;i<arr.length;i++){arr[i].value=p[i]||''; arr[i].classList.toggle('filled',!!arr[i].value);} document.getElementById('loginBtn').disabled=arr.map(function(x){return x.value}).join('').length!==6;" onkeydown="var arr=Array.from(document.querySelectorAll('#codeInputs input')); var idx=arr.indexOf(this); if(event.key==='Backspace'&&!this.value&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowLeft'&&idx>0)arr[idx-1].focus(); if(event.key==='ArrowRight'&&idx<arr.length-1)arr[idx+1].focus();">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
 </div>
 <button type="submit" class="login-btn" id="loginBtn" disabled>
 <i class="fas fa-sign-in-alt"></i> Вход в системата
@@ -2735,6 +2735,200 @@ const loginBtn = document.getElementById('loginBtn');
 const loginError = document.getElementById('loginError');
 const loginErrorText = document.getElementById('loginErrorText');
 const codeInputEls = document.querySelectorAll('#codeInputs input');
+  // ═══════════════════════════════════════════════════════════════
+// LOGIN FIX за мобилни устройства
+// ═══════════════════════════════════════════════════════════════
+function updateLoginBtnState() {
+  const code = Array.from(codeInputEls).map(i => i.value).join('');
+  loginBtn.disabled = (code.length !== 6);
+}
+
+codeInputEls.forEach((input, idx) => {
+  // Въвеждане на цифра
+  input.addEventListener('input', (e) => {
+    let val = (e.target.value || '').replace(/[^0-9]/g, '').slice(0, 1);
+    e.target.value = val;
+    e.target.classList.toggle('filled', !!val);
+    if (val && idx < codeInputEls.length - 1) {
+      setTimeout(() => codeInputEls[idx + 1].focus(), 10);
+    }
+    updateLoginBtnState();
+  });
+
+  // Навигация с клавиши
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+      codeInputEls[idx - 1].focus();
+      codeInputEls[idx - 1].value = '';
+      codeInputEls[idx - 1].classList.remove('filled');
+      updateLoginBtnState();
+    }
+    if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
+    if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
+  });
+
+  // Поставяне
+  input.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const data = e.clipboardData || window.clipboardData;
+    const pasted = (data.getData('text') || '').replace(/[^0-9]/g, '').slice(0, 6);
+    for (let i = 0; i < codeInputEls.length; i++) {
+      codeInputEls[i].value = pasted[i] || '';
+      codeInputEls[i].classList.toggle('filled', !!codeInputEls[i].value);
+    }
+    const nextEmpty = Array.from(codeInputEls).findIndex(i => !i.value);
+    if (nextEmpty >= 0) codeInputEls[nextEmpty].focus();
+    else codeInputEls[codeInputEls.length - 1].focus();
+    updateLoginBtnState();
+  });
+
+  input.addEventListener('focus', () => setTimeout(() => input.select(), 30));
+});
+
+// ФОРСИРАНО submit при натискане на бутона (fix за мобилен)
+loginBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const code = Array.from(codeInputEls).map(i => i.value).join('');
+  if (code.length !== 6) {
+    showToast('Въведете пълен 6-цифрен код.', 'error');
+    return;
+  }
+  loginBtn.disabled = true;
+  loginForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+});
+
+// Touch event fix (за по-стари Android WebView)
+loginBtn.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  const code = Array.from(codeInputEls).map(i => i.value).join('');
+  if (code.length !== 6) return;
+  loginBtn.disabled = true;
+  loginForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+}, { passive: false });
+
+// Формата — submit event listener (вместо inline onsubmit)
+lo// Форсиран login за мобилни устройства
+async function attemptLogin() {
+  const code = Array.from(codeInputEls).map(i => i.value).join('');
+  if (code.length !== 6) {
+    showToast('Въведете пълен 6-цифрен код.', 'error');
+    return;
+  }
+  showLoading(true);
+  let found = findUserByCodeInAllClinics(code, clinics);
+  if (!found) {
+    const legacy = await findInLegacy(code);
+    if (legacy) {
+      showLoading(false);
+      showLoginError('Този код е от старата система.');
+      clearCodeInputs();
+      return;
+    }
+  }
+  if (found) {
+    const clinicId = found.clinicId;
+    activeClinicId = clinicId;
+    activeClinic = clinics[clinicId];
+    if (found.isPatient) {
+      currentPatient = found.patient;
+      currentUser = { id: found.patient.id, name: found.patient.name, roles: ['Пациент'], accessCode: found.patient.accessCode, phone: found.patient.phone };
+    } else {
+      currentUser = found.user;
+      currentPatient = null;
+    }
+    userClinics = [];
+    const userPhone = normalizePhone(currentUser.phone || currentPatient?.phone);
+    for (const [cid, clinic] of Object.entries(clinics)) {
+      const us = clinic.users || {}, ps = clinic.patients || {};
+      const hasByCode = Object.values(us).some(u => u.accessCode === code) || Object.values(ps).some(p => p.accessCode === code);
+      const hasByPhone = userPhone && (Object.values(us).some(u => normalizePhone(u.phone) === userPhone) || Object.values(ps).some(p => normalizePhone(p.phone) === userPhone));
+      if (hasByCode || hasByPhone) userClinics.push(cid);
+    }
+    sessionStorage.setItem('activeClinicId', clinicId);
+    sessionStorage.setItem('authCode', code);
+    if (currentPatient) {
+      sessionStorage.setItem('currentPatientId', currentPatient.id);
+      sessionStorage.removeItem('currentUserId');
+    } else {
+      sessionStorage.setItem('currentUserId', currentUser.id);
+      sessionStorage.removeItem('currentPatientId');
+    }
+    loginSuccess();
+    return;
+  }
+  showLoading(false);
+  showLoginError('Грешен код. Опитайте отново.');
+  clearCodeInputs();
+  loginBtn.disabled = true;
+}
+
+// Само ЕДИН submit listener
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  attemptLogin();
+});
+
+// Директен клик на бутона (fix за мобилни)
+loginBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  attemptLogin();
+});
+
+// Touch fix
+loginBtn.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  attemptLogin();
+}, { passive: false });
+
+// Input handling
+function updateLoginBtnState() {
+  const code = Array.from(codeInputEls).map(i => i.value).join('');
+  loginBtn.disabled = (code.length !== 6);
+}
+codeInputEls.forEach((input, idx) => {
+  input.addEventListener('input', (e) => {
+    let val = (e.target.value || '').replace(/[^0-9]/g, '').slice(0, 1);
+    e.target.value = val;
+    e.target.classList.toggle('filled', !!val);
+    if (val && idx < codeInputEls.length - 1) setTimeout(() => codeInputEls[idx + 1].focus(), 10);
+    updateLoginBtnState();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+      codeInputEls[idx - 1].focus();
+      codeInputEls[idx - 1].value = '';
+      codeInputEls[idx - 1].classList.remove('filled');
+      updateLoginBtnState();
+    }
+    if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
+    if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
+  });
+  input.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const data = e.clipboardData || window.clipboardData;
+    const pasted = (data.getData('text') || '').replace(/[^0-9]/g, '').slice(0, 6);
+    for (let i = 0; i < codeInputEls.length; i++) {
+      codeInputEls[i].value = pasted[i] || '';
+      codeInputEls[i].classList.toggle('filled', !!codeInputEls[i].value);
+    }
+    const nextEmpty = Array.from(codeInputEls).findIndex(i => !i.value);
+    if (nextEmpty >= 0) codeInputEls[nextEmpty].focus();
+    else codeInputEls[codeInputEls.length - 1].focus();
+    updateLoginBtnState();
+  });
+  input.addEventListener('focus', () => setTimeout(() => input.select(), 30));
+});
+updateLoginBtnState();
+    return;
+  }
+  // ... СЪЩЕСТВУВАЩИЯТ КОД ВЪВ ФОРМАТА ...
+  // (виж по-долу — НЕ пипайте съществуващия код, само премахнете стария addEventListener)
+});
+
+updateLoginBtnState();
+// ═══════════════════════════════════════════════════════════════
 const appEl = document.getElementById('app');
 const logoutBtn = document.getElementById('logoutBtn');
 const navItems = document.querySelectorAll('.nav-item');
@@ -2906,6 +3100,9 @@ async function findInLegacy(code) {
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const code = Array.from(codeInputEls).map(i => i.value).join('');
+  if (code.length !== 6) return;
+  showLoading(true);
+  ... (дългия код)
   if (code.length !== 6) return;
   showLoading(true);
   let found = findUserByCodeInAllClinics(code, clinics);
