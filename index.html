@@ -4363,26 +4363,3 @@ init();
 </script>
 </body>
 </html>
-document.addEventListener('click', async (e) => {
-  const editBtn = e.target.closest('.edit-patient');
-  if (editBtn) {
-    const pat = patients[editBtn.dataset.id]; if (!pat) return;
-    editingPatientId = editBtn.dataset.id;
-    $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || '';
-    renderPatientKineziCheckboxes();
-    $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Запази промените';
-    document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.patientTab === 'new'));
-    document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === 'new'));
-    document.querySelector('#module-patients .card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    showToast('Редактиране на: ' + pat.name, 'info');
-    return;
-  }
-  const link = e.target.closest('.patient-link');
-  if (link) { openPatientProfile(link.dataset.id); return; }
-  const arch = e.target.closest('.archive-single');
-  if (arch) { if (!confirm('Архивирай пациента?')) return; try { await update(clinicRef(`patients/${arch.dataset.id}`), { archived: true, archivedAt: Date.now() }); showToast('Архивиран.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
-  const rest = e.target.closest('.restore-patient');
-  if (rest) { try { await update(clinicRef(`patients/${rest.dataset.id}`), { archived: false }); showToast('Върнат.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; }
-  const del = e.target.closest('.delete-patient');
-  if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
-});
