@@ -2734,84 +2734,32 @@ const loginBtn = document.getElementById('loginBtn');
 const loginError = document.getElementById('loginError');
 const loginErrorText = document.getElementById('loginErrorText');
 const codeInputEls = document.querySelectorAll('#codeInputs input');
-  // ═══════════════════════════════════════════════════════════════
-// LOGIN FIX за мобилни устройства
+
 // ═══════════════════════════════════════════════════════════════
+// LOGIN HANDLING — поправено за Android WebView
+// ═══════════════════════════════════════════════════════════════
+
 function updateLoginBtnState() {
   const code = Array.from(codeInputEls).map(i => i.value).join('');
   loginBtn.disabled = (code.length !== 6);
 }
 
-codeInputEls.forEach((input, idx) => {
-  // Въвеждане на цифра
-  input.addEventListener('input', (e) => {
-    let val = (e.target.value || '').replace(/[^0-9]/g, '').slice(0, 1);
-    e.target.value = val;
-    e.target.classList.toggle('filled', !!val);
-    if (val && idx < codeInputEls.length - 1) {
-      setTimeout(() => codeInputEls[idx + 1].focus(), 10);
-    }
-    updateLoginBtnState();
-  });
+function clearCodeInputs() {
+  codeInputEls.forEach(i => { i.value = ''; i.classList.remove('filled'); });
+  codeInputEls[0].focus();
+  updateLoginBtnState();
+}
 
-  // Навигация с клавиши
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-      codeInputEls[idx - 1].focus();
-      codeInputEls[idx - 1].value = '';
-      codeInputEls[idx - 1].classList.remove('filled');
-      updateLoginBtnState();
-    }
-    if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
-    if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
-  });
+function showLoginError(msg) {
+  loginErrorText.textContent = msg;
+  loginError.classList.add('active');
+  setTimeout(() => loginError.classList.remove('active'), 4000);
+}
 
-  // Поставяне
-  input.addEventListener('paste', (e) => {
-    e.preventDefault();
-    const data = e.clipboardData || window.clipboardData;
-    const pasted = (data.getData('text') || '').replace(/[^0-9]/g, '').slice(0, 6);
-    for (let i = 0; i < codeInputEls.length; i++) {
-      codeInputEls[i].value = pasted[i] || '';
-      codeInputEls[i].classList.toggle('filled', !!codeInputEls[i].value);
-    }
-    const nextEmpty = Array.from(codeInputEls).findIndex(i => !i.value);
-    if (nextEmpty >= 0) codeInputEls[nextEmpty].focus();
-    else codeInputEls[codeInputEls.length - 1].focus();
-    updateLoginBtnState();
-  });
-
-  input.addEventListener('focus', () => setTimeout(() => input.select(), 30));
-});
-
-// ФОРСИРАНО submit при натискане на бутона (fix за мобилен)
-loginBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const code = Array.from(codeInputEls).map(i => i.value).join('');
-  if (code.length !== 6) {
-    showToast('Въведете пълен 6-цифрен код.', 'error');
-    return;
-  }
-  loginBtn.disabled = true;
-  loginForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-});
-
-// Touch event fix (за по-стари Android WebView)
-loginBtn.addEventListener('touchend', function(e) {
-  e.preventDefault();
-  const code = Array.from(codeInputEls).map(i => i.value).join('');
-  if (code.length !== 6) return;
-  loginBtn.disabled = true;
-  loginForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-}, { passive: false });
-
-// Формата — submit event listener (вместо inline onsubmit)
-lo// Форсиран login за мобилни устройства
 async function attemptLogin() {
   const code = Array.from(codeInputEls).map(i => i.value).join('');
   if (code.length !== 6) {
-    showToast('Въведете пълен 6-цифрен код.', 'error');
+    showLoginError('Въведете пълен 6-цифрен код.');
     return;
   }
   showLoading(true);
@@ -2859,40 +2807,22 @@ async function attemptLogin() {
   showLoading(false);
   showLoginError('Грешен код. Опитайте отново.');
   clearCodeInputs();
-  loginBtn.disabled = true;
 }
 
-// Само ЕДИН submit listener
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  attemptLogin();
-});
-
-// Директен клик на бутона (fix за мобилни)
-loginBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  attemptLogin();
-});
-
-// Touch fix
-loginBtn.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  attemptLogin();
-}, { passive: false });
-
-// Input handling
-function updateLoginBtnState() {
-  const code = Array.from(codeInputEls).map(i => i.value).join('');
-  loginBtn.disabled = (code.length !== 6);
-}
+// Input handling за 6-те полета
 codeInputEls.forEach((input, idx) => {
   input.addEventListener('input', (e) => {
     let val = (e.target.value || '').replace(/[^0-9]/g, '').slice(0, 1);
     e.target.value = val;
     e.target.classList.toggle('filled', !!val);
-    if (val && idx < codeInputEls.length - 1) setTimeout(() => codeInputEls[idx + 1].focus(), 10);
+    if (val && idx < codeInputEls.length - 1) {
+      setTimeout(() => codeInputEls[idx + 1].focus(), 10);
+    }
     updateLoginBtnState();
+    const code = Array.from(codeInputEls).map(i => i.value).join('');
+    if (code.length === 6) {
+      setTimeout(() => attemptLogin(), 250);
+    }
   });
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace' && !e.target.value && idx > 0) {
@@ -2916,18 +2846,37 @@ codeInputEls.forEach((input, idx) => {
     if (nextEmpty >= 0) codeInputEls[nextEmpty].focus();
     else codeInputEls[codeInputEls.length - 1].focus();
     updateLoginBtnState();
+    if (pasted.length === 6) {
+      setTimeout(() => attemptLogin(), 250);
+    }
   });
   input.addEventListener('focus', () => setTimeout(() => input.select(), 30));
 });
-updateLoginBtnState();
-    return;
-  }
-  // ... СЪЩЕСТВУВАЩИЯТ КОД ВЪВ ФОРМАТА ...
-  // (виж по-долу — НЕ пипайте съществуващия код, само премахнете стария addEventListener)
+
+// Формата — submit
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  attemptLogin();
 });
 
+// Директен клик на бутона — работи винаги
+loginBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  attemptLogin();
+});
+
+// Touch за по-стари Android WebView
+loginBtn.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  attemptLogin();
+}, { passive: false });
+
+// Инициализация
 updateLoginBtnState();
+
 // ═══════════════════════════════════════════════════════════════
+
 const appEl = document.getElementById('app');
 const logoutBtn = document.getElementById('logoutBtn');
 const navItems = document.querySelectorAll('.nav-item');
