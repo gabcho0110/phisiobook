@@ -2633,6 +2633,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  document.body.insertAdjacentHTML('afterbegin', '<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;padding:10px;z-index:99999;font-size:16px;text-align:center;font-weight:bold;">JS СЕ ЗАРЕДИ УСПЕШНО</div>');
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
