@@ -2183,6 +2183,26 @@ const clinicsRootRef = ref(db, 'clinics');
 const LEGACY_PATIENTS_REF = ref(db, 'patients');
 const LEGACY_USERS_REF = ref(db, 'users');
 
+// ── Изчакване на auth токена в Realtime Database ──────────────────────────
+// signInWithEmailAndPassword() се резолвва, преди RTDB клиентът да е получил
+// токена (това става асинхронно). Затова първото четене или слушане веднага
+// след вход понякога пада с `permission_denied at /clinics`, защото правилата
+// изискват `auth != null`. При такава грешка опитваме отново — тя е
+// временна, а не истински отказ.
+async function getWithAuthRetry(targetRef, attempts = 6, delayMs = 150) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await get(targetRef);
+    } catch (err) {
+      lastErr = err;
+      if (!/permission_denied/i.test(String(err?.message || err))) throw err;
+      await new Promise(r => setTimeout(r, delayMs * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 let clinics = {};
 let activeClinicId = null;
 let activeClinic = null;
@@ -2299,7 +2319,7 @@ async function attemptLogin() {
 
   // ── Стъпка 2: зареждане на данните (вече сме автентикирани) ──────────
   try {
-    const snap = await get(clinicsRootRef);
+    const snap = await getWithAuthRetry(clinicsRootRef);
     clinics = snap.val() || {};
   } catch (err) {
     console.error(err);
@@ -2645,8 +2665,24 @@ $('headerLogoutBtn').addEventListener('click', (e) => { e.stopPropagation(); doL
 function doLogout() { if (confirm('Сигурни ли сте?')) { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentPatientId'); sessionStorage.removeItem('activeClinicId'); sessionStorage.removeItem('authCode'); stopDataListeners(); signOut(auth).catch(() => {}).finally(() => location.reload()); } }
 $('headerNavToggle').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); });
 
-function startClinicsListener() {
-  onValue(clinicsRootRef, (snapshot) => { clinics = snapshot.val() || {}; if (activeClinicId && !clinics[activeClinicId]) { showToast('Клиниката е изтрита.', 'error'); setTimeout(() => doLogout(), 1500); return; } if (activeClinicId) activeClinic = clinics[activeClinicId]; if (!sessionRestored) tryRestoreSession(); }, (err) => { console.error(err); });
+// Слушателят за /clinics се закача само веднъж и едва след като RTDB
+// клиентът наистина има auth токен — иначе първото съобщение пада с
+// permission_denied (виж getWithAuthRetry).
+let clinicsListenerStarted = false;
+async function startClinicsListener() {
+  if (clinicsListenerStarted) return;
+  try {
+    const snap = await getWithAuthRetry(clinicsRootRef);
+    clinics = snap.val() || {};
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+  if (clinicsListenerStarted) return;
+  // Ако междувременно е станал изход, не закачаме слушател.
+  if (!auth.currentUser) return;
+  clinicsListenerStarted = true;
+  unsubscribers.push(onValue(clinicsRootRef, (snapshot) => { clinics = snapshot.val() || {}; if (activeClinicId && !clinics[activeClinicId]) { showToast('Клиниката е изтрита.', 'error'); setTimeout(() => doLogout(), 1500); return; } if (activeClinicId) activeClinic = clinics[activeClinicId]; if (!sessionRestored) tryRestoreSession(); }, (err) => { console.error(err); }));
 }
 
 async function tryRestoreSession() {
@@ -2675,7 +2711,7 @@ async function tryRestoreSession() {
   }
 }
 
-function stopDataListeners() { unsubscribers.forEach(u => { try { u(); } catch(e){} }); unsubscribers = []; dataListenersStarted = false; }
+function stopDataListeners() { unsubscribers.forEach(u => { try { u(); } catch(e){} }); unsubscribers = []; dataListenersStarted = false; clinicsListenerStarted = false; }
 
 function startDataListeners() {
   if (!activeClinicId) return;
