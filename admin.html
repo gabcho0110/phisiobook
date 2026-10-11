@@ -131,6 +131,12 @@ tr:last-child td { border-bottom: none; }
 .pkg-badge.basic { background: linear-gradient(135deg, #e8f0fe 0%, #c7dbfa 100%); color: #1e40af; border: 1px solid #93c5fd; }
 .pkg-badge.max { background: linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 100%); color: #6b21a8; border: 1px solid #c4b5fd; }
 .pkg-badge.none { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
+.sub-badge { display: inline-flex; align-items: center; gap: 5px; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.74rem; font-weight: 700; white-space: nowrap; }
+.sub-badge.active { background: #e6f7ee; color: #0f6e56; border: 1px solid #9fe1cb; }
+.sub-badge.expiring { background: #fdf3e0; color: #854f0b; border: 1px solid #fac775; }
+.sub-badge.expired { background: #fdeaea; color: #a32d2d; border: 1px solid #f09595; }
+.sub-badge.pending { background: #eef4fb; color: #185fa5; border: 1px solid #85b7eb; }
+.sub-badge.unset { background: #f0f4f8; color: #7f95b0; border: 1px solid #cfddee; }
 
 .pkg-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px; }
 @media (max-width: 700px) { .pkg-selector { grid-template-columns: 1fr; } }
@@ -322,6 +328,7 @@ tr:last-child td { border-bottom: none; }
 <tr>
 <th>Име</th>
 <th>Абонамент</th>
+<th>Период</th>
 <th>Телефон</th>
 <th>Модули</th>
 <th>Действия</th>
@@ -553,6 +560,26 @@ tr:last-child td { border-bottom: none; }
 </div>
 <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. "Портал" и "Настройки" винаги са включени.</div>
 </div>
+<div class="form-group" style="grid-column: span 2; background:#eef6ff; padding:1rem; border-radius:12px; border:2px dashed #8fbcff;">
+<label style="color:#1e4a78;"><i class="fas fa-calendar-check"></i> Период на абонамента</label>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:6px;">
+<div>
+<label style="font-size:0.78rem; color:#4a6b8a; font-weight:400;">Активен от</label>
+<input type="date" id="clinicSubStart" style="background:#fff;">
+</div>
+<div>
+<label style="font-size:0.78rem; color:#4a6b8a; font-weight:400;">Активен до (включително)</label>
+<input type="date" id="clinicSubEnd" style="background:#fff;">
+</div>
+</div>
+<div style="display:flex; gap:0.4rem; margin-top:8px; flex-wrap:wrap;">
+<button type="button" class="btn-outline btn btn-sm" data-sub-preset="1y"><i class="fas fa-calendar-plus"></i> 1 година</button>
+<button type="button" class="btn-outline btn btn-sm" data-sub-preset="6m"><i class="fas fa-calendar-plus"></i> 6 месеца</button>
+<button type="button" class="btn-outline btn btn-sm" data-sub-preset="1m"><i class="fas fa-calendar-plus"></i> 1 месец</button>
+<button type="button" class="btn-outline btn btn-sm" data-sub-preset="clear"><i class="fas fa-eraser"></i> Изчисти</button>
+</div>
+<div class="hint" style="color:#1e4a78;"><i class="fas fa-info-circle"></i> След крайната дата всички модули на клиниката се изключват автоматично. Ако и двете полета са празни, абонаментът не се следи.</div>
+</div>
 <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
 <label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
 <input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
@@ -722,6 +749,49 @@ function showToast(msg, type = 'info') {
 function showLoading(show = true) { $('loadingOverlay').classList.toggle('active', show); }
 function escapeHtml(s) { if (s === null || s === undefined) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
+
+// ==================== АБОНАМЕНТ НА КЛИНИКАТА ====================
+// Датите се пазят като низове 'YYYY-MM-DD' (от <input type="date">) и се
+// сравняват лексикографски. Така няма изместване с един ден заради часова зона,
+// което би станало при сравняване на timestamp-и.
+function todayISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+// Добавя месеци, като припокрива деня към последния ден на целевия месец
+// (31 януари + 1 месец → 28/29 февруари, а не 3 март).
+function addMonthsISO(months) {
+    const now = new Date();
+    const target = new Date(now.getFullYear(), now.getMonth() + months, 1);
+    const lastDay = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+    target.setDate(Math.min(now.getDate(), lastDay));
+    return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
+}
+function formatDateBG(iso) {
+    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return '—';
+    const [y, m, d] = iso.split('-');
+    return `${d}.${m}.${y}`;
+}
+// Днес се брои за активен ден: периодът е [start, end] включително.
+function getClinicSubscription(clinic) {
+    const start = (clinic?.subscriptionStart || '').trim();
+    const end = (clinic?.subscriptionEnd || '').trim();
+    if (!start && !end) return { state: 'unset', start, end, daysLeft: null };
+    const today = todayISO();
+    if (start && today < start) return { state: 'pending', start, end, daysLeft: null };
+    if (end && today > end) return { state: 'expired', start, end, daysLeft: null };
+    let daysLeft = null;
+    if (end) daysLeft = Math.round((new Date(end + 'T00:00:00') - new Date(today + 'T00:00:00')) / 86400000);
+    return { state: (daysLeft !== null && daysLeft <= 30) ? 'expiring' : 'active', start, end, daysLeft };
+}
+function getSubscriptionBadgeHtml(clinic) {
+    const s = getClinicSubscription(clinic);
+    if (s.state === 'unset') return `<span class="sub-badge unset"><i class="fas fa-minus-circle"></i> Без срок</span>`;
+    if (s.state === 'pending') return `<span class="sub-badge pending"><i class="fas fa-hourglass-start"></i> Започва ${formatDateBG(s.start)}</span>`;
+    if (s.state === 'expired') return `<span class="sub-badge expired"><i class="fas fa-ban"></i> Изтекъл ${formatDateBG(s.end)}</span>`;
+    if (s.state === 'expiring') return `<span class="sub-badge expiring"><i class="fas fa-exclamation-triangle"></i> До ${formatDateBG(s.end)} · ${s.daysLeft} д.</span>`;
+    return `<span class="sub-badge active"><i class="fas fa-check-circle"></i> До ${formatDateBG(s.end)}</span>`;
+}
 function getModuleDef(modId) { return MODULES.find(m => m.id === modId); }
 function getUserInitials(n) { return (n||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(); }
 
@@ -1046,7 +1116,14 @@ function renderClinics() {
     const body = $('clinicsBody');
     const q = clinicSearchQuery.toLowerCase().trim();
 
-    let filtered = ids.map(cid => ({ id: cid, ...clinics[cid] }));
+    let filtered = ids.map(cid => {
+        const cset = clinicSettingsMap[cid] || {};
+        return {
+            id: cid, ...clinics[cid],
+            subscriptionStart: clinics[cid].subscriptionStart || cset.subscriptionStart || '',
+            subscriptionEnd: clinics[cid].subscriptionEnd || cset.subscriptionEnd || ''
+        };
+    });
     if (q) {
         filtered = filtered.filter(c => {
             const code = c.adminCode || c.ownerCode || '';
@@ -1061,7 +1138,7 @@ function renderClinics() {
     $('clinicSearchCount').textContent = `${filtered.length} ${filtered.length === 1 ? 'клиника' : 'клиники'}`;
 
     if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="5" class="empty-message">${q ? 'Няма намерени клиники.' : 'Няма клиники'}</td></tr>`;
+        body.innerHTML = `<tr><td colspan="6" class="empty-message">${q ? 'Няма намерени клиники.' : 'Няма клиники'}</td></tr>`;
         return;
     }
 
@@ -1079,6 +1156,7 @@ function renderClinics() {
         return `<tr>
             <td><strong>${nameDisplay}</strong></td>
             <td>${getPackageBadgeHtml(pkgId)}</td>
+            <td>${getSubscriptionBadgeHtml(c)}</td>
             <td>${escapeHtml(c.phone || '—')}</td>
             <td>
                 <div class="modules-badges">${badges}</div>
@@ -1166,14 +1244,34 @@ function openClinicModal(cid = null) {
         $('clinicPhone').value = c.phone || '';
         $('clinicEmail').value = c.email || '';
         $('clinicAddress').value = c.address || '';
+        // Периодът се чете от корена на клиниката, с резервен вариант от settings
+        // (стари записи може да са само там).
+        const cset = clinicSettingsMap[cid] || {};
+        $('clinicSubStart').value = c.subscriptionStart || cset.subscriptionStart || '';
+        $('clinicSubEnd').value = c.subscriptionEnd || cset.subscriptionEnd || '';
         setPackageSelectorValue(c.packageId || c.package || 'start');
     } else {
         $('clinicModalTitle').textContent = 'Нова клиника';
         $('clinicAdminCode').value = generate6DigitCode();
         setPackageSelectorValue('start');
+        // Пакетите се плащат на година, затова по подразбиране: днес → +1 година.
+        $('clinicSubStart').value = todayISO();
+        $('clinicSubEnd').value = addMonthsISO(12);
     }
     modal.classList.add('active');
 }
+
+// Бързи бутони за периода на абонамента.
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-sub-preset]');
+    if (!btn) return;
+    e.preventDefault();
+    const preset = btn.dataset.subPreset;
+    if (preset === 'clear') { $('clinicSubStart').value = ''; $('clinicSubEnd').value = ''; return; }
+    const months = preset === '1y' ? 12 : preset === '6m' ? 6 : 1;
+    $('clinicSubStart').value = todayISO();
+    $('clinicSubEnd').value = addMonthsISO(months);
+});
 
 $('clinicForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1185,10 +1283,15 @@ $('clinicForm').addEventListener('submit', async (e) => {
     const clinicEmail = $('clinicEmail').value.trim();
     const clinicAddress = $('clinicAddress').value.trim();
     const packageId = selectedPackage;
+    const subscriptionStart = $('clinicSubStart').value || '';
+    const subscriptionEnd = $('clinicSubEnd').value || '';
 
     if (!name || !adminCode) { showToast('Попълнете име и код.', 'error'); return; }
     if (!/^\d{6}$/.test(adminCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
     if (!PACKAGES[packageId]) { showToast('Изберете абонаментен пакет.', 'error'); return; }
+    if (subscriptionStart && subscriptionEnd && subscriptionStart > subscriptionEnd) {
+        showToast('Началната дата на абонамента трябва да е преди крайната.', 'error'); return;
+    }
 
     $('clinicSaveBtn').disabled = true;
     showLoading(true);
@@ -1205,7 +1308,7 @@ $('clinicForm').addEventListener('submit', async (e) => {
         const clinicData = {
             name, sub, adminCode,
             phone: clinicPhone, email: clinicEmail, address: clinicAddress,
-            packageId, updatedAt: Date.now()
+            packageId, subscriptionStart, subscriptionEnd, updatedAt: Date.now()
         };
 
         if (cid) {
@@ -1233,6 +1336,11 @@ $('clinicForm').addEventListener('submit', async (e) => {
                 });
             }
 
+            // Периодът се пази и в settings, защото приложението чете оттам
+            // (clinicSettings) — така проверката работи и преди да е заредена
+            // цялата клиника.
+            await update(ref(db, `clinics/${cid}/settings`), { subscriptionStart, subscriptionEnd });
+
             const oldPkgId = clinics[cid].packageId || clinics[cid].package;
             if (oldPkgId !== packageId) {
                 if (confirm(`Пакетът е сменен от "${PACKAGES[oldPkgId]?.name || '?'}" на "${PACKAGES[packageId].name}".\n\nДа приложа ли модулите от новия пакет автоматично?`)) {
@@ -1246,7 +1354,7 @@ $('clinicForm').addEventListener('submit', async (e) => {
                 }
             }
 
-            showToast('Клиниката е обновена.', 'success');
+            showToast(subscriptionEnd ? `Клиниката е обновена. Активна до ${formatDateBG(subscriptionEnd)}.` : 'Клиниката е обновена. Без зададен срок на абонамента.', 'success');
         } else {
             clinicData.createdAt = Date.now();
             const newRef = push(ref(db, 'clinics'));
@@ -1258,7 +1366,7 @@ $('clinicForm').addEventListener('submit', async (e) => {
             await set(ref(db, `clinics/${newId}/settings`), {
                 name, sub: sub || 'Медицински център',
                 enabledModules: packageModules,
-                packageId, createdAt: Date.now()
+                packageId, subscriptionStart, subscriptionEnd, createdAt: Date.now()
             });
 
             await set(push(ref(db, `clinics/${newId}/users`)), {
@@ -1268,7 +1376,8 @@ $('clinicForm').addEventListener('submit', async (e) => {
             });
 
             const pkg = PACKAGES[packageId];
-            showToast(`Клиниката е създадена с пакет "${pkg.name}" (${pkg.price} €/год). Код: ${adminCode}`, 'success');
+            const periodTxt = subscriptionEnd ? ` Активна до ${formatDateBG(subscriptionEnd)}.` : ' Без зададен срок на абонамента.';
+            showToast(`Клиниката е създадена с пакет "${pkg.name}" (${pkg.price} €/год). Код: ${adminCode}.${periodTxt}`, 'success');
         }
         $('clinicModal').classList.remove('active');
     } catch(err) {

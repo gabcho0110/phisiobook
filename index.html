@@ -119,6 +119,18 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .module-header h1 { font-size: 1.6rem; font-weight: 500; color: #0b2b4f; display: flex; align-items: center; gap: 10px; }
 .module-header h1 i { color: #1e4a78; }
+/* Екран при изтекъл/нестартирал абонамент — показва се вместо модулите. */
+.sub-notice { display: flex; justify-content: center; padding: 2rem 1rem; }
+.sub-notice-card { background: #ffffff; border: 1px solid #f09595; border-radius: 20px; padding: 2rem 1.6rem; max-width: 470px; width: 100%; text-align: center; box-shadow: 0 12px 40px rgba(11, 43, 79, 0.12); }
+.sub-notice-icon { width: 68px; height: 68px; margin: 0 auto 1rem; border-radius: 50%; background: #fdeaea; color: #a32d2d; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; }
+.sub-notice-card h2 { font-size: 1.25rem; color: #0b2b4f; font-weight: 600; margin-bottom: 0.6rem; }
+.sub-notice-card p { color: #4a6b8a; font-size: 0.92rem; line-height: 1.6; margin-bottom: 1rem; }
+.sub-notice-period { background: #f8fbfe; border: 1px solid #dbe7f3; border-radius: 12px; padding: 0.8rem; margin-bottom: 1.2rem; font-size: 0.86rem; color: #1e4a78; line-height: 1.7; }
+.sub-notice-period b { color: #0b2b4f; }
+.sub-notice-actions { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+.sub-notice-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0.7rem 1.2rem; border-radius: 30px; background: #0b2b4f; color: #ffffff; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; }
+.sub-notice-btn.ghost { background: #ffffff; color: #1e4a78; border: 1px solid #cfddee; }
+.sub-notice-foot { margin-top: 1rem; font-size: 0.76rem; color: #7f95b0; }
 .dash-top-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .dash-card { background: #ffffff; border-radius: 16px; padding: 1.2rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; position: relative; overflow: hidden; }
 .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
@@ -1080,12 +1092,26 @@ body.patient-mode .delete-program { display: none !important; }
 <a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
 <div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
 </div>
-<div class="sidebar-version">v9.11 · Mobile · <a href="/privacy.html" style="color:#7fb2e5; text-decoration:underline;">Поверителност</a></div>
+<div class="sidebar-version">v9.12 · Абонамент · <a href="/privacy.html" style="color:#7fb2e5; text-decoration:underline;">Поверителност</a></div>
 </div>
 </aside>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <main class="main">
+
+<div class="sub-notice" id="subNotice" style="display:none;">
+<div class="sub-notice-card">
+<div class="sub-notice-icon"><i class="fas fa-lock"></i></div>
+<h2 id="subNoticeTitle">Абонаментът е изтекъл</h2>
+<p id="subNoticeText">Достъпът до модулите на клиниката е спрян.</p>
+<div class="sub-notice-period" id="subNoticePeriod"></div>
+<div class="sub-notice-actions">
+<a href="tel:+359878200736" class="sub-notice-btn"><i class="fas fa-phone"></i> +359 87 8200736</a>
+<button type="button" class="sub-notice-btn ghost" id="subNoticeReload"><i class="fas fa-sync-alt"></i> Провери отново</button>
+</div>
+<div class="sub-notice-foot">Ако абонаментът вече е платен, свържете се с PhysioBook Admin за активиране.</div>
+</div>
+</div>
 
 <section id="module-dashboard" class="module">
 <div class="module-header">
@@ -2321,10 +2347,82 @@ let currentDossierId = null;
 
 const DEFAULT_MODULES = { dashboard: true, patients: true, dossier: true, schedule: true, substitutions: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
 
-function getEnabledModules() { const saved = clinicSettings?.enabledModules || {}; const result = { ...DEFAULT_MODULES, ...saved }; result.settings = true; return result; }
+function getEnabledModules() {
+  // Изтекъл (или още нестартирал) абонамент изключва ВСИЧКИ модули, независимо
+  // какво е записано в enabledModules. Така изтичането на срока се усеща веднага,
+  // без админът да пипа настройките на клиниката.
+  if (!getSubscription().active) {
+    const off = {};
+    Object.keys(DEFAULT_MODULES).forEach(k => { off[k] = false; });
+    return off;
+  }
+  const saved = clinicSettings?.enabledModules || {};
+  const result = { ...DEFAULT_MODULES, ...saved };
+  result.settings = true; return result;
+}
+
+// ==================== АБОНАМЕНТ НА КЛИНИКАТА ====================
+// Датите се пазят като низове 'YYYY-MM-DD' (от <input type="date"> в админ
+// панела) и се сравняват лексикографски. Така няма изместване с един ден заради
+// часова зона, както би станало при сравняване на timestamp-и.
+// Днес се брои за активен ден: периодът е [start, end] включително.
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function formatDateBG(iso) {
+  if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return '—';
+  const [y, m, d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+function getSubscription() {
+  const s = clinicSettings || {};
+  const start = String(s.subscriptionStart || activeClinic?.subscriptionStart || '').trim();
+  const end = String(s.subscriptionEnd || activeClinic?.subscriptionEnd || '').trim();
+  // Без зададени дати абонаментът не се следи — така старите клиники продължават
+  // да работят както досега.
+  if (!start && !end) return { configured: false, active: true, start, end, reason: '' };
+  const today = todayISO();
+  if (start && today < start) return { configured: true, active: false, start, end, reason: 'pending' };
+  if (end && today > end) return { configured: true, active: false, start, end, reason: 'expired' };
+  return { configured: true, active: true, start, end, reason: '' };
+}
+
+// Показва/скрива екрана за изтекъл или нестартирал абонамент.
+function renderSubscriptionNotice(sub) {
+  const box = document.getElementById('subNotice');
+  if (!box) return;
+  if (sub.active) { box.style.display = 'none'; return; }
+  const pending = sub.reason === 'pending';
+  box.style.display = 'flex';
+  const icon = box.querySelector('.sub-notice-icon');
+  if (icon) {
+    icon.style.background = pending ? '#eef4fb' : '#fdeaea';
+    icon.style.color = pending ? '#185fa5' : '#a32d2d';
+    icon.innerHTML = `<i class="fas ${pending ? 'fa-hourglass-start' : 'fa-lock'}"></i>`;
+  }
+  const card = box.querySelector('.sub-notice-card');
+  if (card) card.style.borderColor = pending ? '#85b7eb' : '#f09595';
+  const t = document.getElementById('subNoticeTitle');
+  const p = document.getElementById('subNoticeText');
+  if (t) t.textContent = pending ? 'Абонаментът още не е активен' : 'Абонаментът е изтекъл';
+  if (p) p.textContent = pending
+    ? 'Достъпът до модулите ще се отвори автоматично на началната дата.'
+    : 'Достъпът до модулите на клиниката е спрян. Данните ви са запазени и ще се появят отново след подновяване.';
+  const per = document.getElementById('subNoticePeriod');
+  if (per) {
+    const rows = [];
+    if (sub.start) rows.push(`<div><b>Активен от:</b> ${escapeHtml(formatDateBG(sub.start))}</div>`);
+    if (sub.end) rows.push(`<div><b>Активен до:</b> ${escapeHtml(formatDateBG(sub.end))}</div>`);
+    per.innerHTML = rows.join('') || '<div>Периодът не е зададен.</div>';
+  }
+}
+document.getElementById('subNoticeReload')?.addEventListener('click', () => location.reload());
 
 function applyModuleVisibility() {
   const enabled = getEnabledModules();
+  const sub = getSubscription();
+  renderSubscriptionNotice(sub);
   navItems.forEach(item => {
     const mod = item.dataset.module;
     if (mod in enabled) {
@@ -2332,7 +2430,37 @@ function applyModuleVisibility() {
       else { item.classList.remove('hidden-by-clinic'); item.style.display = ''; }
     }
   });
-  const activeNav = document.querySelector('.nav-item.active');
+  // Блокиран абонамент: всичко е изключено, затова НЕ избираме резервен модул —
+  // вместо това се показва екранът „Абонаментът е изтекъл".
+  if (!sub.active) {
+    Object.keys(modules).forEach(k => modules[k].classList.remove('active'));
+    // Профилът на пациент е отделен контейнер (не е в `modules`), затова се
+    // затваря изрично — иначе би останал отворен под екрана за абонамента.
+    if (patientProfileModule) {
+      patientProfileModule.classList.remove('active');
+      patientProfileModule.classList.remove('patient-profile');
+    }
+    window.currentProfilePatientId = null;
+    navItems.forEach(n => n.classList.remove('active'));
+    if (typeof applyMobileNavPermissions === 'function') applyMobileNavPermissions();
+    return;
+  }
+  // Ако няма активен модул, се връщаме към модула по подразбиране. Това се случва,
+  // когато абонаментът бъде подновен, докато приложението е отворено: блокираният
+  // клон по-долу е махнал .active от всички бутони и без тази поправка основната
+  // област оставаше празна, докато човекът не презареди страницата.
+  let activeNav = document.querySelector('.nav-item.active');
+  if (!activeNav) {
+    const defMod = currentPatient ? 'portal' : 'dashboard';
+    if (enabled[defMod] !== false) {
+      const defBtn = document.querySelector(`.nav-item[data-module="${defMod}"]`);
+      if (defBtn) defBtn.classList.add('active');
+      if (modules[defMod]) modules[defMod].classList.add('active');
+      if (defMod === 'dashboard' && currentUser && !currentPatient) renderDashboard();
+      else if (defMod === 'portal' && currentPatient) renderPortal();
+      activeNav = defBtn;
+    }
+  }
   if (activeNav) {
     const activeMod = activeNav.dataset.module;
     if (enabled[activeMod] === false) {
@@ -3035,6 +3163,8 @@ document.addEventListener('click', async (e) => {
 document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });
 
 function openPatientProfile(patientId) {
+  // Блокиран абонамент: не се отваря нищо, дори ако някой е запазил връзка.
+  if (!getSubscription().active) { showToast('Абонаментът на клиниката не е активен.', 'error'); return; }
   const pat = patients[patientId]; if (!pat) { showToast('Пациентът не е намерен.', 'error'); return; }
   if (isPatient(currentUser) && currentPatient?.id !== patientId) { showToast('Нямате достъп до този профил.', 'error'); return; }
   if (isKinezi(currentUser)) { const allowed = getPatientsForUser().some(p => p.id === patientId); if (!allowed) { showToast('Нямате достъп до този пациент.', 'error'); return; } }
@@ -3750,6 +3880,14 @@ function applyMobileNavPermissions() {
   if (!currentUser) return;
   const patientOnly = isOnlyPatient(currentUser);
   const enabled = getEnabledModules();
+
+  // Изтекъл абонамент: долният ред се скрива изцяло, защото всички модули са
+  // изключени и бутоните биха водили до празни екрани.
+  if (!getSubscription().active) {
+    mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => { item.style.display = 'none'; });
+    mobileNavBtns.forEach(btn => { btn.style.display = 'none'; });
+    return;
+  }
 
   // Долен лист „Всички модули" (Още)
   mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
