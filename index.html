@@ -832,26 +832,88 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .mobile-more-item.active i, .mobile-more-item.active span { color: #ffffff; }
 .mobile-more-logout { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 0.7rem; background: transparent; border: 1px solid #f0c0c0; color: #b22234; border-radius: 12px; font-weight: 600; font-family: inherit; font-size: 0.85rem; cursor: pointer; margin-top: 0.4rem; }
 .mobile-more-logout:active { background: #fff5f5; }
+
+/* ============================================================
+   МОБИЛНА / ТАБЛЕТНА АДАПТАЦИЯ — сгъване и разгъване
+   ============================================================ */
+
+/* Пациентски режим: скриват се всички административни контроли
+   (добавяне/изтриване на упражнения, създаване на програми). */
+body.patient-mode .add-exercise-wrapper,
+body.patient-mode #programFormCard,
+body.patient-mode #exSearchInput,
+body.patient-mode .delete-exercise,
+body.patient-mode .delete-short-exercise,
+body.patient-mode .delete-program { display: none !important; }
+
+/* Затъмняващ слой зад изтеглящото се странично меню */
+.sidebar-backdrop { position: fixed; inset: 0; background: rgba(11, 43, 79, 0.55); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+.sidebar-backdrop.open { opacity: 1; pointer-events: auto; }
+@media (min-width: 1025px) { .sidebar-backdrop { display: none !important; } }
+
+/* Телефони и таблети: страничното меню се сгъва в изтеглящ се панел,
+   а всички полета за попълване се подреждат едно под друго. */
+@media (max-width: 1024px) {
+  .header-nav-toggle { display: inline-flex !important; align-items: center; justify-content: center; }
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    height: 100vh; height: 100dvh;
+    width: 272px; max-width: 84vw;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 1200;
+    padding: 1.2rem 0.5rem calc(1rem + env(safe-area-inset-bottom));
+    box-shadow: 4px 0 26px rgba(0, 0, 0, 0.28);
+    overflow-y: auto;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.collapsed { width: 272px; padding: 1.2rem 0.5rem; overflow-y: auto; }
+
+  .form-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 0.7rem !important; }
+  .form-grid > * { grid-column: 1 / -1 !important; min-width: 0 !important; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; max-width: 100%; }
+  .short-row, .program-row { grid-template-columns: minmax(0, 1fr) !important; }
+  .short-row > *, .program-row > * { grid-column: 1 / -1 !important; }
+  .working-hours-row { grid-template-columns: 1fr 1fr !important; }
+
+  .dash-top-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0.6rem !important; }
+  .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .inv-stats-grid, .vch-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .test-grid, .exercise-grid, .inv-grid, .vch-grid, .sub-grid, .day-summary-grid,
+  .settings-grid-2, .profile-grid, .soap-grid, .soap-view, .inv-form-grid, .vch-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .free-slots-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+
+  .module-header { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .module-header h1 { font-size: 1.25rem !important; }
+  .card { padding: 1rem 0.9rem !important; }
+  .main { padding: 1rem 0.8rem 1.5rem 0.8rem; }
+  img, iframe, video, table { max-width: 100%; }
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
 @media (max-width: 1100px) { .week-grid { grid-template-columns: repeat(4, 1fr); } .messages-panel, .notif-panel { width: 360px; } }
-@media (max-height: 500px) and (orientation: landscape) { .sidebar { display: none !important; } .header-nav-toggle { display: none !important; } .main { padding: 0.6rem 0.8rem 3.5rem 0.8rem; } .app-body { padding-bottom: 48px; } .mobile-bottom-nav { height: 48px; } .mobile-bottom-nav-items { height: 48px; } }
+@media (max-height: 500px) and (orientation: landscape) { .main { padding: 0.6rem 0.8rem 3.5rem 0.8rem; } .app-body { padding-bottom: 48px; } .mobile-bottom-nav { height: 48px; } .mobile-bottom-nav-items { height: 48px; } }
 @media (max-width: 800px) {
-  .sidebar { display: none !important; }
-  .header-nav-toggle { display: none !important; }
   .mobile-bottom-nav { display: block; }
   .app-body { padding-bottom: 56px; }
   .main { padding: 0.8rem 0.6rem 4.5rem 0.6rem; }
-  .app-header { grid-template-columns: auto 1fr auto; padding: 0.5rem 0.6rem; gap: 0.5rem; }
+  .app-header { grid-template-columns: auto minmax(0, 1fr) auto; padding: 0.5rem 0.6rem; gap: 0.4rem; }
   .header-logo { width: 30px; height: 30px; }
-  .header-clinic-name { font-size: 0.85rem; }
+  .header-center { min-width: 0; }
+  .header-clinic-name { font-size: 0.85rem; min-width: 0; }
+  .header-clinic-name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .header-clinic-sub { display: none; }
   .header-user .user-name { display: none; }
   .header-user { padding: 0.2rem 0.3rem 0.2rem 0.2rem; }
   .header-user .user-avatar { width: 26px; height: 26px; font-size: 0.65rem; }
   .header-icon-btn { padding: 0.35rem; font-size: 0.9rem; }
-  .clinic-switcher-btn { padding: 0.3rem 0.5rem; font-size: 0.7rem; max-width: 120px; }
-  .clinic-switcher-btn .clinic-label { max-width: 70px; }
-  .header-actions { gap: 4px; }
+  .clinic-switcher-btn { padding: 0.3rem 0.45rem; font-size: 0.7rem; max-width: none; }
+  .clinic-switcher-btn .clinic-label { display: none; }
+  .header-actions { gap: 2px; }
   .form-grid { grid-template-columns: 1fr !important; gap: 0.6rem !important; }
+  .form-grid > * { grid-column: 1 / -1 !important; min-width: 0 !important; }
   .dash-top-grid { grid-template-columns: 1fr 1fr !important; gap: 0.5rem !important; }
   .profile-grid { grid-template-columns: 1fr !important; }
   .stats-row { grid-template-columns: 1fr 1fr !important; gap: 0.5rem !important; }
@@ -1006,9 +1068,10 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
 <div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
 </div>
-<div class="sidebar-version">v9.8 · Mobile</div>
+<div class="sidebar-version">v9.9 · Mobile</div>
 </div>
 </aside>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <main class="main">
 
@@ -1557,7 +1620,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 <div class="exercise-grid" id="exerciseGrid"></div>
 </div>
 <div class="exercise-pane" data-ex-pane="programs">
-<div class="card">
+<div class="card" id="programFormCard">
 <h3><i class="fas fa-plus-circle"></i> Нова домашна програма</h3>
 <form id="programForm">
 <div class="form-grid" style="margin-bottom:1.5rem;">
@@ -2631,6 +2694,9 @@ async function switchClinic(newClinicId) {
 function applyPermissions() {
   const admin = isAdmin(currentUser);
   const patientOnly = isOnlyPatient(currentUser);
+  // CSS класът „patient-mode" скрива всички административни контроли (добавяне/изтриване
+  // на упражнения, създаване на програми и т.н.) за пациентски профили.
+  document.body.classList.toggle('patient-mode', patientOnly);
   navItems.forEach(item => { 
     const mod = item.dataset.module; 
     if (patientOnly) { 
@@ -2663,7 +2729,26 @@ function applyPermissions() {
 logoutBtn.addEventListener('click', doLogout);
 $('headerLogoutBtn').addEventListener('click', (e) => { e.stopPropagation(); doLogout(); });
 function doLogout() { if (confirm('Сигурни ли сте?')) { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentPatientId'); sessionStorage.removeItem('activeClinicId'); sessionStorage.removeItem('authCode'); stopDataListeners(); signOut(auth).catch(() => {}).finally(() => location.reload()); } }
-$('headerNavToggle').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); });
+// Страничното меню: на телефон/таблет (≤1024px) се сгъва/разгъва като изтеглящ се панел,
+// на десктоп се свива до нулева ширина.
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+function isDrawerMode() { return window.innerWidth <= 1024; }
+function closeSidebarDrawer() {
+  const sb = $('sidebar'); if (sb) sb.classList.remove('open');
+  if (sidebarBackdrop) sidebarBackdrop.classList.remove('open');
+}
+$('headerNavToggle').addEventListener('click', () => {
+  const sb = $('sidebar');
+  if (isDrawerMode()) {
+    const open = sb.classList.toggle('open');
+    if (sidebarBackdrop) sidebarBackdrop.classList.toggle('open', open);
+  } else {
+    sb.classList.toggle('collapsed');
+  }
+});
+if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebarDrawer);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebarDrawer(); });
+window.addEventListener('resize', () => { if (!isDrawerMode()) closeSidebarDrawer(); });
 
 // Слушателят за /clinics се закача само веднъж и едва след като RTDB
 // клиентът наистина има auth токен — иначе първото съобщение пада с
@@ -2724,6 +2809,7 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/settings`), (s) => {
     clinicSettings = s.val() || { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
     applyClinicHeader(); applyModuleVisibility();
+    if (typeof applyMobileNavPermissions === 'function') applyMobileNavPermissions();
     if ($('setClinicName')) { $('setClinicName').value = clinicSettings.name || ''; $('setClinicSub').value = clinicSettings.sub || ''; $('setClinicPhone').value = clinicSettings.phone || ''; $('setClinicEmail').value = clinicSettings.email || ''; $('setClinicAddress').value = clinicSettings.address || ''; $('setClinicBulstat').value = clinicSettings.bulstat || ''; $('setClinicMol').value = clinicSettings.mol || ''; $('setClinicExtra').value = clinicSettings.extra || ''; if ($('setClinicCode')) { $('setClinicCode').value = '••••••'; } }
     const subPane = document.querySelector('.settings-pane[data-set-pane="subscription"]');
     if (subPane && subPane.classList.contains('active')) renderSubscriptionPane();
@@ -3436,17 +3522,27 @@ $('substitutionForm')?.addEventListener('submit', async (e) => {
   } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
   finally { $('subSaveBtn').disabled = false; }
 });// ==================== EXERCISES ====================
+// Пациентите могат само да разглеждат собствените си упражнения и програми.
+// Тази проверка пази и всички пътища за запис, дори ако контролата бъде показана по грешка.
+function blockPatientWrite() {
+  if (isOnlyPatient(currentUser)) {
+    showToast('Нямате права да добавяте или изтривате упражнения.', 'error');
+    return true;
+  }
+  return false;
+}
 document.querySelectorAll('.exercise-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.exTab; document.querySelectorAll('.exercise-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.exercise-pane').forEach(p=>p.classList.toggle('active', p.dataset.exPane === t)); }); });
 document.querySelectorAll('.doc-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.docTab; document.querySelectorAll('.doc-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.doc-pane').forEach(p=>p.classList.toggle('active', p.dataset.docPane === t)); }); });
-$('addExerciseMainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
+$('addExerciseMainBtn').addEventListener('click', (e)=>{ if (blockPatientWrite()) return; e.stopPropagation(); $('addExerciseMenu').classList.toggle('open'); });
 document.addEventListener('click', (e)=>{ const menu = $('addExerciseMenu'); const btn = $('addExerciseMainBtn'); if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) menu.classList.remove('open'); });
-document.querySelectorAll('.add-exercise-option').forEach(opt=>{ opt.addEventListener('click', ()=>{ const mode = opt.dataset.mode; $('addExerciseMenu').classList.remove('open'); $('exerciseShortPanel').classList.remove('active'); $('exerciseExtendedPanel').classList.remove('active'); if (mode === 'short') { $('exerciseShortPanel').classList.add('active'); if ($('shortRowsContainer').children.length === 0) addShortRow(); $('exerciseShortPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); } else { $('exerciseExtendedPanel').classList.add('active'); $('exerciseExtendedPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
+document.querySelectorAll('.add-exercise-option').forEach(opt=>{ opt.addEventListener('click', ()=>{ if (blockPatientWrite()) return; const mode = opt.dataset.mode; $('addExerciseMenu').classList.remove('open'); $('exerciseShortPanel').classList.remove('active'); $('exerciseExtendedPanel').classList.remove('active'); if (mode === 'short') { $('exerciseShortPanel').classList.add('active'); if ($('shortRowsContainer').children.length === 0) addShortRow(); $('exerciseShortPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); } else { $('exerciseExtendedPanel').classList.add('active'); $('exerciseExtendedPanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
 function addShortRow() { const rowNum = $('shortRowsContainer').children.length + 1; const row = document.createElement('div'); row.className = 'short-row'; row.innerHTML = `<select class="short-row-patient" required><option value="">-- пациент *</option></select><input type="number" class="short-row-num" placeholder="№" min="1" value="${rowNum}"><input type="text" class="short-row-name" placeholder="Име на упражнение *" required><input type="text" class="short-row-reps" placeholder="Повт. *" required><input type="text" class="short-row-desc" placeholder="Детайлно описание"><button type="button" class="remove-row-btn" title="Премахни"><i class="fas fa-times"></i></button>`; $('shortRowsContainer').appendChild(row); const select = row.querySelector('.short-row-patient'); const active = getPatientsForUser().filter(p=>!p.archived).map(p=>({id:p.id,name:p.name})).sort((a,b)=>a.name.localeCompare(b.name)); select.innerHTML = '<option value="">-- пациент *</option>' + active.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); row.querySelector('.short-row-name').focus(); }
 $('shortRowsContainer').addEventListener('click', (e)=>{ const btn = e.target.closest('.remove-row-btn'); if (!btn) return; btn.closest('.short-row').remove(); });
 $('shortRowsContainer').addEventListener('input', (e)=>{ const row = e.target.closest('.short-row'); if (!row) return; const last = $('shortRowsContainer').lastElementChild; if (row === last) { const hasData = row.querySelector('.short-row-patient').value || row.querySelector('.short-row-name').value.trim() || row.querySelector('.short-row-reps').value.trim(); if (hasData) { clearTimeout(window._shortRowTimeout); window._shortRowTimeout = setTimeout(()=>{ if ($('shortRowsContainer').lastElementChild === row) addShortRow(); }, 700); } } });
 $('cancelShortBtn').addEventListener('click', ()=>{ if ($('shortRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return; $('shortRowsContainer').innerHTML = ''; $('exerciseShortPanel').classList.remove('active'); });
 $('cancelExtendedBtn').addEventListener('click', ()=>{ $('exerciseExtendedPanel').classList.remove('active'); });
 $('saveShortBtn').addEventListener('click', async ()=>{
+  if (blockPatientWrite()) return;
   const rows = Array.from($('shortRowsContainer').querySelectorAll('.short-row'));
   if (rows.length===0) { showToast('Няма редове.','error'); return; }
   const validRows = []; let hasErrors = false;
@@ -3459,17 +3555,17 @@ $('saveShortBtn').addEventListener('click', async ()=>{
 function updateMediaPreview() { const v = $('exVideoUrl').value.trim(); const i = $('exImageUrl').value.trim(); const box = $('exMediaPreview'); if (!v && !i) { box.classList.remove('has-media'); box.innerHTML = `<i class="fas fa-image" style="font-size:2rem;"></i><span>Преглед на медия</span>`; return; } box.classList.add('has-media'); const yt = getYouTubeId(v); if (yt) box.innerHTML = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>`; else if (v) box.innerHTML = `<video src="${escapeHtml(v)}" controls style="max-height:200px; border-radius:10px;"></video>`; else if (i) box.innerHTML = `<img src="${escapeHtml(i)}" alt="preview">`; }
 $('exVideoUrl').addEventListener('input', updateMediaPreview);
 $('exImageUrl').addEventListener('input', updateMediaPreview);
-$('exerciseForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const name = $('exName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addExerciseBtn').disabled = true; try { await set(push(clinicRef('exercises')), { name, category: $('exCategory').value, sets: parseInt($('exSets').value) || 0, reps: $('exReps').value.trim(), weight: $('exWeight').value.trim(), duration: parseInt($('exDuration').value) || 0, description: $('exDescription').value.trim(), videoUrl: $('exVideoUrl').value.trim(), imageUrl: $('exImageUrl').value.trim(), createdBy: currentUser.id, createdAt: Date.now() }); $('exerciseForm').reset(); $('exSets').value = 3; $('exReps').value = 12; updateMediaPreview(); $('exerciseExtendedPanel').classList.remove('active'); showToast('Добавено.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addExerciseBtn').disabled = false; } });
-function renderExerciseLibrary() { const search = ($('exSearchInput').value || '').toLowerCase().trim(); const allExt = Object.entries(exercises).map(([id,ex])=>({ id, type: 'extended', ...ex })); const allShort = Object.entries(shortExercises).map(([id,ex])=>({ id, type: 'short', ...ex })); let all = [...allExt, ...allShort]; if (search) all = all.filter(x => (x.name||'').toLowerCase().includes(search) || (x.category||'').toLowerCase().includes(search)); if (all.length===0) { $('exerciseGrid').innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма упражнения</div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('exerciseGrid').innerHTML = sorted.map(ex=>{ if (ex.type === 'short') { const pat = patients[ex.patientId]; const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; return `<div class="exercise-card"><div class="exercise-media" style="background: linear-gradient(135deg, #e8f5e9 0%, #d0f0d8 100%);"><div class="media-placeholder" style="color:#1a7a3e;"><i class="fas fa-list-ul"></i><span>Съкратено</span></div><span class="exercise-category-badge" style="background:#1a7a3e;">№${ex.number||'?'}</span></div><div class="exercise-body"><h3>${escapeHtml(ex.name)}</h3><div style="display:flex; align-items:center; gap:8px; margin-bottom:0.6rem; padding-bottom:0.6rem; border-bottom:1px solid #edf2f8;"><div style="background:#1e4a78; width:32px; height:32px; font-size:0.75rem; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;">${getUserInitials(pn)}</div><div style="font-size:0.85rem; color:#0b2b4f; font-weight:600;">${pn}</div></div>${ex.description?`<p class="description">${escapeHtml(ex.description)}</p>`:'<p class="description" style="color:#b0c1d4; font-style:italic;">Няма описание</p>'}<div class="exercise-meta">${ex.reps?`<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повт.</span>`:''}</div><div class="exercise-actions"><button class="btn-danger-outline btn btn-sm delete-short-exercise" data-id="${ex.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div></div>`; } else { let mediaHtml = `<div class="media-placeholder"><i class="fas fa-dumbbell"></i><span>${escapeHtml(ex.category||'Упражнение')}</span></div>`; if (ex.videoUrl) { const yt = getYouTubeId(ex.videoUrl); if (yt) mediaHtml = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen></iframe>`; else mediaHtml = `<video src="${escapeHtml(ex.videoUrl)}" controls style="width:100%; height:100%; object-fit:cover;"></video>`; } else if (ex.imageUrl) mediaHtml = `<img src="${escapeHtml(ex.imageUrl)}" alt="">`; return `<div class="exercise-card"><div class="exercise-media">${mediaHtml}${ex.category?`<span class="exercise-category-badge">${escapeHtml(ex.category)}</span>`:''}</div><div class="exercise-body"><h3>${escapeHtml(ex.name)}</h3>${ex.description?`<p class="description">${escapeHtml(ex.description)}</p>`:'<p class="description" style="color:#b0c1d4; font-style:italic;">Няма описание</p>'}<div class="exercise-meta">${ex.sets?`<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>`:''}${ex.reps?`<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повт.</span>`:''}${ex.weight?`<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(ex.weight)} кг</span>`:''}${ex.duration?`<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${ex.duration} сек</span>`:''}</div><div class="exercise-actions"><button class="btn-danger-outline btn btn-sm delete-exercise" data-id="${ex.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div></div>`; } }).join(''); }
+$('exerciseForm').addEventListener('submit', async (e)=>{ e.preventDefault(); if (blockPatientWrite()) return; const name = $('exName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addExerciseBtn').disabled = true; try { await set(push(clinicRef('exercises')), { name, category: $('exCategory').value, sets: parseInt($('exSets').value) || 0, reps: $('exReps').value.trim(), weight: $('exWeight').value.trim(), duration: parseInt($('exDuration').value) || 0, description: $('exDescription').value.trim(), videoUrl: $('exVideoUrl').value.trim(), imageUrl: $('exImageUrl').value.trim(), createdBy: currentUser.id, createdAt: Date.now() }); $('exerciseForm').reset(); $('exSets').value = 3; $('exReps').value = 12; updateMediaPreview(); $('exerciseExtendedPanel').classList.remove('active'); showToast('Добавено.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addExerciseBtn').disabled = false; } });
+function renderExerciseLibrary() { const search = ($('exSearchInput').value || '').toLowerCase().trim(); const allExt = Object.entries(exercises).map(([id,ex])=>({ id, type: 'extended', ...ex })); const allShort = Object.entries(shortExercises).map(([id,ex])=>({ id, type: 'short', ...ex })); let all = isOnlyPatient(currentUser) ? allShort.filter(x => currentPatient && x.patientId === currentPatient.id) : [...allExt, ...allShort]; if (search) all = all.filter(x => (x.name||'').toLowerCase().includes(search) || (x.category||'').toLowerCase().includes(search)); if (all.length===0) { $('exerciseGrid').innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма упражнения</div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('exerciseGrid').innerHTML = sorted.map(ex=>{ if (ex.type === 'short') { const pat = patients[ex.patientId]; const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; return `<div class="exercise-card"><div class="exercise-media" style="background: linear-gradient(135deg, #e8f5e9 0%, #d0f0d8 100%);"><div class="media-placeholder" style="color:#1a7a3e;"><i class="fas fa-list-ul"></i><span>Съкратено</span></div><span class="exercise-category-badge" style="background:#1a7a3e;">№${ex.number||'?'}</span></div><div class="exercise-body"><h3>${escapeHtml(ex.name)}</h3><div style="display:flex; align-items:center; gap:8px; margin-bottom:0.6rem; padding-bottom:0.6rem; border-bottom:1px solid #edf2f8;"><div style="background:#1e4a78; width:32px; height:32px; font-size:0.75rem; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;">${getUserInitials(pn)}</div><div style="font-size:0.85rem; color:#0b2b4f; font-weight:600;">${pn}</div></div>${ex.description?`<p class="description">${escapeHtml(ex.description)}</p>`:'<p class="description" style="color:#b0c1d4; font-style:italic;">Няма описание</p>'}<div class="exercise-meta">${ex.reps?`<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повт.</span>`:''}</div><div class="exercise-actions"><button class="btn-danger-outline btn btn-sm delete-short-exercise" data-id="${ex.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div></div>`; } else { let mediaHtml = `<div class="media-placeholder"><i class="fas fa-dumbbell"></i><span>${escapeHtml(ex.category||'Упражнение')}</span></div>`; if (ex.videoUrl) { const yt = getYouTubeId(ex.videoUrl); if (yt) mediaHtml = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${yt}" frameborder="0" allowfullscreen></iframe>`; else mediaHtml = `<video src="${escapeHtml(ex.videoUrl)}" controls style="width:100%; height:100%; object-fit:cover;"></video>`; } else if (ex.imageUrl) mediaHtml = `<img src="${escapeHtml(ex.imageUrl)}" alt="">`; return `<div class="exercise-card"><div class="exercise-media">${mediaHtml}${ex.category?`<span class="exercise-category-badge">${escapeHtml(ex.category)}</span>`:''}</div><div class="exercise-body"><h3>${escapeHtml(ex.name)}</h3>${ex.description?`<p class="description">${escapeHtml(ex.description)}</p>`:'<p class="description" style="color:#b0c1d4; font-style:italic;">Няма описание</p>'}<div class="exercise-meta">${ex.sets?`<span class="exercise-meta-chip sets"><i class="fas fa-layer-group"></i> ${ex.sets} серии</span>`:''}${ex.reps?`<span class="exercise-meta-chip reps"><i class="fas fa-redo"></i> ${escapeHtml(ex.reps)} повт.</span>`:''}${ex.weight?`<span class="exercise-meta-chip weight"><i class="fas fa-weight-hanging"></i> ${escapeHtml(ex.weight)} кг</span>`:''}${ex.duration?`<span class="exercise-meta-chip duration"><i class="fas fa-clock"></i> ${ex.duration} сек</span>`:''}</div><div class="exercise-actions"><button class="btn-danger-outline btn btn-sm delete-exercise" data-id="${ex.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div></div>`; } }).join(''); }
 $('exSearchInput').addEventListener('input', renderExerciseLibrary);
-document.addEventListener('click', async (e)=>{ const b1 = e.target.closest('.delete-exercise'); if (b1) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`exercises/${b1.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const b2 = e.target.closest('.delete-short-exercise'); if (b2) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
+document.addEventListener('click', async (e)=>{ const b1 = e.target.closest('.delete-exercise'); if (b1) { if (blockPatientWrite()) return; if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`exercises/${b1.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const b2 = e.target.closest('.delete-short-exercise'); if (b2) { if (blockPatientWrite()) return; if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`shortExercises/${b2.dataset.id}`)); showToast('Изтрито.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
 function addProgramRow() { const rowNum = $('programRowsContainer').children.length + 1; const allEx = []; Object.entries(exercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'extended' })); Object.entries(shortExercises).forEach(([id, ex]) => allEx.push({ id, name: ex.name, type: 'short' })); const libraryOptions = allEx.map(ex => `<option value="${ex.id}|${ex.type}">${escapeHtml(ex.name)} (${ex.type === 'short' ? 'съкратено' : 'разширено'})</option>`).join(''); const row = document.createElement('div'); row.className = 'program-row'; row.innerHTML = `<div class="row-label">№${rowNum}</div><input type="text" class="prog-row-name" placeholder="Име на упражнение *" required><input type="text" class="prog-row-reps" placeholder="Повторения"><input type="text" class="prog-row-sets" placeholder="Серии"><select class="prog-row-library" style="width:100%; padding:0.65rem 0.8rem; border-radius:10px; border:1px solid #cfddee; font-size:0.85rem; font-family:inherit; background:#ffffff;"><option value="">-- или от библиотека --</option>${libraryOptions}</select><button type="button" class="remove-row-btn" title="Премахни"><i class="fas fa-times"></i></button>`; $('programRowsContainer').appendChild(row); row.querySelector('.prog-row-library').addEventListener('change', (e) => { const val = e.target.value; if (!val) return; const [libId, libType] = val.split('|'); const ex = libType === 'short' ? shortExercises[libId] : exercises[libId]; if (ex) { row.querySelector('.prog-row-name').value = ex.name || ''; if (ex.reps) row.querySelector('.prog-row-reps').value = ex.reps; if (ex.sets) row.querySelector('.prog-row-sets').value = ex.sets; } }); }
 $('addProgramRowBtn').addEventListener('click', () => addProgramRow());
 $('programRowsContainer').addEventListener('click', (e) => { const btn = e.target.closest('.remove-row-btn'); if (!btn) return; btn.closest('.program-row').remove(); });
 $('cancelProgramBtn').addEventListener('click', () => { if ($('programRowsContainer').children.length > 0 && !confirm('Да откажа ли?')) return; $('programRowsContainer').innerHTML = ''; $('programForm').reset(); });
-$('programForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const pid = $('progPatient').value; const title = $('progTitle').value.trim(); if (!pid || !title) { showToast('Попълнете пациент и заглавие.','error'); return; } const rows = Array.from($('programRowsContainer').querySelectorAll('.program-row')); if (rows.length === 0) { showToast('Добавете поне едно упражнение.','error'); return; } const exercisesList = []; let hasErrors = false; rows.forEach((row, idx) => { const name = row.querySelector('.prog-row-name').value.trim(); const reps = row.querySelector('.prog-row-reps').value.trim(); const sets = row.querySelector('.prog-row-sets').value.trim(); const libVal = row.querySelector('.prog-row-library').value; if (!name) { row.querySelector('.prog-row-name').classList.add('required-missing'); hasErrors = true; return; } row.querySelector('.prog-row-name').classList.remove('required-missing'); let libId = null, libType = null; if (libVal) [libId, libType] = libVal.split('|'); exercisesList.push({ name, reps, sets: sets ? parseInt(sets) : 0, libId: libId || null, libType: libType || null, order: idx + 1 }); }); if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; } $('addProgramBtn').disabled = true; try { await set(push(clinicRef('programs')), { patientId: pid, title, notes: $('progNotes').value.trim(), exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now() }); await createNotification(pid, 'Нова домашна програма', `Създадена е програма: ${title}`, 'exercise'); $('programForm').reset(); $('programRowsContainer').innerHTML = ''; showToast('Програмата е създадена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addProgramBtn').disabled = false; } });
-function renderProgramsList() { const all = Object.entries(programs).map(([id,p])=>({id,...p})); if (all.length===0) { $('programsList').innerHTML = `<div class="card"><div class="empty-message">Няма програми</div></div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('programsList').innerHTML = sorted.map(prog=>{ const pat = patients[prog.patientId]; const pn = pat?escapeHtml(pat.name):'неизвестен'; let exList = []; if (prog.exercises && Array.isArray(prog.exercises)) { exList = prog.exercises.map(item => { if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 }; if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null; } else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null; } }).filter(Boolean); } return `<div class="home-program-card"><div class="home-program-header"><div class="title-block"><div class="home-icon"><i class="fas fa-home"></i></div><div><h3>${escapeHtml(prog.title)}</h3><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-dumbbell"></i> ${exList.length} упражнения · ${formatTimestamp(prog.createdAt)}</div></div></div><button class="btn-danger-outline btn btn-sm delete-program" data-id="${prog.id}"><i class="fas fa-trash-alt"></i></button></div>${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:12px;border-left:3px solid #1e4a78;margin-bottom:1rem;color:#5a7a9a;font-size:0.9rem;">${escapeHtml(prog.notes)}</div>`:''}<div class="home-program-exercises">${exList.map((ex,i)=>`<div class="home-exercise-item"><div class="num">${i+1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps?'Повторения: '+escapeHtml(ex.reps):''}${ex.sets?' · Серии: '+ex.sets:''}</div></div></div>`).join('')}</div></div>`; }).join(''); }
-document.addEventListener('click', async (e)=>{ const b = e.target.closest('.delete-program'); if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
+$('programForm').addEventListener('submit', async (e)=>{ e.preventDefault(); if (blockPatientWrite()) return; const pid = $('progPatient').value; const title = $('progTitle').value.trim(); if (!pid || !title) { showToast('Попълнете пациент и заглавие.','error'); return; } const rows = Array.from($('programRowsContainer').querySelectorAll('.program-row')); if (rows.length === 0) { showToast('Добавете поне едно упражнение.','error'); return; } const exercisesList = []; let hasErrors = false; rows.forEach((row, idx) => { const name = row.querySelector('.prog-row-name').value.trim(); const reps = row.querySelector('.prog-row-reps').value.trim(); const sets = row.querySelector('.prog-row-sets').value.trim(); const libVal = row.querySelector('.prog-row-library').value; if (!name) { row.querySelector('.prog-row-name').classList.add('required-missing'); hasErrors = true; return; } row.querySelector('.prog-row-name').classList.remove('required-missing'); let libId = null, libType = null; if (libVal) [libId, libType] = libVal.split('|'); exercisesList.push({ name, reps, sets: sets ? parseInt(sets) : 0, libId: libId || null, libType: libType || null, order: idx + 1 }); }); if (hasErrors) { showToast('Попълнете име на всяко упражнение.','error'); return; } $('addProgramBtn').disabled = true; try { await set(push(clinicRef('programs')), { patientId: pid, title, notes: $('progNotes').value.trim(), exercises: exercisesList, createdBy: currentUser.id, createdAt: Date.now() }); await createNotification(pid, 'Нова домашна програма', `Създадена е програма: ${title}`, 'exercise'); $('programForm').reset(); $('programRowsContainer').innerHTML = ''; showToast('Програмата е създадена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addProgramBtn').disabled = false; } });
+function renderProgramsList() { let all = Object.entries(programs).map(([id,p])=>({id,...p})); if (isOnlyPatient(currentUser) && currentPatient) all = all.filter(p => p.patientId === currentPatient.id); if (all.length===0) { $('programsList').innerHTML = `<div class="card"><div class="empty-message">Няма програми</div></div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('programsList').innerHTML = sorted.map(prog=>{ const pat = patients[prog.patientId]; const pn = pat?escapeHtml(pat.name):'неизвестен'; let exList = []; if (prog.exercises && Array.isArray(prog.exercises)) { exList = prog.exercises.map(item => { if (item.name) return { name: item.name, reps: item.reps || '', sets: item.sets || 0 }; if (item.type === 'short') { const ex = shortExercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: 0 } : null; } else { const ex = exercises[item.id]; return ex ? { name: ex.name, reps: ex.reps || '', sets: ex.sets || 0 } : null; } }).filter(Boolean); } return `<div class="home-program-card"><div class="home-program-header"><div class="title-block"><div class="home-icon"><i class="fas fa-home"></i></div><div><h3>${escapeHtml(prog.title)}</h3><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-dumbbell"></i> ${exList.length} упражнения · ${formatTimestamp(prog.createdAt)}</div></div></div><button class="btn-danger-outline btn btn-sm delete-program" data-id="${prog.id}"><i class="fas fa-trash-alt"></i></button></div>${prog.notes?`<div style="background:#f8fbfe;padding:0.8rem 1rem;border-radius:12px;border-left:3px solid #1e4a78;margin-bottom:1rem;color:#5a7a9a;font-size:0.9rem;">${escapeHtml(prog.notes)}</div>`:''}<div class="home-program-exercises">${exList.map((ex,i)=>`<div class="home-exercise-item"><div class="num">${i+1}</div><div class="info"><div class="name">${escapeHtml(ex.name)}</div><div class="meta">${ex.reps?'Повторения: '+escapeHtml(ex.reps):''}${ex.sets?' · Серии: '+ex.sets:''}</div></div></div>`).join('')}</div></div>`; }).join(''); }
+document.addEventListener('click', async (e)=>{ const b = e.target.closest('.delete-program'); if (b) { if (blockPatientWrite()) return; if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`programs/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
 
 // ==================== PORTAL ====================
 function renderPortalKineziSelect() { if (!$('portalAptKinezi')) return; const k = Object.entries(users).filter(([,u])=>hasRole(u,'Кинезитерапевт')).map(([id,u])=>({id,name:u.name})).sort((a,b)=>a.name.localeCompare(b.name)); const cur = $('portalAptKinezi').value; $('portalAptKinezi').innerHTML = '<option value="">-- избери --</option>' + k.map(x=>`<option value="${x.id}">${escapeHtml(x.name)}</option>`).join(''); if (k.some(x=>x.id===cur)) $('portalAptKinezi').value = cur; }
@@ -3564,6 +3660,10 @@ const mobileMoreSheet = document.getElementById('mobileMoreSheet');
 const mobileMoreGrid = document.getElementById('mobileMoreGrid');
 
 function goToModule(targetModule) {
+  if (currentUser && isOnlyPatient(currentUser) && PATIENT_MODULES.indexOf(targetModule) === -1) {
+    showToast('Този модул не е достъпен за вашия профил.', 'error');
+    return;
+  }
   const enabled = getEnabledModules();
   if (enabled[targetModule] === false) { showToast('Този модул е изключен за вашата клиника.', 'error'); return; }
   navItems.forEach(n => n.classList.remove('active'));
@@ -3589,6 +3689,7 @@ function goToModule(targetModule) {
     else if (targetModule === 'portal') renderPortal();
   }
   updateMobileNavActive(targetModule);
+  if (typeof closeSidebarDrawer === 'function') closeSidebarDrawer();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function updateMobileNavActive(targetModule) {
@@ -3610,17 +3711,47 @@ document.getElementById('mobileMessagesBtn')?.addEventListener('click', () => { 
 document.getElementById('mobileNotifBtn')?.addEventListener('click', () => { mobileMoreSheet.classList.remove('open'); $('notifPanel').classList.add('open'); $('messagesPanel').classList.remove('open'); });
 document.getElementById('mobileLogoutBtn')?.addEventListener('click', () => { mobileMoreSheet.classList.remove('open'); doLogout(); });
 
+// Пациентите имат достъп само до „Моят портал" и „Упражнения".
+const PATIENT_MODULES = ['portal', 'exercises'];
+
 function applyMobileNavPermissions() {
   if (!currentUser) return;
   const patientOnly = isOnlyPatient(currentUser);
   const enabled = getEnabledModules();
+
+  // Долен лист „Всички модули" (Още)
   mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
     const mod = item.dataset.moreNav;
     if (patientOnly) { item.style.display = (mod === 'portal' || mod === 'exercises') ? '' : 'none'; }
     else { item.style.display = (mod === 'portal') ? 'none' : ''; if (enabled[mod] === false) item.style.display = 'none'; }
   });
-  mobileNavBtns.forEach(btn => { const mod = btn.dataset.mobileNav; if (mod === 'more') return; if (enabled[mod] === false) btn.style.display = 'none'; else btn.style.display = ''; });
-  if (patientOnly) { mobileNavBtns.forEach(btn => { const nav = btn.dataset.mobileNav; btn.classList.toggle('active', nav === 'more'); }); }
+
+  // Долен навигационен ред.
+  //  - „Портал" и „Упражнения" са само за пациенти (персоналът ги достига през „Още").
+  //  - „Табло/Пациенти/График/Процедури/Още" са само за персонал.
+  mobileNavBtns.forEach(btn => {
+    const mod = btn.dataset.mobileNav;
+    if (mod === 'portal' || mod === 'exercises') {
+      btn.style.display = (patientOnly && enabled[mod] !== false) ? '' : 'none';
+    } else if (mod === 'more') {
+      btn.style.display = patientOnly ? 'none' : '';
+    } else {
+      btn.style.display = (patientOnly || enabled[mod] === false) ? 'none' : '';
+    }
+  });
+
+  // Колоните на реда следват броя на видимите бутони, за да не се пренареждат на втори ред.
+  const bar = mobileNavBtns[0] ? mobileNavBtns[0].parentElement : null;
+  if (bar) {
+    const visibleCount = Array.prototype.filter.call(mobileNavBtns, b => b.style.display !== 'none').length;
+    bar.style.gridTemplateColumns = `repeat(${Math.max(visibleCount, 1)}, minmax(0, 1fr))`;
+  }
+
+  if (patientOnly) {
+    mobileNavBtns.forEach(btn => btn.classList.remove('active'));
+    const p = document.querySelector('.mobile-nav-btn[data-mobile-nav="portal"]');
+    if (p) p.classList.add('active');
+  }
 }
 
 // ==================== NAVIGATION (SIDEBAR) ====================
