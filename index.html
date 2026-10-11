@@ -2419,6 +2419,19 @@ function renderSubscriptionNotice(sub) {
 }
 document.getElementById('subNoticeReload')?.addEventListener('click', () => location.reload());
 
+// Периодична проверка на срока. Приложението често стои отворено цял ден, а датите
+// се четат само когато listener-ът на settings се задейства. Затова на всеки
+// 5 минути сравняваме състоянието и реагираме само при промяна — така изтичането се
+// усеща веднага, без човекът да презарежда страницата.
+let lastSubState = null;
+setInterval(() => {
+  if (!currentUser) return;
+  const sub = getSubscription();
+  const state = `${sub.active}|${sub.reason}`;
+  if (lastSubState !== null && state !== lastSubState) applyModuleVisibility();
+  lastSubState = state;
+}, 5 * 60 * 1000);
+
 function applyModuleVisibility() {
   const enabled = getEnabledModules();
   const sub = getSubscription();
