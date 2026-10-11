@@ -38,30 +38,70 @@ import crypto from 'node:crypto';
 // ─────────────────────────────────────────────────────────────────────────────
 // ПЛАН НА МИГРАЦИЯТА
 //
+// ⚠️ СЕКРЕТИТЕ НЕ ЖИВЕЯТ В ТОВА РЕПО.
+// Репото е ПУБЛИЧНО. Ако тук имаше реални пароли и стари кодове, всеки щеше
+// да влезе като администратор. Затова идентичностите се четат отвън:
+//
+//   1. MIGRATION_IDENTITIES_JSON — път до файл ИЛИ самият JSON наведнъж; или
+//   2. scripts/migrate-usernames.identities.json — локален файл (в .gitignore).
+//
+// Ако нито едно от двете не е налично, скриптът СПИРА, без да пише нищо.
+//
 // Един човек = един вход. Затова всички негови стари кодове сочат към едно
 // потребителско име, а излишните Auth акаунти се изтриват.
+//
+// Формат на файла:
+//   [
+//     { "display": "Име Фамилия", "username": "ime.familiya", "password": "…",
+//       "codes": ["123456", "654321"], "keepAuth": "123456",
+//       "roles": ["Кинезитерапевт", "Администратор"] }
+//   ]
 // ─────────────────────────────────────────────────────────────────────────────
-const IDENTITIES = [
-  {
-    display: 'Алекс Тодоров',
-    username: 'aleks.todorov',
-    password: 'Aleks2010$',
-    codes: ['010610', '259907'],
-    keepAuth: '010610',            // акаунтът от админ панела остава
-    roles: ['Кинезитерапевт', 'Администратор'],
-  },
-  {
-    display: 'Габриел Атанасов',
-    username: 'gabriel.atanasov',
-    password: '@Gabriel0110',
-    codes: ['011003', '402698', '515093', '881665'],
-    keepAuth: '011003',
-    roles: ['Кинезитерапевт', 'Администратор'],
-  },
-  { display: 'Тест',   username: 'test',   password: '736633', codes: ['736633'], keepAuth: '736633' },
-  { display: 'Iekwjs', username: 'iekwjs', password: '710059', codes: ['710059'], keepAuth: '710059' },
-  { display: 'фад',    username: 'fad',    password: '780565', codes: ['780565'], keepAuth: '780565' },
-];
+const IDENTITIES_PATH = path.join(import.meta.dirname, 'migrate-usernames.identities.json');
+
+function loadIdentities() {
+  let raw = process.env.MIGRATION_IDENTITIES_JSON || null;
+  if (raw && !raw.trim().startsWith('[')) {
+    // Третираме го като път до файл.
+    if (!fs.existsSync(raw)) {
+      console.error(`\n✗ MIGRATION_IDENTITIES_JSON сочи към несъществуващ файл: ${raw}\n`);
+      process.exit(1);
+    }
+    raw = fs.readFileSync(raw, 'utf8');
+  }
+  if (!raw && fs.existsSync(IDENTITIES_PATH)) raw = fs.readFileSync(IDENTITIES_PATH, 'utf8');
+
+  if (!raw) {
+    console.error('\n✗ Липсват идентичности за миграцията.\n');
+    console.error('  Създай scripts/migrate-usernames.identities.json (той е в .gitignore)');
+    console.error('  или подай MIGRATION_IDENTITIES_JSON=<път|JSON> в средата.\n');
+    console.error('  ⚠️ Файлът НЕ бива да се качва в репото — съдържа реални пароли.\n');
+    process.exit(1);
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    console.error('\n✗ Невалиден JSON в идентичностите:', e.message, '\n');
+    process.exit(1);
+  }
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    console.error('\n✗ Идентичностите трябва да са непразен масив.\n');
+    process.exit(1);
+  }
+  parsed.forEach((it, i) => {
+    const ok = it && typeof it.username === 'string' && typeof it.password === 'string'
+      && Array.isArray(it.codes) && it.codes.length > 0;
+    if (!ok) {
+      console.error(`\n✗ Непълна идентичност №${i + 1}: нужно е username, password и непразен codes.\n`);
+      process.exit(1);
+    }
+  });
+  return parsed;
+}
+
+const IDENTITIES = loadIdentities();
 
 // Къде в базата живеят записи с `accessCode`. Обхождат се рекурсивно.
 const ROOTS = ['admins', 'superAdmins', 'clinics', 'users', 'patients'];
@@ -176,6 +216,7 @@ function collectCodeRecords(node, path = '') {
       name: node.name || '(без име)',
       roles: node.roles || (node.role ? [node.role] : []),
       protected: node.protected === true,
+      keys: Object.keys(node),   // за проверка след записа, че нищо не е изчезнало
     });
   }
   for (const [k, v] of Object.entries(node)) {
@@ -206,18 +247,56 @@ function findValuePaths(node, value, skipPath = null, path = []) {
   return out;
 }
 
-// Сглобява вложен обект за PATCH от списък [{ path: ['a','b',0], value }].
-function buildPatch(entries) {
-  const root = {};
-  for (const { path: steps, value } of entries) {
-    let node = root;
-    steps.forEach((step, i) => {
-      if (i === steps.length - 1) { node[step] = value; return; }
-      if (typeof node[step] !== 'object' || node[step] === null) node[step] = {};
-      node = node[step];
+// Проверява на жив възел, че PATCH с този buildPatch НЕ изтрива съседни полета.
+// Ако някога Firebase промени семантиката, миграцията ще спре преди да пише.
+async function assertPatchMerges() {
+  const probe = `zzMigrationSelfTest/${Date.now()}`;
+  const original = { keep1: 'a', keep2: 42, nested: { inner: 'x' } };
+  try {
+    await fetch(`${DB_URL}/${probe}.json`, {
+      method: 'PUT', headers: { ...authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...original, nested: { ...original.nested, drop: true } }),
     });
+    const body = buildPatch([
+      { path: ['added'], value: 'new' },
+      { path: ['nested', 'drop'], value: null },
+      { path: ['nested', 'added'], value: 'y' },
+    ]);
+    const r = await fetch(`${DB_URL}/${probe}.json`, {
+      method: 'PATCH', headers: { ...authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(`PATCH ${r.status}`);
+    const got = await dbGet(probe);
+    const okAll = got && got.keep1 === 'a' && got.keep2 === 42
+      && got.nested?.inner === 'x' && got.nested?.added === 'y'
+      && !('drop' in (got.nested || {})) && got.added === 'new';
+    if (!okAll) {
+      throw new Error(
+        'PATCH не слива правилно — съседните полета се губят.\n' +
+        `  изпратено: ${JSON.stringify(body)}\n` +
+        `  получено:  ${JSON.stringify(got)}\n` +
+        '  Миграцията е СПРЯНА, за да не се загубят данни.');
+    }
+  } finally {
+    await fetch(`${DB_URL}/zzMigrationSelfTest.json`, { method: 'DELETE', headers: authHeader() }).catch(() => {});
   }
-  return root;
+}
+
+// Сглобява тяло за multi-path update от списък [{ path: ['a','b',0], value }].
+//
+// ⚠️ ВАЖНО: REST PATCH на RTDB НЕ слива вложени обекти — всяко дете, чиято
+// стойност в тялото е обект, ЗАМЕСТВА съответния възел (проверено емпирично).
+// Затова НЕ бива да се праща вложено тяло като {users:{u1:{x:1}}} — то щеше да
+// изтрие всичко останало в users/u1 и всички други потребители.
+// Истинският multi-path update използва ПЛОСКИ ключове с наклонени черти:
+// { 'users/u1/x': 1, 'patients/p1/y': 2 }. Така всяко поле се пише поотделно.
+function buildPatch(entries) {
+  const body = {};
+  for (const { path: steps, value } of entries) {
+    body[steps.join('/')] = value;
+  }
+  return body;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -268,9 +347,11 @@ async function main() {
   const authList = await identityToolkit('accounts:batchGet?maxResults=1000', null, 'GET');
   const authUsers = authList.users || [];
   const authByCode = new Map();
+  const authByEmail = new Map();
   for (const u of authUsers) {
     const m = /^(\d{6})@/.exec(u.email || '');
     if (m) authByCode.set(m[1], u);
+    if (u.email) authByEmail.set(u.email, u);
   }
 
   head('2. Firebase Auth акаунти');
@@ -284,8 +365,15 @@ async function main() {
   const authRenames = [];  // { from, to, password, localId }
   const authDeletes = [];  // { code, localId }
 
-  head('3. Auth: какво ще се промени');
+  head(`3. Auth: какво ще се промени${SKIP_AUTH ? ' \x1b[33m(пропуснато)\x1b[0m' : ''}`);
   for (const ident of IDENTITIES) {
+    if (SKIP_AUTH) {
+      // Auth вече е мигриран при предишен пуск — само проверяваме, че акаунтът е налице.
+      const target = `${ident.username}@physiobook.eu`;
+      if (!authByEmail.has(target)) problems.push(`Липсва Auth акаунт ${target} (${ident.display}).`);
+      else ok(`${target} вече съществува`);
+      continue;
+    }
     const keepAcc = authByCode.get(ident.keepAuth);
     if (!keepAcc) { problems.push(`Няма Auth акаунт за код ${ident.keepAuth} (${ident.display}).`); continue; }
     authRenames.push({ from: keepAcc.email, to: `${ident.username}@physiobook.eu`, password: ident.password, localId: keepAcc.localId });
@@ -392,6 +480,11 @@ async function main() {
   }, null, 2));
   ok(backupFile);
 
+  // ── Проверка, че PATCH слива, преди да пишем нещо ────────────────────────
+  head('7б. Проверка на механизма за запис');
+  await assertPatchMerges();
+  ok('PATCH слива съседните полета — може да се пише безопасно');
+
   // ── Auth ─────────────────────────────────────────────────────────────────
   if (!SKIP_AUTH) {
     head('8. Auth акаунти');
@@ -433,6 +526,24 @@ async function main() {
     await dbPatch(`clinics/${cid}`, { adminUsername: uname, adminCode: null, ownerCode: null });
     ok(`${cid} → ${uname}`);
   }
+
+  // ── Проверка след записа: нищо не бива да е изчезнало ────────────────────
+  head('12. Проверка след записа');
+  let lost = 0;
+  for (const w of writes) {
+    const rec = records.find(r => r.path === w.path);
+    const now = await dbGet(w.path);
+    if (!now) { line(`  \x1b[31m✗ ${w.path} — записът ЛИПСВА\x1b[0m`); lost++; continue; }
+    const gone = (rec.keys || []).filter(k => k !== 'accessCode' && !(k in now));
+    if (gone.length) { line(`  \x1b[31m✗ ${w.path} — изчезнали полета: ${gone.join(', ')}\x1b[0m`); lost++; }
+    if (now.username !== w.username) { line(`  \x1b[31m✗ ${w.path} — username е ${now.username}, очаквано ${w.username}\x1b[0m`); lost++; }
+    if (now.accessCode !== undefined) { line(`  \x1b[31m✗ ${w.path} — accessCode още е там\x1b[0m`); lost++; }
+  }
+  if (lost) {
+    line(`\n\x1b[31m${lost} проблема след записа. Възстанови от ${backupFile}\x1b[0m`);
+    process.exit(1);
+  }
+  ok(`${writes.length} записа са обновени без загуба на данни`);
 
   head('\x1b[32mГотово.\x1b[0m');
   line(`  Резервно копие: ${backupFile}`);

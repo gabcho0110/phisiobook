@@ -26,6 +26,16 @@ serviceAccountKey.json
 .env
 .env.local
 
+# ── Секрети и резервни копия ───────────────────────────
+# ⚠️ Репото е ПУБЛИЧНО. Тези файлове съдържат реални пароли,
+# стари кодове за достъп и медицински данни на пациенти.
+# Никога не ги качвайте!
+.workbuddy-ai/
+scripts/migrate-usernames.identities.json
+scripts/*.identities.json
+*usernames-migration-*.json
+*backup*.json
+
 # ── Локални билдове / временни файлове ─────────────────
 index-fixed.html
 dist/
