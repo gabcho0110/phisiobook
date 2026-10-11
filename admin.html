@@ -257,9 +257,6 @@ tr:last-child td { border-bottom: none; }
 <i class="fas fa-sign-in-alt"></i> Вход
 </button>
 </form>
-<div class="login-hint">
-<i class="fas fa-info-circle"></i> Първоначален код: <strong>123456</strong>
-</div>
 <div class="debug-box" id="debugBox"></div>
 </div>
 </div>
@@ -502,8 +499,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 <div class="card" style="border-left:4px solid #b22234;">
 <h3 style="color:#b22234;"><i class="fas fa-tools"></i> Възстановяване на достъп</h3>
-<p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Натисни бутона, за да пресъздадеш защитения профил <strong>PhysioBook Admin</strong> с код <strong>123456</strong>.</p>
-<button class="btn-danger-outline btn" id="resetProtectedAdminBtn"><i class="fas fa-redo"></i> Възстанови PhysioBook Admin (123456)</button>
+<p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Автоматичното пресъздаване на защитения профил е премахнато по съображения за сигурност (използваше публично известен код). Ако записът <strong>admins/physiobook_admin</strong> липсва, създайте го ръчно във <strong>Firebase Console</strong> — и в Realtime Database, и като акаунт в Authentication с имейл <strong>код@physiobook.eu</strong> и същата парола.</p>
 </div>
 <div class="card" style="border-left:4px solid #0891b2;">
 <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
@@ -2032,24 +2028,10 @@ $('adminForm').addEventListener('submit', async (e) => {
     }
 });
 
-$('resetProtectedAdminBtn').addEventListener('click', async () => {
-    if (!confirm('Ще пресъздадеш защитения профил PhysioBook Admin с код 123456. Продължи?')) return;
-    showLoading(true);
-    try {
-        await set(ref(db, `admins/${PROTECTED_ADMIN_ID}`), {
-            name: ADMIN_NAME,
-            accessCode: DEFAULT_ADMIN_CODE,
-            role: 'super',
-            protected: true,
-            createdAt: Date.now()
-        });
-        showLoading(false);
-        showToast('Защитеният профил е възстановен! Код: 123456', 'success');
-    } catch(err) {
-        showLoading(false);
-        showToast('Грешка: ' + err.message, 'error');
-    }
-});
+// ЗАБЕЛЕЖКА (сигурност): бутонът "Възстанови PhysioBook Admin (123456)" е премахнат.
+// Той пресъздаваше защитения профил с публично известен код 123456, което
+// позволяваше на всеки да влезе като супер-админ. Възстановяването става
+// ръчно във Firebase Console (Realtime Database + Authentication).
 
 async function fixAllAdminRoles() {
     const results = { fixed: 0, alreadyOk: 0, total: 0, errors: 0 };
