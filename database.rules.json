@@ -1,0 +1,43 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "clinics": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "admins": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "superAdmins": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "adminSettings": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "clinicSettings": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "upgradeRequests": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "notifications": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "broadcasts": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}

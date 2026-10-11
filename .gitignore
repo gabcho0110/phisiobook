@@ -1,0 +1,33 @@
+# ── macOS ──────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ── Редактори / IDE ────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Node (ако се появи tooling) ────────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── Firebase ───────────────────────────────────────────
+# НИКОГА не качвайте service account ключове в репозиторито!
+.firebase/
+firebase-debug.log
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+.env
+.env.local
+
+# ── Локални билдове / временни файлове ─────────────────
+index-fixed.html
+dist/
+build/
+*.log
