@@ -294,6 +294,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 </div>
 <div class="header-actions">
+<div data-lang-switcher style="display:flex;align-items:center;"></div>
 <div class="admin-user">
 <div class="avatar">PA</div>
 <span id="adminName">PhysioBook Admin</span>
@@ -681,7 +682,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 </div>
 
-<script type="module">
+<script src="i18n-data.js"></script><script src="i18n.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, EmailAuthProvider, reauthenticateWithCredential, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";

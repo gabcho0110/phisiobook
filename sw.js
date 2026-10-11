@@ -15,12 +15,14 @@
    активиране старите кешове се изтриват.
    ========================================================================== */
 
-const CACHE = 'physiobook-v3';
+const CACHE = 'physiobook-v4';
 
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
+  './i18n.js',
+  './i18n-data.js',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-192.png',
