@@ -690,6 +690,12 @@ const PROTECTED_ADMIN_ID = 'physiobook_admin';
 let clinics = {};
 let admins = {};
 let currentAdmin = null;
+// Флаг: в момента тече вход през формата. onAuthStateChanged НЕ трябва да се
+// меси, докато трае — иначе прави signOut() и изтрива сесийните ключове на
+// току-що влезлия администратор (signOut е async и отстъпва управлението).
+let loginInProgress = false;
+// Флаг: възстановяването на сесия при зареждане се прави само веднъж.
+let bootHandled = false;
 let editingClinicId = null;
 let editingAdminId = null;
 let selectedClinicForModules = null;
@@ -819,6 +825,9 @@ $('loginForm').addEventListener('submit', async (e) => {
     $('debugBox').innerHTML = '';
     $('debugBox').classList.remove('active');
 
+    // Този handler поема целия поток, докато трае входът. Иначе
+    // onAuthStateChanged ще се задейства на signIn-а и ще направи signOut.
+    loginInProgress = true;
     showLoading(true);
     try {
         // 1. Автентикация във Firebase (кодът е едновременно имейл и парола)
@@ -878,6 +887,8 @@ $('loginForm').addEventListener('submit', async (e) => {
             showToast('Грешка: ' + err.message, 'error');
         }
         clearCodeInputs();
+    } finally {
+        loginInProgress = false;
     }
 });
 
@@ -2143,6 +2154,12 @@ async function init() {
     // Данните се зареждат едва СЛЕД като Firebase Auth потвърди сесията.
     // Преди вход базата е недостъпна (правилата изискват auth != null).
     onAuthStateChanged(auth, async (user) => {
+        // Докато тече вход през формата, login handler-ът отговаря за потока.
+        // Без тази проверка този callback вижда автентикиран потребител без
+        // записан още adminId в sessionStorage, прави signOut() и изтрива
+        // ключовете — тоест изхвърля човека, който точно е влязъл.
+        if (loginInProgress) return;
+
         if (!user) {
             showLoading(false);
             $('loginScreen').classList.remove('hidden');
@@ -2150,9 +2167,12 @@ async function init() {
             return;
         }
 
+        // Възстановяване на сесия след презареждане — само веднъж при зареждане.
+        if (bootHandled) return;
+        bootHandled = true;
+
         await checkProtectedAdmin();
 
-        // Възстановяване на сесията след презареждане
         const code = getAdminCode();
         const adminId = sessionStorage.getItem('adminId');
         if (code && adminId) {
@@ -2167,10 +2187,14 @@ async function init() {
             } catch (e) { console.error(e); }
         }
 
-        // Автентикиран, но не е администратор → изход
-        await signOut(auth);
-        sessionStorage.removeItem('adminCode');
-        sessionStorage.removeItem('adminId');
+        // Автентикиран, но няма валидна админ сесия за този таб → показваме
+        // екрана за вход и чакаме кода.
+        //
+        // ТУК НАРОЧНО НЕ СЕ ПРАВИ signOut(): signOut() е async, неговият
+        // onAuthStateChanged(null) идва по-късно и показва login екрана върху
+        // вече отвореното приложение, а освен това може да изтрие сесийните
+        // ключове на човек, който точно е влязъл. Изходът се решава само от
+        // login handler-а (при грешен код) и от бутона „Изход".
         $('loginScreen').classList.remove('hidden');
         if (codeInputEls[0]) codeInputEls[0].focus();
     });
