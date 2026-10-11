@@ -25,6 +25,15 @@ body { background: #f4f6f9; min-height: 100vh; color: #1f3f61; }
 .login-btn { width: 100%; padding: 1rem; border: none; border-radius: 40px; background: #0b2b4f; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .login-btn:hover:not(:disabled) { background: #1e4a78; }
 .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+/* Полета за вход: потребителско име и парола. */
+.login-fields { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.4rem; text-align: left; }
+.login-field label { display: flex; align-items: center; gap: 7px; font-size: 0.82rem; font-weight: 600; color: #1e4a78; margin-bottom: 5px; }
+.login-field input { width: 100%; padding: 0.85rem 1rem; border: 2px solid #cfddee; border-radius: 14px; color: #0b2b4f; background: #f8fbfe; font-size: 1rem; font-family: inherit; -webkit-appearance: none; appearance: none; }
+.login-field input:focus { outline: none; border-color: #0b2b4f; background: #ffffff; box-shadow: 0 0 0 4px rgba(11, 43, 79, 0.12); }
+.login-password-wrap { position: relative; }
+.login-password-wrap input { padding-right: 3rem; }
+.login-eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border: none; background: transparent; color: #7f95b0; cursor: pointer; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+.login-eye:hover { color: #0b2b4f; background: #eef4fb; }
 .login-hint { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid #edf2f8; font-size: 0.8rem; color: #7f95b0; }
 
 .app { display: none; min-height: 100vh; flex-direction: column; }
@@ -245,19 +254,24 @@ tr:last-child td { border-bottom: none; }
 <div class="login-card">
 <div class="login-logo-wrapper"><svg><use href="#physio-logo"></use></svg></div>
 <h1>Admin Panel</h1>
-<p class="subtitle">Въведете вашия 6-цифрен супер-админ код</p>
+<p class="subtitle">Въведете потребителско име и парола</p>
 <div class="login-error" id="loginError">
 <i class="fas fa-exclamation-circle"></i>
-<span id="loginErrorText">Грешен код.</span>
+<span id="loginErrorText">Грешно потребителско име или парола.</span>
 </div>
 <form id="loginForm">
-<div class="code-inputs" id="codeInputs">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
-<input type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+<div class="login-fields">
+<div class="login-field">
+<label for="loginUsername"><i class="fas fa-user-shield"></i> Потребителско име</label>
+<input type="text" id="loginUsername" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="напр. aleks.todorov">
+</div>
+<div class="login-field">
+<label for="loginPassword"><i class="fas fa-lock"></i> Парола</label>
+<div class="login-password-wrap">
+<input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••">
+<button type="button" class="login-eye" id="loginTogglePassword" tabindex="-1" title="Покажи паролата"><i class="fas fa-eye"></i></button>
+</div>
+</div>
 </div>
 <button type="submit" class="login-btn" id="loginBtn" disabled>
 <i class="fas fa-sign-in-alt"></i> Вход
@@ -284,6 +298,7 @@ tr:last-child td { border-bottom: none; }
 <div class="avatar">PA</div>
 <span id="adminName">PhysioBook Admin</span>
 </div>
+<button class="logout-btn" id="changePasswordBtn" style="background:#1e4a78;"><i class="fas fa-key"></i> Парола</button>
 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Изход</button>
 </div>
 </header>
@@ -319,7 +334,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 <div class="search-bar">
 <i class="fas fa-search search-icon"></i>
-<input type="text" id="clinicSearchInput" placeholder="Търси клиника по име, телефон или код...">
+<input type="text" id="clinicSearchInput" placeholder="Търси клиника по име, телефон или потребителско име...">
 <span class="result-count" id="clinicSearchCount">0 клиники</span>
 </div>
 <div class="table-wrapper">
@@ -477,7 +492,7 @@ tr:last-child td { border-bottom: none; }
 <thead>
 <tr>
 <th>Име</th>
-<th>Код</th>
+<th>Потребителско име</th>
 <th>Роля</th>
 <th>Създаден</th>
 <th>Действия</th>
@@ -506,7 +521,7 @@ tr:last-child td { border-bottom: none; }
 </div>
 <div class="card" style="border-left:4px solid #b22234;">
 <h3 style="color:#b22234;"><i class="fas fa-tools"></i> Възстановяване на достъп</h3>
-<p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Автоматичното пресъздаване на защитения профил е премахнато по съображения за сигурност (използваше публично известен код). Ако записът <strong>admins/physiobook_admin</strong> липсва, създайте го ръчно във <strong>Firebase Console</strong> — и в Realtime Database, и като акаунт в Authentication с имейл <strong>код@physiobook.eu</strong> и същата парола.</p>
+<p style="color:#7f95b0; font-size:0.9rem; margin-bottom:1rem;">Автоматичното пресъздаване на защитения профил е премахнато по съображения за сигурност (използваше публично известна парола). Ако записът <strong>admins/physiobook_admin</strong> липсва, създайте го ръчно във <strong>Firebase Console</strong> — и в Realtime Database (с поле <strong>username</strong>), и като акаунт в Authentication с имейл <strong>потребителско.име@physiobook.eu</strong> и същата парола.</p>
 </div>
 <div class="card" style="border-left:4px solid #0891b2;">
 <h3 style="color:#0891b2;"><i class="fas fa-sync-alt"></i> Миграция на клиники</h3>
@@ -581,9 +596,18 @@ tr:last-child td { border-bottom: none; }
 <div class="hint" style="color:#1e4a78;"><i class="fas fa-info-circle"></i> След крайната дата всички модули на клиниката се изключват автоматично. Ако и двете полета са празни, абонаментът не се следи.</div>
 </div>
 <div class="form-group" style="grid-column: span 2; background:#f9f5ff; padding:1rem; border-radius:12px; border:2px dashed #b28cff;">
-<label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Код за достъп на PhysioBook Admin *</label>
-<input type="text" id="clinicAdminCode" maxlength="6" pattern="[0-9]{6}" required placeholder="Избери 6-цифрен код" style="background:#fff; font-weight:700; letter-spacing:3px; text-align:center; font-size:1.2rem;">
-<div class="hint" style="color:#6b3fa0;">С този код ще влизаш като PhysioBook Admin в клиниката.</div>
+<label style="color:#6b3fa0;"><i class="fas fa-shield-alt"></i> Акаунт на PhysioBook Admin в клиниката *</label>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:6px;">
+<div>
+<label style="font-size:0.78rem; color:#4a6b8a; font-weight:400;">Потребителско име</label>
+<input type="text" id="clinicAdminUsername" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required placeholder="напр. physiobook.admin" style="background:#fff;">
+</div>
+<div id="clinicAdminPasswordGroup">
+<label style="font-size:0.78rem; color:#4a6b8a; font-weight:400;">Парола</label>
+<input type="text" id="clinicAdminPassword" autocomplete="off" placeholder="поне 6 знака" style="background:#fff;">
+</div>
+</div>
+<div class="hint" style="color:#6b3fa0;" id="clinicAdminHint">С това потребителско име и парола ще влизаш като PhysioBook Admin в клиниката.</div>
 </div>
 <div class="form-group">
 <label>Телефон на клиниката</label>
@@ -620,8 +644,14 @@ tr:last-child td { border-bottom: none; }
 <input type="text" id="adminFormName" required placeholder="напр. Иван Петров">
 </div>
 <div class="form-group" style="grid-column: span 2;">
-<label>Код за достъп (6 цифри) *</label>
-<input type="text" id="adminFormCode" maxlength="6" pattern="[0-9]{6}" required placeholder="напр. 654321">
+<label>Потребителско име *</label>
+<input type="text" id="adminFormUsername" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" required placeholder="напр. ivan.petrov">
+<div style="font-size:0.75rem; color:#7f95b0; margin-top:4px;">С него този админ влиза в панела. Малки латински букви, цифри, точка или тире.</div>
+</div>
+<div class="form-group" style="grid-column: span 2;" id="adminPasswordGroup">
+<label>Парола *</label>
+<input type="text" id="adminFormPassword" autocomplete="off" placeholder="поне 6 знака">
+<div style="font-size:0.75rem; color:#7f95b0; margin-top:4px;">Ще се покаже веднъж след създаването. После всеки си я сменя сам през „Смяна на паролата".</div>
 </div>
 </div>
 <div class="modal-actions">
@@ -632,10 +662,29 @@ tr:last-child td { border-bottom: none; }
 </div>
 </div>
 
+<div class="modal-overlay" id="passwordModal">
+<div class="modal">
+<div class="modal-header">
+<h3><i class="fas fa-key"></i> Смяна на паролата</h3>
+<button class="modal-close" id="pwCancelBtn"><i class="fas fa-times"></i></button>
+</div>
+<p style="color:#7f95b0; font-size:0.88rem; margin-bottom:1rem;">Въведете текущата си парола и новата, която искате да използвате занапред.</p>
+<div class="form-grid">
+<div class="form-group" style="grid-column: span 2;"><label>Текуща парола</label><input type="password" id="pwCurrent" autocomplete="current-password"></div>
+<div class="form-group" style="grid-column: span 2;"><label>Нова парола</label><input type="password" id="pwNew" autocomplete="new-password"></div>
+<div class="form-group" style="grid-column: span 2;"><label>Повторете новата парола</label><input type="password" id="pwNew2" autocomplete="new-password"></div>
+</div>
+<div class="modal-actions">
+<button type="button" class="btn-outline btn" id="pwCancelBtn2">Отказ</button>
+<button type="button" class="btn btn-success" id="pwSaveBtn"><i class="fas fa-save"></i> Запази</button>
+</div>
+</div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, EmailAuthProvider, reauthenticateWithCredential, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -652,13 +701,81 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Домейн за вътрешните Auth имейли. Кодът на администратора остава непроменен —
-// той се използва едновременно като имейл и като парола на акаунта.
+// Домейн за вътрешните Auth имейли. Администраторът влиза с потребителско име и
+// парола, но Firebase Auth работи с имейли — затова от потребителското име
+// сглобяваме вътрешен адрес `{име}@physiobook.eu`. Имейлът не се показва никъде.
 const AUTH_EMAIL_DOMAIN = 'physiobook.eu';
-function getAdminCode() {
+
+// ── Потребителски имена ────────────────────────────────────────────────────
+// Firebase отхвърля имейли с не-ASCII символи, затова името се транслитерира.
+const TRANSLIT_MAP = { 'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sht','ъ':'a','ь':'y','ю':'yu','я':'ya' };
+function transliterate(str) {
+    return String(str || '').toLowerCase().split('').map(ch => (ch in TRANSLIT_MAP ? TRANSLIT_MAP[ch] : ch)).join('');
+}
+// „Алекс Тодоров" → „aleks.todorov"
+function slugifyUsername(name) {
+    return transliterate(name).replace(/[^a-z0-9._-]+/g, '.').replace(/[._-]{2,}/g, '.').replace(/^[._-]+|[._-]+$/g, '').slice(0, 30);
+}
+function isValidUsername(u) { return /^[a-z0-9][a-z0-9._-]{2,29}$/.test(String(u || '')); }
+function usernameToEmail(u) { return `${String(u).toLowerCase().trim()}@${AUTH_EMAIL_DOMAIN}`; }
+
+function getAdminUsername() {
     const email = auth.currentUser?.email || '';
     if (email.endsWith('@' + AUTH_EMAIL_DOMAIN)) return email.split('@')[0];
-    return sessionStorage.getItem('adminCode') || '';
+    return sessionStorage.getItem('adminUsername') || '';
+}
+
+// ── Създаване на акаунт за вход ────────────────────────────────────────────
+// createUserWithEmailAndPassword() ВЛИЗА като новосъздадения потребител. Ако
+// ползваме основния `auth`, текущият админ щеше да бъде изхвърлен и сесията му —
+// развалена. Затова създаваме върху ВТОРА, отделна Firebase инстанция: нейната
+// сесия е независима и основната остава непокътната.
+let provisioningAuth = null;
+function getProvisioningAuth() {
+    if (!provisioningAuth) provisioningAuth = getAuth(initializeApp(firebaseConfig, 'physiobook-provisioning'));
+    return provisioningAuth;
+}
+
+// Връща { ok: true } или { ok: false, error: '<съобщение на български>' }.
+async function createLoginAccount(username, password) {
+    const uname = String(username || '').toLowerCase().trim();
+    if (!isValidUsername(uname)) return { ok: false, error: 'Потребителското име трябва да е поне 3 знака — малки латински букви, цифри, точка или тире.' };
+    if (String(password || '').length < 6) return { ok: false, error: 'Паролата трябва да е поне 6 знака.' };
+    const pa = getProvisioningAuth();
+    try {
+        await createUserWithEmailAndPassword(pa, usernameToEmail(uname), String(password));
+        await signOut(pa);
+        return { ok: true };
+    } catch (err) {
+        try { await signOut(pa); } catch (e) {}
+        const code = String(err?.code || '');
+        if (code === 'auth/email-already-in-use') return { ok: false, error: 'Това потребителско име вече се използва.' };
+        if (code === 'auth/invalid-email') return { ok: false, error: 'Невалидно потребителско име.' };
+        if (code === 'auth/weak-password') return { ok: false, error: 'Паролата е твърде слаба (поне 6 знака).' };
+        if (code === 'auth/operation-not-allowed') return { ok: false, error: 'Влизането с имейл и парола не е включено в Firebase.' };
+        return { ok: false, error: 'Грешка при създаване на акаунт: ' + (err?.message || code || 'неизвестна') };
+    }
+}
+
+// Проверява дали потребителското име вече се използва — в admins, в персонала
+// на някоя клиника или сред пациентите. Работи върху вече заредените в паметта
+// `admins` / `clinics`, затова е синхронна. Истинската гаранция пак е Firebase
+// (auth/email-already-in-use), но тази проверка дава разбираемо съобщение.
+function isUsernameTaken(username, ignoreAdminId = null) {
+    const uname = String(username || '').toLowerCase().trim();
+    if (!uname) return false;
+    for (const [id, a] of Object.entries(admins)) {
+        if (id !== ignoreAdminId && String(a.username || '').toLowerCase() === uname) return true;
+    }
+    for (const c of Object.values(clinics)) {
+        for (const u of Object.values(c.users || {})) {
+            if (String(u.username || '').toLowerCase() === uname) return true;
+        }
+        for (const p of Object.values(c.patients || {})) {
+            if (String(p.username || '').toLowerCase() === uname) return true;
+        }
+    }
+    return false;
 }
 
 // ==================== MODULES ====================
@@ -725,6 +842,10 @@ let loginInProgress = false;
 let bootHandled = false;
 let editingClinicId = null;
 let editingAdminId = null;
+// Дали човекът е пипал ръчно потребителското име на клиниката. Ако не — то се
+// подсказва автоматично от името на клиниката („Клиника Св. Иван" → klinika.sv.ivan).
+let clinicUsernameTouched = false;
+let adminUsernameTouched = false;
 let selectedClinicForModules = null;
 let clinicSettingsMap = {};
 let clinicSearchQuery = '';
@@ -736,7 +857,8 @@ let broadcasts = {};
 let broadcastTargetType = 'all';
 
 const $ = id => document.getElementById(id);
-const codeInputEls = document.querySelectorAll('#codeInputs input');
+const loginUsernameEl = document.getElementById('loginUsername');
+const loginPasswordEl = document.getElementById('loginPassword');
 
 function showToast(msg, type = 'info') {
     const t = document.createElement('div');
@@ -748,7 +870,23 @@ function showToast(msg, type = 'info') {
 }
 function showLoading(show = true) { $('loadingOverlay').classList.toggle('active', show); }
 function escapeHtml(s) { if (s === null || s === undefined) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-function generate6DigitCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
+
+// Генерира случаен парола от 10 знака без объркващите символи (O/0, I/l/1).
+// Ползва crypto, ако е налично. Администраторът я вижда и може да я смени.
+function generatePassword() {
+    const alphabet = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let out = '';
+    let rnd = null;
+    if (window.crypto && window.crypto.getRandomValues) {
+        rnd = new Uint32Array(10);
+        window.crypto.getRandomValues(rnd);
+    }
+    for (let i = 0; i < 10; i++) {
+        const r = rnd ? rnd[i] : Math.floor(Math.random() * 4294967296);
+        out += alphabet[r % alphabet.length];
+    }
+    return out;
+}
 
 // ==================== АБОНАМЕНТ НА КЛИНИКАТА ====================
 // Датите се пазят като низове 'YYYY-MM-DD' (от <input type="date">) и се
@@ -826,46 +964,26 @@ function getPackageBadgeHtml(pkgId) {
     return `<span class="pkg-badge ${pkg.color}"><i class="fas ${pkg.icon}"></i> ${escapeHtml(pkg.name)}</span>`;
 }
 
-// ==================== CODE INPUT HANDLING ====================
-codeInputEls.forEach((input, idx) => {
-    input.addEventListener('input', (e) => {
-        const val = e.target.value.replace(/\D/g, '');
-        e.target.value = val.slice(0, 1);
-        e.target.classList.toggle('filled', !!e.target.value);
-        if (val && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
-        updateLoginBtn();
-    });
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && idx > 0) codeInputEls[idx - 1].focus();
-        if (e.key === 'ArrowLeft' && idx > 0) codeInputEls[idx - 1].focus();
-        if (e.key === 'ArrowRight' && idx < codeInputEls.length - 1) codeInputEls[idx + 1].focus();
-    });
-    input.addEventListener('paste', (e) => {
-        e.preventDefault();
-        const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
-        if (paste) {
-            codeInputEls.forEach((inp, i) => { inp.value = paste[i] || ''; inp.classList.toggle('filled', !!inp.value); });
-            codeInputEls[Math.min(paste.length, 5)].focus();
-            updateLoginBtn();
-        }
-    });
-    input.addEventListener('focus', (e) => e.target.select());
-});
-
+// ==================== LOGIN ПОЛЕТА ====================
 function updateLoginBtn() {
-    const code = Array.from(codeInputEls).map(i => i.value).join('');
-    $('loginBtn').disabled = code.length !== 6;
+    $('loginBtn').disabled = !loginUsernameEl.value.trim() || !loginPasswordEl.value;
 }
 
+// Изчиства само паролата — потребителското име остава след сгрешена парола.
 function clearCodeInputs() {
-    codeInputEls.forEach(i => { i.value = ''; i.classList.remove('filled'); });
-    codeInputEls[0].focus();
+    loginPasswordEl.value = '';
     updateLoginBtn();
+    loginUsernameEl.focus();
 }
 
-function getCodeFromInputs() {
-    return Array.from(codeInputEls).map(i => i.value).join('');
-}
+loginUsernameEl.addEventListener('input', updateLoginBtn);
+loginPasswordEl.addEventListener('input', updateLoginBtn);
+$('loginTogglePassword').addEventListener('click', () => {
+    const show = loginPasswordEl.type === 'password';
+    loginPasswordEl.type = show ? 'text' : 'password';
+    $('loginTogglePassword').innerHTML = `<i class="fas fa-eye${show ? '-slash' : ''}"></i>`;
+    loginPasswordEl.focus();
+});
 
 // ==================== ЗАЩИТЕН АДМИН ====================
 // ВАЖНО (поправка на сигурността):
@@ -878,8 +996,8 @@ async function checkProtectedAdmin() {
     try {
         const snap = await get(ref(db, `admins/${PROTECTED_ADMIN_ID}`));
         const val = snap.val();
-        if (!val || !val.accessCode) {
-            console.warn('[PhysioBook] Липсва защитен админ. Създайте го ръчно във Firebase Console.');
+        if (!val || !val.username) {
+            console.warn('[PhysioBook] Липсва защитен админ (или няма потребителско име). Проверете записа във Firebase Console.');
         }
     } catch (e) {
         // Очаквано преди вход — правилата на базата изискват автентикация.
@@ -889,8 +1007,9 @@ async function checkProtectedAdmin() {
 // ==================== LOGIN ====================
 $('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const code = getCodeFromInputs();
-    if (code.length !== 6) return;
+    const username = loginUsernameEl.value.trim().toLowerCase();
+    const password = loginPasswordEl.value;
+    if (!username || !password) return;
 
     $('debugBox').innerHTML = '';
     $('debugBox').classList.remove('active');
@@ -900,11 +1019,12 @@ $('loginForm').addEventListener('submit', async (e) => {
     loginInProgress = true;
     showLoading(true);
     try {
-        // 1. Автентикация във Firebase (кодът е едновременно имейл и парола)
+        // 1. Автентикация във Firebase. Потребителят влиза с име и парола; от
+        //    името се сглобява вътрешният имейл `{име}@physiobook.eu`.
         debugLog('Автентикация…');
-        await signInWithEmailAndPassword(auth, `${code}@${AUTH_EMAIL_DOMAIN}`, code);
+        await signInWithEmailAndPassword(auth, usernameToEmail(username), password);
 
-        // 2. Проверка, че кодът принадлежи на администратор
+        // 2. Проверка, че този профил е администратор
         debugLog('Търсене в admins...');
         const snap = await get(ref(db, 'admins'));
         const adminsData = snap.val() || {};
@@ -913,8 +1033,8 @@ $('loginForm').addEventListener('submit', async (e) => {
         let foundAdmin = null;
         let foundId = null;
         for (const [id, a] of Object.entries(adminsData)) {
-            debugLog(`- ${id}: код ${a.accessCode} (${a.name})`);
-            if (a.accessCode === code) {
+            debugLog(`- ${id}: име ${a.username || '(стар запис)'} (${a.name})`);
+            if (String(a.username || '').toLowerCase() === username) {
                 foundAdmin = a;
                 foundId = id;
                 break;
@@ -923,10 +1043,10 @@ $('loginForm').addEventListener('submit', async (e) => {
         showLoading(false);
 
         if (!foundAdmin) {
-            debugLog('❌ Кодът не е намерен в admins');
+            debugLog('❌ Потребителското име не е намерено в admins');
             await signOut(auth);
             const err = $('loginError');
-            $('loginErrorText').textContent = 'Грешен код. Опитайте отново.';
+            $('loginErrorText').textContent = 'Този профил не е администратор.';
             err.classList.add('active');
             setTimeout(() => err.classList.remove('active'), 4000);
             clearCodeInputs();
@@ -935,7 +1055,7 @@ $('loginForm').addEventListener('submit', async (e) => {
 
         debugLog('✓ Влизане като: ' + foundAdmin.name);
         currentAdmin = { id: foundId, ...foundAdmin };
-        sessionStorage.setItem('adminCode', code);
+        sessionStorage.setItem('adminUsername', username);
         sessionStorage.setItem('adminId', foundId);
 
         try {
@@ -950,7 +1070,7 @@ $('loginForm').addEventListener('submit', async (e) => {
         console.error(err);
         if (isAuthError) {
             const errEl = $('loginError');
-            $('loginErrorText').textContent = 'Грешен код. Опитайте отново.';
+            $('loginErrorText').textContent = 'Грешно потребителско име или парола.';
             errEl.classList.add('active');
             setTimeout(() => errEl.classList.remove('active'), 4000);
         } else {
@@ -969,9 +1089,41 @@ function startApp() {
     startListeners();
 }
 
+// ── Смяна на паролата от самия администратор ──────────────────────────────
+// Firebase позволява смяна само на паролата на текущата сесия, затова всеки
+// админ сменя своята сам. Ако я е забравил — създайте му нов профил.
+$('changePasswordBtn').addEventListener('click', () => {
+    $('pwCurrent').value = ''; $('pwNew').value = ''; $('pwNew2').value = '';
+    $('passwordModal').classList.add('active');
+    setTimeout(() => $('pwCurrent').focus(), 50);
+});
+$('pwCancelBtn').addEventListener('click', () => $('passwordModal').classList.remove('active'));
+$('pwCancelBtn2').addEventListener('click', () => $('passwordModal').classList.remove('active'));
+$('pwSaveBtn').addEventListener('click', async () => {
+    const cur = $('pwCurrent').value, nw = $('pwNew').value, nw2 = $('pwNew2').value;
+    if (!cur || !nw) { showToast('Попълнете всички полета.', 'error'); return; }
+    if (nw.length < 6) { showToast('Новата парола трябва да е поне 6 знака.', 'error'); return; }
+    if (nw !== nw2) { showToast('Двете нови пароли не съвпадат.', 'error'); return; }
+    const user = auth.currentUser;
+    if (!user || !user.email) { showToast('Няма активна сесия.', 'error'); return; }
+    $('pwSaveBtn').disabled = true;
+    try {
+        // Повторна автентикация — Firebase иска скорошен вход за смяна на парола.
+        await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, cur));
+        await updatePassword(user, nw);
+        $('passwordModal').classList.remove('active');
+        showToast('Паролата е сменена.', 'success');
+    } catch (err) {
+        const c = String(err?.code || '');
+        if (c === 'auth/wrong-password' || c === 'auth/invalid-credential') showToast('Текущата парола е грешна.', 'error');
+        else if (c === 'auth/weak-password') showToast('Новата парола е твърде кратка.', 'error');
+        else showToast('Грешка: ' + (err?.message || c), 'error');
+    } finally { $('pwSaveBtn').disabled = false; }
+});
+
 $('logoutBtn').addEventListener('click', () => {
     if (!confirm('Сигурни ли сте?')) return;
-    sessionStorage.removeItem('adminCode');
+    sessionStorage.removeItem('adminUsername');
     sessionStorage.removeItem('adminId');
     unsubscribers.forEach(u => { try { u(); } catch(e){} });
     unsubscribers = [];
@@ -1126,12 +1278,12 @@ function renderClinics() {
     });
     if (q) {
         filtered = filtered.filter(c => {
-            const code = c.adminCode || c.ownerCode || '';
+            const uname = c.adminUsername || '';
             return (c.name || '').toLowerCase().includes(q)
                 || (c.phone || '').toLowerCase().includes(q)
                 || (c.email || '').toLowerCase().includes(q)
                 || (c.address || '').toLowerCase().includes(q)
-                || (code || '').toLowerCase().includes(q);
+                || (uname || '').toLowerCase().includes(q);
         });
     }
 
@@ -1240,7 +1392,21 @@ function openClinicModal(cid = null) {
         $('clinicId').value = cid;
         $('clinicName').value = c.name || '';
         $('clinicSub').value = c.sub || '';
-        $('clinicAdminCode').value = c.adminCode || c.ownerCode || '';
+        // Firebase не позволява на един администратор да смени имейла (тоест
+        // потребителското име) на друг без backend. Затова при редакция името е
+        // само за четене, а полето за парола се скрива — паролата се сменя от
+        // самия човек през „Смяна на паролата". Изключение: клиника без акаунт
+        // (стар запис) — тогава се създава сега и двете полета са активни.
+        const hasAccount = !!c.adminUsername;
+        clinicUsernameTouched = true;
+        $('clinicAdminUsername').value = c.adminUsername || '';
+        $('clinicAdminUsername').readOnly = hasAccount;
+        $('clinicAdminUsername').style.background = hasAccount ? '#eef1f5' : '#fff';
+        $('clinicAdminPasswordGroup').style.display = hasAccount ? 'none' : '';
+        if (!hasAccount) $('clinicAdminPassword').value = generatePassword();
+        $('clinicAdminHint').textContent = hasAccount
+            ? 'Потребителското име не се сменя оттук. Паролата се сменя от самия администратор през „Смяна на паролата".'
+            : 'Тази клиника още няма акаунт за вход. Задайте потребителско име и парола сега.';
         $('clinicPhone').value = c.phone || '';
         $('clinicEmail').value = c.email || '';
         $('clinicAddress').value = c.address || '';
@@ -1252,7 +1418,13 @@ function openClinicModal(cid = null) {
         setPackageSelectorValue(c.packageId || c.package || 'start');
     } else {
         $('clinicModalTitle').textContent = 'Нова клиника';
-        $('clinicAdminCode').value = generate6DigitCode();
+        clinicUsernameTouched = false;
+        $('clinicAdminUsername').value = '';
+        $('clinicAdminUsername').readOnly = false;
+        $('clinicAdminUsername').style.background = '#fff';
+        $('clinicAdminPasswordGroup').style.display = '';
+        $('clinicAdminPassword').value = generatePassword();
+        $('clinicAdminHint').textContent = 'С това потребителско име и парола ще влизаш като PhysioBook Admin в клиниката.';
         setPackageSelectorValue('start');
         // Пакетите се плащат на година, затова по подразбиране: днес → +1 година.
         $('clinicSubStart').value = todayISO();
@@ -1273,12 +1445,21 @@ document.addEventListener('click', (e) => {
     $('clinicSubEnd').value = addMonthsISO(months);
 });
 
+// Подсказва потребителско име от името на клиниката, докато човекът не го пипне.
+$('clinicAdminUsername').addEventListener('input', () => { clinicUsernameTouched = true; });
+$('clinicName').addEventListener('input', () => {
+    if (clinicUsernameTouched) return;
+    if ($('clinicAdminUsername').readOnly) return;
+    $('clinicAdminUsername').value = slugifyUsername($('clinicName').value);
+});
+
 $('clinicForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const cid = $('clinicId').value;
     const name = $('clinicName').value.trim();
     const sub = $('clinicSub').value.trim();
-    const adminCode = $('clinicAdminCode').value.trim();
+    const adminUsername = $('clinicAdminUsername').value.trim().toLowerCase();
+    const adminPassword = $('clinicAdminPassword').value;
     const clinicPhone = $('clinicPhone').value.trim();
     const clinicEmail = $('clinicEmail').value.trim();
     const clinicAddress = $('clinicAddress').value.trim();
@@ -1286,27 +1467,48 @@ $('clinicForm').addEventListener('submit', async (e) => {
     const subscriptionStart = $('clinicSubStart').value || '';
     const subscriptionEnd = $('clinicSubEnd').value || '';
 
-    if (!name || !adminCode) { showToast('Попълнете име и код.', 'error'); return; }
-    if (!/^\d{6}$/.test(adminCode)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
+    if (!name || !adminUsername) { showToast('Попълнете име на клиниката и потребителско име на администратора.', 'error'); return; }
+    if (!isValidUsername(adminUsername)) { showToast('Потребителското име трябва да е 3–30 знака — малки латински букви, цифри, точка или тире.', 'error'); return; }
     if (!PACKAGES[packageId]) { showToast('Изберете абонаментен пакет.', 'error'); return; }
     if (subscriptionStart && subscriptionEnd && subscriptionStart > subscriptionEnd) {
         showToast('Началната дата на абонамента трябва да е преди крайната.', 'error'); return;
+    }
+
+    // Акаунт се създава само при нова клиника или при стара клиника без акаунт.
+    const needsAccount = !cid || !(clinics[cid] && clinics[cid].adminUsername);
+    if (needsAccount && String(adminPassword).length < 6) {
+        showToast('Паролата трябва да е поне 6 знака.', 'error'); return;
     }
 
     $('clinicSaveBtn').disabled = true;
     showLoading(true);
 
     try {
-        const existingClinic = await findClinicByAdminCode(adminCode);
+        const existingClinic = await findClinicByAdminUsername(adminUsername);
         if (existingClinic && existingClinic !== cid) {
-            showToast('Този код вече се използва от друга клиника.', 'error');
+            showToast('Това потребителско име вече се използва от друга клиника.', 'error');
             $('clinicSaveBtn').disabled = false;
             showLoading(false);
             return;
         }
+        if (needsAccount && isUsernameTaken(adminUsername)) {
+            showToast('Това потребителско име вече се използва.', 'error');
+            $('clinicSaveBtn').disabled = false;
+            showLoading(false);
+            return;
+        }
+        if (needsAccount) {
+            const acc = await createLoginAccount(adminUsername, adminPassword);
+            if (!acc.ok) {
+                showToast(acc.error, 'error');
+                $('clinicSaveBtn').disabled = false;
+                showLoading(false);
+                return;
+            }
+        }
 
         const clinicData = {
-            name, sub, adminCode,
+            name, sub, adminUsername,
             phone: clinicPhone, email: clinicEmail, address: clinicAddress,
             packageId, subscriptionStart, subscriptionEnd, updatedAt: Date.now()
         };
@@ -1326,12 +1528,12 @@ $('clinicForm').addEventListener('submit', async (e) => {
             }
             if (ownerUserId) {
                 await update(ref(db, `clinics/${cid}/users/${ownerUserId}`), {
-                    name: ADMIN_NAME, accessCode: adminCode, roles: ['Администратор']
+                    name: ADMIN_NAME, username: adminUsername, roles: ['Администратор']
                 });
             } else {
                 await set(push(ref(db, `clinics/${cid}/users`)), {
                     name: ADMIN_NAME, phone: '', roles: ['Администратор'],
-                    accessCode: adminCode, protected: true,
+                    username: adminUsername, protected: true,
                     createdAt: Date.now(), createdBy: currentAdmin?.id || 'admin'
                 });
             }
@@ -1371,13 +1573,13 @@ $('clinicForm').addEventListener('submit', async (e) => {
 
             await set(push(ref(db, `clinics/${newId}/users`)), {
                 name: ADMIN_NAME, phone: '', roles: ['Администратор'],
-                accessCode: adminCode, protected: true,
+                username: adminUsername, protected: true,
                 createdAt: Date.now(), createdBy: currentAdmin?.id || 'admin'
             });
 
             const pkg = PACKAGES[packageId];
             const periodTxt = subscriptionEnd ? ` Активна до ${formatDateBG(subscriptionEnd)}.` : ' Без зададен срок на абонамента.';
-            showToast(`Клиниката е създадена с пакет "${pkg.name}" (${pkg.price} €/год). Код: ${adminCode}.${periodTxt}`, 'success');
+            showToast(`Клиниката е създадена с пакет "${pkg.name}" (${pkg.price} €/год).${periodTxt} Вход: ${adminUsername} / ${adminPassword}`, 'success');
         }
         $('clinicModal').classList.remove('active');
     } catch(err) {
@@ -1389,13 +1591,15 @@ $('clinicForm').addEventListener('submit', async (e) => {
     }
 });
 
-async function findClinicByAdminCode(code) {
+// Връща id на клиниката, чийто администраторски акаунт ползва това име.
+async function findClinicByAdminUsername(username) {
+    const uname = String(username || '').toLowerCase().trim();
+    if (!uname) return null;
     try {
         const snap = await get(ref(db, 'clinics'));
         const data = snap.val() || {};
         for (const cid of Object.keys(data)) {
-            const c = data[cid];
-            if ((c.adminCode || c.ownerCode) === code) return cid;
+            if (String(data[cid].adminUsername || '').toLowerCase() === uname) return cid;
         }
     } catch(e) {}
     return null;
@@ -2045,7 +2249,7 @@ function renderAdmins() {
 
         return `<tr class="${isProtected ? 'protected-row' : ''}">
             <td>${nameDisplay} ${badge}</td>
-            <td><span class="code-badge"><i class="fas fa-key"></i> ${escapeHtml(a.accessCode || '—')}</span></td>
+            <td><span class="code-badge"><i class="fas fa-user"></i> ${escapeHtml(a.username || '—')}</span></td>
             <td>${isProtected ? '<span class="admin-badge protected"><i class="fas fa-shield-alt"></i> Супер</span>' : '<span class="admin-badge super"><i class="fas fa-user-shield"></i> Админ</span>'}</td>
             <td>${created}</td>
             <td style="white-space:nowrap;">${actions}</td>
@@ -2081,6 +2285,14 @@ $('addAdminBtn').addEventListener('click', () => openAdminModal());
 $('adminModalClose').addEventListener('click', () => $('adminModal').classList.remove('active'));
 $('adminCancelBtn').addEventListener('click', () => $('adminModal').classList.remove('active'));
 
+// Подсказва потребителско име от името, докато човекът не го пипне ръчно.
+$('adminFormUsername').addEventListener('input', () => { adminUsernameTouched = true; });
+$('adminFormName').addEventListener('input', () => {
+    if (adminUsernameTouched) return;
+    if ($('adminFormUsername').readOnly) return;
+    $('adminFormUsername').value = slugifyUsername($('adminFormName').value);
+});
+
 function openAdminModal(id = null) {
     const modal = $('adminModal');
     const form = $('adminForm');
@@ -2097,9 +2309,24 @@ function openAdminModal(id = null) {
         editingAdminId = id;
         $('adminId').value = id;
         $('adminFormName').value = a.name || '';
-        $('adminFormCode').value = a.accessCode || '';
+        // Името се сменя само от самия администратор (Firebase не позволява на
+        // друг да смени имейла без backend), затова при редакция е само за четене
+        // и полето за парола се скрива.
+        const hasAccount = !!a.username;
+        adminUsernameTouched = true;
+        $('adminFormUsername').value = a.username || '';
+        $('adminFormUsername').readOnly = hasAccount;
+        $('adminFormUsername').style.background = hasAccount ? '#eef1f5' : '#fff';
+        $('adminPasswordGroup').style.display = hasAccount ? 'none' : '';
+        if (!hasAccount) $('adminFormPassword').value = generatePassword();
     } else {
         $('adminModalTitle').textContent = 'Нов супер админ';
+        adminUsernameTouched = false;
+        $('adminFormUsername').value = '';
+        $('adminFormUsername').readOnly = false;
+        $('adminFormUsername').style.background = '#fff';
+        $('adminPasswordGroup').style.display = '';
+        $('adminFormPassword').value = generatePassword();
     }
     modal.classList.add('active');
 }
@@ -2108,10 +2335,15 @@ $('adminForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = $('adminId').value;
     const name = $('adminFormName').value.trim();
-    const code = $('adminFormCode').value.trim();
+    const username = $('adminFormUsername').value.trim().toLowerCase();
+    const password = $('adminFormPassword').value;
 
-    if (!name || !code) { showToast('Попълнете име и код.', 'error'); return; }
-    if (!/^\d{6}$/.test(code)) { showToast('Кодът трябва да е точно 6 цифри.', 'error'); return; }
+    if (!name || !username) { showToast('Попълнете име и потребителско име.', 'error'); return; }
+    if (!isValidUsername(username)) { showToast('Потребителското име трябва да е 3–30 знака — малки латински букви, цифри, точка или тире.', 'error'); return; }
+
+    // Акаунт се създава само за нов админ или за стар запис без потребителско име.
+    const needsAccount = !id || !(admins[id] && admins[id].username);
+    if (needsAccount && String(password).length < 6) { showToast('Паролата трябва да е поне 6 знака.', 'error'); return; }
 
     if (id) {
         const a = admins[id];
@@ -2123,26 +2355,25 @@ $('adminForm').addEventListener('submit', async (e) => {
 
     $('adminSaveBtn').disabled = true;
     try {
-        const adminsSnap = await get(ref(db, 'admins'));
-        const adminsData = adminsSnap.val() || {};
-        for (const [aid, a] of Object.entries(adminsData)) {
-            if (a.accessCode === code && aid !== id) {
-                showToast('Този код вече се използва.', 'error');
-                $('adminSaveBtn').disabled = false;
-                return;
-            }
+        if (isUsernameTaken(username, id)) {
+            showToast('Това потребителско име вече се използва.', 'error');
+            return;
+        }
+        if (needsAccount) {
+            const acc = await createLoginAccount(username, password);
+            if (!acc.ok) { showToast(acc.error, 'error'); return; }
         }
 
         if (id) {
-            await update(ref(db, `admins/${id}`), { name, accessCode: code, updatedAt: Date.now() });
+            await update(ref(db, `admins/${id}`), { name, username, updatedAt: Date.now() });
             showToast('Админът е обновен.', 'success');
         } else {
             await set(push(ref(db, 'admins')), {
-                name, accessCode: code, role: 'super',
+                name, username, role: 'super',
                 createdAt: Date.now(),
                 createdBy: currentAdmin?.id || 'admin'
             });
-            showToast(`Админ "${name}" е създаден с код ${code}.`, 'success');
+            showToast(`Админ "${name}" е създаден. Вход: ${username} / ${password}`, 'success');
         }
         $('adminModal').classList.remove('active');
     } catch(err) {
@@ -2272,7 +2503,7 @@ async function init() {
         if (!user) {
             showLoading(false);
             $('loginScreen').classList.remove('hidden');
-            if (codeInputEls[0]) codeInputEls[0].focus();
+            loginUsernameEl.focus();
             return;
         }
 
@@ -2282,13 +2513,13 @@ async function init() {
 
         await checkProtectedAdmin();
 
-        const code = getAdminCode();
+        const username = getAdminUsername();
         const adminId = sessionStorage.getItem('adminId');
-        if (code && adminId) {
+        if (username && adminId) {
             try {
                 const snap = await get(ref(db, `admins/${adminId}`));
                 const a = snap.val();
-                if (a && a.accessCode === code) {
+                if (a && String(a.username || '').toLowerCase() === username) {
                     currentAdmin = { id: adminId, ...a };
                     startApp();
                     return;
@@ -2297,15 +2528,15 @@ async function init() {
         }
 
         // Автентикиран, но няма валидна админ сесия за този таб → показваме
-        // екрана за вход и чакаме кода.
+        // екрана за вход и чакаме потребителско име и парола.
         //
         // ТУК НАРОЧНО НЕ СЕ ПРАВИ signOut(): signOut() е async, неговият
         // onAuthStateChanged(null) идва по-късно и показва login екрана върху
         // вече отвореното приложение, а освен това може да изтрие сесийните
         // ключове на човек, който точно е влязъл. Изходът се решава само от
-        // login handler-а (при грешен код) и от бутона „Изход".
+        // login handler-а (при грешни данни) и от бутона „Изход".
         $('loginScreen').classList.remove('hidden');
-        if (codeInputEls[0]) codeInputEls[0].focus();
+        loginUsernameEl.focus();
     });
 }
 
