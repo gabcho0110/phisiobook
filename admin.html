@@ -922,6 +922,10 @@ function startListeners() {
     unsubscribers.push(onValue(ref(db, 'admins'), (snap) => {
         admins = snap.val() || {};
         renderAdmins();
+        // renderDashboard() чете Object.keys(admins).length, затова трябва да се
+        // извика и тук — иначе при по-бърз отговор на 'clinics' броячът
+        // "Супер админи" остава 0, защото нищо не го преизчислява.
+        renderDashboard();
         if (currentAdmin && !admins[currentAdmin.id]) {
             showToast('Вашият акаунт беше изтрит.', 'error');
             setTimeout(() => {
