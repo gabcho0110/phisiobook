@@ -2,45 +2,42 @@
    PhysioBook — Service Worker
    ==========================================================================
 
-   ВАЖНО: Този service worker е умишлено ИЗКЛЮЧЕН.
-
-   В края на index.html има блок, който дерегистрира всички service workers
-   при зареждане на страницата. Причината е, че приложение, което се обновява
-   често, не бива да сервира залежала стара версия от кеша.
-
-   За да ВКЛЮЧИТЕ офлайн кеширането:
-     1. Премахнете <script> блока с navigator.serviceWorker.getRegistrations()
-        в края на index.html.
-     2. Регистрирайте този файл, например:
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-          }
-     3. При всяко ново издание на приложението вдигнете версията в CACHE по-долу
-        (напр. 'physiobook-v3'), за да се изчисти старият кеш.
+   ВКЛЮЧЕН. Регистрира се от index.html (`navigator.serviceWorker.register('/sw.js')`).
 
    Стратегия:
-     • Навигация / HTML  → network-first (винаги най-новата версия, кеш само
-                           като резерва при липса на мрежа)
+     • Навигация / HTML  → network-first (винаги най-новата версия; кешът е само
+                           резерва, когато няма мрежа). Така поправен бъг НЕ може
+                           да „се върне" от залежал кеш.
      • Статични ресурси  → stale-while-revalidate (бързо + самообновяващо се)
-     • Всичко извън нашия домейн (Firebase, CDN) → не се пипа
+     • Всичко извън нашия домейн (Firebase, gstatic, cdnjs) → не се пипа
+
+   При всяко ново издание ВДИГНЕТЕ версията в CACHE по-долу — тогава при
+   активиране старите кешове се изтриват.
    ========================================================================== */
 
-const CACHE = 'physiobook-v2';
+const CACHE = 'physiobook-v3';
 
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
+    (async () => {
+      const cache = await caches.open(CACHE);
+      // Кешираме всеки ресурс поотделно: един липсващ файл не бива да
+      // проваля цялата инсталация на service worker-а.
+      await Promise.all(
+        APP_SHELL.map((url) => cache.add(url).catch(() => {}))
+      );
+      await self.skipWaiting();
+    })()
   );
 });
 
@@ -53,6 +50,10 @@ self.addEventListener('activate', (event) => {
       )
       .then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', (event) => {

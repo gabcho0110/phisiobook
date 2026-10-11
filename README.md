@@ -51,10 +51,15 @@ PhysioBook е Progressive Web App (PWA), която се инсталира на
 .
 ├── index.html        # Основното приложение (login, модули, профил, портал)
 ├── admin.html        # Административен панел
-├── sw.js             # Service worker (виж „Service worker" по-долу)
+├── privacy.html      # Политика за поверителност (изисква се от Google Play)
+├── sw.js             # Service worker
 ├── manifest.json     # PWA метаданни
-├── icon-192.png      # Икона 192×192
-├── icon-512.png      # Икона 512×512
+├── icon-192.png      # Икона 192×192 (any)
+├── icon-512.png      # Икона 512×512 (any)
+├── icon-maskable-192.png   # Икона 192×192 (maskable, с поле за безопасна зона)
+├── icon-maskable-512.png   # Икона 512×512 (maskable)
+├── .well-known/
+│   └── assetlinks.json     # Digital Asset Links за Android приложението
 ├── README.md
 ├── SECURITY.md       # ⚠️ Задължително за прочитане — сигурност на данните
 └── .gitignore
@@ -84,20 +89,67 @@ npx serve .
 
 ## Service worker
 
-`sw.js` е коректна, но **умишлено изключена** имплементация. В края на `index.html`
-има блок, който дерегистрира всички service workers при зареждане. Причината:
-приложение, което често се обновява, не трябва да сервира залежала стара версия
-от кеша.
+`sw.js` е **включен** и се регистрира от `index.html`. Стратегията е:
 
-Ако все пак искате офлайн кеширане, премахнете блока
-`<script> ... serviceWorker ... </script>` в края на `index.html`. `sw.js` вече е
-написан правилно (network-first за HTML, stale-while-revalidate за статични ресурси).
+- **Навигация / HTML → network-first.** Приложението винаги взима най-новата
+  версия от мрежата; кешът се използва само когато няма връзка. Така поправен
+  бъг не може да „се върне" от залежал кеш.
+- **Статични ресурси → stale-while-revalidate** (бързо + самообновяващо се).
+- Заявки извън нашия домейн (Firebase, CDN) не се пипат.
+
+При всяко ново издание **вдигнете версията** в `const CACHE = 'physiobook-vN'`.
+Тогава при активиране старите кешове се изтриват.
+
+## Android приложение (Google Play)
+
+Приложението за Android е **Trusted Web Activity (TWA)** — тънка обвивка, която
+отваря `https://app.physiobook.eu/` на цял екран, без адресна лента.
+
+### Как се генерира `.aab`
+
+1. Отворете **https://www.pwabuilder.com** и въведете `https://app.physiobook.eu/`.
+2. *Package for stores* → **Android** → попълнете:
+   - **Package ID:** `eu.physiobook.app` (трябва да съвпада с `.well-known/assetlinks.json`)
+   - App name: `PhysioBook`
+3. Свалете ZIP архива. Вътре има:
+   - `*.aab` — подписан пакет, готов за качване
+   - `signing-key-info.txt` — **пазете го**, без него не може да пускате обновления
+   - `assetlinks.json`
+   - инструкции
+
+### Digital Asset Links (задължително)
+
+Без този файл TWA показва адресна лента на браузъра отгоре. Вземете
+`sha256_cert_fingerprints` от `assetlinks.json` в ZIP-а и го поставете в
+`.well-known/assetlinks.json` на мястото на `REPLACE_WITH_SHA256_FINGERPRINT_FROM_PWABUILDER`.
+Файлът трябва да е достъпен на:
+
+```
+https://app.physiobook.eu/.well-known/assetlinks.json
+```
+
+Проверка: https://developers.google.com/digital-asset-links/tools/generator
+
+### Качване в Play Console
+
+1. **play.google.com/console** → Create app
+2. Production → Create new release → качете `.aab`
+3. Попълнете задължителните секции:
+   - **App content → Privacy policy:** `https://app.physiobook.eu/privacy.html`
+   - **Data safety:** декларирайте, че се събират име, контакти и здравни данни,
+     че са криптирани при пренос и че могат да бъдат изтрити по заявка
+   - **Target API level:** минимум **36 (Android 16)** — задължително от 31.08.2026
+4. Изпратете за преглед.
+
+> ⚠️ Здравни данни в приложение за Play изискват точно попълнен Data safety
+> формуляр. Неточна декларация води до отхвърляне или премахване на приложението.
 
 ## Сигурност
 
-⚠️ **Прочетете [`SECURITY.md`](SECURITY.md).** Към момента базата с данни е
-публично достъпна за четене, което излага медицинските досиета на пациентите.
-Документът описва проблема и конкретен план за отстраняването му.
+⚠️ **Прочетете [`SECURITY.md`](SECURITY.md).** Правилата на Realtime Database са
+заключени — неавтентикираните заявки се отхвърлят с `401`. Документът описва
+какво е направено, какво остава (изолация по клиника, Фаза 2) и кои ограничения
+са само в клиента.
 
 ## Лиценз
 

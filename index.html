@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>PhysioBook</title>
 <link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 <meta name="theme-color" content="#1e4a78">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1011,7 +1013,7 @@ body.patient-mode .delete-program { display: none !important; }
 <i class="fas fa-sign-in-alt"></i> Вход в системата
 </button>
 </form>
-<div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп</div>
+<div class="login-footer"><i class="fas fa-lock"></i> Защитен достъп · <a href="/privacy.html" style="color:#1e4a78; text-decoration:underline;">Политика за поверителност</a></div>
 </div>
 </div>
 
@@ -1068,7 +1070,7 @@ body.patient-mode .delete-program { display: none !important; }
 <a href="tel:+359878200736" class="support-phone"><i class="fas fa-phone"></i> +359 87 8200736</a>
 <div class="support-hours"><i class="far fa-clock"></i> Работно време: 09:00 - 19:00 ч</div>
 </div>
-<div class="sidebar-version">v9.9 · Mobile</div>
+<div class="sidebar-version">v9.10 · Mobile · <a href="/privacy.html" style="color:#7fb2e5; text-decoration:underline;">Поверителност</a></div>
 </div>
 </aside>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -3825,10 +3827,13 @@ init();
 </script>
 
 <script>
+  // Регистрация на service worker-а.
+  // Навигацията в sw.js е network-first, затова приложението винаги взима
+  // най-новата версия от мрежата, а кешът служи само когато няма връзка.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for (let registration of registrations) { registration.unregister(); }
+      navigator.serviceWorker.register('/sw.js').catch(function (err) {
+        console.warn('Регистрацията на service worker не успя:', err);
       });
     });
   }
