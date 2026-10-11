@@ -11,6 +11,10 @@
       ".read": "auth != null",
       ".write": "auth != null"
     },
+    "patients": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
     "admins": {
       ".read": "auth != null",
       ".write": "auth != null"
