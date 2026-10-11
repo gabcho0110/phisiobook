@@ -612,6 +612,7 @@ tr:last-child td { border-bottom: none; }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -626,6 +627,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+
+// Домейн за вътрешните Auth имейли. Кодът на администратора остава непроменен —
+// той се използва едновременно като имейл и като парола на акаунта.
+const AUTH_EMAIL_DOMAIN = 'physiobook.eu';
+function getAdminCode() {
+    const email = auth.currentUser?.email || '';
+    if (email.endsWith('@' + AUTH_EMAIL_DOMAIN)) return email.split('@')[0];
+    return sessionStorage.getItem('adminCode') || '';
+}
 
 // ==================== MODULES ====================
 // locked: true означава, че модулът НЕ МОЖЕ да бъде изключен от никого.
@@ -675,7 +686,8 @@ function getModulesStateFromPackage(pkgId) {
     return state;
 }
 
-const DEFAULT_ADMIN_CODE = '123456';
+// ВНИМАНИЕ: твърдо зададен код за администратор НЕ се използва повече.
+// Виж checkProtectedAdmin() по-долу.
 const ADMIN_NAME = 'PhysioBook Admin';
 const PROTECTED_ADMIN_ID = 'physiobook_admin';
 
@@ -783,28 +795,22 @@ function getCodeFromInputs() {
     return Array.from(codeInputEls).map(i => i.value).join('');
 }
 
-// ==================== ENSURE PROTECTED ADMIN ====================
-async function ensureProtectedAdmin() {
+// ==================== ЗАЩИТЕН АДМИН ====================
+// ВАЖНО (поправка на сигурността):
+// Преди тази промяна функцията СЪЗДАВАШЕ администратор с твърдо зададен код
+// '123456', ако записът липсва. Понеже кодът е публично известен, всеки
+// можеше да влезе като супер-админ. Сега НИЩО не се създава автоматично.
+// Ако записът липсва, създайте го ръчно във Firebase Console.
+// Функцията е запазена само за диагностика.
+async function checkProtectedAdmin() {
     try {
-        debugLog('Проверка на защитен админ...');
         const snap = await get(ref(db, `admins/${PROTECTED_ADMIN_ID}`));
         const val = snap.val();
         if (!val || !val.accessCode) {
-            debugLog('Създаване на защитен админ с код ' + DEFAULT_ADMIN_CODE);
-            await set(ref(db, `admins/${PROTECTED_ADMIN_ID}`), {
-                name: ADMIN_NAME,
-                accessCode: DEFAULT_ADMIN_CODE,
-                role: 'super',
-                protected: true,
-                createdAt: Date.now()
-            });
-            debugLog('✓ Защитен админ е създаден');
-        } else {
-            debugLog('✓ Защитен админ съществува с код ' + val.accessCode);
+            console.warn('[PhysioBook] Липсва защитен админ. Създайте го ръчно във Firebase Console.');
         }
-    } catch(e) {
-        debugLog('❌ Грешка при защитен админ: ' + e.message);
-        console.error('Failed to ensure protected admin:', e);
+    } catch (e) {
+        // Очаквано преди вход — правилата на базата изискват автентикация.
     }
 }
 
@@ -819,9 +825,11 @@ $('loginForm').addEventListener('submit', async (e) => {
 
     showLoading(true);
     try {
-        debugLog('Въведен код: ' + code);
-        await ensureProtectedAdmin();
+        // 1. Автентикация във Firebase (кодът е едновременно имейл и парола)
+        debugLog('Автентикация…');
+        await signInWithEmailAndPassword(auth, `${code}@${AUTH_EMAIL_DOMAIN}`, code);
 
+        // 2. Проверка, че кодът принадлежи на администратор
         debugLog('Търсене в admins...');
         const snap = await get(ref(db, 'admins'));
         const adminsData = snap.val() || {};
@@ -841,6 +849,7 @@ $('loginForm').addEventListener('submit', async (e) => {
 
         if (!foundAdmin) {
             debugLog('❌ Кодът не е намерен в admins');
+            await signOut(auth);
             const err = $('loginError');
             $('loginErrorText').textContent = 'Грешен код. Опитайте отново.';
             err.classList.add('active');
@@ -861,9 +870,17 @@ $('loginForm').addEventListener('submit', async (e) => {
         startApp();
     } catch(err) {
         showLoading(false);
-        debugLog('❌ Грешка: ' + err.message);
+        const isAuthError = String(err?.code || '').startsWith('auth/');
+        debugLog('❌ Грешка: ' + (err.code || err.message));
         console.error(err);
-        showToast('Грешка: ' + err.message, 'error');
+        if (isAuthError) {
+            const errEl = $('loginError');
+            $('loginErrorText').textContent = 'Грешен код. Опитайте отново.';
+            errEl.classList.add('active');
+            setTimeout(() => errEl.classList.remove('active'), 4000);
+        } else {
+            showToast('Грешка: ' + err.message, 'error');
+        }
         clearCodeInputs();
     }
 });
@@ -879,7 +896,9 @@ $('logoutBtn').addEventListener('click', () => {
     if (!confirm('Сигурни ли сте?')) return;
     sessionStorage.removeItem('adminCode');
     sessionStorage.removeItem('adminId');
-    location.reload();
+    unsubscribers.forEach(u => { try { u(); } catch(e){} });
+    unsubscribers = [];
+    signOut(auth).catch(() => {}).finally(() => location.reload());
 });
 
 document.querySelectorAll('.nav-item').forEach(item => {
@@ -911,7 +930,7 @@ function startListeners() {
             showToast('Вашият акаунт беше изтрит.', 'error');
             setTimeout(() => {
                 sessionStorage.clear();
-                location.reload();
+                signOut(auth).catch(() => {}).finally(() => location.reload());
             }, 1500);
         }
     }));
@@ -2134,26 +2153,41 @@ $('migrateModulesBtn').addEventListener('click', async () => {
 async function init() {
     initPackageSelector();
     initBroadcastTargets();
-    await ensureProtectedAdmin();
 
-    const code = sessionStorage.getItem('adminCode');
-    const adminId = sessionStorage.getItem('adminId');
-    if (code && adminId) {
-        try {
-            const snap = await get(ref(db, `admins/${adminId}`));
-            const a = snap.val();
-            if (a && a.accessCode === code) {
-                currentAdmin = { id: adminId, ...a };
-                startApp();
-                return;
-            } else {
-                sessionStorage.removeItem('adminCode');
-                sessionStorage.removeItem('adminId');
-            }
-        } catch(e) {}
-    }
-    $('loginScreen').classList.remove('hidden');
-    codeInputEls[0].focus();
+    // Данните се зареждат едва СЛЕД като Firebase Auth потвърди сесията.
+    // Преди вход базата е недостъпна (правилата изискват auth != null).
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            showLoading(false);
+            $('loginScreen').classList.remove('hidden');
+            if (codeInputEls[0]) codeInputEls[0].focus();
+            return;
+        }
+
+        await checkProtectedAdmin();
+
+        // Възстановяване на сесията след презареждане
+        const code = getAdminCode();
+        const adminId = sessionStorage.getItem('adminId');
+        if (code && adminId) {
+            try {
+                const snap = await get(ref(db, `admins/${adminId}`));
+                const a = snap.val();
+                if (a && a.accessCode === code) {
+                    currentAdmin = { id: adminId, ...a };
+                    startApp();
+                    return;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // Автентикиран, но не е администратор → изход
+        await signOut(auth);
+        sessionStorage.removeItem('adminCode');
+        sessionStorage.removeItem('adminId');
+        $('loginScreen').classList.remove('hidden');
+        if (codeInputEls[0]) codeInputEls[0].focus();
+    });
 }
 
 init();

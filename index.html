@@ -2153,6 +2153,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 </div><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -2167,6 +2168,17 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+
+// Домейн за вътрешните Auth имейли. Кодът на потребителя остава непроменен —
+// той се използва едновременно като имейл и като парола за акаунта.
+const AUTH_EMAIL_DOMAIN = 'physiobook.eu';
+function getAuthCode() {
+  const email = auth.currentUser?.email || '';
+  if (email.endsWith('@' + AUTH_EMAIL_DOMAIN)) return email.split('@')[0];
+  return sessionStorage.getItem('authCode') || '';
+}
+
 const clinicsRootRef = ref(db, 'clinics');
 const LEGACY_PATIENTS_REF = ref(db, 'patients');
 const LEGACY_USERS_REF = ref(db, 'users');
@@ -2273,10 +2285,35 @@ async function attemptLogin() {
   const code = Array.from(codeInputEls).map(i => i.value).join('');
   if (code.length !== 6) { showLoginError('Въведете пълен 6-цифрен код.'); return; }
   showLoading(true);
+
+  // ── Стъпка 1: автентикация във Firebase ──────────────────────────────
+  // Кодът не се сменя — той е и имейл, и парола на акаунта.
+  try {
+    await signInWithEmailAndPassword(auth, `${code}@${AUTH_EMAIL_DOMAIN}`, code);
+  } catch (err) {
+    showLoading(false);
+    showLoginError('Грешен код. Опитайте отново.');
+    clearCodeInputs();
+    return;
+  }
+
+  // ── Стъпка 2: зареждане на данните (вече сме автентикирани) ──────────
+  try {
+    const snap = await get(clinicsRootRef);
+    clinics = snap.val() || {};
+  } catch (err) {
+    console.error(err);
+    await signOut(auth);
+    showLoading(false);
+    showLoginError('Няма достъп до данните. Опитайте отново.');
+    clearCodeInputs();
+    return;
+  }
+
   let found = findUserByCodeInAllClinics(code, clinics);
   if (!found) {
     const legacy = await findInLegacy(code);
-    if (legacy) { showLoading(false); showLoginError('Този код е от старата система.'); clearCodeInputs(); return; }
+    if (legacy) { await signOut(auth); showLoading(false); showLoginError('Този код е от старата система.'); clearCodeInputs(); return; }
   }
   if (found) {
     const clinicId = found.clinicId;
@@ -2298,6 +2335,7 @@ async function attemptLogin() {
     loginSuccess();
     return;
   }
+  await signOut(auth);
   showLoading(false); showLoginError('Грешен код. Опитайте отново.'); clearCodeInputs();
 }
 
@@ -2546,7 +2584,7 @@ $('clinicSwitcherItems').addEventListener('click', async (e) => { const item = e
 
 async function switchClinic(newClinicId) {
   if (isSwitchingClinic) return; isSwitchingClinic = true;
-  const authCode = sessionStorage.getItem('authCode');
+  const authCode = getAuthCode();
   if (!authCode) { isSwitchingClinic = false; return; }
   const clinic = clinics[newClinicId];
   if (!clinic) { isSwitchingClinic = false; return; }
@@ -2604,7 +2642,7 @@ function applyPermissions() {
 
 logoutBtn.addEventListener('click', doLogout);
 $('headerLogoutBtn').addEventListener('click', (e) => { e.stopPropagation(); doLogout(); });
-function doLogout() { if (confirm('Сигурни ли сте?')) { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentPatientId'); sessionStorage.removeItem('activeClinicId'); sessionStorage.removeItem('authCode'); location.reload(); } }
+function doLogout() { if (confirm('Сигурни ли сте?')) { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentPatientId'); sessionStorage.removeItem('activeClinicId'); sessionStorage.removeItem('authCode'); stopDataListeners(); signOut(auth).catch(() => {}).finally(() => location.reload()); } }
 $('headerNavToggle').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); });
 
 function startClinicsListener() {
@@ -2616,7 +2654,7 @@ async function tryRestoreSession() {
   const sid = sessionStorage.getItem('currentUserId');
   const pid = sessionStorage.getItem('currentPatientId');
   const cid = sessionStorage.getItem('activeClinicId');
-  const authCode = sessionStorage.getItem('authCode');
+  const authCode = getAuthCode();
   if (!cid || !authCode) return;
   if (!clinics[cid]) return;
   activeClinicId = cid; activeClinic = clinics[cid];
@@ -3600,12 +3638,19 @@ function init() {
   ['aptDate', 'procDate', 'noteDate', 'soapDate', 'fileDate', 'testDate', 'blockedDate', 'vacationFrom', 'vacationTo', 'dossierFirstVisit', 'dossierPatientSignatureDate', 'dossierTherapistSignatureDate', 'portalAptDate', 'subDate'].forEach(id => { const el = $(id); if (el) el.value = today; });
   if ($('priceDateInput')) $('priceDateInput').value = currentPriceDate;
   updateLegendModeBtns();
-  startClinicsListener();
-  const sid = sessionStorage.getItem('currentUserId');
-  const pid = sessionStorage.getItem('currentPatientId');
-  const cid = sessionStorage.getItem('activeClinicId');
-  const authCode = sessionStorage.getItem('authCode');
-  if (!sid && !pid && !cid && !authCode) { if (codeInputEls[0]) codeInputEls[0].focus(); }
+
+  // Данните се зареждат едва СЛЕД като Firebase Auth потвърди сесията.
+  // Преди вход базата е недостъпна (правилата изискват auth != null).
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      startClinicsListener();
+    } else {
+      stopDataListeners();
+      sessionRestored = false;
+      showLoading(false);
+      if (codeInputEls[0]) codeInputEls[0].focus();
+    }
+  });
 }
 init();
 
