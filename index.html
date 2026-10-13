@@ -4170,6 +4170,12 @@ function goToModule(targetModule) {
     showToast('Този модул не е достъпен за вашия профил.', 'error');
     return;
   }
+  // „Настройки" са само за администратор на клиниката. Навигацията ги крие, но
+  // това е и защита срещу директно извикване (конзола, стар линк, лист „Още").
+  if (targetModule === 'settings' && !isAdmin(currentUser)) {
+    showToast('Настройките са достъпни само за администратор.', 'error');
+    return;
+  }
   const enabled = getEnabledModules();
   if (enabled[targetModule] === false) { showToast('Този модул е изключен за вашата клиника.', 'error'); return; }
   navItems.forEach(n => n.classList.remove('active'));
@@ -4238,7 +4244,13 @@ function applyMobileNavPermissions() {
   mobileMoreGrid.querySelectorAll('.mobile-more-item').forEach(item => {
     const mod = item.dataset.moreNav;
     if (patientOnly) { item.style.display = (mod === 'portal' || mod === 'exercises') ? '' : 'none'; }
-    else { item.style.display = (mod === 'portal') ? 'none' : ''; if (enabled[mod] === false) item.style.display = 'none'; }
+    else {
+      item.style.display = (mod === 'portal') ? 'none' : '';
+      if (enabled[mod] === false) item.style.display = 'none';
+      // ⚠️ „Настройки" са само за администратор. Сайдбарът ги криеше, но листът
+      // „Още" на телефон ги показваше на кинезитерапевтите.
+      if (mod === 'settings' && !isAdmin(currentUser)) item.style.display = 'none';
+    }
   });
 
   // Долен навигационен ред.
