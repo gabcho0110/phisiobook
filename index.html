@@ -229,6 +229,15 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .patient-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .patient-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
 .patient-tab:hover:not(.active) { border-color: #1e4a78; background: #f5f9ff; }
+/* Меню „Добави пациент" — съкратен (само лични данни) или разширен вариант. */
+.add-patient-wrap { position: relative; }
+.add-patient-menu { position: absolute; top: calc(100% + 8px); right: 0; background: #ffffff; border-radius: 14px; box-shadow: 0 15px 40px rgba(11, 43, 79, 0.25); padding: 0.4rem; min-width: 272px; z-index: 300; display: none; }
+.add-patient-menu.open { display: block; }
+.add-patient-item { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 0.7rem 0.8rem; border: none; background: transparent; border-radius: 10px; cursor: pointer; text-align: left; font-family: inherit; color: #1f3f61; transition: 0.15s; }
+.add-patient-item:hover { background: #f5f9ff; }
+.add-patient-item > i { color: #1e4a78; font-size: 1rem; width: 20px; text-align: center; margin-top: 3px; flex-shrink: 0; }
+.add-patient-item strong { display: block; font-size: 0.88rem; font-weight: 700; color: #0b2b4f; }
+.add-patient-item small { display: block; font-size: 0.74rem; color: #7f95b0; margin-top: 2px; line-height: 1.3; }
 .patient-pane { display: none; animation: fade 0.2s ease; }
 .patient-pane.active { display: block; }
 .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem; }
@@ -966,6 +975,8 @@ body.patient-mode .delete-program { display: none !important; }
   .header-logo { width: 30px; height: 30px; }
   .header-actions { gap: 3px; }
   .pb-lang-btn { padding: 5px 7px; font-size: 0.72rem; gap: 4px; }
+  /* Менюто „Добави пациент" е подравнено наляво, за да не излезе извън екрана. */
+  .add-patient-menu { left: 0; right: auto; }
   .header-clinic-sub { display: none; }
   .header-user .user-name { display: none; }
   .header-user { padding: 0.2rem 0.3rem 0.2rem 0.2rem; }
@@ -1181,14 +1192,20 @@ body.patient-mode .delete-program { display: none !important; }
 </section>
 
 <section id="module-patients" class="module">
-<div class="module-header"><h1><i class="fas fa-users"></i> Пациенти</h1></div>
-<div class="patient-tabs" id="patientTabs">
-<button class="patient-tab active" data-patient-tab="new"><i class="fas fa-user-plus"></i> Нов пациент</button>
-<button class="patient-tab" data-patient-tab="list"><i class="fas fa-list"></i> Списък пациенти</button>
+<div class="module-header">
+<h1><i class="fas fa-users"></i> Пациенти</h1>
+<div class="add-patient-wrap">
+<button type="button" class="btn" id="addPatientToggle" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-plus"></i> Добави пациент <i class="fas fa-chevron-down" style="font-size:0.7rem; opacity:0.75;"></i></button>
+<div class="add-patient-menu" id="addPatientMenu" role="menu">
+<button type="button" class="add-patient-item" data-patient-mode="short" role="menuitem"><i class="fas fa-bolt"></i><span><strong>Съкратен вариант</strong><small>Само лични данни</small></span></button>
+<button type="button" class="add-patient-item" data-patient-mode="full" role="menuitem"><i class="fas fa-clipboard-list"></i><span><strong>Разширен вариант</strong><small>Лични данни + цялата клинична информация</small></span></button>
 </div>
-<div class="patient-pane active" data-patient-pane="new">
+</div>
+</div>
+<!-- Формата се отваря само от менюто „Добави пациент". -->
+<div class="patient-pane" data-patient-pane="new">
 <div class="card">
-<h3><i class="fas fa-user-plus"></i> Регистрация на нов пациент</h3>
+<h3 id="patientFormTitle"><i class="fas fa-user-plus"></i> Регистрация на нов пациент</h3>
 <form id="patientForm">
 <div class="form-section personal">
 <div class="form-section-header"><div class="form-section-icon"><i class="fas fa-user"></i></div><div><h4>Лични данни</h4><div class="sec-sub">Основни данни за пациента</div></div></div>
@@ -1219,6 +1236,8 @@ body.patient-mode .delete-program { display: none !important; }
 </div>
 </div>
 </div>
+<!-- Клиничната част се скрива при съкратения вариант на формата. -->
+<div id="patientFormClinical">
 <div class="form-section complaint">
 <div class="form-section-header"><div class="form-section-icon"><i class="fas fa-comment-medical"></i></div><div><h4>Основно оплакване</h4><div class="sec-sub">Какво оплаква пациента?</div></div></div>
 <div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientComplaint" rows="3" placeholder="Опишете основното оплакване на пациента..."></textarea></div></div>
@@ -1267,13 +1286,15 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="form-section-header"><div class="form-section-icon"><i class="fas fa-notes-medical"></i></div><div><h4>План за лечение</h4><div class="sec-sub">Планирани процедури и цели</div></div></div>
 <div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientTreatmentPlan" rows="3" placeholder="План за лечение..."></textarea></div></div>
 </div>
-<div class="form-group" style="justify-content: end;">
+</div>
+<div class="form-actions" style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top:1.2rem;">
+<button type="button" class="btn-outline btn" id="patientFormCancel"><i class="fas fa-arrow-left"></i> Назад към списъка</button>
 <button type="submit" class="btn" id="addPatientBtn"><i class="fas fa-save"></i> Регистрирай пациента</button>
 </div>
 </form>
 </div>
 </div>
-<div class="patient-pane" data-patient-pane="list">
+<div class="patient-pane active" data-patient-pane="list">
 <div class="filter-bar">
 <h3 style="margin:0;"><i class="fas fa-user-check"></i> Активни пациенти</h3>
 <select id="patientsKineziFilter" style="padding:0.7rem 1rem; border-radius:12px; border:1px solid #cfddee; font-family:inherit; background:#fff; font-weight:600; color:#0b2b4f; min-width:220px;">
@@ -2469,6 +2490,10 @@ let currentWeekStart = getMonday(new Date());
 let currentPriceDate = new Date().toISOString().split('T')[0];
 let editingUserId = null;
 let editingPatientId = null;
+// 'short' = само лични данни, 'full' = цялата клинична информация.
+// Избира се от менюто „Добави пациент"; при редакция винаги е 'full', за да
+// не се скрива вече въведена информация.
+let patientFormMode = 'full';
 let currentChatUserId = null;
 let unsubscribers = [];
 let isSwitchingClinic = false;
@@ -3180,7 +3205,7 @@ function startDataListeners() {
     if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge();
   }));
   unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => { procedures = s.val() || {}; renderProcedures(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
-  unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); renderSubKineziSelect(); if (currentUser && !currentPatient) renderDashboard(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderPatientKineziCheckboxes(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); renderSubKineziSelect(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => { appointments = s.val() || {}; renderSchedule(); renderPatients(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge(); }));
   unsubscribers.push(onValue(ref(db, `${base}/pricing`), (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/tasks`), (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); }));
@@ -3253,6 +3278,62 @@ function getPatientKineziIds() {
   const checked = Array.from($('patientKineziCheckboxes')?.querySelectorAll('input:checked') || []).map(cb => cb.value);
   return checked;
 }
+
+// ── Модул „Пациенти": списък по подразбиране, форма само при поискване ──────
+// При отваряне на модула се вижда само списъкът. Формата се показва след избор
+// от менюто „Добави пациент" (съкратен / разширен вариант) или при редакция.
+function showPatientPane(name) {
+  document.querySelectorAll('#module-patients .patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === name));
+}
+
+// Съкратеният вариант крие цялата клинична част, разширеният я показва.
+function applyPatientFormMode() {
+  const clinical = $('patientFormClinical');
+  if (clinical) clinical.style.display = patientFormMode === 'short' ? 'none' : '';
+}
+
+function closeAddPatientMenu() {
+  $('addPatientMenu')?.classList.remove('open');
+  $('addPatientToggle')?.setAttribute('aria-expanded', 'false');
+}
+
+function openPatientForm(mode) {
+  patientFormMode = mode === 'short' ? 'short' : 'full';
+  editingPatientId = null;
+  $('patientForm').reset();
+  $('patientFormTitle').innerHTML = patientFormMode === 'short'
+    ? '<i class="fas fa-bolt"></i> Нов пациент — съкратен вариант'
+    : '<i class="fas fa-clipboard-list"></i> Нов пациент — разширен вариант';
+  $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Регистрирай пациента';
+  applyPatientFormMode();
+  // ⚠️ Попълва списъка с кинезитерапевти ВЕДНАГА. Иначе контейнерът стоеше
+  // празен, докато не се запише или редактира пациент, и нямаше какво да се
+  // избере за „обслужващ кинезитерапевт".
+  renderPatientKineziCheckboxes();
+  showPatientPane('new');
+  document.querySelector('#module-patients .card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('addPatientToggle')?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = $('addPatientMenu').classList.toggle('open');
+  $('addPatientToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+$('addPatientMenu')?.addEventListener('click', (e) => {
+  const item = e.target.closest('.add-patient-item');
+  if (!item) return;
+  closeAddPatientMenu();
+  openPatientForm(item.dataset.patientMode);
+});
+document.addEventListener('click', (e) => { if (!e.target.closest('.add-patient-wrap')) closeAddPatientMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAddPatientMenu(); });
+$('patientFormCancel')?.addEventListener('click', () => {
+  editingPatientId = null;
+  $('patientForm').reset();
+  $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Регистрирай пациента';
+  showPatientPane('list');
+  renderPatients();
+});
 
 function getPatientsForUser() {
   const all = Object.entries(patients).filter(([, p]) => !p.archived).map(([id, p]) => ({ id, ...p }));
@@ -3346,8 +3427,8 @@ $('patientForm').addEventListener('submit', async (e) => {
     }
     $('patientForm').reset();
     renderPatientKineziCheckboxes();
-    document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.patientTab === 'list'));
-    document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === 'list'));
+    // Обратно към списъка — той е основният изглед на модула.
+    showPatientPane('list');
   } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
   finally { $('addPatientBtn').disabled = false; }
 });// ==================== PATIENT ACTIONS ====================
@@ -3359,8 +3440,11 @@ document.addEventListener('click', async (e) => {
     $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || '';
     renderPatientKineziCheckboxes();
     $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Запази промените';
-    document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.patientTab === 'new'));
-    document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === 'new'));
+    // Редакцията винаги показва всички полета, за да не се скрие вече въведено.
+    patientFormMode = 'full';
+    applyPatientFormMode();
+    $('patientFormTitle').innerHTML = '<i class="fas fa-edit"></i> Редакция на пациент';
+    showPatientPane('new');
     document.querySelector('#module-patients .card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     showToast('Редактиране на: ' + pat.name, 'info');
     return;
@@ -3375,7 +3459,8 @@ document.addEventListener('click', async (e) => {
   if (del) { if (!confirm('Изтрий завинаги?')) return; try { await remove(clinicRef(`patients/${del.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }
 });
 
-document.querySelectorAll('#patientTabs .patient-tab').forEach(tab => { tab.addEventListener('click', () => { const t = tab.dataset.patientTab; document.querySelectorAll('#patientTabs .patient-tab').forEach(x => x.classList.toggle('active', x === tab)); document.querySelectorAll('.patient-pane').forEach(p => p.classList.toggle('active', p.dataset.patientPane === t)); }); });
+// Табовете „Нов пациент" / „Списък пациенти" са премахнати — модулът отваря
+// списъка, а формата се показва от менюто „Добави пациент" (виж openPatientForm).
 
 function openPatientProfile(patientId) {
   // Блокиран абонамент: не се отваря нищо, дори ако някой е запазил връзка.
@@ -4096,7 +4181,8 @@ function goToModule(targetModule) {
   if (modules[targetModule]) {
     modules[targetModule].classList.add('active');
     if (targetModule === 'dashboard') renderDashboard();
-    else if (targetModule === 'patients') renderPatients();
+    // Модулът винаги отваря списъка — формата се показва само при поискване.
+    else if (targetModule === 'patients') { renderPatients(); showPatientPane('list'); }
     else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
     else if (targetModule === 'schedule') renderSchedule();
     else if (targetModule === 'substitutions') { renderSubKineziSelect(); renderSubstitutions(); }
