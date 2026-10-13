@@ -676,6 +676,37 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .test-card .test-card-sub { font-size: 0.78rem; color: #7f95b0; margin-bottom: 0.6rem; line-height: 1.3; }
 .test-card-meta { display: flex; flex-wrap: wrap; gap: 5px; }
 .test-card-meta span { font-size: 0.68rem; padding: 0.2rem 0.5rem; border-radius: 6px; background: #f0f4f8; color: #5a7a9a; font-weight: 600; }
+/* Потребителски тестове — създадени от екипа, не вградените. */
+.test-card.custom::before { background: linear-gradient(90deg, #0f766e, #2dd4bf); }
+.test-card-tools { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 2; }
+.test-card-tools button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid #e2eaf3; background: #fff; color: #5a7a9a; cursor: pointer; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; }
+.test-card-tools button:hover { background: #f2f7fd; color: #1e4a78; border-color: #1e4a78; }
+.test-card-tools button.tc-del:hover { background: #fdeaea; color: #b22234; border-color: #f09595; }
+.tcb-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.64rem; font-weight: 700; padding: 0.18rem 0.45rem; border-radius: 6px; }
+.tcb-badge.public { background: #e8f5e9; color: #1a7a3e; }
+.tcb-badge.clinic { background: #eef4fb; color: #1e4a78; }
+/* ── Прозорец „Създай тест" ─────────────────────────────────────────── */
+.tb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; }
+.tb-questions-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 1.2rem 0 0.6rem; font-weight: 700; color: #0b2b4f; font-size: 0.9rem; }
+.tb-question { border: 1px solid #e2eaf3; border-radius: 14px; padding: 0.8rem; margin-bottom: 0.7rem; background: #fbfdff; }
+.tb-q-head { display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem; }
+.tb-q-num { width: 24px; height: 24px; border-radius: 50%; background: #1e4a78; color: #fff; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.tb-q-head input { flex: 1; min-width: 0; padding: 0.5rem 0.6rem; border-radius: 8px; border: 1px solid #cfddee; font-family: inherit; font-size: 0.85rem; color: #0b2b4f; }
+.tb-option { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.tb-option input.tb-opt-label { flex: 1; min-width: 0; padding: 0.42rem 0.55rem; border-radius: 8px; border: 1px solid #dbe6f2; font-family: inherit; font-size: 0.82rem; color: #1f3f61; }
+.tb-option input.tb-opt-score { width: 68px; padding: 0.42rem 0.5rem; border-radius: 8px; border: 1px solid #dbe6f2; font-family: inherit; font-size: 0.82rem; color: #1f3f61; text-align: right; }
+.tb-remove-q, .tb-remove-o { border: none; background: transparent; color: #b0bdd0; cursor: pointer; padding: 4px 6px; border-radius: 6px; flex-shrink: 0; }
+.tb-remove-q:hover, .tb-remove-o:hover { background: #fdeaea; color: #b22234; }
+.tb-add-option { border: 1px dashed #cfddee; background: transparent; color: #1e4a78; cursor: pointer; border-radius: 8px; padding: 0.35rem 0.7rem; font-size: 0.76rem; font-weight: 600; font-family: inherit; margin-top: 3px; }
+.tb-add-option:hover { background: #f2f7fd; border-color: #1e4a78; }
+.tb-empty { color: #7f95b0; font-size: 0.82rem; font-style: italic; padding: 0.6rem 0; }
+.tb-visibility { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.6rem; }
+.tb-vis-opt { display: flex; align-items: flex-start; gap: 9px; border: 2px solid #e2eaf3; border-radius: 12px; padding: 0.7rem 0.8rem; cursor: pointer; transition: 0.15s; }
+.tb-vis-opt:hover { border-color: #9dc0e8; background: #f8fbff; }
+.tb-vis-opt:has(input:checked) { border-color: #1e4a78; background: #f2f7fd; }
+.tb-vis-opt input { margin-top: 3px; flex-shrink: 0; }
+.tb-vis-opt strong { display: block; font-size: 0.86rem; color: #0b2b4f; }
+.tb-vis-opt small { display: block; font-size: 0.72rem; color: #7f95b0; margin-top: 2px; line-height: 1.3; }
 .test-form-container { display: none; }
 .test-form-container.active { display: block; animation: fade 0.2s ease; }
 .test-form-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid #edf2f8; flex-wrap: wrap; }
@@ -1572,7 +1603,7 @@ body.patient-mode .delete-program { display: none !important; }
 </section>
 
 <section id="module-tests" class="module">
-<div class="module-header"><h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1></div>
+<div class="module-header"><h1><i class="fas fa-clipboard-check"></i> Тестове и скали</h1><button class="btn" id="createTestBtn"><i class="fas fa-plus"></i> Създай тест</button></div>
 <div id="testsLibraryView">
 <div class="test-category-tabs" id="testCategoryTabs">
 <button class="test-category-tab active" data-test-cat="all"><i class="fas fa-th-large"></i> Всички</button>
@@ -1593,7 +1624,7 @@ body.patient-mode .delete-program { display: none !important; }
 <button class="back-btn" id="backToTestsBtn"><i class="fas fa-arrow-left"></i> Назад към тестовете</button>
 <div class="card">
 <div class="test-form-header" id="testFormHeader"></div>
-<form id="testForm">
+<form id="testForm" novalidate>
 <input type="hidden" id="testCurrentId">
 <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom:1.5rem;">
 <div class="form-group"><label>Пациент *</label><select id="testPatient" required><option value="">-- избери пациент --</option></select></div>
@@ -2349,6 +2380,50 @@ body.patient-mode .delete-program { display: none !important; }
 </div>
 </div>
 
+<div class="modal-overlay" id="testBuilderModal">
+<div class="modal large">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+<h3 id="testBuilderTitle" style="margin:0;">Създай тест</h3>
+<button id="testBuilderClose" style="background:transparent; border:none; color:#7f95b0; font-size:1.5rem; cursor:pointer;"><i class="fas fa-times"></i></button>
+</div>
+<form id="testBuilderForm" novalidate>
+<input type="hidden" id="tbId">
+<div class="form-group"><label>Име на теста *</label><input type="text" id="tbName" required placeholder="напр. Скала за болка (VAS)"></div>
+<div class="form-group"><label>Описание</label><textarea id="tbDesc" placeholder="Какво измерва тестът"></textarea></div>
+<div class="tb-grid">
+<div class="form-group"><label>Категория</label><select id="tbCategory"><option value="other">Друго</option><option value="pain">Болка</option><option value="spine">Гръб / Кръст</option><option value="upper">Горен крайник</option><option value="lower">Долен крайник</option><option value="balance">Баланс</option></select></div>
+<div class="form-group"><label>Тип</label><select id="tbType"><option value="numeric">Числова скала</option><option value="multi">Въпроси с отговори</option></select></div>
+<div class="form-group"><label>Единица</label><input type="text" id="tbUnit" placeholder="напр. /10 или сек"></div>
+</div>
+<div id="tbNumericBlock">
+<div class="tb-grid">
+<div class="form-group"><label>Минимум</label><input type="number" id="tbMin" value="0" step="any"></div>
+<div class="form-group"><label>Максимум</label><input type="number" id="tbMax" value="10" step="any"></div>
+<div class="form-group"><label>Стъпка</label><input type="number" id="tbStep" value="1" step="any" min="0"></div>
+</div>
+<div class="tb-grid">
+<div class="form-group"><label>Етикет при минимум</label><input type="text" id="tbMinLabel" placeholder="напр. няма болка"></div>
+<div class="form-group"><label>Етикет при максимум</label><input type="text" id="tbMaxLabel" placeholder="напр. непоносима болка"></div>
+</div>
+</div>
+<div id="tbMultiBlock">
+<div class="tb-questions-head"><span>Въпроси и отговори</span><button type="button" class="btn-outline btn btn-sm" id="tbAddQuestion"><i class="fas fa-plus"></i> Въпрос</button></div>
+<div id="tbQuestions"></div>
+</div>
+<div class="form-group" style="margin-top:1.2rem;"><label>Кой да вижда теста?</label>
+<div class="tb-visibility">
+<label class="tb-vis-opt"><input type="radio" name="tbVisibility" value="clinic" checked><span><strong>Само моята клиника</strong><small>Виждат го само колегите от вашата клиника</small></span></label>
+<label class="tb-vis-opt"><input type="radio" name="tbVisibility" value="public"><span><strong>Публичен — всички клиники</strong><small>Виждат го всички клиники, работещи с PhysioBook</small></span></label>
+</div>
+</div>
+<div class="modal-actions" style="justify-content:flex-end;">
+<button type="button" class="btn-outline btn" id="tbCancelBtn">Отказ</button>
+<button type="submit" class="btn btn-success" id="tbSaveBtn"><i class="fas fa-save"></i> Запази теста</button>
+</div>
+</form>
+</div>
+</div>
+
 <div class="modal-overlay" id="substitutionModal">
 <div class="modal large">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
@@ -2491,6 +2566,10 @@ let services = {}, procedureTemplates = {}, categories = {}, templates = {};
 let messages = {};
 let notifications = {};
 let testResults = {};
+// Тестове, създадени от екипа (за разлика от вградените TESTS_DEFINITIONS).
+// Пазим само тези на АКТИВНАТА клиника; публичните на другите клиники се
+// взимат от `clinics` (виж getAvailableCustomTests).
+let customTests = {};
 let inventory = {};
 let inventoryMovements = {};
 let vouchers = {};
@@ -2511,6 +2590,7 @@ let isSwitchingClinic = false;
 let currentAptId = null;
 let currentTestCategory = 'all';
 let currentTestId = null;
+let editingTestId = null;   // кой потребителски тест се редактира в „Създай тест"
 let currentInvCategory = 'all';
 let currentInvItemId = null;
 let currentVoucherStatus = 'all';
@@ -3032,7 +3112,7 @@ async function switchClinic(newClinicId) {
   if (foundPatient) { currentPatient = foundPatient; currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], username: foundPatient.username, phone: foundPatient.phone }; sessionStorage.setItem('currentPatientId', foundPatient.id); sessionStorage.removeItem('currentUserId'); }
   else { currentUser = foundUser; currentPatient = null; sessionStorage.setItem('currentUserId', foundUser.id); sessionStorage.removeItem('currentPatientId'); }
   patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={}; exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={}; dossiers={};
-  services={}; procedureTemplates={}; categories={}; templates={}; messages={}; notifications={}; testResults={}; inventory={}; inventoryMovements={}; vouchers={}; substitutions={};
+  services={}; procedureTemplates={}; categories={}; templates={}; messages={}; notifications={}; testResults={}; customTests={}; inventory={}; inventoryMovements={}; vouchers={}; substitutions={};
   clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
   $('headerAvatar').textContent = getUserInitials(currentUser.name); $('headerUserName').textContent = currentUser.name;
   applyPermissions(); applyClinicHeader(); applyModuleVisibility(); renderClinicSwitcher(); startDataListeners();
@@ -3184,6 +3264,11 @@ async function startClinicsListener() {
 
 async function tryRestoreSession() {
   if (sessionRestored) return;
+  // Ако вече сме влезли в тази сесия (пряк вход през формата), няма какво да
+  // възстановяваме. Иначе loginSuccess() → applyPermissions() се изпълнява втори
+  // път (първият е в самия вход) и връща потребителя на „Табло" тъкмо когато е
+  // отворил друг модул.
+  if (currentUser) { sessionRestored = true; return; }
   const sid = sessionStorage.getItem('currentUserId');
   const pid = sessionStorage.getItem('currentPatientId');
   const cid = sessionStorage.getItem('activeClinicId');
@@ -3248,6 +3333,7 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => { messages = s.val() || {}; renderInbox(); renderSent(); updateMessagesBadge(); if (currentChatUserId) renderChat(); }));
   unsubscribers.push(onValue(ref(db, `${base}/notifications`), (s) => { notifications = s.val() || {}; renderNotifications(); updateNotificationsBadge(); }));
   unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/customTests`), (s) => { customTests = s.val() || {}; renderTestGrid(); renderTestHistory(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => { inventory = s.val() || {}; renderInventory(); renderInventoryStats(); renderInventoryCategoryChips(); renderInvMovItemFilter(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventoryMovements`), (s) => { inventoryMovements = s.val() || {}; renderInventoryMovementsList(); }));
   unsubscribers.push(onValue(ref(db, `${base}/vouchers`), (s) => { vouchers = s.val() || {}; renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); refreshAllVoucherHints(); }));
@@ -3514,7 +3600,7 @@ function openPatientProfile(patientId) {
   Object.entries(pricing).forEach(([, item]) => { if (item.patientId === patientId && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) totalSpent += v; } });
   const field = (label, val, icon) => val ? `<div class="profile-field"><div class="profile-field-label"><i class="fas ${icon || 'fa-info-circle'}"></i> ${label}</div><div class="profile-field-value">${escapeHtml(val)}</div></div>` : '';
   const assignedNames = (pat.assignedKineziIds || []).map(id => users[id]?.name || '?').join(', ') || '---';
-  $('profileContent').innerHTML = `<div class="profile-header"><div class="profile-avatar">${getUserInitials(pat.name)}</div><div class="profile-info"><h2>${escapeHtml(pat.name)}</h2><div class="contact">${pat.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(pat.phone)}</span>` : ''}${pat.email ? `<span><i class="fas fa-envelope"></i> ${escapeHtml(pat.email)}</span>` : ''}${pat.username ? `<span><i class="fas fa-user"></i> ${escapeHtml(pat.username)}</span>` : ''}${pat.archived ? `<span style="color:#ffb3b3;"><i class="fas fa-archive"></i> Архивиран</span>` : ''}</div></div></div><div class="stats-row"><div class="stat-card"><div class="label">Часове</div><div class="value">${myApts.length}</div></div><div class="stat-card"><div class="label">Процедури</div><div class="value">${myProcs.length}</div></div><div class="stat-card"><div class="label">Бележки</div><div class="value">${myNotes.length}</div></div><div class="stat-card"><div class="label">Тестове</div><div class="value">${myTests.length}</div></div><div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(totalSpent)} €</div></div></div>${(pat.egn || pat.birthDate || pat.gender || pat.address || pat.occupation || pat.insurance || pat.assignedKineziIds) ? `<div class="dash-section"><h3><i class="fas fa-user"></i> Лични данни</h3><div class="profile-grid">${field('ЕГН', pat.egn, 'fa-id-card')}${field('Дата на раждане', pat.birthDate ? formatDate(pat.birthDate) : '', 'fa-birthday-cake')}${field('Пол', pat.gender, 'fa-venus-mars')}${field('Професия', pat.occupation, 'fa-briefcase')}${field('Застраховка', pat.insurance, 'fa-shield-alt')}${field('Адрес', pat.address, 'fa-map-marker-alt')}${field('Обслужващи кинезитерапевти', assignedNames, 'fa-hands')}</div></div>` : ''}${(pat.complaint || pat.diagnosis || pat.anamnesis || pat.prevInjuries) ? `<div class="dash-section" style="border-left: 4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-stethoscope"></i> Клинична информация</h3>${field('Основно оплакване', pat.complaint, 'fa-comment-medical')}${field('Диагноза', pat.diagnosis, 'fa-file-medical')}${field('Анамнеза', pat.anamnesis, 'fa-history')}${field('Предишни травми / операции', pat.prevInjuries, 'fa-bone')}</div>` : ''}${(pat.medications || pat.allergies || pat.contraindications) ? `<div class="dash-section" style="border-left: 4px solid #b22234;"><h3 style="color:#b22234;"><i class="fas fa-pills"></i> Медикаменти и алергии</h3>${field('Медикаменти', pat.medications, 'fa-capsules')}${field('Алергии', pat.allergies, 'fa-allergies')}${field('Противопоказания', pat.contraindications, 'fa-ban')}</div>` : ''}${pat.goals ? `<div class="dash-section" style="border-left: 4px solid #0891b2;"><h3 style="color:#0891b2;"><i class="fas fa-bullseye"></i> Цели на пациента</h3>${field('', pat.goals, 'fa-flag-checkered')}</div>` : ''}${(pat.initialAssessment || pat.physicalExam || pat.workingDiagnosis || pat.treatmentPlan) ? `<div class="dash-section" style="border-left: 4px solid #6b3fa0;"><h3 style="color:#6b3fa0;"><i class="fas fa-clipboard-check"></i> Оценка и план</h3>${field('Първоначална оценка', pat.initialAssessment, 'fa-clipboard-list')}${field('Физикален преглед', pat.physicalExam, 'fa-user-md')}${field('Работна диагноза', pat.workingDiagnosis, 'fa-file-signature')}${field('План за лечение', pat.treatmentPlan, 'fa-notes-medical')}</div>` : ''}<div class="dash-section"><h3><i class="fas fa-history"></i> История на процедурите</h3>${myProcs.length === 0 ? `<div class="empty-message">Няма процедури</div>` : `<div class="timeline">${myProcs.slice(0, 20).map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`}</div><div class="dash-section"><h3><i class="fas fa-clipboard-check"></i> Резултати от тестове</h3>${myTests.length === 0 ? `<div class="empty-message">Няма тестове</div>` : myTests.slice(0, 15).map(t => { const def = TESTS_DEFINITIONS[t.testId]; const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${def ? def.icon : 'fa-clipboard-check'}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-calendar"></i> ${formatDate(t.date)}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div></div>`; }).join('')}</div><div class="dash-section"><h3><i class="fas fa-notes-medical"></i> Бележки от терапия</h3>${myNotes.length === 0 ? `<div class="empty-message">Няма бележки</div>` : myNotes.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge session"><i class="fas fa-notes-medical"></i> ${escapeHtml(n.therapyType || '')} · ${formatDate(n.date)}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="note-card-body">${escapeHtml(n.text)}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-clipboard-list"></i> SOAP бележки</h3>${mySoaps.length === 0 ? `<div class="empty-message">Няма SOAP</div>` : mySoaps.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge soap"><i class="fas fa-clipboard-list"></i> SOAP · ${formatDate(n.date)}${n.visitNum ? ' · №' + n.visitNum : ''}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="soap-view">${n.subjective ? `<div class="soap-view-block s"><div class="lbl">S</div>${escapeHtml(n.subjective)}</div>` : ''}${n.objective ? `<div class="soap-view-block o"><div class="lbl">O</div>${escapeHtml(n.objective)}</div>` : ''}${n.assessment ? `<div class="soap-view-block a"><div class="lbl">A</div>${escapeHtml(n.assessment)}</div>` : ''}${n.plan ? `<div class="soap-view-block p"><div class="lbl">P</div>${escapeHtml(n.plan)}</div>` : ''}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-folder-open"></i> Документи</h3>${myDocs.length === 0 ? `<div class="empty-message">Няма документи</div>` : myDocs.map(d => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge file"><i class="fas fa-folder"></i> ${escapeHtml(d.type || '')}${d.date ? ' · ' + formatDate(d.date) : ''}</span></div><div style="font-weight:600; color:#0b2b4f; margin-bottom:0.5rem;">${escapeHtml(d.name)}</div>${d.notes ? `<div class="note-card-body" style="margin-bottom:0.5rem;">${escapeHtml(d.notes)}</div>` : ''}<a href="${escapeHtml(d.url)}" target="_blank" rel="noopener" class="file-attachment"><i class="fas fa-external-link-alt"></i> Отвори</a></div>`).join('')}</div>`;
+  $('profileContent').innerHTML = `<div class="profile-header"><div class="profile-avatar">${getUserInitials(pat.name)}</div><div class="profile-info"><h2>${escapeHtml(pat.name)}</h2><div class="contact">${pat.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(pat.phone)}</span>` : ''}${pat.email ? `<span><i class="fas fa-envelope"></i> ${escapeHtml(pat.email)}</span>` : ''}${pat.username ? `<span><i class="fas fa-user"></i> ${escapeHtml(pat.username)}</span>` : ''}${pat.archived ? `<span style="color:#ffb3b3;"><i class="fas fa-archive"></i> Архивиран</span>` : ''}</div></div></div><div class="stats-row"><div class="stat-card"><div class="label">Часове</div><div class="value">${myApts.length}</div></div><div class="stat-card"><div class="label">Процедури</div><div class="value">${myProcs.length}</div></div><div class="stat-card"><div class="label">Бележки</div><div class="value">${myNotes.length}</div></div><div class="stat-card"><div class="label">Тестове</div><div class="value">${myTests.length}</div></div><div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(totalSpent)} €</div></div></div>${(pat.egn || pat.birthDate || pat.gender || pat.address || pat.occupation || pat.insurance || pat.assignedKineziIds) ? `<div class="dash-section"><h3><i class="fas fa-user"></i> Лични данни</h3><div class="profile-grid">${field('ЕГН', pat.egn, 'fa-id-card')}${field('Дата на раждане', pat.birthDate ? formatDate(pat.birthDate) : '', 'fa-birthday-cake')}${field('Пол', pat.gender, 'fa-venus-mars')}${field('Професия', pat.occupation, 'fa-briefcase')}${field('Застраховка', pat.insurance, 'fa-shield-alt')}${field('Адрес', pat.address, 'fa-map-marker-alt')}${field('Обслужващи кинезитерапевти', assignedNames, 'fa-hands')}</div></div>` : ''}${(pat.complaint || pat.diagnosis || pat.anamnesis || pat.prevInjuries) ? `<div class="dash-section" style="border-left: 4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-stethoscope"></i> Клинична информация</h3>${field('Основно оплакване', pat.complaint, 'fa-comment-medical')}${field('Диагноза', pat.diagnosis, 'fa-file-medical')}${field('Анамнеза', pat.anamnesis, 'fa-history')}${field('Предишни травми / операции', pat.prevInjuries, 'fa-bone')}</div>` : ''}${(pat.medications || pat.allergies || pat.contraindications) ? `<div class="dash-section" style="border-left: 4px solid #b22234;"><h3 style="color:#b22234;"><i class="fas fa-pills"></i> Медикаменти и алергии</h3>${field('Медикаменти', pat.medications, 'fa-capsules')}${field('Алергии', pat.allergies, 'fa-allergies')}${field('Противопоказания', pat.contraindications, 'fa-ban')}</div>` : ''}${pat.goals ? `<div class="dash-section" style="border-left: 4px solid #0891b2;"><h3 style="color:#0891b2;"><i class="fas fa-bullseye"></i> Цели на пациента</h3>${field('', pat.goals, 'fa-flag-checkered')}</div>` : ''}${(pat.initialAssessment || pat.physicalExam || pat.workingDiagnosis || pat.treatmentPlan) ? `<div class="dash-section" style="border-left: 4px solid #6b3fa0;"><h3 style="color:#6b3fa0;"><i class="fas fa-clipboard-check"></i> Оценка и план</h3>${field('Първоначална оценка', pat.initialAssessment, 'fa-clipboard-list')}${field('Физикален преглед', pat.physicalExam, 'fa-user-md')}${field('Работна диагноза', pat.workingDiagnosis, 'fa-file-signature')}${field('План за лечение', pat.treatmentPlan, 'fa-notes-medical')}</div>` : ''}<div class="dash-section"><h3><i class="fas fa-history"></i> История на процедурите</h3>${myProcs.length === 0 ? `<div class="empty-message">Няма процедури</div>` : `<div class="timeline">${myProcs.slice(0, 20).map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`}</div><div class="dash-section"><h3><i class="fas fa-clipboard-check"></i> Резултати от тестове</h3>${myTests.length === 0 ? `<div class="empty-message">Няма тестове</div>` : myTests.slice(0, 15).map(t => { const def = getTestDefinition(t.testId); const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${def ? def.icon : 'fa-clipboard-check'}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-calendar"></i> ${formatDate(t.date)}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div></div>`; }).join('')}</div><div class="dash-section"><h3><i class="fas fa-notes-medical"></i> Бележки от терапия</h3>${myNotes.length === 0 ? `<div class="empty-message">Няма бележки</div>` : myNotes.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge session"><i class="fas fa-notes-medical"></i> ${escapeHtml(n.therapyType || '')} · ${formatDate(n.date)}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="note-card-body">${escapeHtml(n.text)}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-clipboard-list"></i> SOAP бележки</h3>${mySoaps.length === 0 ? `<div class="empty-message">Няма SOAP</div>` : mySoaps.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge soap"><i class="fas fa-clipboard-list"></i> SOAP · ${formatDate(n.date)}${n.visitNum ? ' · №' + n.visitNum : ''}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="soap-view">${n.subjective ? `<div class="soap-view-block s"><div class="lbl">S</div>${escapeHtml(n.subjective)}</div>` : ''}${n.objective ? `<div class="soap-view-block o"><div class="lbl">O</div>${escapeHtml(n.objective)}</div>` : ''}${n.assessment ? `<div class="soap-view-block a"><div class="lbl">A</div>${escapeHtml(n.assessment)}</div>` : ''}${n.plan ? `<div class="soap-view-block p"><div class="lbl">P</div>${escapeHtml(n.plan)}</div>` : ''}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-folder-open"></i> Документи</h3>${myDocs.length === 0 ? `<div class="empty-message">Няма документи</div>` : myDocs.map(d => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge file"><i class="fas fa-folder"></i> ${escapeHtml(d.type || '')}${d.date ? ' · ' + formatDate(d.date) : ''}</span></div><div style="font-weight:600; color:#0b2b4f; margin-bottom:0.5rem;">${escapeHtml(d.name)}</div>${d.notes ? `<div class="note-card-body" style="margin-bottom:0.5rem;">${escapeHtml(d.notes)}</div>` : ''}<a href="${escapeHtml(d.url)}" target="_blank" rel="noopener" class="file-attachment"><i class="fas fa-external-link-alt"></i> Отвори</a></div>`).join('')}</div>`;
   scrollContentTop();
 }
 
@@ -3958,20 +4044,218 @@ const TESTS_DEFINITIONS = {
 };
 
 function renderTestsModule() { $('testsLibraryView').style.display = 'block'; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.remove('active'); renderTestGrid(); renderTestHistory(); renderTestPatientDropdown(); }
-function renderTestGrid() { const grid = $('testGrid'); const filtered = Object.values(TESTS_DEFINITIONS).filter(t => currentTestCategory === 'all' || t.category === currentTestCategory); if (filtered.length === 0) { grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма тестове в тази категория</div>`; return; } grid.innerHTML = filtered.map(t => `<div class="test-card ${t.colorClass}" data-test-id="${t.id}"><div class="test-card-header"><div class="test-card-icon"><i class="fas ${t.icon}"></i></div></div><h3>${escapeHtml(t.name)}</h3><div class="test-card-sub">${escapeHtml(t.description)}</div><div class="test-card-meta"><span><i class="fas fa-tag"></i> ${getTestCategoryLabel(t.category)}</span>${t.type === 'multi' ? `<span><i class="fas fa-list-ol"></i> ${t.questions.length} въпроса</span>` : `<span><i class="fas fa-sliders-h"></i> ${t.min}--${t.max}</span>`}</div></div>`).join(''); grid.querySelectorAll('.test-card').forEach(card => { card.addEventListener('click', () => openTestForm(card.dataset.testId)); }); }
+// ── Потребителски тестове (създадени от екипа) ───────────────────────────
+// Всички налични: собствените на активната клиника (публични и частни) плюс
+// ПУБЛИЧНИТЕ на всички останали клиники. Последните се виждат, защото всяка
+// сесия чете цялото дърво `clinics` (виж startClinicsListener) — затова не е
+// нужен нов корен в базата и не се пипат правилата.
+function getAvailableCustomTests() {
+  const out = {};
+  Object.entries(customTests || {}).forEach(([id, t]) => { if (t) out[id] = Object.assign({}, t, { id, _own: true, _clinicId: activeClinicId }); });
+  Object.entries(clinics || {}).forEach(([cid, clinic]) => {
+    if (cid === activeClinicId) return;
+    Object.entries((clinic && clinic.customTests) || {}).forEach(([id, t]) => { if (t && t.isPublic) out[id] = Object.assign({}, t, { id, _own: false, _clinicId: cid }); });
+  });
+  return out;
+}
+// Записът от базата → формата, който двигателят на тестовете очаква.
+// Функциите calculate/interpretation не могат да се съхранят, затова се
+// възстановяват тук.
+function normalizeCustomTest(t) {
+  if (!t) return null;
+  const n = (v, d) => { const x = parseFloat(v); return isNaN(x) ? d : x; };
+  const base = { id: t.id, name: t.name || 'Тест', description: t.description || '', category: t.category || 'other', icon: 'fa-clipboard-check', colorClass: 'custom', custom: true, isPublic: !!t.isPublic, createdByName: t.createdByName || '', _own: !!t._own };
+  if (t.type === 'numeric') {
+    const min = n(t.min, 0), max = n(t.max, 10);
+    return Object.assign(base, { type: 'numeric', min, max: max > min ? max : min + 1, step: n(t.step, 1) || 1, minLabel: t.minLabel || '', maxLabel: t.maxLabel || '', scoreUnit: t.scoreUnit || '' });
+  }
+  const qs = Array.isArray(t.questions) ? t.questions : [];
+  return Object.assign(base, {
+    type: 'multi', scoreUnit: t.scoreUnit || '',
+    questions: qs.map(q => ({ text: q.text || '', options: (Array.isArray(q.options) ? q.options : []).map(o => ({ label: o.label || '', score: n(o.score, 0) })) })),
+    calculate: (answers) => answers.reduce((a, b) => a + b, 0)
+  });
+}
+// Единна точка за търсене — вграден или потребителски тест.
+function getTestDefinition(id) { if (TESTS_DEFINITIONS[id]) return TESTS_DEFINITIONS[id]; const c = getAvailableCustomTests()[id]; return c ? normalizeCustomTest(c) : null; }
+function renderTestGrid() {
+  const grid = $('testGrid'); if (!grid) return;
+  const all = Object.values(TESTS_DEFINITIONS).concat(Object.values(getAvailableCustomTests()).map(normalizeCustomTest).filter(Boolean));
+  const filtered = all.filter(t => currentTestCategory === 'all' || t.category === currentTestCategory);
+  if (filtered.length === 0) { grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма тестове в тази категория</div>`; return; }
+  grid.innerHTML = filtered.map(t => {
+    const badge = t.custom ? `<span class="tcb-badge ${t.isPublic ? 'public' : 'clinic'}"><i class="fas ${t.isPublic ? 'fa-globe' : 'fa-clinic-medical'}"></i> ${t.isPublic ? 'Публичен' : 'Моята клиника'}</span>` : '';
+    const tools = (t.custom && t._own) ? `<div class="test-card-tools"><button type="button" class="tc-edit" data-test-id="${t.id}" title="Редакция"><i class="fas fa-edit"></i></button><button type="button" class="tc-del" data-test-id="${t.id}" title="Изтрий"><i class="fas fa-trash-alt"></i></button></div>` : '';
+    const meta = t.type === 'multi' ? `<span><i class="fas fa-list-ol"></i> ${t.questions.length} въпроса</span>` : `<span><i class="fas fa-sliders-h"></i> ${t.min}--${t.max}</span>`;
+    return `<div class="test-card ${t.colorClass}" data-test-id="${t.id}">${tools}<div class="test-card-header"><div class="test-card-icon"><i class="fas ${t.icon}"></i></div></div><h3>${escapeHtml(t.name)}</h3><div class="test-card-sub">${escapeHtml(t.description)}</div><div class="test-card-meta">${badge}<span><i class="fas fa-tag"></i> ${getTestCategoryLabel(t.category)}</span>${meta}</div></div>`;
+  }).join('');
+  grid.querySelectorAll('.test-card').forEach(card => { card.addEventListener('click', (e) => { if (e.target.closest('.test-card-tools')) return; openTestForm(card.dataset.testId); }); });
+  grid.querySelectorAll('.tc-edit').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); openTestBuilder(b.dataset.testId); }));
+  grid.querySelectorAll('.tc-del').forEach(b => b.addEventListener('click', (e) => { e.stopPropagation(); deleteCustomTest(b.dataset.testId); }));
+}
 function getTestCategoryLabel(cat) { const map = { pain: 'Болка', spine: 'Гръб', upper: 'Горен крайник', lower: 'Долен крайник', balance: 'Баланс', other: 'Друго' }; return map[cat] || cat; }
 document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(tab => { tab.addEventListener('click', () => { currentTestCategory = tab.dataset.testCat; document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(t => t.classList.toggle('active', t === tab)); renderTestGrid(); }); });
 function renderTestPatientDropdown() { const sel = $('testPatient'); if (!sel) return; const active = getPatientsForUser().filter(p => !p.archived).map(p => ({ id: p.id, name: p.name })).sort((a,b) => a.name.localeCompare(b.name)); const cur = sel.value; sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p => p.id === cur)) sel.value = cur; }
-function openTestForm(testId) { const test = TESTS_DEFINITIONS[testId]; if (!test) return; currentTestId = testId; $('testCurrentId').value = testId; $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; $('testDate').value = new Date().toISOString().split('T')[0]; const container = $('testQuestionsContainer'); if (test.type === 'numeric') { const step = test.step || 1; container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} --- ${escapeHtml(test.maxLabel)}</span></div></div>`; } else { container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); } $('testsLibraryView').style.display = 'none'; $('testResultContainer').classList.remove('active'); $('testFormContainer').classList.add('active'); scrollContentTop(); }
+function openTestForm(testId) { const test = getTestDefinition(testId); if (!test) return; currentTestId = testId; $('testCurrentId').value = testId; $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; $('testDate').value = new Date().toISOString().split('T')[0]; const container = $('testQuestionsContainer'); if (test.type === 'numeric') { const step = test.step || 1; container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} --- ${escapeHtml(test.maxLabel)}</span></div></div>`; } else { container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); } $('testsLibraryView').style.display = 'none'; $('testResultContainer').classList.remove('active'); $('testFormContainer').classList.add('active'); scrollContentTop(); }
 $('backToTestsBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
 $('testCancelBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
-$('testResetBtn').addEventListener('click', () => { if (!currentTestId) return; const test = TESTS_DEFINITIONS[currentTestId]; if (!confirm('Да изчистя ли отговорите?')) return; if (test.type === 'numeric') { $('testNumericInput').value = ''; } else { $('testQuestionsContainer').querySelectorAll('.test-option').forEach(o => o.classList.remove('selected')); $('testQuestionsContainer').querySelectorAll('input[type="radio"]').forEach(i => i.checked = false); } });
-$('testForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('testPatient').value; const date = $('testDate').value; if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; } if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; } const test = TESTS_DEFINITIONS[currentTestId]; let answers = [], score = 0; if (test.type === 'numeric') { const val = parseFloat($('testNumericInput').value); if (isNaN(val) || val < test.min || val > test.max) { showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error'); return; } score = val; answers = [val]; } else { const qCount = test.questions.length; for (let i = 0; i < qCount; i++) { const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`); if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; } answers.push(parseInt(selected.dataset.score)); } score = test.calculate(answers); } $('testSaveBtn').disabled = true; try { await set(push(clinicRef('testResults')), { testId: currentTestId, testName: test.name, patientId, date, answers, score, scoreUnit: test.scoreUnit || '', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); showTestResult(test, score, patientId, date); showToast('Резултатът е запазен.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('testSaveBtn').disabled = false; } });
+$('testResetBtn').addEventListener('click', () => { if (!currentTestId) return; const test = getTestDefinition(currentTestId); if (!confirm('Да изчистя ли отговорите?')) return; if (test.type === 'numeric') { $('testNumericInput').value = ''; } else { $('testQuestionsContainer').querySelectorAll('.test-option').forEach(o => o.classList.remove('selected')); $('testQuestionsContainer').querySelectorAll('input[type="radio"]').forEach(i => i.checked = false); } });
+$('testForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('testPatient').value; const date = $('testDate').value; if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; } if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; } const test = getTestDefinition(currentTestId); let answers = [], score = 0; if (test.type === 'numeric') { const val = parseFloat($('testNumericInput').value); if (isNaN(val) || val < test.min || val > test.max) { showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error'); return; } score = val; answers = [val]; } else { const qCount = test.questions.length; for (let i = 0; i < qCount; i++) { const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`); if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; } answers.push(parseInt(selected.dataset.score)); } score = test.calculate(answers); } $('testSaveBtn').disabled = true; try { await set(push(clinicRef('testResults')), { testId: currentTestId, testName: test.name, patientId, date, answers, score, scoreUnit: test.scoreUnit || '', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); showTestResult(test, score, patientId, date); showToast('Резултатът е запазен.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('testSaveBtn').disabled = false; } });
 function showTestResult(test, score, patientId, date) { const interp = test.interpretation ? test.interpretation(score) : { label: '---', class: '' }; const patient = patients[patientId]; const pn = patient ? patient.name : '---'; $('testResultContent').innerHTML = `<div class="test-result-card"><div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div><div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div><div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div></div><div class="apt-manage-info"><div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div><div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div><div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div></div>`; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.add('active'); scrollContentTop(); }
 $('backToTestsFromResultBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultCloseBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultNewBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
-function renderTestHistory() { const list = $('testHistoryList'); if (!list) return; const all = getTestResultsForUser().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (all.length === 0) { list.innerHTML = `<div class="empty-message">Няма попълнени тестове</div>`; return; } list.innerHTML = all.slice(0, 50).map(t => { const def = TESTS_DEFINITIONS[t.testId]; const icon = def ? def.icon : 'fa-clipboard-check'; const colorClass = def ? def.colorClass : 'other'; const pat = patients[t.patientId]; const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-calendar"></i> ${formatDate(t.date)} · ${t.createdByName ? escapeHtml(t.createdByName) : ''}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div><button class="btn-danger-outline btn btn-sm delete-test-result" data-id="${t.id}"><i class="fas fa-trash-alt"></i></button></div>`; }).join(''); list.querySelectorAll('.delete-test-result').forEach(btn => { btn.addEventListener('click', async (e) => { e.stopPropagation(); if (!confirm('Изтрий този резултат?')) return; try { await remove(clinicRef(`testResults/${btn.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }); }); }
+function renderTestHistory() { const list = $('testHistoryList'); if (!list) return; const all = getTestResultsForUser().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); if (all.length === 0) { list.innerHTML = `<div class="empty-message">Няма попълнени тестове</div>`; return; } list.innerHTML = all.slice(0, 50).map(t => { const def = getTestDefinition(t.testId); const icon = def ? def.icon : 'fa-clipboard-check'; const colorClass = def ? def.colorClass : 'other'; const pat = patients[t.patientId]; const pn = pat ? escapeHtml(pat.name) : 'неизвестен'; const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon test-card ${colorClass}" style="padding:0;"><i class="fas ${icon}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-user"></i> ${pn} · <i class="fas fa-calendar"></i> ${formatDate(t.date)} · ${t.createdByName ? escapeHtml(t.createdByName) : ''}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div><button class="btn-danger-outline btn btn-sm delete-test-result" data-id="${t.id}"><i class="fas fa-trash-alt"></i></button></div>`; }).join(''); list.querySelectorAll('.delete-test-result').forEach(btn => { btn.addEventListener('click', async (e) => { e.stopPropagation(); if (!confirm('Изтрий този резултат?')) return; try { await remove(clinicRef(`testResults/${btn.dataset.id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } }); }); }
+
+// ==================== СЪЗДАЙ ТЕСТ ====================
+// Формата се чете направо от DOM-а, вместо да се пази отделен модел в JS —
+// така добавянето и изтриването на въпроси/отговори не може да се разсинхронизира.
+function tbOptionRow(label, score) {
+  const l = (label === undefined || label === null) ? '' : String(label);
+  const s = (score === undefined || score === null || isNaN(parseFloat(score))) ? 0 : score;
+  return `<div class="tb-option"><input type="text" class="tb-opt-label" value="${escapeHtml(l)}" placeholder="Отговор"><input type="number" class="tb-opt-score" value="${escapeHtml(String(s))}" step="any" title="Точки"><button type="button" class="tb-remove-o" title="Изтрий отговора"><i class="fas fa-times"></i></button></div>`;
+}
+function tbQuestionBlock(text, options) {
+  const t = (text === undefined || text === null) ? '' : String(text);
+  const opts = (Array.isArray(options) && options.length) ? options : [{ label: '', score: 0 }, { label: '', score: 1 }];
+  return `<div class="tb-question"><div class="tb-q-head"><span class="tb-q-num"></span><input type="text" class="tb-q-text" value="${escapeHtml(t)}" placeholder="Текст на въпроса"><button type="button" class="tb-remove-q" title="Изтрий въпроса"><i class="fas fa-trash-alt"></i></button></div><div class="tb-options">${opts.map(o => tbOptionRow(o.label, o.score)).join('')}</div><button type="button" class="tb-add-option"><i class="fas fa-plus"></i> Отговор</button></div>`;
+}
+function tbRenumber() {
+  const wrap = $('tbQuestions'); if (!wrap) return;
+  const qs = wrap.querySelectorAll('.tb-question');
+  if (qs.length === 0) { wrap.innerHTML = '<div class="tb-empty">Още няма въпроси — натиснете „Въпрос".</div>'; return; }
+  qs.forEach((q, i) => { const n = q.querySelector('.tb-q-num'); if (n) n.textContent = i + 1; });
+}
+function applyTestBuilderType() {
+  const type = $('tbType').value;
+  $('tbNumericBlock').style.display = type === 'numeric' ? '' : 'none';
+  $('tbMultiBlock').style.display = type === 'multi' ? '' : 'none';
+  if (type === 'multi') { const wrap = $('tbQuestions'); if (wrap && !wrap.querySelector('.tb-question')) wrap.innerHTML = tbQuestionBlock(); tbRenumber(); }
+}
+function openTestBuilder(testId) {
+  const form = $('testBuilderForm'); if (!form) return;
+  form.reset();
+  editingTestId = null;
+  $('tbId').value = '';
+  $('testBuilderTitle').textContent = 'Създай тест';
+  $('tbCategory').value = 'other';
+  $('tbType').value = 'numeric';
+  $('tbMin').value = 0; $('tbMax').value = 10; $('tbStep').value = 1;
+  $('tbMinLabel').value = ''; $('tbMaxLabel').value = ''; $('tbUnit').value = '';
+  $('tbQuestions').innerHTML = '';
+  const cv = document.querySelector('input[name="tbVisibility"][value="clinic"]'); if (cv) cv.checked = true;
+
+  const t = testId ? customTests[testId] : null;
+  if (t) {
+    editingTestId = testId;
+    $('tbId').value = testId;
+    $('testBuilderTitle').textContent = 'Редакция на тест';
+    $('tbName').value = t.name || '';
+    $('tbDesc').value = t.description || '';
+    $('tbCategory').value = t.category || 'other';
+    $('tbType').value = t.type === 'multi' ? 'multi' : 'numeric';
+    $('tbUnit').value = t.scoreUnit || '';
+    $('tbMin').value = (t.min === undefined || t.min === null) ? 0 : t.min;
+    $('tbMax').value = (t.max === undefined || t.max === null) ? 10 : t.max;
+    $('tbStep').value = (t.step === undefined || t.step === null) ? 1 : t.step;
+    $('tbMinLabel').value = t.minLabel || ''; $('tbMaxLabel').value = t.maxLabel || '';
+    if (Array.isArray(t.questions)) $('tbQuestions').innerHTML = t.questions.map(q => tbQuestionBlock(q.text, q.options)).join('');
+    const pv = document.querySelector(`input[name="tbVisibility"][value="${t.isPublic ? 'public' : 'clinic'}"]`); if (pv) pv.checked = true;
+  }
+  applyTestBuilderType();
+  $('testBuilderModal').classList.add('active');
+  setTimeout(() => { const n = $('tbName'); if (n) n.focus(); }, 80);
+}
+function closeTestBuilder() { $('testBuilderModal').classList.remove('active'); editingTestId = null; }
+// Чете формата. Връща { data } или { error }.
+function collectTestBuilderData() {
+  const name = $('tbName').value.trim();
+  if (!name) return { error: 'Въведете име на теста.' };
+  const type = $('tbType').value;
+  const data = { name, description: $('tbDesc').value.trim(), category: $('tbCategory').value || 'other', type, scoreUnit: $('tbUnit').value.trim(), isPublic: (document.querySelector('input[name="tbVisibility"]:checked') || {}).value === 'public' };
+  if (type === 'numeric') {
+    const min = parseFloat($('tbMin').value), max = parseFloat($('tbMax').value), step = parseFloat($('tbStep').value);
+    if (isNaN(min) || isNaN(max)) return { error: 'Въведете минимум и максимум на скалата.' };
+    if (max <= min) return { error: 'Максимумът трябва да е по-голям от минимума.' };
+    data.min = min; data.max = max; data.step = (isNaN(step) || step <= 0) ? 1 : step;
+    data.minLabel = $('tbMinLabel').value.trim(); data.maxLabel = $('tbMaxLabel').value.trim();
+  } else {
+    const qs = Array.from(document.querySelectorAll('#tbQuestions .tb-question')).map(q => ({
+      text: q.querySelector('.tb-q-text').value.trim(),
+      options: Array.from(q.querySelectorAll('.tb-option')).map(o => ({ label: o.querySelector('.tb-opt-label').value.trim(), score: parseFloat(o.querySelector('.tb-opt-score').value) || 0 }))
+    }));
+    if (qs.length === 0) return { error: 'Добавете поне един въпрос.' };
+    for (let i = 0; i < qs.length; i++) {
+      if (!qs[i].text) return { error: `Въведете текст на въпрос ${i + 1}.` };
+      if (qs[i].options.length < 2) return { error: `Въпрос ${i + 1} трябва да има поне два отговора.` };
+      if (qs[i].options.some(o => !o.label)) return { error: `Попълнете всички отговори на въпрос ${i + 1}.` };
+    }
+    data.questions = qs;
+  }
+  return { data };
+}
+$('createTestBtn')?.addEventListener('click', () => {
+  if (isOnlyPatient(currentUser)) { showToast('Нямате права да създавате тестове.', 'error'); return; }
+  openTestBuilder(null);
+});
+$('testBuilderClose')?.addEventListener('click', closeTestBuilder);
+$('tbCancelBtn')?.addEventListener('click', closeTestBuilder);
+$('testBuilderModal')?.addEventListener('click', (e) => { if (e.target === $('testBuilderModal')) closeTestBuilder(); });
+$('tbType')?.addEventListener('change', applyTestBuilderType);
+$('tbAddQuestion')?.addEventListener('click', () => {
+  const wrap = $('tbQuestions'); if (!wrap) return;
+  if (wrap.querySelector('.tb-empty')) wrap.innerHTML = '';
+  wrap.insertAdjacentHTML('beforeend', tbQuestionBlock());
+  tbRenumber();
+});
+$('tbQuestions')?.addEventListener('click', (e) => {
+  if (e.target.closest('.tb-add-option')) { const q = e.target.closest('.tb-question'); if (q) q.querySelector('.tb-options').insertAdjacentHTML('beforeend', tbOptionRow()); return; }
+  if (e.target.closest('.tb-remove-q')) {
+    if (document.querySelectorAll('#tbQuestions .tb-question').length <= 1) { showToast('Трябва да има поне един въпрос.', 'error'); return; }
+    const q = e.target.closest('.tb-question'); if (q) q.remove(); tbRenumber(); return;
+  }
+  if (e.target.closest('.tb-remove-o')) {
+    const o = e.target.closest('.tb-option'); if (!o) return;
+    const list = o.parentElement;
+    if (list.querySelectorAll('.tb-option').length <= 2) { showToast('Въпросът трябва да има поне два отговора.', 'error'); return; }
+    o.remove(); return;
+  }
+});
+$('testBuilderForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const r = collectTestBuilderData();
+  if (r.error) { showToast(r.error, 'error'); return; }
+  $('tbSaveBtn').disabled = true;
+  try {
+    const payload = Object.assign({}, r.data, { clinicId: activeClinicId, clinicName: clinicSettings.name || activeClinic?.name || '', updatedAt: Date.now() });
+    if (editingTestId) {
+      const prev = customTests[editingTestId] || {};
+      payload.createdAt = prev.createdAt || Date.now();
+      payload.createdBy = prev.createdBy || currentUser.id;
+      payload.createdByName = prev.createdByName || currentUser.name || '';
+      // ⚠️ set() замества ЦЕЛИЯ възел — нарочно, за да не останат стари въпроси
+      // или отговори, ако новият списък е по-къс.
+      await set(clinicRef(`customTests/${editingTestId}`), payload);
+      showToast('Тестът е обновен.', 'success');
+    } else {
+      payload.createdAt = Date.now();
+      payload.createdBy = currentUser.id;
+      payload.createdByName = currentUser.name || '';
+      await set(push(clinicRef('customTests')), payload);
+      showToast('Тестът е създаден.', 'success');
+    }
+    closeTestBuilder();
+    renderTestGrid();
+  } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+  finally { $('tbSaveBtn').disabled = false; }
+});
+async function deleteCustomTest(testId) {
+  const t = customTests[testId];
+  if (!t) { showToast('Тестът не е намерен.', 'error'); return; }
+  if (!confirm(`Да изтрия ли теста „${t.name}"?`)) return;
+  try { await remove(clinicRef(`customTests/${testId}`)); showToast('Тестът е изтрит.', 'success'); }
+  catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+}
 
 // ==================== INVENTORY ====================
 const INV_CATEGORY_ICONS = { 'Ластици': 'fa-circle-notch', 'Електроди': 'fa-bolt', 'Масла': 'fa-tint', 'Ортези': 'fa-shoe-prints', 'Консумативи': 'fa-box', 'Инструменти': 'fa-tools', 'Тейпове': 'fa-tape', 'Игли': 'fa-syringe', 'Друго': 'fa-cube' };
