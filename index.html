@@ -29,9 +29,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
-html, body { overflow-x: hidden; max-width: 100vw; }
+/* Приложението е с фиксирана височина колкото екрана — скролва САМО .main.
+   Така хедърът и страничното меню не мърдат при скролване.
+   ⚠️ Преди body растеше заедно със съдържанието, скролваше се viewport-ът, а
+   `position: sticky` на хедъра и на менюто беше инертен (body никога не
+   скролва сам) — затова и двете изчезваха нагоре при скрол. */
+html, body { height: 100%; overflow: hidden; max-width: 100vw; }
 /* --header-h се измерва в реални пиксели от JS (syncHeaderHeight) и се използва
-   от страничното меню, за да залепне точно под хедъра без бяла ивица между тях. */
+   от страничните панели (съобщения, известия), за да застанат точно под хедъра
+   без бяла ивица между тях. */
 :root { --header-h: 54px; }
 body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, #0b2b4f 0%, #1e4a78 100%); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
@@ -60,9 +66,9 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .login-password-wrap input { padding-right: 2.9rem; }
 .login-eye { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border: none; background: transparent; color: #7f95b0; cursor: pointer; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
 .login-eye:hover { color: #0b2b4f; background: #eef4fb; }
-.app { display: flex; flex-direction: column; width: 100%; min-height: 100vh; max-width: 100vw; overflow-x: hidden; }
+.app { display: flex; flex-direction: column; width: 100%; height: 100vh; height: 100dvh; max-width: 100vw; overflow: hidden; }
 .app.hidden { display: none !important; }
-.app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.6rem 1rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: sticky; top: 0; z-index: 100; max-width: 100vw; }
+.app-header { background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; padding: 0.6rem 1rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); position: relative; flex-shrink: 0; z-index: 100; max-width: 100vw; }
 .header-left { display: flex; align-items: center; gap: 10px; }
 .header-logo { width: 36px; height: 36px; border-radius: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
 .header-logo svg { width: 90%; height: 90%; }
@@ -96,11 +102,13 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .header-user:hover { background: rgba(255, 255, 255, 0.15); }
 .header-user .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: #ffffff; color: #0b2b4f; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; }
 .header-user .user-name { font-size: 0.8rem; font-weight: 500; color: #ffffff; }
-.app-body { display: flex; flex: 1; min-height: calc(100vh - var(--header-h, 54px)); max-width: 100vw; overflow-x: hidden; }
-/* top:0 — контейнерът .app-body вече започва точно под хедъра, затова
-   страничното меню се залепва за горния му ръб. Всяка стойност >0 го
-   избутва надолу и между хедъра и менюто остава бяла ивица. */
-.sidebar { width: 260px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.2rem 0.5rem; position: sticky; top: 0; height: calc(100vh - var(--header-h, 54px)); overflow-y: auto; flex-shrink: 0; z-index: 90; }
+/* min-height:0 е задължително — без него flex елементът не може да се свие
+   под размера на съдържанието си и цялата фиксирана височина се разваля. */
+.app-body { display: flex; flex: 1 1 auto; min-height: 0; max-width: 100vw; overflow: hidden; }
+/* Менюто е в нормалния поток и се разпъва до височината на .app-body
+   (align-items: stretch по подразбиране). Вътрешният му скрол е само за
+   случаите, в които модулите не се събират на екрана. */
+.sidebar { width: 260px; background-color: #0b2b4f; color: #ffffff; display: flex; flex-direction: column; padding: 1.2rem 0.5rem; position: relative; height: auto; overflow-y: auto; flex: 0 0 auto; z-index: 90; }
 .sidebar.collapsed { width: 0; overflow: hidden; padding: 0; }
 .nav { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0.6rem; }
 .nav-item { display: flex; align-items: center; gap: 12px; padding: 0.7rem 1rem; border-radius: 12px; font-size: 0.9rem; font-weight: 500; color: #e0edff; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; }
@@ -121,7 +129,8 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .support-info .support-phone i { color: #3fb8b0; font-size: 0.8rem; }
 .support-info .support-hours { font-size: 0.7rem; color: #7fb2e5; font-style: italic; display: flex; align-items: center; justify-content: center; gap: 4px; }
 .support-info .support-hours i { font-size: 0.65rem; }
-.main { flex: 1; background-color: #f8fbfe; padding: 1.5rem 2rem; overflow-y: auto; width: 100%; max-width: 100vw; overflow-x: hidden; }
+/* Единственият скрол-контейнер в приложението. */
+.main { flex: 1 1 auto; min-width: 0; min-height: 0; background-color: #f8fbfe; padding: 1.5rem 2rem; overflow-y: auto; overflow-x: hidden; width: 100%; max-width: 100vw; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .module { display: none; animation: fade 0.2s ease; }
 .module.active { display: block; }
 @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
@@ -509,7 +518,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .role-checkbox-box { width: 18px; height: 18px; border-radius: 5px; border: 2px solid #cfddee; display: flex; align-items: center; justify-content: center; color: transparent; font-size: 0.65rem; flex-shrink: 0; transition: 0.15s; }
 .role-checkbox input:checked ~ .role-checkbox-box { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
 .role-checkbox:has(input:checked) { border-color: #1e4a78; background: #e8f0fe; }
-.messages-panel { position: fixed; top: var(--header-h, 54px); right: 0; width: 420px; max-width: 100vw; height: calc(100vh - var(--header-h, 54px)); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
+.messages-panel { position: fixed; top: var(--header-h, 54px); right: 0; width: 420px; max-width: 100vw; height: calc(100vh - var(--header-h, 54px)); height: calc(100dvh - var(--header-h, 54px)); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .messages-panel.open { transform: translateX(0); }
 .messages-header { padding: 1rem 1.2rem; background: linear-gradient(135deg, #1e4a78 0%, #0b2b4f 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 .messages-header h2 { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -568,7 +577,7 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .chat-send-btn:hover { background: #0b2b4f; transform: scale(1.05); }
 .msg-empty { text-align: center; padding: 2rem 1rem; color: #7f95b0; font-style: italic; font-size: 0.85rem; }
 .msg-empty i { display: block; font-size: 2rem; margin-bottom: 0.6rem; color: #cfddee; }
-.notif-panel { position: fixed; top: var(--header-h, 54px); right: 0; width: 400px; max-width: 100vw; height: calc(100vh - var(--header-h, 54px)); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
+.notif-panel { position: fixed; top: var(--header-h, 54px); right: 0; width: 400px; max-width: 100vw; height: calc(100vh - var(--header-h, 54px)); height: calc(100dvh - var(--header-h, 54px)); background: #ffffff; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15); z-index: 500; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; }
 .notif-panel.open { transform: translateX(0); }
 .notif-header { padding: 1rem 1.2rem; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 .notif-header h2 { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -837,6 +846,10 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .sub-apt-item .apt-select { flex-shrink: 0; }
 .sub-apt-item .apt-select select { padding: 0.4rem 0.7rem; border-radius: 8px; border: 1px solid #cfddee; font-size: 0.8rem; font-family: inherit; background: #fff; font-weight: 600; color: #0b2b4f; }
 @media print {
+  /* Фиксираната височина на приложението би отрязала всичко след първата
+     страница при печат — затова тук я връщаме към нормалния поток. */
+  html, body { height: auto !important; overflow: visible !important; }
+  .app, .app-body, .main { height: auto !important; overflow: visible !important; }
   body * { visibility: hidden; }
   #voucherPrintContainer, #voucherPrintContainer * { visibility: visible; }
   #voucherPrintContainer { position: absolute; left: 0; top: 0; width: 100%; }
@@ -3047,6 +3060,15 @@ function doLogout() { if (confirm('Сигурни ли сте?')) { sessionStora
 // Страничното меню: на телефон/таблет (≤1024px) се сгъва/разгъва като изтеглящ се панел,
 // на десктоп се свива до нулева ширина.
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+// Скролва съдържанието на модула обратно най-горе.
+// ⚠️ window.scrollTo вече не прави нищо — страницата е с фиксирана височина и
+// единственият скрол-контейнер е .main. Ако някой върне window.scrollTo,
+// бутоните „назад" ще спрат да връщат изгледа най-горе.
+function scrollContentTop() {
+  const m = document.querySelector('.main');
+  if (m) m.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function isDrawerMode() { return window.innerWidth <= 1024; }
 function closeSidebarDrawer() {
   const sb = $('sidebar'); if (sb) sb.classList.remove('open');
@@ -3065,16 +3087,16 @@ if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebarDrawe
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebarDrawer(); });
 window.addEventListener('resize', () => { if (!isDrawerMode()) closeSidebarDrawer(); });
 
-// ── Залепване на страничното меню за хедъра ────────────────────────────────
-// Височината на хедъра не е константа (зависи от размера на логото, от
-// safe-area inset-а на телефона и от това дали текстът се събира на един ред).
-// Затова я измерваме в реални пиксели и я записваме в CSS променливата
-// --header-h, която .sidebar използва за top/height. Така между хедъра и
-// менюто не остава бяла ивица при нито една ширина на екрана.
+// ── Височина на хедъра ─────────────────────────────────────────────────────
+// Височината не е константа (зависи от размера на логото, от safe-area inset-а
+// на телефона и от това дали текстът се събира на един ред). Затова я измерваме
+// в реални пиксели и я записваме в --header-h, която ползват страничните панели
+// (съобщения, известия), за да застанат точно под хедъра.
+// Менюто вече не зависи от нея — то е в нормалния поток на .app-body.
 const appHeaderEl = document.querySelector('.app-header');
 function syncHeaderHeight() {
   if (!appHeaderEl) return;
-  // Math.floor (а не round): менюто трябва да започва на или МАЛКО НАД долния
+  // Math.floor (а не round): панелите трябва да започват на или МАЛКО НАД долния
   // ръб на хедъра. При закръгляне нагоре оставаше бяла линия от частичен пиксел.
   const px = Math.floor(appHeaderEl.getBoundingClientRect().height);
   if (px > 0) document.documentElement.style.setProperty('--header-h', px + 'px');
@@ -3378,7 +3400,7 @@ function openPatientProfile(patientId) {
   const field = (label, val, icon) => val ? `<div class="profile-field"><div class="profile-field-label"><i class="fas ${icon || 'fa-info-circle'}"></i> ${label}</div><div class="profile-field-value">${escapeHtml(val)}</div></div>` : '';
   const assignedNames = (pat.assignedKineziIds || []).map(id => users[id]?.name || '?').join(', ') || '---';
   $('profileContent').innerHTML = `<div class="profile-header"><div class="profile-avatar">${getUserInitials(pat.name)}</div><div class="profile-info"><h2>${escapeHtml(pat.name)}</h2><div class="contact">${pat.phone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(pat.phone)}</span>` : ''}${pat.email ? `<span><i class="fas fa-envelope"></i> ${escapeHtml(pat.email)}</span>` : ''}${pat.username ? `<span><i class="fas fa-user"></i> ${escapeHtml(pat.username)}</span>` : ''}${pat.archived ? `<span style="color:#ffb3b3;"><i class="fas fa-archive"></i> Архивиран</span>` : ''}</div></div></div><div class="stats-row"><div class="stat-card"><div class="label">Часове</div><div class="value">${myApts.length}</div></div><div class="stat-card"><div class="label">Процедури</div><div class="value">${myProcs.length}</div></div><div class="stat-card"><div class="label">Бележки</div><div class="value">${myNotes.length}</div></div><div class="stat-card"><div class="label">Тестове</div><div class="value">${myTests.length}</div></div><div class="stat-card"><div class="label">Общо платено</div><div class="value">${formatPrice(totalSpent)} €</div></div></div>${(pat.egn || pat.birthDate || pat.gender || pat.address || pat.occupation || pat.insurance || pat.assignedKineziIds) ? `<div class="dash-section"><h3><i class="fas fa-user"></i> Лични данни</h3><div class="profile-grid">${field('ЕГН', pat.egn, 'fa-id-card')}${field('Дата на раждане', pat.birthDate ? formatDate(pat.birthDate) : '', 'fa-birthday-cake')}${field('Пол', pat.gender, 'fa-venus-mars')}${field('Професия', pat.occupation, 'fa-briefcase')}${field('Застраховка', pat.insurance, 'fa-shield-alt')}${field('Адрес', pat.address, 'fa-map-marker-alt')}${field('Обслужващи кинезитерапевти', assignedNames, 'fa-hands')}</div></div>` : ''}${(pat.complaint || pat.diagnosis || pat.anamnesis || pat.prevInjuries) ? `<div class="dash-section" style="border-left: 4px solid #d97706;"><h3 style="color:#b45309;"><i class="fas fa-stethoscope"></i> Клинична информация</h3>${field('Основно оплакване', pat.complaint, 'fa-comment-medical')}${field('Диагноза', pat.diagnosis, 'fa-file-medical')}${field('Анамнеза', pat.anamnesis, 'fa-history')}${field('Предишни травми / операции', pat.prevInjuries, 'fa-bone')}</div>` : ''}${(pat.medications || pat.allergies || pat.contraindications) ? `<div class="dash-section" style="border-left: 4px solid #b22234;"><h3 style="color:#b22234;"><i class="fas fa-pills"></i> Медикаменти и алергии</h3>${field('Медикаменти', pat.medications, 'fa-capsules')}${field('Алергии', pat.allergies, 'fa-allergies')}${field('Противопоказания', pat.contraindications, 'fa-ban')}</div>` : ''}${pat.goals ? `<div class="dash-section" style="border-left: 4px solid #0891b2;"><h3 style="color:#0891b2;"><i class="fas fa-bullseye"></i> Цели на пациента</h3>${field('', pat.goals, 'fa-flag-checkered')}</div>` : ''}${(pat.initialAssessment || pat.physicalExam || pat.workingDiagnosis || pat.treatmentPlan) ? `<div class="dash-section" style="border-left: 4px solid #6b3fa0;"><h3 style="color:#6b3fa0;"><i class="fas fa-clipboard-check"></i> Оценка и план</h3>${field('Първоначална оценка', pat.initialAssessment, 'fa-clipboard-list')}${field('Физикален преглед', pat.physicalExam, 'fa-user-md')}${field('Работна диагноза', pat.workingDiagnosis, 'fa-file-signature')}${field('План за лечение', pat.treatmentPlan, 'fa-notes-medical')}</div>` : ''}<div class="dash-section"><h3><i class="fas fa-history"></i> История на процедурите</h3>${myProcs.length === 0 ? `<div class="empty-message">Няма процедури</div>` : `<div class="timeline">${myProcs.slice(0, 20).map(p => `<div class="timeline-item"><div class="date"><i class="fas fa-calendar"></i> ${formatDate(p.date)} ${p.time || ''}</div><div class="title">${escapeHtml(p.description)}</div>${p.result ? `<div class="result">${escapeHtml(p.result)}</div>` : ''}</div>`).join('')}</div>`}</div><div class="dash-section"><h3><i class="fas fa-clipboard-check"></i> Резултати от тестове</h3>${myTests.length === 0 ? `<div class="empty-message">Няма тестове</div>` : myTests.slice(0, 15).map(t => { const def = TESTS_DEFINITIONS[t.testId]; const interp = def && def.interpretation ? def.interpretation(t.score) : { label: '---', class: '' }; const badgeColors = { good: 'background:#e8f5e9; color:#1a7a3e;', moderate: 'background:#fff5e5; color:#b06d00;', severe: 'background:#fff5f5; color:#b22234;' }; return `<div class="test-history-item"><div class="test-history-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${def ? def.icon : 'fa-clipboard-check'}"></i></div><div class="test-history-info"><div class="name">${escapeHtml(t.testName)}</div><div class="meta"><i class="fas fa-calendar"></i> ${formatDate(t.date)}</div></div><div class="test-history-score">${t.score}${t.scoreUnit || ''}</div><div class="test-history-badge" style="${badgeColors[interp.class] || 'background:#f0f4f8; color:#5a7a9a;'}">${escapeHtml(interp.label)}</div></div>`; }).join('')}</div><div class="dash-section"><h3><i class="fas fa-notes-medical"></i> Бележки от терапия</h3>${myNotes.length === 0 ? `<div class="empty-message">Няма бележки</div>` : myNotes.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge session"><i class="fas fa-notes-medical"></i> ${escapeHtml(n.therapyType || '')} · ${formatDate(n.date)}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="note-card-body">${escapeHtml(n.text)}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-clipboard-list"></i> SOAP бележки</h3>${mySoaps.length === 0 ? `<div class="empty-message">Няма SOAP</div>` : mySoaps.slice(0, 10).map(n => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge soap"><i class="fas fa-clipboard-list"></i> SOAP · ${formatDate(n.date)}${n.visitNum ? ' · №' + n.visitNum : ''}</span><div class="meta">${formatTimestamp(n.createdAt)}</div></div><div class="soap-view">${n.subjective ? `<div class="soap-view-block s"><div class="lbl">S</div>${escapeHtml(n.subjective)}</div>` : ''}${n.objective ? `<div class="soap-view-block o"><div class="lbl">O</div>${escapeHtml(n.objective)}</div>` : ''}${n.assessment ? `<div class="soap-view-block a"><div class="lbl">A</div>${escapeHtml(n.assessment)}</div>` : ''}${n.plan ? `<div class="soap-view-block p"><div class="lbl">P</div>${escapeHtml(n.plan)}</div>` : ''}</div></div>`).join('')}</div><div class="dash-section"><h3><i class="fas fa-folder-open"></i> Документи</h3>${myDocs.length === 0 ? `<div class="empty-message">Няма документи</div>` : myDocs.map(d => `<div class="note-card" style="margin-bottom:0.8rem;"><div class="note-card-header"><span class="note-type-badge file"><i class="fas fa-folder"></i> ${escapeHtml(d.type || '')}${d.date ? ' · ' + formatDate(d.date) : ''}</span></div><div style="font-weight:600; color:#0b2b4f; margin-bottom:0.5rem;">${escapeHtml(d.name)}</div>${d.notes ? `<div class="note-card-body" style="margin-bottom:0.5rem;">${escapeHtml(d.notes)}</div>` : ''}<a href="${escapeHtml(d.url)}" target="_blank" rel="noopener" class="file-attachment"><i class="fas fa-external-link-alt"></i> Отвори</a></div>`).join('')}</div>`;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollContentTop();
 }
 
 $('backToPatientsBtn').addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const p = document.querySelector('.nav-item[data-module="patients"]'); if (p) p.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.patients) modules.patients.classList.add('active'); window.currentProfilePatientId = null; if (typeof updateMobileNavActive === 'function') updateMobileNavActive('patients'); });
@@ -3668,12 +3690,12 @@ function renderTestGrid() { const grid = $('testGrid'); const filtered = Object.
 function getTestCategoryLabel(cat) { const map = { pain: 'Болка', spine: 'Гръб', upper: 'Горен крайник', lower: 'Долен крайник', balance: 'Баланс', other: 'Друго' }; return map[cat] || cat; }
 document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(tab => { tab.addEventListener('click', () => { currentTestCategory = tab.dataset.testCat; document.querySelectorAll('#testCategoryTabs .test-category-tab').forEach(t => t.classList.toggle('active', t === tab)); renderTestGrid(); }); });
 function renderTestPatientDropdown() { const sel = $('testPatient'); if (!sel) return; const active = getPatientsForUser().filter(p => !p.archived).map(p => ({ id: p.id, name: p.name })).sort((a,b) => a.name.localeCompare(b.name)); const cur = sel.value; sel.innerHTML = '<option value="">-- избери пациент --</option>' + active.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join(''); if (active.some(p => p.id === cur)) sel.value = cur; }
-function openTestForm(testId) { const test = TESTS_DEFINITIONS[testId]; if (!test) return; currentTestId = testId; $('testCurrentId').value = testId; $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; $('testDate').value = new Date().toISOString().split('T')[0]; const container = $('testQuestionsContainer'); if (test.type === 'numeric') { const step = test.step || 1; container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} --- ${escapeHtml(test.maxLabel)}</span></div></div>`; } else { container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); } $('testsLibraryView').style.display = 'none'; $('testResultContainer').classList.remove('active'); $('testFormContainer').classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+function openTestForm(testId) { const test = TESTS_DEFINITIONS[testId]; if (!test) return; currentTestId = testId; $('testCurrentId').value = testId; $('testFormHeader').innerHTML = `<div class="test-form-icon" style="background:#e8f0fe; color:#1e4a78;"><i class="fas ${test.icon}"></i></div><div><h2>${escapeHtml(test.name)}</h2><div class="test-form-desc">${escapeHtml(test.description)}</div></div>`; $('testDate').value = new Date().toISOString().split('T')[0]; const container = $('testQuestionsContainer'); if (test.type === 'numeric') { const step = test.step || 1; container.innerHTML = `<div class="test-question"><div class="test-question-header"><div class="test-question-num">1</div><div class="test-question-text">Въведете стойност</div></div><div class="test-numeric-input"><input type="number" id="testNumericInput" min="${test.min}" max="${test.max}" step="${step}" placeholder="${test.min}"><span class="scale-hint">${escapeHtml(test.minLabel)} --- ${escapeHtml(test.maxLabel)}</span></div></div>`; } else { container.innerHTML = test.questions.map((q, qi) => `<div class="test-question" data-q-index="${qi}"><div class="test-question-header"><div class="test-question-num">${qi + 1}</div><div class="test-question-text">${escapeHtml(q.text)}</div></div><div class="test-options">${q.options.map((opt, oi) => `<label class="test-option" data-q="${qi}" data-score="${opt.score}"><input type="radio" name="q_${qi}" value="${opt.score}"><span class="test-option-box"></span><span class="test-option-label">${escapeHtml(opt.label)}</span><span class="test-option-score">${opt.score}</span></label>`).join('')}</div></div>`).join(''); container.querySelectorAll('.test-option').forEach(opt => { opt.addEventListener('click', () => { const qIdx = opt.dataset.q; container.querySelectorAll(`.test-option[data-q="${qIdx}"]`).forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); opt.querySelector('input[type="radio"]').checked = true; }); }); } $('testsLibraryView').style.display = 'none'; $('testResultContainer').classList.remove('active'); $('testFormContainer').classList.add('active'); scrollContentTop(); }
 $('backToTestsBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
 $('testCancelBtn').addEventListener('click', () => { $('testFormContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
 $('testResetBtn').addEventListener('click', () => { if (!currentTestId) return; const test = TESTS_DEFINITIONS[currentTestId]; if (!confirm('Да изчистя ли отговорите?')) return; if (test.type === 'numeric') { $('testNumericInput').value = ''; } else { $('testQuestionsContainer').querySelectorAll('.test-option').forEach(o => o.classList.remove('selected')); $('testQuestionsContainer').querySelectorAll('input[type="radio"]').forEach(i => i.checked = false); } });
 $('testForm').addEventListener('submit', async (e) => { e.preventDefault(); const patientId = $('testPatient').value; const date = $('testDate').value; if (!patientId || !date) { showToast('Попълнете пациент и дата.', 'error'); return; } if (!currentTestId) { showToast('Не е избран тест.', 'error'); return; } const test = TESTS_DEFINITIONS[currentTestId]; let answers = [], score = 0; if (test.type === 'numeric') { const val = parseFloat($('testNumericInput').value); if (isNaN(val) || val < test.min || val > test.max) { showToast(`Въведете стойност между ${test.min} и ${test.max}.`, 'error'); return; } score = val; answers = [val]; } else { const qCount = test.questions.length; for (let i = 0; i < qCount; i++) { const selected = $('testQuestionsContainer').querySelector(`.test-option[data-q="${i}"].selected`); if (!selected) { showToast(`Отговорете на въпрос ${i+1}.`, 'error'); return; } answers.push(parseInt(selected.dataset.score)); } score = test.calculate(answers); } $('testSaveBtn').disabled = true; try { await set(push(clinicRef('testResults')), { testId: currentTestId, testName: test.name, patientId, date, answers, score, scoreUnit: test.scoreUnit || '', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); showTestResult(test, score, patientId, date); showToast('Резултатът е запазен.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('testSaveBtn').disabled = false; } });
-function showTestResult(test, score, patientId, date) { const interp = test.interpretation ? test.interpretation(score) : { label: '---', class: '' }; const patient = patients[patientId]; const pn = patient ? patient.name : '---'; $('testResultContent').innerHTML = `<div class="test-result-card"><div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div><div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div><div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div></div><div class="apt-manage-info"><div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div><div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div><div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div></div>`; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+function showTestResult(test, score, patientId, date) { const interp = test.interpretation ? test.interpretation(score) : { label: '---', class: '' }; const patient = patients[patientId]; const pn = patient ? patient.name : '---'; $('testResultContent').innerHTML = `<div class="test-result-card"><div class="test-result-label"><i class="fas ${test.icon}"></i> ${escapeHtml(test.name)}</div><div class="test-result-score">${score}${test.scoreUnit ? ' <span style="font-size:1.5rem;">' + test.scoreUnit + '</span>' : ''}</div><div class="test-result-interpretation ${interp.class}">${escapeHtml(interp.label)}</div></div><div class="apt-manage-info"><div class="row"><span class="lbl">Пациент</span><span class="val">${escapeHtml(pn)}</span></div><div class="row"><span class="lbl">Дата</span><span class="val">${formatDate(date)}</span></div><div class="row"><span class="lbl">Тест</span><span class="val">${escapeHtml(test.name)}</span></div></div>`; $('testFormContainer').classList.remove('active'); $('testResultContainer').classList.add('active'); scrollContentTop(); }
 $('backToTestsFromResultBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultCloseBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; renderTestHistory(); });
 $('testResultNewBtn').addEventListener('click', () => { $('testResultContainer').classList.remove('active'); $('testsLibraryView').style.display = 'block'; currentTestId = null; });
@@ -3789,7 +3811,7 @@ function openDossierForEdit(dossierId) {
   document.querySelectorAll('[data-dossier-pane]').forEach(p => p.classList.toggle('active', p.dataset.dossierPane === 'new'));
   document.querySelectorAll('#dossierSectionTabs .patient-tab').forEach(x => x.classList.toggle('active', x.dataset.dossierSection === 'patient'));
   document.querySelectorAll('.dossier-section-pane').forEach(p => p.classList.toggle('active', p.dataset.dossierSectionPane === 'patient'));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollContentTop();
 }
 function viewDossier(dossierId) {
   const d = dossiers[dossierId]; if (!d) { showToast('Досието не е намерено.', 'error'); return; }
@@ -3805,7 +3827,7 @@ function viewDossier(dossierId) {
   document.getElementById('viewDossierBackBtn')?.addEventListener('click', () => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const dd = document.querySelector('.nav-item[data-module="dossier"]'); if (dd) dd.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
   document.getElementById('viewDossierEditBtn')?.addEventListener('click', (e) => { patientProfileModule.classList.remove('active'); patientProfileModule.classList.remove('patient-profile'); navItems.forEach(n => n.classList.remove('active')); const dd = document.querySelector('.nav-item[data-module="dossier"]'); if (dd) dd.classList.add('active'); Object.keys(modules).forEach(k => modules[k].classList.remove('active')); if (modules.dossier) modules.dossier.classList.add('active'); openDossierForEdit(e.currentTarget.dataset.dossierId); if (typeof updateMobileNavActive === 'function') updateMobileNavActive('dossier'); });
   document.getElementById('viewDossierPrintBtn')?.addEventListener('click', () => { window.print(); });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollContentTop();
 }
 document.addEventListener('click', async (e) => {
   const viewBtn = e.target.closest('.dossier-view-btn');
@@ -4089,7 +4111,7 @@ function goToModule(targetModule) {
   }
   updateMobileNavActive(targetModule);
   if (typeof closeSidebarDrawer === 'function') closeSidebarDrawer();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollContentTop();
 }
 function updateMobileNavActive(targetModule) {
   const moreModules = ['dossier','substitutions','tests','inventory','vouchers','exercises','documentation','pricing','settings','portal'];
