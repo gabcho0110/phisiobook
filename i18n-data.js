@@ -3,6 +3,21 @@
    Генериран автоматично + ръчни поправки. Не се редактира на ръка. */
 window.PB_I18N_DATA = {
 "exact": {
+"Плащане":{"en":"Payment","de":"Zahlung","ru":"Оплата"},
+"— не е избрано —":{"en":"— not selected —","de":"— nicht ausgewählt —","ru":"— не выбрано —"},
+"В брой":{"en":"Cash","de":"Bar","ru":"Наличными"},
+"С карта":{"en":"By card","de":"Mit Karte","ru":"Картой"},
+"Банков превод":{"en":"Bank transfer","de":"Banküberweisung","ru":"Банковский перевод"},
+"Ваучер":{"en":"Voucher","de":"Gutschein","ru":"Ваучер"},
+"Код на ваучер":{"en":"Voucher code","de":"Gutscheincode","ru":"Код ваучера"},
+"Остатък":{"en":"Balance","de":"Restbetrag","ru":"Остаток"},
+"Няма ваучер с този код в клиниката.":{"en":"No voucher with this code in the clinic.","de":"Kein Gutschein mit diesem Code in der Klinik.","ru":"Ваучера с таким кодом в клинике нет."},
+"Ваучерът е изтекъл.":{"en":"The voucher has expired.","de":"Der Gutschein ist abgelaufen.","ru":"Срок действия ваучера истёк."},
+"Ваучерът е анулиран.":{"en":"The voucher is cancelled.","de":"Der Gutschein ist storniert.","ru":"Ваучер аннулирован."},
+"Ваучерът е изчерпан.":{"en":"The voucher is used up.","de":"Der Gutschein ist aufgebraucht.","ru":"Ваучер исчерпан."},
+"Въведете кода на ваучера.":{"en":"Enter the voucher code.","de":"Geben Sie den Gutscheincode ein.","ru":"Введите код ваучера."},
+"Въведете цена, за да платите с ваучер.":{"en":"Enter a price to pay with a voucher.","de":"Geben Sie einen Preis ein, um mit Gutschein zu zahlen.","ru":"Введите цену, чтобы оплатить ваучером."},
+"Невалиден код на ваучер.":{"en":"Invalid voucher code.","de":"Ungültiger Gutscheincode.","ru":"Неверный код ваучера."},
 "-- без категория --":{"en":"-- uncategorized --","de":"-- nicht kategorisiert --","ru":"-- без категории --"},
 "-- Всички артикули --":{"en":"-- All items --","de":"-- Alle Artikel --","ru":"-- Все предметы --"},
 "-- Всички движения --":{"en":"-- All moves --","de":"-- Alle Bewegungen --","ru":"-- Все ходы --"},
@@ -986,6 +1001,9 @@ window.PB_I18N_DATA = {
 "Откажи":{"en":"Reject","de":"Ablehnen","ru":"Отклонить"}
 },
 "pattern": {
+"Недостатъчен остатък по ваучера: {0} €.":{"en":"Insufficient voucher balance: {0} €.","de":"Unzureichender Gutschein-Restbetrag: {0} €.","ru":"Недостаточный остаток ваучера: {0} €."},
+"{0} · остатък {1} €":{"en":"{0} · balance {1} €","de":"{0} · Restbetrag {1} €","ru":"{0} · остаток {1} €"},
+"Остатък: {0} €":{"en":"Balance: {0} €","de":"Restbetrag: {0} €","ru":"Остаток: {0} €"},
 "Пакетът е сменен от \"{0}\" на \"{1}\".\n\nДа приложа ли модулите от новия пакет автоматично?":{"en":"The package has been replaced by \"{0}\" on \"{1}\".\n\nApply the modules from the new package automatically?","de":"Das Paket wurde ersetzt durch „{0}\" An \"{1}\".\n\nDie Module aus dem neuen Paket automatisch anwenden?","ru":"Пакет был заменен на \"{0}\" на \"{1}\".\n\nПрименять модули из нового пакета автоматически?"},
 "Сигурни ли сте, че искате да заявите надграждане до Пакет \"{0}\" ({1} €/год)?":{"en":"Are you sure you want to request an upgrade to Package \"{0}\" ({1} €/year)?","de":"Sind Sie sicher, dass Sie ein Upgrade auf das Paket \" anfordern möchten?{0}\" ({1} €/Jahr)?","ru":"Вы уверены, что хотите запросить обновление до пакета \"{0}\"({1} евро/год)?"},
 "Клиниката е създадена с пакет \"{0}\" ({1} €/год).{2} Вход: {3} / {4}":{"en":"The clinic was created with a package \"{0}\" ({1} €/year).{2} Login: {3} / {4}","de":"Die Klinik wurde mit einem Paket erstellt „{0}\" ({1} €/Jahr).{2} Login: {3} / {4}","ru":"Клиника создана с пакетом «{0}\"({1} евро/год).{2} Авторизоваться: {3} / {4}"},
