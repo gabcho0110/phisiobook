@@ -373,6 +373,17 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .price-cell .currency { color: #7f95b0; font-weight: 600; }
 .save-price-btn { padding: 0.4rem 0.8rem; border-radius: 8px; border: none; background: #1e4a78; color: #ffffff; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
 .save-price-btn.saved { background: #1a7a3e; }
+/* Колона „Плащане" в ценоразписа. При „Ваучер" се показва поле за кода. */
+.pay-cell { min-width: 160px; vertical-align: top; }
+.pay-method-select { width: 100%; min-width: 140px; padding: 0.4rem 0.5rem; border-radius: 8px; border: 1px solid #cfddee; background: #ffffff; color: #0b2b4f; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+.pay-method-select.is-voucher { border-color: #b28cff; background: #f9f5ff; color: #6b3fa0; }
+.voucher-input-wrap { margin-top: 6px; }
+.voucher-code-input { width: 100%; min-width: 140px; padding: 0.4rem 0.5rem; border-radius: 8px; border: 1px solid #b28cff; background: #ffffff; color: #0b2b4f; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+.voucher-code-input::placeholder { letter-spacing: normal; font-weight: 500; color: #b0bdd0; text-transform: none; }
+.voucher-hint { font-size: 0.72rem; margin-top: 4px; line-height: 1.35; }
+.voucher-hint.ok { color: #1a7a3e; font-weight: 600; }
+.voucher-hint.error { color: #b22234; font-weight: 600; }
+.vch-balance-row { color: #1a7a3e !important; font-weight: 700 !important; }
 .day-summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; margin-top: 1.2rem; }
 .day-summary-card { background: #ffffff; border: 1px solid #e9eef3; border-radius: 14px; padding: 0.8rem 1rem; cursor: pointer; }
 .day-summary-card:hover { border-color: #1e4a78; }
@@ -1836,7 +1847,7 @@ body.patient-mode .delete-program { display: none !important; }
 </div>
 <button class="clear-all-btn" id="clearAllPricingBtn"><i class="fas fa-trash-alt"></i> Изтрий</button>
 </div>
-<div class="table-wrapper"><table class="price-table"><thead><tr><th>Пациент</th><th>Процедура</th><th>Цена</th><th>Действия</th></tr></thead><tbody id="pricingBody"></tbody></table></div>
+<div class="table-wrapper"><table class="price-table"><thead><tr><th>Пациент</th><th>Процедура</th><th>Цена</th><th>Плащане</th><th>Действия</th></tr></thead><tbody id="pricingBody"></tbody></table></div>
 <div style="margin-top: 2.5rem;"><h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3><div class="day-summary-grid" id="daySummaryGrid"></div></div>
 </section>
 
@@ -2848,7 +2859,26 @@ function findUsernameByPhone(phone) {
 const APT_STATUSES = { pending: { label: 'Изчаква', icon: 'fa-hourglass-half', class: 'pending' }, confirmed: { label: 'Потвърден', icon: 'fa-check', class: 'confirmed' }, completed: { label: 'Приключен', icon: 'fa-check-double', class: 'completed' }, cancelled: { label: 'Отказан', icon: 'fa-times', class: 'cancelled' }, no_show: { label: 'Не се яви', icon: 'fa-user-slash', class: 'no_show' } };
 const VOUCHER_STATUSES = { active: { label: 'Активен', icon: 'fa-check-circle', class: 'active' }, used: { label: 'Използван', icon: 'fa-check-double', class: 'used' }, expired: { label: 'Изтекъл', icon: 'fa-clock', class: 'expired' }, cancelled: { label: 'Анулиран', icon: 'fa-times-circle', class: 'cancelled' } };
 
-function getVoucherStatus(v) { if (v.status === 'used' || v.status === 'cancelled') return v.status; if (v.expiryDate) { const today = toDateStr(new Date()); if (v.expiryDate < today) return 'expired'; } return 'active'; }
+// ── Остатък по ваучер ────────────────────────────────────────────────────
+// Ваучерът има предварително заредена стойност (`value`) и харчи от нея.
+// Всяко изразходване се пази като отделен запис в `usage`, а остатъкът се
+// ИЗЧИСЛЯВА, а не се съхранява — така не може да се размине със записите,
+// ако някоя заявка към базата се провали по средата.
+function getVoucherSpent(v) {
+  if (!v || !v.usage) return 0;
+  let s = 0;
+  Object.values(v.usage).forEach(u => { const a = parseFloat(u && u.amount); if (!isNaN(a)) s += a; });
+  return s;
+}
+function getVoucherBalance(v) {
+  return (parseFloat(v && v.value) || 0) - getVoucherSpent(v);
+}
+// „Изчерпан" е изчислено състояние: ваучер, от който е изхарчено всичко, се
+// брои за използван, без да се пише нищо в базата. Ваучер без нито едно
+// изразходване остава активен дори при стойност 0 — така старите записи не
+// сменят статуса си изневиделица.
+function isVoucherDrained(v) { return !!v && !!v.usage && Object.keys(v.usage).length > 0 && getVoucherBalance(v) <= 0; }
+function getVoucherStatus(v) { if (v.status === 'used' || v.status === 'cancelled') return v.status; if (v.expiryDate) { const today = toDateStr(new Date()); if (v.expiryDate < today) return 'expired'; } if (isVoucherDrained(v)) return 'used'; return 'active'; }
 function getAptStatus(apt) { return apt.status || 'confirmed'; }
 function getAptStatusBadgeHtml(apt) { const status = getAptStatus(apt); const s = APT_STATUSES[status] || APT_STATUSES.confirmed; return `<span class="apt-status-badge ${s.class}"><i class="fas ${s.icon}"></i> ${s.label}</span>`; }
 
@@ -3220,7 +3250,7 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => { inventory = s.val() || {}; renderInventory(); renderInventoryStats(); renderInventoryCategoryChips(); renderInvMovItemFilter(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventoryMovements`), (s) => { inventoryMovements = s.val() || {}; renderInventoryMovementsList(); }));
-  unsubscribers.push(onValue(ref(db, `${base}/vouchers`), (s) => { vouchers = s.val() || {}; renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/vouchers`), (s) => { vouchers = s.val() || {}; renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); refreshAllVoucherHints(); }));
   unsubscribers.push(onValue(ref(db, `${base}/dossiers`), (s) => { dossiers = s.val() || {}; renderDossierList(); }));
   unsubscribers.push(onValue(ref(db, `${base}/blockedTimes`), (s) => { blockedTimes = s.val() || {}; if (currentScheduleView === 'week') renderWeek(); else if (currentScheduleView === 'month') renderMonth(); else if (currentScheduleView === 'day') renderDayView(); }));
   unsubscribers.push(onValue(ref(db, `${base}/vacations`), (s) => { vacations = s.val() || {}; if (currentScheduleView === 'week') renderWeek(); else if (currentScheduleView === 'month') renderMonth(); else if (currentScheduleView === 'day') renderDayView(); }));
@@ -3514,12 +3544,169 @@ document.addEventListener('click', async (e)=>{ const b = e.target.closest('.del
 
 // ==================== PRICING ====================
 function getPricingKey(p,d){ return `${p}_${d}`; }
-function renderPricing() { if (!$('priceDateInput').value) $('priceDateInput').value = currentPriceDate; else currentPriceDate = $('priceDateInput').value; const active = getPatientsForUser().filter(p=>!p.archived).map(p=>({id:p.id,name:p.name})).sort((a,b)=>a.name.localeCompare(b.name)); if (active.length===0) { $('pricingBody').innerHTML = `<tr><td colspan="4" class="empty-message">Няма пациенти</td></tr>`; return; } $('pricingBody').innerHTML = active.map(p=>{ const key = getPricingKey(p.id, currentPriceDate); const ex = pricing[key]; const pv = ex ? ex.price : ''; const dv = ex ? (ex.description||'') : ''; const has = ex && ex.price !== '' && ex.price != null; return `<tr data-patient-id="${p.id}"><td><a class="patient-link" data-id="${p.id}">${escapeHtml(p.name)}</a></td><td><input type="text" class="proc-desc-input" value="${escapeHtml(dv)}" placeholder="Процедура..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #cfddee; font-family:inherit;"></td><td><div class="price-cell"><input type="number" class="price-input" step="0.01" min="0" value="${pv}" placeholder="0.00"><span class="currency">€</span></div></td><td><button class="save-price-btn ${has?'saved':''}" data-patient-id="${p.id}"><i class="fas ${has?'fa-check':'fa-save'}"></i> ${has?'Запазено':'Запази'}</button></td></tr>`; }).join(''); updatePriceSummary(); }
+// Търси ваучер по кода му. Кодовете се генерират само с главни букви и цифри.
+function findVoucherByCode(code) { const c = String(code || '').trim().toUpperCase(); if (!c) return null; const hit = Object.entries(vouchers).find(([, v]) => String(v.code || '').toUpperCase() === c); return hit ? Object.assign({ id: hit[0] }, hit[1]) : null; }
+// Проверява код и връща { ok, cls, message, voucher, balance, free }.
+// `ignoreUsageId` е изразходването, което ТОЗИ ред вече е направил — връща се
+// обратно при проверката, иначе повторно записване на същия ред би се провалило
+// заради собствената си удръжка.
+function resolveVoucherCode(code, rowAmount, ignoreUsageId) {
+  const c = String(code || '').trim().toUpperCase();
+  if (!c) return { ok: false, cls: '', message: '' };
+  const v = findVoucherByCode(c);
+  if (!v) return { ok: false, cls: 'error', message: 'Няма ваучер с този код в клиниката.' };
+  const balance = getVoucherBalance(v);
+  const st = getVoucherStatus(v);
+  if (st === 'expired') return { ok: false, cls: 'error', message: 'Ваучерът е изтекъл.', voucher: v, balance };
+  if (st === 'cancelled') return { ok: false, cls: 'error', message: 'Ваучерът е анулиран.', voucher: v, balance };
+  let free = balance;
+  if (ignoreUsageId && v.usage && v.usage[ignoreUsageId]) free += parseFloat(v.usage[ignoreUsageId].amount) || 0;
+  if (free <= 0) return { ok: false, cls: 'error', message: 'Ваучерът е изчерпан.', voucher: v, balance, free };
+  const amount = parseFloat(rowAmount);
+  // В съобщението показваме РЕАЛНИЯ остатък (същия, който се вижда в модул
+  // „Ваучери"), а не вътрешната сметка `free` — тя включва и връщането на
+  // собствената удръжка на реда и би объркала човека.
+  if (!isNaN(amount) && amount > free) return { ok: false, cls: 'error', message: `Недостатъчен остатък по ваучера: ${formatPrice(balance)} €.`, voucher: v, balance, free };
+  return { ok: true, cls: 'ok', message: `${v.title || 'Ваучер'} · остатък ${formatPrice(balance)} €`, voucher: v, balance, free };
+}
+// Обновява подсказката под полето за код. Пипа САМО подсказката — не се
+// пре-рендира таблицата, за да не се губи фокусът при писане.
+function refreshVoucherHint(row) {
+  if (!row) return null;
+  const inp = row.querySelector('.voucher-code-input');
+  const hint = row.querySelector('.voucher-hint');
+  if (!inp || !hint) return null;
+  const priceInput = row.querySelector('.price-input');
+  const prev = pricing[getPricingKey(row.dataset.patientId, currentPriceDate)];
+  const ignoreUsageId = prev && prev.voucherUsageId ? prev.voucherUsageId : null;
+  const r = resolveVoucherCode(inp.value, priceInput ? priceInput.value : '', ignoreUsageId);
+  hint.className = 'voucher-hint' + (r.cls ? ' ' + r.cls : '');
+  hint.textContent = r.message || '';
+  return r;
+}
+function refreshAllVoucherHints() { const body = $('pricingBody'); if (!body || !body.querySelector('.voucher-code-input')) return; body.querySelectorAll('tr').forEach(row => refreshVoucherHint(row)); }
+function renderPricing() {
+  if (!$('priceDateInput').value) $('priceDateInput').value = currentPriceDate; else currentPriceDate = $('priceDateInput').value;
+  const active = getPatientsForUser().filter(p=>!p.archived).map(p=>({id:p.id,name:p.name})).sort((a,b)=>a.name.localeCompare(b.name));
+  if (active.length===0) { $('pricingBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма пациенти</td></tr>`; return; }
+  $('pricingBody').innerHTML = active.map(p=>{
+    const key = getPricingKey(p.id, currentPriceDate);
+    const ex = pricing[key];
+    const pv = ex ? ex.price : '';
+    const dv = ex ? (ex.description||'') : '';
+    const has = ex && ex.price !== '' && ex.price != null;
+    const pm = ex ? (ex.paymentMethod||'') : '';
+    // Кодовете са само A-Z/0-9 — изчистваме всичко друго, за да е безопасно
+    // за влагане в атрибут `value`.
+    const vc = (ex ? (ex.voucherCode||'') : '').replace(/[^A-Za-z0-9]/g, '');
+    const isVch = pm === 'voucher';
+    return `<tr data-patient-id="${p.id}"><td><a class="patient-link" data-id="${p.id}">${escapeHtml(p.name)}</a></td><td><input type="text" class="proc-desc-input" value="${escapeHtml(dv)}" placeholder="Процедура..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #cfddee; font-family:inherit;"></td><td><div class="price-cell"><input type="number" class="price-input" step="0.01" min="0" value="${pv}" placeholder="0.00"><span class="currency">€</span></div></td><td class="pay-cell"><select class="pay-method-select${isVch?' is-voucher':''}"><option value="">— не е избрано —</option><option value="cash"${pm==='cash'?' selected':''}>В брой</option><option value="card"${pm==='card'?' selected':''}>С карта</option><option value="bank"${pm==='bank'?' selected':''}>Банков превод</option><option value="voucher"${isVch?' selected':''}>Ваучер</option></select><div class="voucher-input-wrap"${isVch?'':' style="display:none;"'}><input type="text" class="voucher-code-input" maxlength="8" value="${vc}" placeholder="Код на ваучер" autocomplete="off" spellcheck="false"><div class="voucher-hint"></div></div></td><td><button class="save-price-btn ${has?'saved':''}" data-patient-id="${p.id}"><i class="fas ${has?'fa-check':'fa-save'}"></i> ${has?'Запазено':'Запази'}</button></td></tr>`;
+  }).join('');
+  updatePriceSummary();
+  refreshAllVoucherHints();
+}
 function updatePriceSummary() { let total = 0, count = 0; Object.entries(pricing).forEach(([,item])=>{ if (item.date===currentPriceDate && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) { total += v; count++; } } }); $('priceCountSummary').textContent = count; $('priceTotalSummary').textContent = formatPrice(total) + ' €'; }
 function renderDaySummary() { const byDate = {}; Object.entries(pricing).forEach(([,item])=>{ if (!item.date) return; if (!byDate[item.date]) byDate[item.date] = { total: 0, patients: new Set() }; const v = parseFloat(item.price); if (!isNaN(v)) { byDate[item.date].total += v; byDate[item.date].patients.add(item.patientId); } }); const sorted = Object.keys(byDate).sort((a,b)=>b.localeCompare(a)).slice(0,30); if (sorted.length===0) { $('daySummaryGrid').innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма цени</div>`; return; } $('daySummaryGrid').innerHTML = sorted.map(date=>`<div class="day-summary-card" data-date="${date}"><div class="day-title">${formatDate(date)}</div><div class="day-total">${formatPrice(byDate[date].total)} €</div><div class="day-count">${byDate[date].patients.size} пациента</div></div>`).join(''); $('daySummaryGrid').querySelectorAll('.day-summary-card').forEach(c=>{ c.addEventListener('click', ()=>{ $('priceDateInput').value = c.dataset.date; currentPriceDate = c.dataset.date; renderPricing(); }); }); }
-$('pricingBody').addEventListener('click', async (e)=>{ const btn = e.target.closest('.save-price-btn'); if (!btn) return; const row = btn.closest('tr'); const pid = btn.dataset.patientId; const pv = row.querySelector('.price-input').value.trim(); const dv = row.querySelector('.proc-desc-input').value.trim(); const key = getPricingKey(pid, currentPriceDate); btn.disabled = true; try { if (pv==='' && dv==='') { await remove(clinicRef(`pricing/${key}`)); showToast('Изтрит.','success'); } else { await set(clinicRef(`pricing/${key}`), { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, createdBy: currentUser.id, updatedAt: Date.now() }); showToast('Запазено.','success'); } } catch(err){showToast('Грешка: '+err.message,'error');} finally { btn.disabled = false; } });
+// Смяна на начина на плащане → показва/скрива полето за код на ваучер.
+$('pricingBody').addEventListener('change', (e)=>{
+  const sel = e.target.closest('.pay-method-select');
+  if (!sel) return;
+  const row = sel.closest('tr');
+  const isVch = sel.value === 'voucher';
+  sel.classList.toggle('is-voucher', isVch);
+  const wrap = row.querySelector('.voucher-input-wrap');
+  if (wrap) wrap.style.display = isVch ? '' : 'none';
+  if (isVch) row.querySelector('.voucher-code-input')?.focus();
+  refreshVoucherHint(row);
+});
+// Кодовете са само главни букви — преобразуваме при писане, без да местим курсора.
+$('pricingBody').addEventListener('input', (e)=>{
+  const inp = e.target.closest('.voucher-code-input');
+  if (!inp) return;
+  const up = inp.value.toUpperCase();
+  if (inp.value !== up) { const pos = inp.selectionStart; inp.value = up; try { inp.setSelectionRange(pos, pos); } catch(_){} }
+  refreshVoucherHint(inp.closest('tr'));
+});
+$('pricingBody').addEventListener('click', async (e)=>{
+  const btn = e.target.closest('.save-price-btn');
+  if (!btn) return;
+  const row = btn.closest('tr');
+  const pid = btn.dataset.patientId;
+  const pv = row.querySelector('.price-input').value.trim();
+  const dv = row.querySelector('.proc-desc-input').value.trim();
+  const sel = row.querySelector('.pay-method-select');
+  const method = sel ? sel.value : '';
+  const vinp = row.querySelector('.voucher-code-input');
+  const code = vinp ? vinp.value.trim().toUpperCase() : '';
+  const key = getPricingKey(pid, currentPriceDate);
+  const prev = pricing[key] || null;
+  const isDelete = pv === '' && dv === '';
+  const amount = pv === '' ? NaN : parseFloat(pv);
+
+  // ── Ваучер: проверяваме ПРЕДИ да пишем нещо ──────────────────────────
+  let voucher = null;
+  if (!isDelete && method === 'voucher') {
+    if (pv === '' || isNaN(amount) || amount <= 0) { showToast('Въведете цена, за да платите с ваучер.', 'error'); return; }
+    if (!code) { showToast('Въведете кода на ваучера.', 'error'); vinp?.focus(); return; }
+    const ignoreUsageId = prev && prev.voucherId && prev.voucherUsageId ? prev.voucherUsageId : null;
+    const r = resolveVoucherCode(code, amount, ignoreUsageId);
+    if (!r.ok) { showToast(r.message || 'Невалиден код на ваучер.', 'error'); refreshVoucherHint(row); return; }
+    voucher = r.voucher;
+  }
+
+  btn.disabled = true;
+  try {
+    const now = Date.now();
+    const updates = {};
+
+    // 1) Освобождаваме предишното изразходване, ако редът вече е бил с ваучер.
+    const prevVid = prev && prev.voucherId;
+    const prevUid = prev && prev.voucherUsageId;
+    const sameUsage = voucher && prevVid === voucher.id && prevUid;
+    if (prevVid && prevUid && !sameUsage) updates[`vouchers/${prevVid}/usage/${prevUid}`] = null;
+
+    // 2) Ново изразходване. Идентификаторът е самият ключ на реда, затова
+    //    повторно записване презаписва, а не дублира.
+    let usageId = '';
+    if (voucher && amount > 0) {
+      usageId = `pr_${key}`;
+      updates[`vouchers/${voucher.id}/usage/${usageId}`] = { amount, patientId: pid, priceKey: key, date: currentPriceDate, voucherCode: voucher.code, at: now, by: currentUser.id, byName: currentUser.name || '' };
+    }
+
+    // 3) Самият ред.
+    if (isDelete) {
+      updates[`pricing/${key}`] = null;
+    } else {
+      updates[`pricing/${key}`] = { patientId: pid, date: currentPriceDate, price: pv===''?'':parseFloat(pv), description: dv, paymentMethod: method, voucherCode: voucher ? voucher.code : '', voucherId: voucher ? voucher.id : '', voucherUsageId: usageId, createdBy: (prev && prev.createdBy) || currentUser.id, updatedAt: now };
+    }
+
+    // ⚠️ Едно-единствено multi-path обновяване с ПЛОСКИ ключове с наклонени
+    // черти — редът и ваучерът се променят заедно или нито едно от двете.
+    // (Вложен обект тук би ЗАМЕСТИЛ целия възел — виж бележката за PATCH.)
+    await update(clinicRef(), updates);
+    showToast(isDelete ? 'Изтрит.' : 'Запазено.', 'success');
+  } catch(err) { showToast('Грешка: '+err.message,'error'); }
+  finally { btn.disabled = false; }
+});
 $('priceDateInput').addEventListener('change', (e)=>{ currentPriceDate = e.target.value; renderPricing(); });
-$('clearAllPricingBtn').addEventListener('click', async ()=>{ const total = Object.keys(pricing).length; if (total===0) { showToast('Няма цени.','error'); return; } if (!confirm(`Ще изтриете ВСИЧКИ ${total} записа. Сигурни?`)) return; if (!confirm('Последно: да изтрия ли ВСИЧКИ цени?')) return; $('clearAllPricingBtn').disabled = true; try { await remove(clinicRef('pricing')); showToast('Всички изтрити.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('clearAllPricingBtn').disabled = false; } });
+$('clearAllPricingBtn').addEventListener('click', async ()=>{
+  const total = Object.keys(pricing).length;
+  if (total===0) { showToast('Няма цени.','error'); return; }
+  if (!confirm(`Ще изтриете ВСИЧКИ ${total} записа. Сигурни?`)) return;
+  if (!confirm('Последно: да изтрия ли ВСИЧКИ цени?')) return;
+  $('clearAllPricingBtn').disabled = true;
+  try {
+    // Връщаме обратно всичко, изразходено от ваучери — пак в едно атомарно
+    // обновяване заедно с изтриването на ценоразписа.
+    const updates = { pricing: null };
+    Object.values(pricing).forEach(item=>{
+      if (item && item.voucherId && item.voucherUsageId) updates[`vouchers/${item.voucherId}/usage/${item.voucherUsageId}`] = null;
+    });
+    await update(clinicRef(), updates);
+    showToast('Всички изтрити.','success');
+  } catch(err){ showToast('Грешка: '+err.message,'error'); }
+  finally { $('clearAllPricingBtn').disabled = false; }
+});
 
 // ==================== SETTINGS ====================
 document.querySelectorAll('.settings-tab').forEach(tab=>{ tab.addEventListener('click', ()=>{ const t = tab.dataset.setTab; document.querySelectorAll('.settings-tab').forEach(x=>x.classList.toggle('active', x===tab)); document.querySelectorAll('.settings-pane').forEach(p=>p.classList.toggle('active', p.dataset.setPane === t)); if (t === 'subscription') { renderSubscriptionPane(); } }); });
@@ -3812,7 +3999,7 @@ function renderInventoryMovementsList() { const list = $('invMovementsList'); if
 
 // ==================== VOUCHERS ====================
 function renderVouchersModule() { renderVouchers(); renderVoucherStats(); renderVoucherStatusCounts(); }
-function renderVouchers() { const grid = $('vchGrid'); if (!grid) return; const search = ($('vchSearchInput')?.value || '').toLowerCase().trim(); const sortBy = $('vchSortSelect')?.value || 'created-desc'; let items = Object.entries(vouchers).map(([id, v]) => ({ id, ...v })); items.forEach(v => v._status = getVoucherStatus(v)); if (currentVoucherStatus !== 'all') items = items.filter(v => v._status === currentVoucherStatus); if (search) items = items.filter(v => (v.code||'').toLowerCase().includes(search) || (v.recipientName||'').toLowerCase().includes(search) || (v.recipientPhone||'').toLowerCase().includes(search) || (v.title||'').toLowerCase().includes(search) || (v.notes||'').toLowerCase().includes(search)); if (sortBy === 'created-desc') items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); else if (sortBy === 'created-asc') items.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); else if (sortBy === 'expiry-asc') items.sort((a, b) => (a.expiryDate || '').localeCompare(b.expiryDate || '')); else if (sortBy === 'value-desc') items.sort((a, b) => (parseFloat(b.value) || 0) - (parseFloat(a.value) || 0)); if (items.length === 0) { grid.innerHTML = `<div class="card" style="grid-column: 1/-1; text-align: center; padding: 3rem 2rem;"><i class="fas fa-ticket-alt" style="font-size: 4rem; color: #cfddee; margin-bottom: 1.5rem; display: block;"></i><h3 style="color: #0b2b4f; font-size: 1.2rem; margin-bottom: 0.5rem;">Няма ваучери</h3><p style="color: #7f95b0; font-size: 0.95rem;">Създайте първия си подаръчен ваучер.</p></div>`; return; } grid.innerHTML = items.map(v => { const status = v._status; const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const val = parseFloat(v.value) || 0; return `<div class="vch-card status-${status}"><div class="vch-card-top"><div class="vch-card-top-header"><div><h3>${escapeHtml(v.title || 'Ваучер')}</h3><div class="sub">За: ${escapeHtml(pn)}</div></div><div class="vch-icon"><i class="fas fa-ticket-alt"></i></div></div><div class="vch-code-badge"><i class="fas fa-barcode"></i> ${escapeHtml(v.code || '---')}</div></div><div class="vch-card-body"><div class="vch-info-row"><span class="lbl"><i class="fas fa-user"></i> Получател</span><span class="val">${escapeHtml(v.recipientName || '---')}</span></div>${v.recipientPhone ? `<div class="vch-info-row"><span class="lbl"><i class="fas fa-phone"></i> Телефон</span><span class="val">${escapeHtml(v.recipientPhone)}</span></div>` : ''}<div class="vch-info-row"><span class="lbl"><i class="fas fa-euro-sign"></i> Стойност</span><span class="val">${formatPrice(val)} €</span></div><div class="vch-info-row"><span class="lbl"><i class="fas fa-calendar"></i> Валиден до</span><span class="val">${formatDate(v.expiryDate)}</span></div><div class="vch-info-row"><span class="lbl"><i class="fas fa-info-circle"></i> Статус</span><span class="val"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></span></div></div><div class="vch-card-actions"><button class="btn-outline btn btn-sm" data-vch-action="view" data-vch-id="${v.id}"><i class="fas fa-eye"></i> Преглед</button>${status === 'active' ? `<button class="btn btn-success btn-sm" data-vch-action="use" data-vch-id="${v.id}"><i class="fas fa-check"></i> Използвай</button>` : ''}${status === 'active' ? `<button class="btn-outline btn btn-sm" data-vch-action="edit" data-vch-id="${v.id}"><i class="fas fa-edit"></i></button>` : ''}<button class="btn-danger-outline btn btn-sm" data-vch-action="delete" data-vch-id="${v.id}"><i class="fas fa-trash-alt"></i></button></div></div>`; }).join(''); }
+function renderVouchers() { const grid = $('vchGrid'); if (!grid) return; const search = ($('vchSearchInput')?.value || '').toLowerCase().trim(); const sortBy = $('vchSortSelect')?.value || 'created-desc'; let items = Object.entries(vouchers).map(([id, v]) => ({ id, ...v })); items.forEach(v => v._status = getVoucherStatus(v)); if (currentVoucherStatus !== 'all') items = items.filter(v => v._status === currentVoucherStatus); if (search) items = items.filter(v => (v.code||'').toLowerCase().includes(search) || (v.recipientName||'').toLowerCase().includes(search) || (v.recipientPhone||'').toLowerCase().includes(search) || (v.title||'').toLowerCase().includes(search) || (v.notes||'').toLowerCase().includes(search)); if (sortBy === 'created-desc') items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); else if (sortBy === 'created-asc') items.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); else if (sortBy === 'expiry-asc') items.sort((a, b) => (a.expiryDate || '').localeCompare(b.expiryDate || '')); else if (sortBy === 'value-desc') items.sort((a, b) => (parseFloat(b.value) || 0) - (parseFloat(a.value) || 0)); if (items.length === 0) { grid.innerHTML = `<div class="card" style="grid-column: 1/-1; text-align: center; padding: 3rem 2rem;"><i class="fas fa-ticket-alt" style="font-size: 4rem; color: #cfddee; margin-bottom: 1.5rem; display: block;"></i><h3 style="color: #0b2b4f; font-size: 1.2rem; margin-bottom: 0.5rem;">Няма ваучери</h3><p style="color: #7f95b0; font-size: 0.95rem;">Създайте първия си подаръчен ваучер.</p></div>`; return; } grid.innerHTML = items.map(v => { const status = v._status; const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const val = parseFloat(v.value) || 0; const spent = getVoucherSpent(v); const bal = getVoucherBalance(v); return `<div class="vch-card status-${status}"><div class="vch-card-top"><div class="vch-card-top-header"><div><h3>${escapeHtml(v.title || 'Ваучер')}</h3><div class="sub">За: ${escapeHtml(pn)}</div></div><div class="vch-icon"><i class="fas fa-ticket-alt"></i></div></div><div class="vch-code-badge"><i class="fas fa-barcode"></i> ${escapeHtml(v.code || '---')}</div></div><div class="vch-card-body"><div class="vch-info-row"><span class="lbl"><i class="fas fa-user"></i> Получател</span><span class="val">${escapeHtml(v.recipientName || '---')}</span></div>${v.recipientPhone ? `<div class="vch-info-row"><span class="lbl"><i class="fas fa-phone"></i> Телефон</span><span class="val">${escapeHtml(v.recipientPhone)}</span></div>` : ''}<div class="vch-info-row"><span class="lbl"><i class="fas fa-euro-sign"></i> Стойност</span><span class="val">${formatPrice(val)} €</span></div>${spent > 0 ? `<div class="vch-info-row"><span class="lbl"><i class="fas fa-wallet"></i> Остатък</span><span class="val vch-balance-row">${formatPrice(Math.max(0, bal))} €</span></div>` : ''}<div class="vch-info-row"><span class="lbl"><i class="fas fa-calendar"></i> Валиден до</span><span class="val">${formatDate(v.expiryDate)}</span></div><div class="vch-info-row"><span class="lbl"><i class="fas fa-info-circle"></i> Статус</span><span class="val"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></span></div></div><div class="vch-card-actions"><button class="btn-outline btn btn-sm" data-vch-action="view" data-vch-id="${v.id}"><i class="fas fa-eye"></i> Преглед</button>${status === 'active' ? `<button class="btn btn-success btn-sm" data-vch-action="use" data-vch-id="${v.id}"><i class="fas fa-check"></i> Използвай</button>` : ''}${status === 'active' ? `<button class="btn-outline btn btn-sm" data-vch-action="edit" data-vch-id="${v.id}"><i class="fas fa-edit"></i></button>` : ''}<button class="btn-danger-outline btn btn-sm" data-vch-action="delete" data-vch-id="${v.id}"><i class="fas fa-trash-alt"></i></button></div></div>`; }).join(''); }
 function renderVoucherStats() { const grid = $('vchStatsGrid'); if (!grid) return; const items = Object.values(vouchers); let active = 0, used = 0, expired = 0, cancelled = 0, totalValue = 0, activeValue = 0; items.forEach(v => { const st = getVoucherStatus(v); if (st === 'active') { active++; activeValue += parseFloat(v.value) || 0; } else if (st === 'used') used++; else if (st === 'expired') expired++; else if (st === 'cancelled') cancelled++; totalValue += parseFloat(v.value) || 0; }); grid.innerHTML = `<div class="vch-stat-card active"><div class="lbl"><i class="fas fa-check-circle"></i> Активни</div><div class="val">${active}</div><div class="sub">${formatPrice(activeValue)} € активна стойност</div></div><div class="vch-stat-card used"><div class="lbl"><i class="fas fa-check-double"></i> Използвани</div><div class="val">${used}</div><div class="sub">общо използвани</div></div><div class="vch-stat-card expired"><div class="lbl"><i class="fas fa-clock"></i> Изтекли</div><div class="val">${expired}</div><div class="sub">с изтекъл срок</div></div><div class="vch-stat-card value"><div class="lbl"><i class="fas fa-euro-sign"></i> Обща стойност</div><div class="val">${formatPrice(totalValue)} €</div><div class="sub">всички ваучери</div></div>`; }
 function renderVoucherStatusCounts() { const items = Object.values(vouchers); let all = items.length, active = 0, used = 0, expired = 0, cancelled = 0; items.forEach(v => { const st = getVoucherStatus(v); if (st === 'active') active++; else if (st === 'used') used++; else if (st === 'expired') expired++; else if (st === 'cancelled') cancelled++; }); if ($('vchCountAll')) $('vchCountAll').textContent = all; if ($('vchCountActive')) $('vchCountActive').textContent = active; if ($('vchCountUsed')) $('vchCountUsed').textContent = used; if ($('vchCountExpired')) $('vchCountExpired').textContent = expired; if ($('vchCountCancelled')) $('vchCountCancelled').textContent = cancelled; }
 document.querySelectorAll('#vchStatusTabs .vch-status-tab').forEach(tab => { tab.addEventListener('click', () => { currentVoucherStatus = tab.dataset.vchStatus; document.querySelectorAll('#vchStatusTabs .vch-status-tab').forEach(t => t.classList.toggle('active', t === tab)); renderVouchers(); }); });
@@ -3825,7 +4012,7 @@ $('vchModalClose')?.addEventListener('click', () => $('voucherModal').classList.
 function openVoucherModal(voucherId = null) { const modal = $('voucherModal'); const form = $('voucherForm'); form.reset(); $('vchId').value = ''; renderVoucherPatientDropdown(); if (voucherId && vouchers[voucherId]) { const v = vouchers[voucherId]; $('vchModalTitle').textContent = 'Редакция на ваучер'; $('vchId').value = voucherId; $('vchRecipientName').value = v.recipientName || ''; $('vchRecipientPhone').value = v.recipientPhone || ''; $('vchPatientId').value = v.patientId || ''; $('vchTitle').value = v.title || ''; $('vchValue').value = v.value ?? ''; $('vchExpiryDate').value = v.expiryDate || ''; $('vchNotes').value = v.notes || ''; } else { $('vchModalTitle').textContent = 'Нов ваучер'; const in90 = new Date(); in90.setMonth(in90.getMonth() + 3); $('vchExpiryDate').value = toDateStr(in90); } modal.classList.add('active'); }
 $('voucherForm')?.addEventListener('submit', async (e) => { e.preventDefault(); const id = $('vchId').value; const recipientName = $('vchRecipientName').value.trim(); const recipientPhone = $('vchRecipientPhone').value.trim(); const patientId = $('vchPatientId').value; const title = $('vchTitle').value.trim(); const value = parseFloat($('vchValue').value) || 0; const expiryDate = $('vchExpiryDate').value; const notes = $('vchNotes').value.trim(); if (!recipientName || !patientId || !title || !expiryDate) { showToast('Попълнете задължителните полета.', 'error'); return; } $('vchSaveBtn').disabled = true; try { if (id) { await update(clinicRef(`vouchers/${id}`), { recipientName, recipientPhone, patientId, title, value, expiryDate, notes, updatedAt: Date.now(), updatedBy: currentUser.id }); showToast('Обновен.', 'success'); } else { let code = generateVoucherCode(); const existingCodes = new Set(Object.values(vouchers).map(v => v.code)); let attempts = 0; while (existingCodes.has(code) && attempts < 100) { code = generateVoucherCode(); attempts++; } await set(push(clinicRef('vouchers')), { code, recipientName, recipientPhone, patientId, title, value, expiryDate, notes, status: 'active', createdAt: Date.now(), createdBy: currentUser.id, createdByName: currentUser.name }); await createNotification(patientId, '🎁 Нов ваучер', `Получихте ваучер "${title}" на стойност ${formatPrice(value)} €`, 'default'); showToast('Ваучерът е създаден.', 'success'); } $('voucherModal').classList.remove('active'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } finally { $('vchSaveBtn').disabled = false; } });
 document.addEventListener('click', async (e) => { const btn = e.target.closest('[data-vch-action]'); if (!btn) return; const action = btn.dataset.vchAction; const id = btn.dataset.vchId; const v = vouchers[id]; if (!v) return; if (action === 'view') { openVoucherViewModal(id); return; } if (action === 'edit') { openVoucherModal(id); return; } if (action === 'delete') { if (!confirm('Изтрий ваучера?')) return; try { await remove(clinicRef(`vouchers/${id}`)); showToast('Изтрит.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } if (action === 'use') { if (!confirm('Маркирай ваучера като ИЗПОЛЗВАН?')) return; try { await update(clinicRef(`vouchers/${id}`), { status: 'used', usedAt: Date.now(), usedBy: currentUser.id, usedByName: currentUser.name }); showToast('Ваучерът е маркиран като използван.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } return; } });
-function openVoucherViewModal(id) { const v = vouchers[id]; if (!v) return; currentVoucherId = id; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const status = getVoucherStatus(v); const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const val = parseFloat(v.value) || 0; const clinicName = clinicSettings.name || activeClinic?.name || 'PhysioBook'; const clinicSub = clinicSettings.sub || ''; $('voucherPrintContainer').innerHTML = `<div class="vch-print-card"><div class="vch-print-logo"><svg width="80" height="80"><use href="#physio-logo"></use></svg></div><h2>${escapeHtml(clinicName)}</h2><div class="vch-print-sub">${escapeHtml(clinicSub || 'Подаръчен ваучер')}</div><div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.5rem;">ПОДАРЪЧЕН ВАУЧЕР</div><div class="vch-print-title">${escapeHtml(v.title)}</div><div class="vch-print-value">${formatPrice(val)} €</div><div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:0.5rem;">Код за активиране:</div><div class="vch-print-code">${escapeHtml(v.code)}</div><div style="margin-top:1rem; padding:0.8rem 1rem; background:#f9f5ff; border-radius:12px; display:inline-block;"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></div><div class="vch-print-meta"><div><strong>Получател:</strong><br>${escapeHtml(v.recipientName)}</div><div style="text-align:right;"><strong>Валиден до:</strong><br>${formatDate(v.expiryDate)}</div></div>${v.notes ? `<div class="vch-print-note">${escapeHtml(v.notes)}</div>` : ''}<div style="margin-top:1rem; font-size:0.78rem; color:#7f95b0;">За: ${escapeHtml(pn)}<br>Издаден: ${formatDate(toDateStr(new Date(v.createdAt)))}</div></div>`; $('voucherViewModal').classList.add('active'); }
+function openVoucherViewModal(id) { const v = vouchers[id]; if (!v) return; currentVoucherId = id; const pat = patients[v.patientId]; const pn = pat ? pat.name : '---'; const status = getVoucherStatus(v); const s = VOUCHER_STATUSES[status] || VOUCHER_STATUSES.active; const val = parseFloat(v.value) || 0; const clinicName = clinicSettings.name || activeClinic?.name || 'PhysioBook'; const clinicSub = clinicSettings.sub || ''; $('voucherPrintContainer').innerHTML = `<div class="vch-print-card"><div class="vch-print-logo"><svg width="80" height="80"><use href="#physio-logo"></use></svg></div><h2>${escapeHtml(clinicName)}</h2><div class="vch-print-sub">${escapeHtml(clinicSub || 'Подаръчен ваучер')}</div><div style="font-size:0.85rem; color:#7f95b0; margin-bottom:0.5rem;">ПОДАРЪЧЕН ВАУЧЕР</div><div class="vch-print-title">${escapeHtml(v.title)}</div><div class="vch-print-value">${formatPrice(val)} €</div>${getVoucherSpent(v) > 0 ? `<div style="font-size:0.95rem; color:#1a7a3e; font-weight:700; margin-bottom:0.6rem;">Остатък: ${formatPrice(Math.max(0, getVoucherBalance(v)))} €</div>` : ''}<div style="font-size:0.85rem; color:#5a7a9a; margin-bottom:0.5rem;">Код за активиране:</div><div class="vch-print-code">${escapeHtml(v.code)}</div><div style="margin-top:1rem; padding:0.8rem 1rem; background:#f9f5ff; border-radius:12px; display:inline-block;"><span class="vch-status-badge ${status}"><i class="fas ${s.icon}"></i> ${s.label}</span></div><div class="vch-print-meta"><div><strong>Получател:</strong><br>${escapeHtml(v.recipientName)}</div><div style="text-align:right;"><strong>Валиден до:</strong><br>${formatDate(v.expiryDate)}</div></div>${v.notes ? `<div class="vch-print-note">${escapeHtml(v.notes)}</div>` : ''}<div style="margin-top:1rem; font-size:0.78rem; color:#7f95b0;">За: ${escapeHtml(pn)}<br>Издаден: ${formatDate(toDateStr(new Date(v.createdAt)))}</div></div>`; $('voucherViewModal').classList.add('active'); }
 $('vchViewClose')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
 $('vchViewOkBtn')?.addEventListener('click', () => { $('voucherViewModal').classList.remove('active'); currentVoucherId = null; });
 $('vchViewPrintBtn')?.addEventListener('click', () => { window.print(); });
