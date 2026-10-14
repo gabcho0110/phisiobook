@@ -1049,7 +1049,8 @@ window.PB_I18N_DATA = {
 "Име на теста *":{"en":"Test name *","de":"Name des Tests *","ru":"Название теста *"},
 "Изтрий реда":{"en":"Delete row","de":"Zeile löschen","ru":"Удалить строку"},
 "Няма запис за изтриване.":{"en":"There is no record to delete.","de":"Es gibt keinen Eintrag zum Löschen.","ru":"Нет записи для удаления."},
-"Изтрит.":{"en":"Deleted.","de":"Gelöscht.","ru":"Удалено."}
+"Изтрит.":{"en":"Deleted.","de":"Gelöscht.","ru":"Удалено."},
+"Изберете от списъка или въведете нова":{"en":"Select from the list or enter a new one","de":"Aus der Liste wählen oder neue eingeben","ru":"Выберите из списка или введите новую"}
 },
 "pattern": {
 "Недостатъчен остатък по ваучера: {0} €.":{"en":"Insufficient voucher balance: {0} €.","de":"Unzureichender Gutschein-Restbetrag: {0} €.","ru":"Недостаточный остаток ваучера: {0} €."},
