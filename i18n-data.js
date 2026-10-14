@@ -1046,7 +1046,10 @@ window.PB_I18N_DATA = {
 "Точки":{"en":"Points","de":"Punkte","ru":"Баллы"},
 "Изтрий въпроса":{"en":"Delete question","de":"Frage löschen","ru":"Удалить вопрос"},
 "Изтрий отговора":{"en":"Delete answer","de":"Antwort löschen","ru":"Удалить ответ"},
-"Име на теста *":{"en":"Test name *","de":"Name des Tests *","ru":"Название теста *"}
+"Име на теста *":{"en":"Test name *","de":"Name des Tests *","ru":"Название теста *"},
+"Изтрий реда":{"en":"Delete row","de":"Zeile löschen","ru":"Удалить строку"},
+"Няма запис за изтриване.":{"en":"There is no record to delete.","de":"Es gibt keinen Eintrag zum Löschen.","ru":"Нет записи для удаления."},
+"Изтрит.":{"en":"Deleted.","de":"Gelöscht.","ru":"Удалено."}
 },
 "pattern": {
 "Недостатъчен остатък по ваучера: {0} €.":{"en":"Insufficient voucher balance: {0} €.","de":"Unzureichender Gutschein-Restbetrag: {0} €.","ru":"Недостаточный остаток ваучера: {0} €."},
@@ -1106,6 +1109,7 @@ window.PB_I18N_DATA = {
 "Въпрос {0} трябва да има поне два отговора.":{"en":"Question {0} must have at least two answers.","de":"Frage {0} muss mindestens zwei Antworten haben.","ru":"У вопроса {0} должно быть не менее двух ответов."},
 "Попълнете всички отговори на въпрос {0}.":{"en":"Fill in all answers for question {0}.","de":"Füllen Sie alle Antworten für Frage {0} aus.","ru":"Заполните все ответы на вопрос {0}."},
 "Да изтрия ли теста „{0}\"?":{"en":"Delete the test \"{0}\"?","de":"Test „{0}\" löschen?","ru":"Удалить тест «{0}»?"},
-"{0} въпроса":{"en":"{0} questions","de":"{0} Fragen","ru":"{0} вопросов"}
+"{0} въпроса":{"en":"{0} questions","de":"{0} Fragen","ru":"{0} вопросов"},
+"Да изтрия ли записа за {0}?":{"en":"Delete the record for {0}?","de":"Eintrag für {0} löschen?","ru":"Удалить запись для {0}?"}
 }
 };

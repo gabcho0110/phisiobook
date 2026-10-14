@@ -373,6 +373,11 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .price-cell .currency { color: #7f95b0; font-weight: 600; }
 .save-price-btn { padding: 0.4rem 0.8rem; border-radius: 8px; border: none; background: #1e4a78; color: #ffffff; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
 .save-price-btn.saved { background: #1a7a3e; }
+/* Действия по ред — „Запази" + изтриване само на ТОЗИ ред. */
+.price-actions { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.del-price-btn { padding: 0.4rem 0.6rem; border-radius: 8px; border: 1px solid #f2c9c9; background: #ffffff; color: #b22234; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.del-price-btn:hover:not(:disabled) { background: #b22234; border-color: #b22234; color: #ffffff; }
+.del-price-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: #e2eaf3; color: #b0bdd0; }
 /* Колона „Плащане" в ценоразписа. При „Ваучер" се показва поле за кода. */
 .pay-cell { min-width: 160px; vertical-align: top; }
 .pay-method-select { width: 100%; min-width: 140px; padding: 0.4rem 0.5rem; border-radius: 8px; border: 1px solid #cfddee; background: #ffffff; color: #0b2b4f; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
@@ -3681,12 +3686,14 @@ function renderPricing() {
     const pv = ex ? ex.price : '';
     const dv = ex ? (ex.description||'') : '';
     const has = ex && ex.price !== '' && ex.price != null;
+    // Редът съществува в базата (дори само с описание) ⇒ може да се изтрие.
+    const exists = !!ex;
     const pm = ex ? (ex.paymentMethod||'') : '';
     // Кодовете са само A-Z/0-9 — изчистваме всичко друго, за да е безопасно
     // за влагане в атрибут `value`.
     const vc = (ex ? (ex.voucherCode||'') : '').replace(/[^A-Za-z0-9]/g, '');
     const isVch = pm === 'voucher';
-    return `<tr data-patient-id="${p.id}"><td><a class="patient-link" data-id="${p.id}">${escapeHtml(p.name)}</a></td><td><input type="text" class="proc-desc-input" value="${escapeHtml(dv)}" placeholder="Процедура..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #cfddee; font-family:inherit;"></td><td><div class="price-cell"><input type="number" class="price-input" step="0.01" min="0" value="${pv}" placeholder="0.00"><span class="currency">€</span></div></td><td class="pay-cell"><select class="pay-method-select${isVch?' is-voucher':''}"><option value="">— не е избрано —</option><option value="cash"${pm==='cash'?' selected':''}>В брой</option><option value="card"${pm==='card'?' selected':''}>С карта</option><option value="bank"${pm==='bank'?' selected':''}>Банков превод</option><option value="voucher"${isVch?' selected':''}>Ваучер</option></select><div class="voucher-input-wrap"${isVch?'':' style="display:none;"'}><input type="text" class="voucher-code-input" maxlength="8" value="${vc}" placeholder="Код на ваучер" autocomplete="off" spellcheck="false"><div class="voucher-hint"></div></div></td><td><button class="save-price-btn ${has?'saved':''}" data-patient-id="${p.id}"><i class="fas ${has?'fa-check':'fa-save'}"></i> ${has?'Запазено':'Запази'}</button></td></tr>`;
+    return `<tr data-patient-id="${p.id}"><td><a class="patient-link" data-id="${p.id}">${escapeHtml(p.name)}</a></td><td><input type="text" class="proc-desc-input" value="${escapeHtml(dv)}" placeholder="Процедура..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #cfddee; font-family:inherit;"></td><td><div class="price-cell"><input type="number" class="price-input" step="0.01" min="0" value="${pv}" placeholder="0.00"><span class="currency">€</span></div></td><td class="pay-cell"><select class="pay-method-select${isVch?' is-voucher':''}"><option value="">— не е избрано —</option><option value="cash"${pm==='cash'?' selected':''}>В брой</option><option value="card"${pm==='card'?' selected':''}>С карта</option><option value="bank"${pm==='bank'?' selected':''}>Банков превод</option><option value="voucher"${isVch?' selected':''}>Ваучер</option></select><div class="voucher-input-wrap"${isVch?'':' style="display:none;"'}><input type="text" class="voucher-code-input" maxlength="8" value="${vc}" placeholder="Код на ваучер" autocomplete="off" spellcheck="false"><div class="voucher-hint"></div></div></td><td><div class="price-actions"><button class="save-price-btn ${has?'saved':''}" data-patient-id="${p.id}"><i class="fas ${has?'fa-check':'fa-save'}"></i> ${has?'Запазено':'Запази'}</button><button class="del-price-btn" data-patient-id="${p.id}" ${exists?'':'disabled'} title="Изтрий реда"><i class="fas fa-trash-alt"></i></button></div></td></tr>`;
   }).join('');
   updatePriceSummary();
   refreshAllVoucherHints();
@@ -3713,7 +3720,37 @@ $('pricingBody').addEventListener('input', (e)=>{
   if (inp.value !== up) { const pos = inp.selectionStart; inp.value = up; try { inp.setSelectionRange(pos, pos); } catch(_){} }
   refreshVoucherHint(inp.closest('tr'));
 });
+// Изтриване на ЕДИН ред от ценоразписа (за разлика от „Изтрий" в лентата горе,
+// което чисти всичко). Ако редът е бил платен с ваучер, връщаме обратно
+// изразходваното — пак в едно атомарно обновяване с плоски ключове.
+async function deletePricingRow(btn) {
+  const pid = btn.dataset.patientId;
+  const key = getPricingKey(pid, currentPriceDate);
+  const item = pricing[key];
+  if (!item) { showToast('Няма запис за изтриване.', 'error'); return; }
+  const p = getPatientsForUser().find(x => x.id === pid);
+  const who = (p && p.name) || 'този пациент';
+  const amount = (item.price === '' || item.price == null) ? '' : formatPrice(parseFloat(item.price)) + ' €';
+  const lines = [`Да изтрия ли записа за ${who}?`];
+  if (item.description) lines.push(item.description);
+  if (amount) lines.push(amount);
+  if (!confirm(lines.join('\n'))) return;
+  btn.disabled = true;
+  try {
+    // ⚠️ Плоски ключове с наклонени черти — вложен обект би ЗАМЕСТИЛ целия възел.
+    const updates = {};
+    updates[`pricing/${key}`] = null;
+    if (item.voucherId && item.voucherUsageId) {
+      updates[`vouchers/${item.voucherId}/usage/${item.voucherUsageId}`] = null;
+    }
+    await update(clinicRef(), updates);
+    showToast('Изтрит.', 'success');
+  } catch (err) { showToast('Грешка: ' + err.message, 'error'); }
+  finally { btn.disabled = false; }
+}
 $('pricingBody').addEventListener('click', async (e)=>{
+  const delBtn = e.target.closest('.del-price-btn');
+  if (delBtn) { await deletePricingRow(delBtn); return; }
   const btn = e.target.closest('.save-price-btn');
   if (!btn) return;
   const row = btn.closest('tr');
