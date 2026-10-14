@@ -1941,13 +1941,14 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="card">
 <h3><i class="fas fa-plus-circle"></i> Нова процедура (шаблон)</h3>
 <form id="procedureTemplateForm" class="form-grid">
-<div class="form-group"><label>Име *</label><input type="text" id="procTplName" required></div>
+<div class="form-group"><label>Име *</label><input type="text" id="procTplName" list="procTplNameList" autocomplete="off" placeholder="Изберете от списъка или въведете нова" required></div>
 <div class="form-group"><label>Категория</label><select id="procTplCategory"><option value="">-- без категория --</option></select></div>
 <div class="form-group"><label>Цена (€)</label><input type="number" id="procTplPrice" step="0.01" min="0"></div>
 <div class="form-group"><label>Продължителност (мин)</label><input type="number" id="procTplDuration" min="0"></div>
 <div class="form-group" style="grid-column: span 2;"><label>Описание</label><textarea id="procTplDesc"></textarea></div>
 <div class="form-group" style="justify-content: end; grid-column: span 2;"><button type="submit" class="btn" id="addProcTplBtn"><i class="fas fa-save"></i> Добави</button></div>
 </form>
+<datalist id="procTplNameList"></datalist>
 </div>
 <div class="table-wrapper"><table><thead><tr><th>Процедура</th><th>Категория</th><th>Цена</th><th>Продължителност</th><th></th></tr></thead><tbody id="procedureTemplatesBody"></tbody></table></div>
 </div>
@@ -3837,8 +3838,33 @@ $('clinicSettingsForm').addEventListener('submit', async (e)=>{ e.preventDefault
 $('serviceForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const name = $('servName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addServiceBtn').disabled = true; try { await set(push(clinicRef('services')), { name, category: $('servCategory').value, price: parseFloat($('servPrice').value) || 0, duration: parseInt($('servDuration').value) || 0, description: $('servDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id }); $('serviceForm').reset(); showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addServiceBtn').disabled = false; } });
 function renderServices() { const all = Object.entries(services).map(([id,s])=>({id,...s})); if (all.length===0) { $('servicesBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма услуги</td></tr>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('servicesBody').innerHTML = sorted.map(s=>`<tr><td><strong>${escapeHtml(s.name)}</strong>${s.description?`<div style="font-size:0.8rem;color:#7f95b0;margin-top:2px;">${escapeHtml(s.description)}</div>`:''}</td><td>${s.category?`<span class="service-category-badge">${escapeHtml(s.category)}</span>`:'---'}</td><td><strong>${formatPrice(s.price)} €</strong></td><td>${s.duration?s.duration+' мин':'---'}</td><td><button class="btn-danger-outline btn btn-sm delete-service" data-id="${s.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`).join(''); }
 document.addEventListener('click', async (e)=>{ const b = e.target.closest('.delete-service'); if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`services/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
-$('procedureTemplateForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const name = $('procTplName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addProcTplBtn').disabled = true; try { await set(push(clinicRef('procedureTemplates')), { name, category: $('procTplCategory').value, price: parseFloat($('procTplPrice').value) || 0, duration: parseInt($('procTplDuration').value) || 0, description: $('procTplDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id }); $('procedureTemplateForm').reset(); showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addProcTplBtn').disabled = false; } });
-function renderProcedureTemplates() { const all = Object.entries(procedureTemplates).map(([id,p])=>({id,...p})); if (all.length===0) { $('procedureTemplatesBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('procedureTemplatesBody').innerHTML = sorted.map(p=>`<tr><td><strong>${escapeHtml(p.name)}</strong></td><td>${p.category?`<span class="service-category-badge">${escapeHtml(p.category)}</span>`:'---'}</td><td><strong>${formatPrice(p.price)} €</strong></td><td>${p.duration?p.duration+' мин':'---'}</td><td><button class="btn-danger-outline btn btn-sm delete-proc-tpl" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`).join(''); }
+$('procedureTemplateForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const name = $('procTplName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addProcTplBtn').disabled = true; try { await set(push(clinicRef('procedureTemplates')), { name, category: $('procTplCategory').value, price: parseFloat($('procTplPrice').value) || 0, duration: parseInt($('procTplDuration').value) || 0, description: $('procTplDesc').value.trim(), createdAt: Date.now(), createdBy: currentUser.id }); $('procedureTemplateForm').reset(); lastProcTplAutofilled = null; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addProcTplBtn').disabled = false; } });
+function updateProcTplNameList() {
+  const list = $('procTplNameList');
+  if (!list) return;
+  const names = Object.values(procedureTemplates)
+    .map(p => (p && p.name ? p.name : ''))
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b, 'bg'));
+  list.innerHTML = names.map(n => `<option value="${escapeHtml(n)}"></option>`).join('');
+}
+// Име *: combobox — избираш от вече създадените (datalist) ИЛИ пишеш нова процедура.
+// При точно съвпадение с име на шаблон се зареждат неговите данни като отправна точка.
+let lastProcTplAutofilled = null;
+$('procTplName').addEventListener('input', () => {
+  const name = $('procTplName').value.trim();
+  const m = Object.values(procedureTemplates).find(p => p && p.name === name);
+  if (!m) { lastProcTplAutofilled = null; return; }
+  // Авто-попълване само при прясно съвпадение — за да не заличаваме ръчните
+  // редакции по цена/продължителност, ако потребителят пак докосне полето „Име".
+  if (name === lastProcTplAutofilled) return;
+  lastProcTplAutofilled = name;
+  $('procTplCategory').value = m.category || '';
+  if (m.price != null && m.price !== '') $('procTplPrice').value = m.price;
+  if (m.duration != null && m.duration !== '') $('procTplDuration').value = m.duration;
+  $('procTplDesc').value = m.description || '';
+});
+function renderProcedureTemplates() { updateProcTplNameList(); const all = Object.entries(procedureTemplates).map(([id,p])=>({id,...p})); if (all.length===0) { $('procedureTemplatesBody').innerHTML = `<tr><td colspan="5" class="empty-message">Няма процедури</td></tr>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('procedureTemplatesBody').innerHTML = sorted.map(p=>`<tr><td><strong>${escapeHtml(p.name)}</strong></td><td>${p.category?`<span class="service-category-badge">${escapeHtml(p.category)}</span>`:'---'}</td><td><strong>${formatPrice(p.price)} €</strong></td><td>${p.duration?p.duration+' мин':'---'}</td><td><button class="btn-danger-outline btn btn-sm delete-proc-tpl" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button></td></tr>`).join(''); }
 document.addEventListener('click', async (e)=>{ const b = e.target.closest('.delete-proc-tpl'); if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`procedureTemplates/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
 $('categoryForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const name = $('catName').value.trim(); if (!name) { showToast('Въведете име.','error'); return; } $('addCategoryBtn').disabled = true; try { await set(push(clinicRef('categories')), { name, type: $('catType').value, color: $('catColor').value, createdAt: Date.now() }); $('categoryForm').reset(); $('catColor').value = '#1e4a78'; showToast('Добавена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addCategoryBtn').disabled = false; } });
 function renderCategories() { const all = Object.entries(categories).map(([id,c])=>({id,...c})); if (all.length===0) { $('categoriesList').innerHTML = `<div style="text-align:center; color:#7f95b0; padding:1rem; font-style:italic;">Няма категории</div>`; return; } $('categoriesList').innerHTML = all.map(c=>`<div style="display:flex; align-items:center; justify-content:space-between; padding:0.7rem 1rem; background:#f8fbfe; border-radius:12px; border-left:4px solid ${c.color||'#1e4a78'};"><div><strong style="color:#0b2b4f;">${escapeHtml(c.name)}</strong><span style="font-size:0.8rem; color:#7f95b0; margin-left:8px;">${escapeHtml(c.type||'')}</span></div><button class="btn-danger-outline btn btn-sm delete-category" data-id="${c.id}"><i class="fas fa-trash-alt"></i></button></div>`).join(''); }
