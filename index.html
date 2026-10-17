@@ -1065,7 +1065,7 @@ body.patient-mode .delete-program { display: none !important; }
   .modal-actions { flex-direction: column; }
   .modal-actions .btn { width: 100%; }
   .profile-header { padding: 1rem 0.8rem !important; flex-direction: column; text-align: center; }
-  .messages-panel, .notif-panel { width: 100vw !important; top: var(--header-h, 54px) !important; height: calc(100vh - var(--header-h, 54px)) !important; }
+  .messages-panel, .notif-panel { width: 100vw !important; top: var(--header-h, 54px) !important; bottom: 56px !important; height: auto !important; padding-bottom: env(safe-area-inset-bottom, 0px) !important; }
   .toast-container { bottom: 70px; left: 8px; right: 8px; }
   .toast { max-width: none; width: 100%; }
   .module-header { flex-direction: column; align-items: flex-start; }
