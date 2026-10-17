@@ -3048,20 +3048,22 @@ async function enablePushNotifications() {
   let perm = Notification.permission;
   if (perm === 'default') { try { perm = await Notification.requestPermission(); } catch (e) { perm = 'denied'; } }
   if (perm !== 'granted') { showToast('Разрешението за известия е отказано.', 'error'); updatePushToggleUI(false); return; }
+  // Включваме локално веднага след дадено разрешение — тестовото известие работи веднага,
+  // дори ако реалната FCM доставка (VAPID + Cloud Function) още не е настроена.
+  try {
+    if (currentUser && activeClinicId) await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), true);
+    updatePushToggleUI(true);
+    showToast('Известията на заключен екран са включени.', 'success');
+  } catch (e) { showToast('Грешка: ' + e.message, 'error'); updatePushToggleUI(false); return; }
+  // Опит за реален FCM токен (изисква VAPID ключ). При липса — тестовото известие пак работи.
   try {
     const m = getFcmMessaging();
-    if (!m) { showToast('FCM не е зареден — проверете VAPID ключа.', 'error'); updatePushToggleUI(false); return; }
-    if (FCM_VAPID_KEY.indexOf('REPLACE_WITH') === 0) { showToast('Липсва FCM VAPID ключ в кода.', 'error'); updatePushToggleUI(false); return; }
-    const reg = await navigator.serviceWorker.ready;
-    const token = await getToken(m, { vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
-    if (!token) { showToast('Неуспешно получаване на FCM токен.', 'error'); updatePushToggleUI(false); return; }
-    if (currentUser && activeClinicId) {
-      await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), true);
-      await savePushToken(token);
+    if (m && FCM_VAPID_KEY.indexOf('REPLACE_WITH') !== 0) {
+      const reg = await navigator.serviceWorker.ready;
+      const token = await getToken(m, { vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
+      if (token) await savePushToken(token);
     }
-    updatePushToggleUI(true);
-    showToast('Push известията са включени.', 'success');
-  } catch (e) { console.error(e); showToast('Грешка: ' + e.message, 'error'); updatePushToggleUI(false); }
+  } catch (e) { console.warn('FCM токенът не е запазен (реалната доставка изисква VAPID + Cloud Function):', e); }
 }
 
 async function disablePushNotifications() {
