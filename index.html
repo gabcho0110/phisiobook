@@ -3119,9 +3119,9 @@ async function changeAptStatus(aptId, newStatus, reason = '') {
     await update(clinicRef(`appointments/${aptId}`), updates);
     const pat = patients[apt.patientId]; const pn = pat ? pat.name : 'неизвестен'; const dateStr = formatDate(apt.date) + ' ' + (apt.time || '');
     if (newStatus === 'no_show') { await notifyAllStaff('⚠️ Пациент не се яви', `${pn} не се яви на часа на ${dateStr}`, 'appointment'); await set(push(clinicRef('tasks')), { text: `Обади се на ${pn} (не се яви на ${dateStr})`, done: false, createdBy: currentUser.id, createdAt: Date.now() }); showToast('Маркирано: не се яви + задача', 'success'); }
-    else if (newStatus === 'cancelled') { await notifyAllStaff('❌ Час отказан', `${pn} - ${dateStr}${reason ? ' (' + reason + ')' : ''}`, 'appointment'); showToast('Часът е отказан.', 'success'); }
+    else if (newStatus === 'cancelled') { await notifyAllStaff('❌ Час отказан', `${pn} - ${dateStr}${reason ? ' (' + reason + ')' : ''}`, 'appointment'); if (apt.patientId) await createNotification(apt.patientId, '❌ Часът ви е отказан', `${pn} — ${dateStr}${reason ? ' (' + reason + ')' : ''}`, 'appointment'); showToast('Часът е отказан.', 'success'); }
     else if (newStatus === 'completed') { showToast('Часът е приключен.', 'success'); openSOAPForAppointment(apt); }
-    else if (newStatus === 'confirmed') { showToast('Часът е потвърден.', 'success'); }
+    else if (newStatus === 'confirmed') { await notifyAllStaff('✅ Час потвърден', `${pn} — ${dateStr}`, 'appointment'); if (apt.patientId) await createNotification(apt.patientId, '✅ Часът ви е потвърден', `${pn}, вашият час на ${dateStr} е потвърден.`, 'appointment'); showToast('Часът е потвърден.', 'success'); }
     $('aptManageModal').classList.remove('active');
     currentAptId = null;
   } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
@@ -4171,6 +4171,8 @@ $('appointmentForm').addEventListener('submit', async (e) => {
   $('addAppointmentBtn').disabled = true;
   try { if (isRecurring && recurringCount > 1) { const dates = addRecurringDates(date, recurringType, recurringCount); const groupId = `grp_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`; for (let i = 0; i < dates.length; i++) { await set(push(clinicRef('appointments')), { patientId, kineziId, date: dates[i], time, duration, note, status: 'confirmed', recurrence: { groupId, index: i + 1, total: dates.length, type: recurringType }, createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); } showToast(`Създадени ${dates.length} повтарящи се часа.`, 'success'); }
     else { await set(push(clinicRef('appointments')), { patientId, kineziId, date, time, duration, note, status: 'confirmed', createdBy: currentUser.id, createdByName: currentUser.name, createdAt: Date.now() }); showToast('Часът е запазен.', 'success'); }
+    // Известия за нов записан час (персонал + пациент)
+    try { const _pn = (patients[patientId] && patients[patientId].name) || 'пациент'; const _ds = formatDate(date) + ' ' + time; await notifyAllStaff('📅 Нов записан час', `${_pn} — ${_ds}${kineziId ? ' (' + (users[kineziId]?.name || '') + ')' : ''}`, 'appointment'); if (patientId) await createNotification(patientId, '📅 Записан час', `Имате час на ${_ds}${kineziId ? ' при ' + (users[kineziId]?.name || '') : ''}.`, 'appointment'); } catch(e) { console.warn('Notify new apt:', e); }
     $('appointmentForm').reset(); $('aptDate').value = toDateStr(new Date()); $('aptRecurringToggle').checked = false; $('aptRecurringOptions').style.display = 'none';
   } catch(err) { showToast('Грешка: ' + err.message, 'error'); }
   finally { $('addAppointmentBtn').disabled = false; }
