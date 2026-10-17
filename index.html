@@ -1088,6 +1088,21 @@ body.patient-mode .delete-program { display: none !important; }
   .mobile-bottom-nav { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
   .app-header { padding-top: max(0.5rem, env(safe-area-inset-top)); }
 }
+
+/* ── Push известия (комбобокс в панела „Известия") ───────────────────────── */
+.notif-push { padding: 12px 14px; border-bottom: 1px solid #eef2f7; background: #f7faff; display: flex; flex-direction: column; gap: 10px; }
+.notif-push-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.notif-push-title { font-weight: 600; font-size: 0.9rem; color: #1e4a78; }
+.notif-push-sub { font-size: 0.74rem; color: #7f95b0; margin-top: 2px; }
+.notif-push .switch { position: relative; width: 46px; height: 26px; flex: 0 0 auto; display: inline-block; }
+.notif-push .switch input { opacity: 0; width: 0; height: 0; }
+.notif-push .slider { position: absolute; inset: 0; background: #cbd5e1; border-radius: 30px; transition: .2s; cursor: pointer; }
+.notif-push .slider:before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+.notif-push .switch input:checked + .slider { background: #1e4a78; }
+.notif-push .switch input:checked + .slider:before { transform: translateX(20px); }
+.notif-push-test { align-self: flex-start; font-size: 0.8rem; padding: 6px 12px; border: 1px solid #1e4a78; color: #1e4a78; background: #fff; border-radius: 8px; cursor: pointer; }
+.notif-push-test:disabled { opacity: .5; cursor: not-allowed; }
+.notif-push-note { font-size: 0.72rem; color: #b45309; }
 </style>
 </head>
 <body><svg width="0" height="0" style="position:absolute;">
@@ -2159,6 +2174,17 @@ body.patient-mode .delete-program { display: none !important; }
 <button class="notif-mark-btn" id="notifMarkAllBtn"><i class="fas fa-check-double"></i> Маркирай всички като прочетени</button>
 <button class="notif-mark-btn" id="notifClearAllBtn"><i class="fas fa-trash-alt"></i> Изтрий всички</button>
 </div>
+<div class="notif-push">
+<div class="notif-push-row">
+<div>
+<div class="notif-push-title">Известия на заключен екран</div>
+<div class="notif-push-sub">Получавайте push известия като отделно приложение (дори при затворен екран).</div>
+</div>
+<label class="switch"><input type="checkbox" id="pushToggle"><span class="slider"></span></label>
+</div>
+<button class="notif-push-test" id="pushTestBtn" disabled><i class="fas fa-bell"></i> Изпрати тестово известие</button>
+<div class="notif-push-note" id="pushNote" style="display:none;"></div>
+</div>
 <div class="notif-list" id="notifList"></div>
 </div>
 
@@ -2452,6 +2478,7 @@ body.patient-mode .delete-program { display: none !important; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, EmailAuthProvider, reauthenticateWithCredential, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQl5_htAdWIzabLqdNi1c5v7tQ1NqUDFY",
@@ -2975,6 +3002,112 @@ async function createNotification(userId, title, text, type = 'default') {
   catch(err) { console.error('Notif error:', err); }
 }
 
+// ==================== PUSH ИЗВЕСТИЯ (FCM Web Push) ====================
+// Web Push VAPID ключът се генерира във Firebase конзолата:
+// Project settings → Cloud Messaging → Web Push certificates → Generate key pair.
+// Това е ПУБЛИЧЕН ключ и е безопасен за вграждане в клиента.
+const FCM_VAPID_KEY = 'REPLACE_WITH_FCM_WEB_PUSH_VAPID_KEY';
+
+let _fcmMessaging = null;
+let _pushInited = false;
+let _pushTokenSaved = false;
+
+function getFcmMessaging() {
+  if (_fcmMessaging) return _fcmMessaging;
+  try { _fcmMessaging = getMessaging(app); } catch (e) { console.warn('FCM init failed:', e); return null; }
+  return _fcmMessaging;
+}
+
+function _safeTokenKey(token) { return String(token || '').replace(/[^a-zA-Z0-9_-]/g, '_'); }
+
+async function savePushToken(token) {
+  if (!currentUser || !activeClinicId || !token) return;
+  await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/fcmTokens/${_safeTokenKey(token)}`), { token, createdAt: Date.now(), ua: navigator.userAgent });
+  _pushTokenSaved = true;
+}
+async function clearPushTokens() {
+  if (!currentUser || !activeClinicId) return;
+  await remove(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/fcmTokens`));
+  _pushTokenSaved = false;
+}
+
+// Възстановява абонамента при вече включен потребител (след рестарт/смяна на клиника).
+async function ensurePushSubscription() {
+  if (_pushInited) return; _pushInited = true;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  try {
+    const m = getFcmMessaging(); if (!m) return;
+    const reg = await navigator.serviceWorker.ready;
+    const token = await getToken(m, { vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
+    if (token && !_pushTokenSaved) await savePushToken(token);
+  } catch (e) { console.warn('Push subscription restore failed:', e); }
+}
+
+async function enablePushNotifications() {
+  if (!('Notification' in window)) { showToast('Това устройство не поддържа известия.', 'error'); updatePushToggleUI(false); return; }
+  let perm = Notification.permission;
+  if (perm === 'default') { try { perm = await Notification.requestPermission(); } catch (e) { perm = 'denied'; } }
+  if (perm !== 'granted') { showToast('Разрешението за известия е отказано.', 'error'); updatePushToggleUI(false); return; }
+  try {
+    const m = getFcmMessaging();
+    if (!m) { showToast('FCM не е зареден — проверете VAPID ключа.', 'error'); updatePushToggleUI(false); return; }
+    if (FCM_VAPID_KEY.indexOf('REPLACE_WITH') === 0) { showToast('Липсва FCM VAPID ключ в кода.', 'error'); updatePushToggleUI(false); return; }
+    const reg = await navigator.serviceWorker.ready;
+    const token = await getToken(m, { vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
+    if (!token) { showToast('Неуспешно получаване на FCM токен.', 'error'); updatePushToggleUI(false); return; }
+    if (currentUser && activeClinicId) {
+      await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), true);
+      await savePushToken(token);
+    }
+    updatePushToggleUI(true);
+    showToast('Push известията са включени.', 'success');
+  } catch (e) { console.error(e); showToast('Грешка: ' + e.message, 'error'); updatePushToggleUI(false); }
+}
+
+async function disablePushNotifications() {
+  try {
+    await clearPushTokens();
+    if (currentUser && activeClinicId) await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), false);
+    updatePushToggleUI(false);
+    showToast('Push известията са изключени.', 'info');
+  } catch (e) { showToast('Грешка: ' + e.message, 'error'); }
+}
+
+function updatePushToggleUI(enabled) {
+  const t = $('pushToggle'); if (t) t.checked = !!enabled;
+  const b = $('pushTestBtn'); if (b) b.disabled = !enabled;
+}
+
+// Foreground: вътрешният панел вече показва известието (RTDB listener); тук само
+// лек toast за бързо известяване, без дублиране на OS нотификация.
+function setupFcmForeground() {
+  const m = getFcmMessaging(); if (!m) return;
+  onMessage(m, (payload) => {
+    const title = payload?.notification?.title || payload?.data?.title || 'Известие';
+    const body = payload?.notification?.body || payload?.data?.body || '';
+    showToast(`${title}${body ? ': ' + body : ''}`, 'info');
+  });
+}
+
+// Тестово известие директно през SW — показва се на заключен екран БЕЗ Cloud Function.
+async function sendTestNotification() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification('PhysioBook — тест', {
+      body: 'Това е тестово известие. Ако го виждате на заключен екран, push-ът работи.',
+      icon: '/icon-512.png', badge: '/icon-192.png', tag: 'physiobook-test',
+      visibility: 'public', data: { test: true, url: '/' }
+    });
+    showToast('Тестово известие изпратено — погледнете заключен екран.', 'success');
+  } catch (e) { console.error(e); showToast('Грешка при теста: ' + e.message, 'error'); }
+}
+
+(async () => {
+  setupFcmForeground();
+  const tgl = $('pushToggle'); if (tgl) tgl.addEventListener('change', (e) => { if (e.target.checked) enablePushNotifications(); else disablePushNotifications(); });
+  const tst = $('pushTestBtn'); if (tst) tst.addEventListener('click', sendTestNotification);
+})();
+
 async function changeAptStatus(aptId, newStatus, reason = '') {
   const apt = appointments[aptId];
   if (!apt) { showToast('Часът не е намерен.', 'error'); return; }
@@ -3338,6 +3471,13 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/documents`), (s) => { documents = s.val() || {}; renderDocuments(); }));
   unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => { messages = s.val() || {}; renderInbox(); renderSent(); updateMessagesBadge(); if (currentChatUserId) renderChat(); }));
   unsubscribers.push(onValue(ref(db, `${base}/notifications`), (s) => { notifications = s.val() || {}; renderNotifications(); updateNotificationsBadge(); }));
+  if (currentUser && !currentPatient) {
+    unsubscribers.push(onValue(ref(db, `${base}/users/${currentUser.id}/pushEnabled`), (s) => {
+      const enabled = !!s.val();
+      updatePushToggleUI(enabled);
+      if (enabled) ensurePushSubscription();
+    }));
+  }
   unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); }));
   unsubscribers.push(onValue(ref(db, `${base}/customTests`), (s) => { customTests = s.val() || {}; renderTestGrid(); renderTestHistory(); }));
   unsubscribers.push(onValue(ref(db, `${base}/inventory`), (s) => { inventory = s.val() || {}; renderInventory(); renderInventoryStats(); renderInventoryCategoryChips(); renderInvMovItemFilter(); }));

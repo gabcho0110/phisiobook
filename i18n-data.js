@@ -1050,7 +1050,10 @@ window.PB_I18N_DATA = {
 "Изтрий реда":{"en":"Delete row","de":"Zeile löschen","ru":"Удалить строку"},
 "Няма запис за изтриване.":{"en":"There is no record to delete.","de":"Es gibt keinen Eintrag zum Löschen.","ru":"Нет записи для удаления."},
 "Изтрит.":{"en":"Deleted.","de":"Gelöscht.","ru":"Удалено."},
-"Изберете от списъка или въведете нова":{"en":"Select from the list or enter a new one","de":"Aus der Liste wählen oder neue eingeben","ru":"Выберите из списка или введите новую"}
+"Изберете от списъка или въведете нова":{"en":"Select from the list or enter a new one","de":"Aus der Liste wählen oder neue eingeben","ru":"Выберите из списка или введите новую"},
+"Известия на заключен екран":{"en":"Lock screen notifications","de":"Sperrbildschirm-Benachrichtigungen","ru":"Уведомления на заблокированном экране"},
+"Получавайте push известия като отделно приложение (дори при затворен екран).":{"en":"Receive push notifications like a standalone app (even when the screen is locked).","de":"Erhalten Sie Push-Benachrichtigungen wie eine eigenständige App (auch bei gesperrtem Bildschirm).","ru":"Получайте push-уведомления как отдельное приложение (даже при заблокированном экране)."},
+"Изпрати тестово известие":{"en":"Send test notification","de":"Test-Benachrichtigung senden","ru":"Отправить тестовое уведомление"}
 },
 "pattern": {
 "Недостатъчен остатък по ваучера: {0} €.":{"en":"Insufficient voucher balance: {0} €.","de":"Unzureichender Gutschein-Restbetrag: {0} €.","ru":"Недостаточный остаток ваучера: {0} €."},

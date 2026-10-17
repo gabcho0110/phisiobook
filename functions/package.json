@@ -1,0 +1,13 @@
+{
+  "name": "physiobook-functions",
+  "description": "Push известия за PhysioBook (FCM Web Push)",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.3.0",
+    "firebase-functions": "^5.1.0"
+  }
+}
