@@ -395,6 +395,16 @@ td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #edf2f8; color: #1f3f61; v
 .day-summary-card .day-title { font-size: 0.8rem; font-weight: 700; color: #1e4a78; margin-bottom: 0.4rem; }
 .day-summary-card .day-total { font-size: 1.2rem; font-weight: 700; color: #0b2b4f; }
 .day-summary-card .day-count { font-size: 0.75rem; color: #7f95b0; margin-top: 0.2rem; }
+.day-summary-card .day-detail-hint { font-size: 0.7rem; color: #1e4a78; margin-top: 0.45rem; opacity: 0.7; display: flex; align-items: center; gap: 4px; }
+.day-summary-card:hover .day-detail-hint { opacity: 1; }
+.day-detail-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.day-detail-stat { flex: 1 1 140px; background: #f7faff; border: 1px solid #e9eef3; border-radius: 12px; padding: 0.7rem 1rem; display: flex; flex-direction: column; gap: 2px; }
+.day-detail-stat .small-label { font-size: 0.7rem; color: #7f95b0; text-transform: uppercase; }
+.day-detail-stat .big-value { font-size: 1.15rem; font-weight: 700; color: #0b2b4f; }
+.price-detail-table { width: 100%; border-collapse: collapse; }
+.price-detail-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; color: #7f95b0; padding: 0.5rem 0.6rem; border-bottom: 1px solid #eef2f7; }
+.price-detail-table td { padding: 0.6rem; border-bottom: 1px solid #f4f7fb; font-size: 0.9rem; color: #33475b; }
+.price-detail-table .day-detail-price { font-weight: 700; color: #0b2b4f; white-space: nowrap; }
 .exercise-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
 .exercise-tab { padding: 0.6rem 1.1rem; border-radius: 10px; border: 2px solid #cfddee; background: #ffffff; color: #1f3f61; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .exercise-tab.active { background: #1e4a78; color: #ffffff; border-color: #1e4a78; }
@@ -1913,6 +1923,19 @@ body.patient-mode .delete-program { display: none !important; }
 </div>
 <div class="table-wrapper"><table class="price-table"><thead><tr><th>Пациент</th><th>Процедура</th><th>Цена</th><th>Плащане</th><th>Действия</th></tr></thead><tbody id="pricingBody"></tbody></table></div>
 <div style="margin-top: 2.5rem;"><h3><i class="fas fa-chart-line"></i> Обобщение по дни</h3><div class="day-summary-grid" id="daySummaryGrid"></div></div>
+<div class="modal-overlay" id="dayDetailModal">
+<div class="modal large">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid #edf2f8; padding-bottom:1rem;">
+<h3 style="margin:0;" id="dayDetailTitle"><i class="fas fa-calendar-day"></i> Детайли за деня</h3>
+<button id="dayDetailCloseBtn" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color:#7f95b0;"><i class="fas fa-times"></i></button>
+</div>
+<div id="dayDetailBody"></div>
+<div class="modal-actions" style="justify-content:space-between; margin-top:1.5rem;">
+<button class="btn btn-outline btn-sm" id="dayDetailOpenTableBtn"><i class="fas fa-table"></i> Отвори таблицата за деня</button>
+<button class="btn btn-sm" id="dayDetailOkBtn">Затвори</button>
+</div>
+</div>
+</div>
 </section>
 
 <section id="module-settings" class="module">
@@ -3904,7 +3927,52 @@ function renderPricing() {
   refreshAllVoucherHints();
 }
 function updatePriceSummary() { let total = 0, count = 0; Object.entries(pricing).forEach(([,item])=>{ if (item.date===currentPriceDate && item.price) { const v = parseFloat(item.price); if (!isNaN(v)) { total += v; count++; } } }); $('priceCountSummary').textContent = count; $('priceTotalSummary').textContent = formatPrice(total) + ' €'; }
-function renderDaySummary() { const byDate = {}; Object.entries(pricing).forEach(([,item])=>{ if (!item.date) return; if (!byDate[item.date]) byDate[item.date] = { total: 0, patients: new Set() }; const v = parseFloat(item.price); if (!isNaN(v)) { byDate[item.date].total += v; byDate[item.date].patients.add(item.patientId); } }); const sorted = Object.keys(byDate).sort((a,b)=>b.localeCompare(a)).slice(0,30); if (sorted.length===0) { $('daySummaryGrid').innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма цени</div>`; return; } $('daySummaryGrid').innerHTML = sorted.map(date=>`<div class="day-summary-card" data-date="${date}"><div class="day-title">${formatDate(date)}</div><div class="day-total">${formatPrice(byDate[date].total)} €</div><div class="day-count">${byDate[date].patients.size} пациента</div></div>`).join(''); $('daySummaryGrid').querySelectorAll('.day-summary-card').forEach(c=>{ c.addEventListener('click', ()=>{ $('priceDateInput').value = c.dataset.date; currentPriceDate = c.dataset.date; renderPricing(); }); }); }
+function renderDaySummary() { const byDate = {}; Object.entries(pricing).forEach(([,item])=>{ if (!item.date) return; if (!byDate[item.date]) byDate[item.date] = { total: 0, patients: new Set() }; const v = parseFloat(item.price); if (!isNaN(v)) { byDate[item.date].total += v; byDate[item.date].patients.add(item.patientId); } }); const sorted = Object.keys(byDate).sort((a,b)=>b.localeCompare(a)).slice(0,30); if (sorted.length===0) { $('daySummaryGrid').innerHTML = `<div class="empty-message" style="grid-column:1/-1;">Няма цени</div>`; return; } $('daySummaryGrid').innerHTML = sorted.map(date=>`<div class="day-summary-card" data-date="${date}"><div class="day-title">${formatDate(date)}</div><div class="day-total">${formatPrice(byDate[date].total)} €</div><div class="day-count">${byDate[date].patients.size} пациента</div><div class="day-detail-hint">Детайли <i class="fas fa-chevron-right"></i></div></div>`).join(''); $('daySummaryGrid').querySelectorAll('.day-summary-card').forEach(c=>{ c.addEventListener('click', ()=> openDayDetail(c.dataset.date)); }); }
+
+// ===== Детайли за ден от „Обобщение по дни“ =====
+function openDayDetail(date) {
+  const modal = $('dayDetailModal'); if (!modal) return;
+  modal.dataset.date = date;
+  const pmLabel = { cash: 'В брой', card: 'С карта', bank: 'Банков превод', voucher: 'Ваучер' };
+  const rows = Object.entries(pricing)
+    .filter(([, it]) => it && it.date === date)
+    .map(([, it]) => {
+      const p = patients[it.patientId];
+      const price = parseFloat(it.price);
+      return {
+        name: p ? p.name : (it.patientId ? 'Неизвестен пациент' : '—'),
+        desc: it.description || '',
+        price: isNaN(price) ? 0 : price,
+        pm: it.paymentMethod || ''
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'bg'));
+  const total = rows.reduce((s, r) => s + r.price, 0);
+
+  $('dayDetailTitle').innerHTML = `<i class="fas fa-calendar-day"></i> ${formatDate(date)}`;
+
+  let html = `<div class="day-detail-stats"><div class="day-detail-stat"><span class="small-label">Общо</span><span class="big-value">${formatPrice(total)} €</span></div><div class="day-detail-stat"><span class="small-label">Пациенти</span><span class="big-value">${rows.length}</span></div></div>`;
+
+  if (rows.length === 0) {
+    html += `<div class="empty-message">Няма въведени цени за този ден.</div>`;
+  } else {
+    html += `<div class="table-wrapper"><table class="price-detail-table"><thead><tr><th>Пациент</th><th>Процедура</th><th>Цена</th><th>Плащане</th></tr></thead><tbody>` + rows.map(r => `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${r.desc ? escapeHtml(r.desc) : '<span style="color:#b0c1d4; font-style:italic;">—</span>'}</td><td class="day-detail-price">${formatPrice(r.price)} €</td><td>${pmLabel[r.pm] || '<span style="color:#b0c1d4;">—</span>'}</td></tr>`).join('') + `</tbody></table></div>`;
+  }
+
+  $('dayDetailBody').innerHTML = html;
+  modal.classList.add('active');
+}
+
+$('dayDetailCloseBtn').addEventListener('click', () => $('dayDetailModal').classList.remove('active'));
+$('dayDetailOkBtn').addEventListener('click', () => $('dayDetailModal').classList.remove('active'));
+$('dayDetailOpenTableBtn').addEventListener('click', () => {
+  const d = $('dayDetailModal').dataset.date;
+  if (d) { $('priceDateInput').value = d; currentPriceDate = d; renderPricing(); }
+  $('dayDetailModal').classList.remove('active');
+});
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal-overlay') && e.target.id === 'dayDetailModal') e.target.classList.remove('active');
+});
 // Смяна на начина на плащане → показва/скрива полето за код на ваучер.
 $('pricingBody').addEventListener('change', (e)=>{
   const sel = e.target.closest('.pay-method-select');
