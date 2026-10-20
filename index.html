@@ -1109,6 +1109,7 @@ body.patient-mode .delete-program { display: none !important; }
 .notif-push-test { align-self: flex-start; font-size: 0.8rem; padding: 6px 12px; border: 1px solid #1e4a78; color: #1e4a78; background: #fff; border-radius: 8px; cursor: pointer; }
 .notif-push-test:disabled { opacity: .5; cursor: not-allowed; }
 .notif-push-note { font-size: 0.72rem; color: #b45309; }
+.push-always-badge { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; font-size: 0.72rem; font-weight: 700; color: #1a7a3e; background: #e6f6ec; border: 1px solid #a5d6a7; border-radius: 30px; padding: 5px 12px; white-space: nowrap; }
 </style>
 </head>
 <body><svg width="0" height="0" style="position:absolute;">
@@ -2190,9 +2191,9 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="notif-push-row">
 <div>
 <div class="notif-push-title">Известия на заключен екран</div>
-<div class="notif-push-sub">Получавайте push известия като отделно приложение (дори при затворен екран).</div>
+<div class="notif-push-sub">Push известията са винаги включени (дори при затворен екран).</div>
 </div>
-<label class="switch"><input type="checkbox" id="pushToggle"><span class="slider"></span></label>
+<span class="push-always-badge" id="pushStatusBadge"><i class="fas fa-check-circle"></i> Винаги включени</span>
 </div>
 <button class="notif-push-test" id="pushTestBtn" disabled><i class="fas fa-bell"></i> Изпрати тестово известие</button>
 <div class="notif-push-note" id="pushNote" style="display:none;"></div>
@@ -3055,18 +3056,23 @@ async function ensurePushSubscription() {
   } catch (e) { console.warn('Push subscription restore failed:', e); }
 }
 
-async function enablePushNotifications() {
-  if (!('Notification' in window)) { showToast('Това устройство не поддържа известия.', 'error'); updatePushToggleUI(false); return; }
+// Push известията са ВИНАГИ включени — няма изключване от приложението.
+// При старт автоматично искаме разрешение и регистрираме FCM токен.
+let _pushAutoTried = false;
+let _pushHealAt = 0;
+
+async function enablePushNotifications(silent) {
+  if (!('Notification' in window)) { if (!silent) showToast('Това устройство не поддържа известия.', 'error'); updatePushToggleUI(); return; }
   let perm = Notification.permission;
   if (perm === 'default') { try { perm = await Notification.requestPermission(); } catch (e) { perm = 'denied'; } }
-  if (perm !== 'granted') { showToast('Разрешението за известия е отказано.', 'error'); updatePushToggleUI(false); return; }
+  if (perm !== 'granted') { if (!silent) showToast('Разрешете известията от настройките на браузъра.', 'error'); updatePushToggleUI(); return; }
   // Включваме локално веднага след дадено разрешение — тестовото известие работи веднага,
   // дори ако реалната FCM доставка (VAPID + Cloud Function) още не е настроена.
   try {
     if (currentUser && activeClinicId) await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), true);
-    updatePushToggleUI(true);
-    showToast('Известията на заключен екран са включени.', 'success');
-  } catch (e) { showToast('Грешка: ' + e.message, 'error'); updatePushToggleUI(false); return; }
+    updatePushToggleUI();
+    if (!silent) showToast('Известията на заключен екран са включени.', 'success');
+  } catch (e) { if (!silent) showToast('Грешка: ' + e.message, 'error'); updatePushToggleUI(); return; }
   // Опит за реален FCM токен (изисква VAPID ключ). При липса — тестовото известие пак работи.
   try {
     const m = getFcmMessaging();
@@ -3078,18 +3084,55 @@ async function enablePushNotifications() {
   } catch (e) { console.warn('FCM токенът не е запазен (реалната доставка изисква VAPID + Cloud Function):', e); }
 }
 
-async function disablePushNotifications() {
-  try {
-    await clearPushTokens();
-    if (currentUser && activeClinicId) await set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), false);
-    updatePushToggleUI(false);
-    showToast('Push известията са изключени.', 'info');
-  } catch (e) { showToast('Грешка: ' + e.message, 'error'); }
+// Push-ът не може да бъде изключен. Ако нещо опита — просто включваме отново (идемпотентно).
+async function disablePushNotifications() { await enablePushNotifications(true); }
+
+function updatePushToggleUI() {
+  const badge = $('pushStatusBadge');
+  const b = $('pushTestBtn');
+  const supported = ('Notification' in window);
+  const perm = supported ? Notification.permission : 'unsupported';
+  const granted = perm === 'granted';
+  if (badge) {
+    if (!supported) badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Не се поддържа';
+    else if (granted) badge.innerHTML = '<i class="fas fa-check-circle"></i> Винаги включени';
+    else if (perm === 'denied') badge.innerHTML = '<i class="fas fa-ban"></i> Блокирани от браузъра';
+    else badge.innerHTML = '<i class="fas fa-clock"></i> Активират се…';
+  }
+  if (b) b.disabled = !granted;
+  const note = $('pushNote');
+  if (note) {
+    if (!supported) { note.style.display = 'block'; note.textContent = 'Устройството не поддържа push известия.'; }
+    else if (perm === 'denied') { note.style.display = 'block'; note.textContent = 'Известията са блокирани. Разрешете ги от настройките на браузъра (иконата до адреса) → Notifications → Allow.'; }
+    else { note.style.display = 'none'; note.textContent = ''; }
+  }
 }
 
-function updatePushToggleUI(enabled) {
-  const t = $('pushToggle'); if (t) t.checked = !!enabled;
-  const b = $('pushTestBtn'); if (b) b.disabled = !enabled;
+// Автоматично включване при старт (без toggle).
+async function autoEnablePush(force) {
+  if (_pushAutoTried && !force) return;
+  _pushAutoTried = true;
+  if (!('Notification' in window)) { updatePushToggleUI(); return; }
+  if (Notification.permission === 'granted') { await enablePushNotifications(true); return; }
+  if (Notification.permission === 'denied') { updatePushToggleUI(); return; }
+  // 'default' — опитваме веднага; ако браузърът изисква жест, чакаме първия клик/докосване.
+  try { await enablePushNotifications(true); } catch (e) {}
+  if (Notification.permission === 'default') armFirstGesturePush();
+}
+
+let _pushGestureArmed = false;
+function armFirstGesturePush() {
+  if (_pushGestureArmed) return; _pushGestureArmed = true;
+  const handler = async () => {
+    document.removeEventListener('click', handler, true);
+    document.removeEventListener('keydown', handler, true);
+    document.removeEventListener('touchstart', handler, true);
+    _pushGestureArmed = false;
+    if (Notification.permission === 'default') { try { await enablePushNotifications(false); } catch (e) {} }
+  };
+  document.addEventListener('click', handler, true);
+  document.addEventListener('keydown', handler, true);
+  document.addEventListener('touchstart', handler, true);
 }
 
 // Foreground: вътрешният панел вече показва известието (RTDB listener); тук само
@@ -3118,8 +3161,8 @@ async function sendTestNotification() {
 
 (async () => {
   setupFcmForeground();
-  const tgl = $('pushToggle'); if (tgl) tgl.addEventListener('change', (e) => { if (e.target.checked) enablePushNotifications(); else disablePushNotifications(); });
   const tst = $('pushTestBtn'); if (tst) tst.addEventListener('click', sendTestNotification);
+  updatePushToggleUI();
 })();
 
 async function changeAptStatus(aptId, newStatus, reason = '') {
@@ -3488,9 +3531,16 @@ function startDataListeners() {
   if (currentUser && !currentPatient) {
     unsubscribers.push(onValue(ref(db, `${base}/users/${currentUser.id}/pushEnabled`), (s) => {
       const enabled = !!s.val();
-      updatePushToggleUI(enabled);
-      if (enabled) ensurePushSubscription();
+      updatePushToggleUI();
+      ensurePushSubscription();
+      // Push-ът е винаги включен: ако флагът в базата е изключен, го връщаме на true
+      // (с предпазна пауза, за да няма цикъл). Доставката и без това зависи от токените.
+      if (!enabled && Date.now() - _pushHealAt > 10000) {
+        _pushHealAt = Date.now();
+        if (currentUser && activeClinicId) set(ref(db, `clinics/${activeClinicId}/users/${currentUser.id}/pushEnabled`), true).catch(()=>{});
+      }
     }));
+    autoEnablePush();
   }
   unsubscribers.push(onValue(ref(db, `${base}/testResults`), (s) => { testResults = s.val() || {}; renderTestHistory(); }));
   unsubscribers.push(onValue(ref(db, `${base}/customTests`), (s) => { customTests = s.val() || {}; renderTestGrid(); renderTestHistory(); }));
