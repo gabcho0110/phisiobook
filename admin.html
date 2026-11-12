@@ -564,14 +564,14 @@ tr:last-child td { border-bottom: none; }
 <div class="pkg-option" data-pkg="basic">
 <div class="pkg-name">Основен</div>
 <div class="pkg-price">80 €<small> / год</small></div>
-<div class="pkg-desc">+ Тестове, Ваучери, Досиета</div>
-<div class="pkg-modules-count">7 модула</div>
+<div class="pkg-desc">+ Статистика, Тестове, Ваучери, Досиета</div>
+<div class="pkg-modules-count">8 модула</div>
 </div>
 <div class="pkg-option" data-pkg="max">
 <div class="pkg-name">Максимален</div>
 <div class="pkg-price">120 €<small> / год</small></div>
-<div class="pkg-desc">+ Инвентар, Упражнения, Документация, Ценоразпис, Замествания</div>
-<div class="pkg-modules-count">12 модула</div>
+<div class="pkg-desc">+ Статистика, Инвентар, Упражнения, Документация, Ценоразпис, Замествания</div>
+<div class="pkg-modules-count">13 модула</div>
 </div>
 </div>
 <div class="hint" style="color:#6b3fa0;">Модулите ще бъдат включени автоматично според избрания пакет. "Портал" и "Настройки" винаги са включени.</div>
@@ -784,6 +784,7 @@ function isUsernameTaken(username, ignoreAdminId = null) {
 // settings (Настройки) и portal (Портал) винаги са заключени.
 const MODULES = [
     { id: 'dashboard',     name: 'Табло',            icon: 'fa-chart-pie',        desc: 'Основно табло',                                     locked: false },
+    { id: 'stats',         name: 'Статистика',       icon: 'fa-chart-line',       desc: 'KPI, графики, клинични резултати, финанси',          locked: false },
     { id: 'patients',      name: 'Пациенти',         icon: 'fa-users',            desc: 'Управление на пациенти',                            locked: false },
     { id: 'dossier',       name: 'Досиета',          icon: 'fa-folder-open',      desc: 'Пълни досиета на пациенти',                         locked: false },
     { id: 'schedule',      name: 'График',           icon: 'fa-calendar-alt',     desc: 'Календар и часове',                                 locked: false },
@@ -806,11 +807,11 @@ const PACKAGES = {
     },
     basic: {
         name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники',
-        modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier']
+        modules: ['dashboard', 'stats', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier']
     },
     max: {
         name: 'Максимален', price: 120, color: 'max', icon: 'fa-crown', desc: 'Пълен набор от функции',
-        modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'substitutions', 'inventory', 'exercises', 'documentation', 'pricing']
+        modules: ['dashboard', 'stats', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'substitutions', 'inventory', 'exercises', 'documentation', 'pricing']
     }
 };
 

@@ -172,6 +172,100 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .dash-section { background: #ffffff; border-radius: 16px; padding: 1.2rem 1.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e9eef3; margin-bottom: 1.2rem; }
 .dash-section h3 { font-size: 1rem; font-weight: 600; color: #0b2b4f; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
 .dash-section h3 i { color: #1e4a78; }
+/* ═══════════════════ МОДУЛ „СТАТИСТИКА" ═══════════════════
+   Две нива: бърз поглед (KPI карти) + дълбока статистика (графики и таблици).
+   Всички графики са собствен SVG — без външни библиотеки, за да работи PWA
+   офлайн и да не зависи от CDN. */
+.stats-filter { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; background: #ffffff; border: 1px solid #e9eef3; border-radius: 16px; padding: 0.85rem 1rem; margin-bottom: 1.2rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+.stats-filter-label { font-size: 0.7rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; letter-spacing: 0.04em; }
+.sf-chip { border: 1px solid #cfddee; background: #f8fbfe; color: #1f3f61; font-family: inherit; font-size: 0.8rem; font-weight: 600; padding: 0.42rem 0.8rem; border-radius: 999px; cursor: pointer; transition: 0.15s; -webkit-tap-highlight-color: transparent; }
+.sf-chip:hover { background: #e8f0fe; border-color: #9db8d6; }
+.sf-chip.active { background: #1e4a78; border-color: #1e4a78; color: #ffffff; }
+.sf-custom { display: none; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+.sf-custom.show { display: flex; }
+.sf-custom input[type="date"] { border: 1px solid #cfddee; border-radius: 10px; padding: 0.38rem 0.55rem; font-family: inherit; font-size: 0.8rem; color: #0b2b4f; background: #ffffff; }
+.sf-spacer { flex: 1 1 auto; }
+.sf-select { border: 1px solid #cfddee; border-radius: 10px; padding: 0.42rem 0.65rem; font-family: inherit; font-size: 0.8rem; font-weight: 600; color: #0b2b4f; background: #ffffff; min-width: 168px; }
+
+.stats-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 0.9rem; margin-bottom: 1.3rem; }
+.stats-kpi { position: relative; background: #ffffff; border: 1px solid #e9eef3; border-radius: 16px; padding: 1rem 1.1rem 1rem 1.25rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); overflow: hidden; }
+.stats-kpi::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; }
+.stats-kpi.k-proc::before { background: linear-gradient(180deg, #1e4a78, #4a90e2); }
+.stats-kpi.k-new::before { background: linear-gradient(180deg, #6b3fa0, #b28cff); }
+.stats-kpi.k-occ::before { background: linear-gradient(180deg, #0891b2, #22d3ee); }
+.stats-kpi.k-cancel::before { background: linear-gradient(180deg, #b22234, #ef6b7a); }
+.stats-kpi.k-rev::before { background: linear-gradient(180deg, #1a7a3e, #4ade80); }
+.kpi-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; min-height: 32px; }
+.kpi-label { font-size: 0.68rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.15; }
+.kpi-ic { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; flex: none; }
+.k-proc .kpi-ic { background: #e8f0fe; color: #1e4a78; }
+.k-new .kpi-ic { background: #f0e8ff; color: #6b3fa0; }
+.k-occ .kpi-ic { background: #e0f7fa; color: #0891b2; }
+.k-cancel .kpi-ic { background: #fdeaea; color: #b22234; }
+.k-rev .kpi-ic { background: #e8f5e9; color: #1a7a3e; }
+.kpi-value { font-size: 1.6rem; font-weight: 700; color: #0b2b4f; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi-value small { font-size: 0.9rem; font-weight: 600; color: #7f95b0; }
+.kpi-sub { font-size: 0.75rem; color: #7f95b0; margin-top: 0.28rem; }
+.kpi-sub .up { color: #1a7a3e; font-weight: 700; }
+.kpi-sub .down { color: #b22234; font-weight: 700; }
+
+.stats-chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
+.stats-panel { background: #ffffff; border: 1px solid #e9eef3; border-radius: 16px; padding: 1.05rem 1.15rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04); margin-bottom: 1.2rem; }
+.stats-chart-grid .stats-panel { margin-bottom: 0; }
+.stats-panel.wide { grid-column: 1 / -1; }
+.stats-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+.stats-panel-title { font-size: 0.92rem; font-weight: 600; color: #0b2b4f; display: flex; align-items: center; gap: 8px; }
+.stats-panel-title i { color: #1e4a78; }
+.stats-panel-sub { font-size: 0.73rem; color: #7f95b0; }
+.chart-box svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-empty { text-align: center; color: #9db0c6; font-size: 0.84rem; padding: 1.8rem 1rem; }
+
+.stats-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; margin-top: 0.75rem; }
+.stats-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #5b7794; }
+.stats-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.stats-legend-item b { color: #0b2b4f; font-weight: 700; }
+
+.stats-table { width: 100%; border-collapse: collapse; font-size: 0.81rem; }
+.stats-table th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.03em; color: #7f95b0; padding: 0.5rem 0.55rem; border-bottom: 1px solid #e9eef3; font-weight: 700; white-space: nowrap; }
+.stats-table td { padding: 0.58rem 0.55rem; border-bottom: 1px solid #f2f6fa; color: #1f3f61; vertical-align: middle; }
+.stats-table tr:last-child td { border-bottom: none; }
+.stats-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: #0b2b4f; white-space: nowrap; }
+.stats-table .rank { width: 25px; height: 25px; border-radius: 8px; background: #eef4fb; color: #1e4a78; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+.stats-table tr.top1 .rank { background: #fdf3d7; color: #a97a10; }
+.stats-table tr.top2 .rank { background: #eef1f4; color: #5b7794; }
+.stats-table tr.top3 .rank { background: #fbeee2; color: #a05a1e; }
+.stats-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.mini-bar { height: 6px; border-radius: 999px; background: #eef2f7; overflow: hidden; min-width: 54px; }
+.mini-bar > i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #1e4a78, #4a90e2); }
+.mini-bar.green > i { background: linear-gradient(90deg, #1a7a3e, #4ade80); }
+.mini-bar.red > i { background: linear-gradient(90deg, #b22234, #ef6b7a); }
+
+.stats-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 0.9rem; }
+.stats-mini { background: #f8fbfe; border: 1px solid #eef2f7; border-radius: 12px; padding: 0.7rem 0.85rem; }
+.stats-mini .lbl { font-size: 0.68rem; font-weight: 700; color: #7f95b0; text-transform: uppercase; letter-spacing: 0.03em; }
+.stats-mini .val { font-size: 1.15rem; font-weight: 700; color: #0b2b4f; margin-top: 0.15rem; font-variant-numeric: tabular-nums; }
+
+.heat-legend { display: flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; color: #7f95b0; margin-top: 0.6rem; flex-wrap: wrap; }
+.heat-legend span.sw { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+
+.stars { color: #f5b301; letter-spacing: 1.5px; font-size: 0.9rem; }
+.review-row { display: flex; gap: 0.7rem; padding: 0.6rem 0; border-bottom: 1px solid #f2f6fa; }
+.review-row:last-child { border-bottom: none; }
+.review-avatar { width: 32px; height: 32px; border-radius: 50%; background: #e8f0fe; color: #1e4a78; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex: none; }
+.review-body { flex: 1; min-width: 0; }
+.review-name { font-size: 0.8rem; font-weight: 700; color: #0b2b4f; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.review-text { font-size: 0.79rem; color: #5b7794; margin-top: 2px; word-break: break-word; }
+.review-meta { font-size: 0.68rem; color: #9db0c6; }
+
+@media (max-width: 760px) {
+  .stats-chart-grid { grid-template-columns: 1fr; }
+  .sf-select { min-width: 0; width: 100%; }
+  .sf-spacer { display: none; }
+  .stats-kpi-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .kpi-value { font-size: 1.35rem; }
+  .stats-panel { padding: 0.9rem 0.85rem; }
+}
 .dash-list { display: flex; flex-direction: column; gap: 6px; }
 .dash-list-item { display: flex; align-items: center; gap: 12px; padding: 0.6rem 0.8rem; background: #f8fbfe; border-radius: 10px; border-left: 3px solid #1e4a78; cursor: pointer; }
 .dash-list-item:hover { background: #e8f0fe; }
@@ -208,6 +302,7 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .form-section.exam { border-left-color: #1e4a78; }
 .form-section.working { border-left-color: #d97706; }
 .form-section.plan { border-left-color: #1a7a3e; }
+.form-section.outcome { border-left-color: #0891b2; }
 .form-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid #edf2f8; }
 .form-section-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
 .form-section.personal .form-section-icon { background: #e8f0fe; color: #1e4a78; }
@@ -223,6 +318,7 @@ body { background-color: #ffffff; display: flex; min-height: 100vh; }
 .form-section.exam .form-section-icon { background: #e8f0fe; color: #1e4a78; }
 .form-section.working .form-section-icon { background: #fff5e5; color: #d97706; }
 .form-section.plan .form-section-icon { background: #e8f5e9; color: #1a7a3e; }
+.form-section.outcome .form-section-icon { background: #e0f7fa; color: #0891b2; }
 .form-section-header h4 { font-size: 0.95rem; font-weight: 700; color: #0b2b4f; margin: 0; }
 .form-section-header .sec-sub { font-size: 0.75rem; color: #7f95b0; font-weight: 500; }
 .patient-tabs { display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap; }
@@ -1206,6 +1302,7 @@ body.patient-mode .delete-program { display: none !important; }
 <aside class="sidebar" id="sidebar">
 <nav class="nav">
 <button class="nav-item" data-module="dashboard"><i class="fas fa-chart-pie"></i><span>Табло</span></button>
+<button class="nav-item" data-module="stats"><i class="fas fa-chart-line"></i><span>Статистика</span></button>
 <button class="nav-item" data-module="patients"><i class="fas fa-users"></i><span>Пациенти</span></button>
 <button class="nav-item" data-module="dossier"><i class="fas fa-folder-open"></i><span>Досиета</span></button>
 <button class="nav-item" data-module="schedule"><i class="fas fa-calendar-alt"></i><span>График</span></button>
@@ -1268,6 +1365,126 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="dash-list" id="dashTasksList"></div>
 </div>
 <div class="dash-section"><h3><i class="fas fa-calendar-day"></i> Свободни часове днес</h3><p style="color:#7f95b0; font-size:0.85rem; margin-bottom:1rem;"><i class="fas fa-info-circle"></i> Кликнете на свободен час за да го запазите</p><div class="free-slots-grid" id="dashFreeSlotsGrid"></div></div>
+</section>
+
+<!-- ══════════════════ МОДУЛ „СТАТИСТИКА" ══════════════════
+     Ниво 1 (бърз поглед): KPI карти + филтър за период.
+     Ниво 2 (дълбока статистика): графики, клинични резултати, пациенти,
+     график/отмени, финанси и оценки. Всичко се смята от вече заредените
+     данни в реално време — няма отделни заявки към базата. -->
+<section id="module-stats" class="module">
+<div class="module-header">
+<h1><i class="fas fa-chart-line"></i> Статистика</h1>
+<div style="color:#7f95b0; font-size:0.85rem;" id="statsRangeLabel"></div>
+</div>
+
+<div class="stats-filter">
+<span class="stats-filter-label">Период</span>
+<button type="button" class="sf-chip" data-stats-preset="today">Днес</button>
+<button type="button" class="sf-chip" data-stats-preset="7">7 дни</button>
+<button type="button" class="sf-chip active" data-stats-preset="30">30 дни</button>
+<button type="button" class="sf-chip" data-stats-preset="90">90 дни</button>
+<button type="button" class="sf-chip" data-stats-preset="custom">Избери период</button>
+<div class="sf-custom" id="statsCustomRange">
+<input type="date" id="statsFrom" aria-label="От дата">
+<span style="color:#7f95b0;">—</span>
+<input type="date" id="statsTo" aria-label="До дата">
+<button type="button" class="sf-chip" id="statsApplyRange">Покажи</button>
+</div>
+<div class="sf-spacer"></div>
+<span class="stats-filter-label">Терапевт</span>
+<select class="sf-select" id="statsKinezi"><option value="">Всички терапевти</option></select>
+</div>
+
+<!-- ── Ниво 1: KPI карти ── -->
+<div class="stats-kpi-grid">
+<div class="stats-kpi k-proc"><div class="kpi-top"><span class="kpi-label">Общо процедури</span><div class="kpi-ic"><i class="fas fa-stethoscope"></i></div></div><div class="kpi-value" id="kpiProcedures">0</div><div class="kpi-sub" id="kpiProceduresSub">за избрания период</div></div>
+<div class="stats-kpi k-new"><div class="kpi-top"><span class="kpi-label">Нови пациенти</span><div class="kpi-ic"><i class="fas fa-user-plus"></i></div></div><div class="kpi-value" id="kpiNewPatients">0</div><div class="kpi-sub" id="kpiNewPatientsSub">регистрирани в периода</div></div>
+<div class="stats-kpi k-occ"><div class="kpi-top"><span class="kpi-label">Заетост на графика</span><div class="kpi-ic"><i class="fas fa-gauge-high"></i></div></div><div class="kpi-value" id="kpiOccupancy">0<small>%</small></div><div class="kpi-sub" id="kpiOccupancySub">заети слотове</div></div>
+<div class="stats-kpi k-cancel"><div class="kpi-top"><span class="kpi-label">Отменени часове</span><div class="kpi-ic"><i class="fas fa-calendar-xmark"></i></div></div><div class="kpi-value" id="kpiCancelled">0</div><div class="kpi-sub" id="kpiCancelledSub">отказани + неявили се</div></div>
+<div class="stats-kpi k-rev"><div class="kpi-top"><span class="kpi-label">Приходи за периода</span><div class="kpi-ic"><i class="fas fa-euro-sign"></i></div></div><div class="kpi-value" id="kpiRevenue">0<small> €</small></div><div class="kpi-sub" id="kpiRevenueSub">по ценоразпис</div></div>
+</div>
+
+<!-- ── Ниво 2: графики ── -->
+<div class="stats-chart-grid">
+<div class="stats-panel wide">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-euro-sign"></i> Приходи по дни</div><div class="stats-panel-sub" id="statsRevenueSub"></div></div>
+<div class="chart-box" id="statsRevenueChart"></div>
+</div>
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-chart-simple"></i> Брой процедури по дни</div></div>
+<div class="chart-box" id="statsProceduresChart"></div>
+</div>
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-chart-pie"></i> Пациенти по диагноза</div></div>
+<div class="chart-box" id="statsDiagnosisChart"></div>
+<div class="stats-legend" id="statsDiagnosisLegend"></div>
+</div>
+<div class="stats-panel wide">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-fire"></i> Заетост по часове</div><div class="stats-panel-sub" id="statsHeatSub"></div></div>
+<div class="chart-box" id="statsHeatmap"></div>
+</div>
+<div class="stats-panel wide">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-bullhorn"></i> Източник на пациенти</div><div class="stats-panel-sub">Откъде идват пациентите</div></div>
+<div class="chart-box" id="statsSourceChart"></div>
+<div class="stats-legend" id="statsSourceLegend"></div>
+</div>
+</div>
+
+<!-- ── Клинични резултати ── -->
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-heart-pulse"></i> Клинични резултати по диагноза</div><div class="stats-panel-sub">VAS 0–10 · средни стойности</div></div>
+<div class="stats-table-wrap"><table class="stats-table">
+<thead><tr><th>Диагноза</th><th>Пациенти</th><th>Болка начало → край</th><th>Ср. процедури</th><th>Постигнали цел</th><th>Рецидив ≤ 3 м.</th></tr></thead>
+<tbody id="statsClinicalBody"></tbody>
+</table></div>
+<div style="font-size:0.74rem; color:#9db0c6; margin-top:0.7rem;"><i class="fas fa-circle-info"></i> Попълва се автоматично от полетата „Болка в началото / в края" в картона на пациента и от оценката за болка в бележките.</div>
+</div>
+
+<!-- ── Пациенти ── -->
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-users"></i> Пациенти</div></div>
+<div class="stats-split" id="statsPatientStats"></div>
+<div class="stats-panel-head" style="margin-top:0.6rem;"><div class="stats-panel-title" style="font-size:0.84rem;"><i class="fas fa-trophy"></i> Топ 10 по посещения</div><div class="stats-panel-sub">само за екипа</div></div>
+<div class="stats-table-wrap"><table class="stats-table">
+<thead><tr><th>#</th><th>Пациент</th><th>Диагноза</th><th class="num">Посещения</th></tr></thead>
+<tbody id="statsTopPatients"></tbody>
+</table></div>
+<div style="font-size:0.74rem; color:#9db0c6; margin-top:0.7rem;"><i class="fas fa-lock"></i> Списъкът не е публичен — вижда се само от екипа на клиниката.</div>
+</div>
+
+<!-- ── График и отменени часове ── -->
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-calendar-check"></i> График и отменени часове</div></div>
+<div class="stats-split" id="statsScheduleStats"></div>
+<div class="stats-table-wrap"><table class="stats-table">
+<thead><tr><th>Най-отменяни часове</th><th class="num">Откази</th></tr></thead>
+<tbody id="statsCancelledHours"></tbody>
+</table></div>
+</div>
+
+<!-- ── Финанси (само админ) ── -->
+<div class="stats-panel" id="statsFinancePanel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-wallet"></i> Финанси</div><div class="stats-panel-sub">само за собственик / админ</div></div>
+<div class="stats-split" id="statsFinanceStats"></div>
+<div class="stats-chart-grid" style="margin-bottom:0;">
+<div>
+<div class="stats-panel-head" style="margin-bottom:0.5rem;"><div class="stats-panel-title" style="font-size:0.84rem;"><i class="fas fa-list-check"></i> Приходи по услуга</div></div>
+<div class="stats-table-wrap"><table class="stats-table"><thead><tr><th>Услуга</th><th class="num">Приход</th><th class="num">Брой</th></tr></thead><tbody id="statsRevenueByService"></tbody></table></div>
+</div>
+<div>
+<div class="stats-panel-head" style="margin-bottom:0.5rem;"><div class="stats-panel-title" style="font-size:0.84rem;"><i class="fas fa-user-doctor"></i> Приходи по терапевт</div></div>
+<div class="stats-table-wrap"><table class="stats-table"><thead><tr><th>Терапевт</th><th class="num">Приход</th><th class="num">Брой</th></tr></thead><tbody id="statsRevenueByTherapist"></tbody></table></div>
+</div>
+</div>
+</div>
+
+<!-- ── Оценки ── -->
+<div class="stats-panel">
+<div class="stats-panel-head"><div class="stats-panel-title"><i class="fas fa-star"></i> Оценки и отзиви</div></div>
+<div class="stats-split" id="statsRatingStats"></div>
+<div id="statsReviewsList"></div>
+</div>
 </section>
 
 <section id="module-patients" class="module">
@@ -1364,6 +1581,38 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="form-section plan">
 <div class="form-section-header"><div class="form-section-icon"><i class="fas fa-notes-medical"></i></div><div><h4>План за лечение</h4><div class="sec-sub">Планирани процедури и цели</div></div></div>
 <div class="form-grid"><div class="form-group" style="grid-column: span 2;"><textarea id="patientTreatmentPlan" rows="3" placeholder="План за лечение..."></textarea></div></div>
+</div>
+<div class="form-section outcome">
+<div class="form-section-header"><div class="form-section-icon"><i class="fas fa-chart-line"></i></div><div><h4>Проследяване на резултата</h4><div class="sec-sub">Захранва „Клинични резултати" в Статистика</div></div></div>
+<div class="form-grid">
+<div class="form-group">
+<label>Източник на пациента</label>
+<select id="patientSource">
+<option value="">-- избери --</option>
+<option value="referral">Препоръка</option>
+<option value="instagram">Instagram</option>
+<option value="facebook">Facebook</option>
+<option value="google">Google</option>
+<option value="doctor">Лекар</option>
+<option value="repeat">Повторен пациент</option>
+<option value="other">Друго</option>
+</select>
+</div>
+<div class="form-group">
+<label>Болка в началото (VAS 0–10)</label>
+<input type="number" id="patientPainBefore" min="0" max="10" step="0.5" placeholder="напр. 7">
+</div>
+<div class="form-group">
+<label>Болка в края (VAS 0–10)</label>
+<input type="number" id="patientPainAfter" min="0" max="10" step="0.5" placeholder="напр. 2">
+</div>
+<div class="form-group" style="justify-content: end;">
+<label style="display:flex; align-items:center; gap:8px; font-weight:600; color:#1a7a3e; cursor:pointer;">
+<input type="checkbox" id="patientGoalAchieved" style="width:18px; height:18px; accent-color:#1a7a3e; cursor:pointer;"> Целта е постигната
+</label>
+</div>
+</div>
+<div class="hint" style="font-size:0.76rem; color:#7f95b0; margin-top:0.6rem;"><i class="fas fa-circle-info"></i> Ако оставиш „болка в края" празно, системата взима последната оценка за болка от бележките към сесиите.</div>
 </div>
 </div>
 <div class="form-actions" style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top:1.2rem;">
@@ -1864,6 +2113,7 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="form-group"><label>Дата *</label><input type="date" id="noteDate" required></div>
 <div class="form-group"><label>Вид терапия</label><select id="noteTherapyType"><option>Физиотерапия</option><option>Кинезитерапия</option><option>Масаж</option><option>Мануална терапия</option><option>Упражнения</option><option>Електротерапия</option></select></div>
 <div class="form-group"><label>Продължителност (мин)</label><input type="number" id="noteDuration" min="0"></div>
+<div class="form-group"><label>Болка след сесията (VAS 0–10) <span style="color:#9db0c6;font-weight:400;">— за статистика</span></label><input type="number" id="notePainScore" min="0" max="10" step="0.5" placeholder="напр. 4"></div>
 <div class="form-group" style="grid-column: span 2;"><label>Бележка *</label><textarea id="noteText" required style="min-height:120px;"></textarea></div>
 <div class="form-group" style="justify-content: end; grid-column: span 2;"><button type="submit" class="btn" id="addSessionNoteBtn"><i class="fas fa-save"></i> Запази</button></div>
 </form>
@@ -2140,6 +2390,7 @@ body.patient-mode .delete-program { display: none !important; }
 <div class="mobile-more-title">Всички модули</div>
 <div class="mobile-more-grid" id="mobileMoreGrid">
 <button class="mobile-more-item" data-more-nav="dossier"><i class="fas fa-folder-open"></i><span>Досиета</span></button>
+<button class="mobile-more-item" data-more-nav="stats"><i class="fas fa-chart-line"></i><span>Статистика</span></button>
 <button class="mobile-more-item" data-more-nav="substitutions"><i class="fas fa-user-friends"></i><span>Замествания</span></button>
 <button class="mobile-more-item" data-more-nav="tests"><i class="fas fa-clipboard-check"></i><span>Тестове</span></button>
 <button class="mobile-more-item" data-more-nav="inventory"><i class="fas fa-boxes"></i><span>Инвентар</span></button>
@@ -2628,7 +2879,7 @@ let clinics = {};
 let activeClinicId = null;
 let activeClinic = null;
 let userClinics = [];
-let patients = {}, procedures = {}, users = {}, appointments = {}, pricing = {}, tasks = {}, exercises = {}, programs = {}, sessionNotes = {}, soapNotes = {}, documents = {}, shortExercises = {};
+let patients = {}, procedures = {}, users = {}, appointments = {}, pricing = {}, tasks = {}, exercises = {}, programs = {}, sessionNotes = {}, soapNotes = {}, documents = {}, shortExercises = {}, reviews = {};
 let dossiers = {};
 let clinicSettings = { name: 'PhysioBook', sub: 'Медицински център' };
 let services = {}, procedureTemplates = {}, categories = {}, templates = {};
@@ -2674,7 +2925,7 @@ let vacations = {};
 let workingHours = {};
 let currentDossierId = null;
 
-const DEFAULT_MODULES = { dashboard: true, patients: true, dossier: true, schedule: true, substitutions: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
+const DEFAULT_MODULES = { dashboard: true, stats: true, patients: true, dossier: true, schedule: true, substitutions: true, procedures: true, tests: true, inventory: true, vouchers: true, exercises: true, documentation: true, pricing: true, settings: true, portal: true };
 
 function getEnabledModules() {
   // Изтекъл (или още нестартирал) абонамент изключва ВСИЧКИ модули, независимо
@@ -2937,6 +3188,7 @@ const logoutBtn = document.getElementById('logoutBtn');
 const navItems = document.querySelectorAll('.nav-item');
 const modules = {
   dashboard: document.getElementById('module-dashboard'),
+  stats: document.getElementById('module-stats'),
   patients: document.getElementById('module-patients'),
   dossier: document.getElementById('module-dossier'),
   schedule: document.getElementById('module-schedule'),
@@ -3330,7 +3582,7 @@ async function switchClinic(newClinicId) {
   sessionStorage.setItem('activeClinicId', newClinicId);
   if (foundPatient) { currentPatient = foundPatient; currentUser = { id: foundPatient.id, name: foundPatient.name, roles: ['Пациент'], username: foundPatient.username, phone: foundPatient.phone }; sessionStorage.setItem('currentPatientId', foundPatient.id); sessionStorage.removeItem('currentUserId'); }
   else { currentUser = foundUser; currentPatient = null; sessionStorage.setItem('currentUserId', foundUser.id); sessionStorage.removeItem('currentPatientId'); }
-  patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={}; exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={}; dossiers={};
+  patients={}; procedures={}; users={}; appointments={}; pricing={}; tasks={}; exercises={}; programs={}; sessionNotes={}; soapNotes={}; documents={}; shortExercises={}; dossiers={}; reviews={};
   services={}; procedureTemplates={}; categories={}; templates={}; messages={}; notifications={}; testResults={}; customTests={}; inventory={}; inventoryMovements={}; vouchers={}; substitutions={};
   clinicSettings = { name: activeClinic?.name || 'PhysioBook', sub: 'Медицински център' };
   $('headerAvatar').textContent = getUserInitials(currentUser.name); $('headerUserName').textContent = currentUser.name;
@@ -3539,7 +3791,7 @@ function startDataListeners() {
     if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge();
   }));
   unsubscribers.push(onValue(ref(db, `${base}/procedures`), (s) => { procedures = s.val() || {}; renderProcedures(); if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
-  unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderPatientKineziCheckboxes(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); renderSubKineziSelect(); if (currentUser && !currentPatient) renderDashboard(); }));
+  unsubscribers.push(onValue(ref(db, `${base}/users`), (snapshot) => { users = snapshot.val() || {}; renderUsers(); renderPortalKineziSelect(); renderMessageRecipients(); renderScheduleKineziFilter(); renderPatientsKineziFilter(); renderPatientKineziCheckboxes(); renderAptKineziSelect(); renderBlockedKineziSelect(); renderVacationKineziSelect(); renderWorkingHoursKineziSelect(); renderSubKineziSelect(); if (typeof renderStatsKineziOptions === 'function') renderStatsKineziOptions(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/appointments`), (s) => { appointments = s.val() || {}; renderSchedule(); renderPatients(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); if (typeof updateMobileAptBadge === 'function') updateMobileAptBadge(); }));
   unsubscribers.push(onValue(ref(db, `${base}/pricing`), (s) => { pricing = s.val() || {}; renderPricing(); renderDaySummary(); if (currentPatient) renderPortal(); if (currentUser && !currentPatient) renderDashboard(); }));
   unsubscribers.push(onValue(ref(db, `${base}/tasks`), (s) => { tasks = s.val() || {}; if (currentUser && !currentPatient) renderDashboard(); }));
@@ -3548,6 +3800,11 @@ function startDataListeners() {
   unsubscribers.push(onValue(ref(db, `${base}/programs`), (s) => { programs = s.val() || {}; renderProgramsList(); if (currentPatient) { renderPortal(); renderPatientExercises(); } if (patientProfileModule.classList.contains('active') && window.currentProfilePatientId) openPatientProfile(window.currentProfilePatientId); }));
   unsubscribers.push(onValue(ref(db, `${base}/sessionNotes`), (s) => { sessionNotes = s.val() || {}; renderSessionNotes(); }));
   unsubscribers.push(onValue(ref(db, `${base}/soapNotes`), (s) => { soapNotes = s.val() || {}; renderSoapNotes(); }));
+  // Оценки/отзиви от пациенти — използват се в блока „Оценки" на Статистика.
+  unsubscribers.push(onValue(ref(db, `${base}/reviews`), (s) => {
+    reviews = s.val() || {};
+    if (currentUser && !currentPatient && modules.stats && modules.stats.classList.contains('active')) renderStats();
+  }));
   unsubscribers.push(onValue(ref(db, `${base}/documents`), (s) => { documents = s.val() || {}; renderDocuments(); }));
   unsubscribers.push(onValue(ref(db, `${base}/messages`), (s) => { messages = s.val() || {}; renderInbox(); renderSent(); updateMessagesBadge(); if (currentChatUserId) renderChat(); }));
   unsubscribers.push(onValue(ref(db, `${base}/notifications`), (s) => { notifications = s.val() || {}; renderNotifications(); updateNotificationsBadge(); }));
@@ -3584,6 +3841,9 @@ function startDataListeners() {
 
 function renderDashboard() {
   if (!currentUser || currentPatient) return;
+  // Таблото се вика от всеки data listener при промяна на данните — това е
+  // удобната точка, за да презаредим и „Статистика", ако е отворена.
+  if (modules.stats && modules.stats.classList.contains('active')) renderStats();
   const todayStr = toDateStr(new Date()); $('dashboardDate').textContent = formatDateLong(todayStr);
   const visibleAppointments = getAppointmentsForUser();
   const todayApts = visibleAppointments.filter(a=>a.date===todayStr).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
@@ -3610,6 +3870,755 @@ function renderDashboard() {
   $('dashFreeSlots').textContent = free; $('dashFreeSlotsGrid').innerHTML = slots.join('');
   $('dashFreeSlotsGrid').querySelectorAll('.free-slot:not(.busy)').forEach(slot => { slot.addEventListener('click', () => { openNewAppointmentWithTime(slot.dataset.hour); }); });
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  МОДУЛ „СТАТИСТИКА"
+//  Ниво 1: KPI карти за избрания период.
+//  Ниво 2: графики, клинични резултати, пациенти, график, финанси, оценки.
+//  Всичко се смята от вече заредените в паметта данни — няма допълнителни
+//  заявки към Realtime Database. Графиките са собствен SVG (без Chart.js),
+//  за да работи приложението офлайн като PWA.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Периодът НЕ се пази в localStorage — при всяко отваряне „30 дни" е най-полезният
+// изглед по подразбиране, а изборът на терапевт се пази само за сесията.
+const statsState = { preset: '30', from: '', to: '', kinezi: '' };
+
+// Категории диагнози. Редът е важен: „Следоперативни" се проверява ПЪРВО, за да
+// не попадне „следоперативна рехабилитация на коляно" в „Коляно".
+const STATS_DIAG_CATS = [
+  { key: 'postop',   label: 'Следоперативни', color: '#b22234', re: /(след\s*опер|постопер|post-?\s?op|операц|артроскоп|протез|остеосинтез|алопласт)/i },
+  { key: 'back',     label: 'Кръст',          color: '#1e4a78', re: /(кръст|lumb|поясниц|диск|дискова|херни|radicul|ишиас|sciatic|spine|дорзал)/i },
+  { key: 'knee',     label: 'Коляно',         color: '#6b3fa0', re: /(колян|knee|мениск|menisc|\bacl\b|\bпкв\b|gonarthr|patell|пател)/i },
+  { key: 'shoulder', label: 'Рамо',           color: '#0891b2', re: /(рамо|shoulder|ротатор|rotator|subacrom|imping|плексит|плешк)/i },
+  { key: 'neck',     label: 'Шия',            color: '#d97706', re: /(шия|шийн|neck|cervical|цервикал)/i },
+  { key: 'ankle',    label: 'Глезен',         color: '#1a7a3e', re: /(глезен|ankle|стъпал|foot|ахилес|achill|plantar|плантар|пета)/i },
+  { key: 'other',    label: 'Други',          color: '#7f95b0', re: null }
+];
+
+const STATS_SOURCES = [
+  { key: 'referral',  label: 'Препоръка',        color: '#1e4a78' },
+  { key: 'instagram', label: 'Instagram',        color: '#b22234' },
+  { key: 'facebook',  label: 'Facebook',         color: '#4a90e2' },
+  { key: 'google',    label: 'Google',           color: '#1a7a3e' },
+  { key: 'doctor',    label: 'Лекар',            color: '#6b3fa0' },
+  { key: 'repeat',    label: 'Повторен пациент', color: '#d97706' },
+  { key: 'other',     label: 'Друго',            color: '#7f95b0' }
+];
+
+function statsParseISO(s) {
+  if (!s || !/^\d{4}-\d{2}-\d{2}$/.test(String(s))) return null;
+  const p = String(s).split('-').map(Number);
+  return new Date(p[0], p[1] - 1, p[2]);
+}
+function statsTsDate(ts) { return ts ? toDateStr(new Date(ts)) : ''; }
+function statsInRange(d, r) { return !!d && d >= r.from && d <= r.to; }
+function statsDayCount(r) {
+  const a = statsParseISO(r.from), b = statsParseISO(r.to);
+  if (!a || !b) return 1;
+  return Math.max(1, Math.round((b - a) / 86400000) + 1);
+}
+function statsRangeBounds() {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  let from, to;
+  if (statsState.preset === 'today') {
+    from = new Date(today); to = new Date(today);
+  } else if (statsState.preset === 'custom') {
+    from = statsParseISO(statsState.from) || addDays(today, -29);
+    to = statsParseISO(statsState.to) || new Date(today);
+    if (from > to) { const t = from; from = to; to = t; }
+  } else {
+    const n = parseInt(statsState.preset, 10) || 30;
+    to = new Date(today);
+    from = addDays(today, -(n - 1));
+  }
+  return { from: toDateStr(from), to: toDateStr(to) };
+}
+function statsDiagOf(text) {
+  const t = String(text || '');
+  for (let i = 0; i < STATS_DIAG_CATS.length; i++) {
+    const c = STATS_DIAG_CATS[i];
+    if (c.re && c.re.test(t)) return c;
+  }
+  return STATS_DIAG_CATS[STATS_DIAG_CATS.length - 1];
+}
+function statsNiceMax(v) {
+  if (!isFinite(v) || v <= 0) return 10;
+  const mag = Math.pow(10, Math.floor(Math.log10(v)));
+  const n = v / mag;
+  const steps = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+  for (let i = 0; i < steps.length; i++) { if (n <= steps[i]) return steps[i] * mag; }
+  return 10 * mag;
+}
+// Избира кои етикети по оста X да се покажат, така че да не се застъпват.
+// Последният етикет винаги се показва — ако пречи на предходния, предходният пада.
+function statsLabelIndices(n, xOf, minGap) {
+  const step = Math.max(1, Math.ceil(n / 8));
+  const cand = [];
+  for (let i = 0; i < n; i += step) cand.push(i);
+  if (cand.length === 0 || cand[cand.length - 1] !== n - 1) cand.push(n - 1);
+  const out = [];
+  for (let k = 0; k < cand.length; k++) {
+    const i = cand[k];
+    if (!out.length) { out.push(i); continue; }
+    if (xOf(i) - xOf(out[out.length - 1]) < minGap) {
+      if (k === cand.length - 1) { out.pop(); out.push(i); }
+      continue;
+    }
+    out.push(i);
+  }
+  return out;
+}
+function statsEsc(v) { return escapeHtml(v === null || v === undefined ? '' : String(v)); }
+function statsEmpty(el, msg) {
+  if (!el) return;
+  el.innerHTML = `<div class="chart-empty">${statsEsc(msg || 'Няма данни за периода')}</div>`;
+}
+function statsPct(part, total) { return total ? Math.round((part / total) * 100) : 0; }
+function statsPctBar(pct, cls) {
+  const p = Math.max(0, Math.min(100, Math.round(pct)));
+  return `<div class="mini-bar ${cls || ''}" title="${p}%"><i style="width:${p}%"></i></div>`;
+}
+
+// ── Групиране по дни или по седмици ──────────────────────────────────────
+function statsBuckets(r, byWeek) {
+  const out = [];
+  const start = statsParseISO(r.from), end = statsParseISO(r.to);
+  if (!start || !end) return out;
+  if (byWeek) {
+    let cur = getMonday(start);
+    while (cur <= end) {
+      const a = cur < start ? start : cur;
+      const b = addDays(cur, 6);
+      out.push({ from: toDateStr(a), to: toDateStr(b > end ? end : b), label: formatDate(toDateStr(a)).slice(0, 5) });
+      cur = addDays(cur, 7);
+    }
+  } else {
+    let d = start;
+    while (d <= end) {
+      const s = toDateStr(d);
+      out.push({ from: s, to: s, label: formatDate(s).slice(0, 5) });
+      d = addDays(d, 1);
+    }
+  }
+  return out;
+}
+function statsSumByBucket(items, buckets) {
+  const vals = buckets.map(() => 0);
+  items.forEach(it => {
+    const d = it.date;
+    if (!d) return;
+    for (let i = 0; i < buckets.length; i++) {
+      if (d >= buckets[i].from && d <= buckets[i].to) { vals[i] += 1; return; }
+    }
+  });
+  return vals;
+}
+function statsMoneyByBucket(items, buckets) {
+  const vals = buckets.map(() => 0);
+  items.forEach(it => {
+    const d = it.date;
+    const v = parseFloat(it.price);
+    if (!d || isNaN(v)) return;
+    for (let i = 0; i < buckets.length; i++) {
+      if (d >= buckets[i].from && d <= buckets[i].to) { vals[i] += v; return; }
+    }
+  });
+  return vals;
+}
+
+// ── SVG графики ──────────────────────────────────────────────────────────
+function statsLineChart(el, labels, values, opts) {
+  opts = opts || {};
+  if (!el) return;
+  if (!values.length) { statsEmpty(el); return; }
+  const W = 680, H = 220, padL = 46, padR = 14, padT = 14, padB = 30;
+  const iw = W - padL - padR, ih = H - padT - padB;
+  const maxV = statsNiceMax(Math.max.apply(null, values));
+  const n = values.length;
+  const px = i => padL + (n === 1 ? iw / 2 : (iw * i) / (n - 1));
+  const py = v => padT + ih - (ih * (maxV ? v / maxV : 0));
+  let grid = '', ticks = '';
+  for (let g = 0; g <= 4; g++) {
+    const val = (maxV / 4) * g;
+    const yy = py(val).toFixed(1);
+    grid += `<line x1="${padL}" y1="${yy}" x2="${W - padR}" y2="${yy}" stroke="#eef2f7" stroke-width="1"/>`;
+    ticks += `<text x="${padL - 8}" y="${(py(val) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#9db0c6">${Math.round(val)}</text>`;
+  }
+  const pts = values.map((v, i) => `${px(i).toFixed(1)},${py(v).toFixed(1)}`);
+  const area = `M ${padL},${(padT + ih).toFixed(1)} L ${pts.join(' L ')} L ${px(n - 1).toFixed(1)},${(padT + ih).toFixed(1)} Z`;
+  const dots = values.map((v, i) => `<circle cx="${px(i).toFixed(1)}" cy="${py(v).toFixed(1)}" r="3.2" fill="#1e4a78" stroke="#ffffff" stroke-width="1.5"><title>${statsEsc(labels[i])}: ${Math.round(v)}</title></circle>`).join('');
+  let xl = '';
+  statsLabelIndices(n, px, 34).forEach((i) => {
+    xl += `<text x="${px(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="9.5" fill="#9db0c6">${statsEsc(labels[i])}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${statsEsc(opts.aria || 'Линейна графика')}">
+<defs><linearGradient id="statsLineFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a90e2" stop-opacity="0.28"/><stop offset="100%" stop-color="#4a90e2" stop-opacity="0.02"/></linearGradient></defs>
+${grid}${ticks}<path d="${area}" fill="url(#statsLineFill)"/>
+<polyline points="${pts.join(' ')}" fill="none" stroke="#1e4a78" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+${dots}${xl}</svg>`;
+}
+
+function statsBarChart(el, labels, values, opts) {
+  opts = opts || {};
+  if (!el) return;
+  if (!values.length) { statsEmpty(el); return; }
+  const W = 340, H = 200, padL = 28, padR = 8, padT = 14, padB = 26;
+  const iw = W - padL - padR, ih = H - padT - padB;
+  const maxV = statsNiceMax(Math.max.apply(null, values));
+  const n = values.length;
+  const bw = Math.min(30, (iw / n) * 0.64);
+  const gap = n > 1 ? (iw - bw * n) / (n - 1) : 0;
+  let bars = '';
+  values.forEach((v, i) => {
+    const bx = padL + i * (bw + gap);
+    const h = maxV ? (ih * v) / maxV : 0;
+    const by = padT + ih - h;
+    bars += `<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h, 0.8).toFixed(1)}" rx="4" fill="url(#statsBarFill)"><title>${statsEsc(labels[i])}: ${v}</title></rect>`;
+    if (v > 0) bars += `<text x="${(bx + bw / 2).toFixed(1)}" y="${(by - 4).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#5b7794">${v}</text>`;
+  });
+  const xAt = (i) => padL + i * (bw + gap) + bw / 2;
+  let xl = '';
+  statsLabelIndices(n, xAt, 30).forEach((i) => {
+    xl += `<text x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="8.5" fill="#9db0c6">${statsEsc(labels[i])}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${statsEsc(opts.aria || 'Стълбовидна графика')}">
+<defs><linearGradient id="statsBarFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#1e4a78"/></linearGradient></defs>
+<line x1="${padL}" y1="${padT + ih}" x2="${W - padR}" y2="${padT + ih}" stroke="#e9eef3" stroke-width="1"/>
+${bars}${xl}</svg>`;
+}
+
+function statsDoughnut(el, items, opts) {
+  opts = opts || {};
+  if (!el) return;
+  const total = items.reduce((s, it) => s + it.value, 0);
+  if (!total) { statsEmpty(el); return; }
+  const S = 200, c = S / 2, r = 74, sw = 26;
+  const C = 2 * Math.PI * r;
+  let off = 0, segs = '';
+  items.forEach(it => {
+    if (!it.value) return;
+    const len = C * (it.value / total);
+    const dash = Math.max(len - 2, 0.5);
+    segs += `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${it.color}" stroke-width="${sw}" stroke-dasharray="${dash.toFixed(2)} ${(C - dash).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${c} ${c})"><title>${statsEsc(it.label)}: ${it.value}</title></circle>`;
+    off += len;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="${statsEsc(opts.aria || 'Кръгова графика')}" style="max-width:220px;margin:0 auto;">
+${segs}<text x="${c}" y="${c - 2}" text-anchor="middle" font-size="22" font-weight="700" fill="#0b2b4f">${total}</text>
+<text x="${c}" y="${c + 16}" text-anchor="middle" font-size="9.5" fill="#9db0c6">${statsEsc(opts.centerLabel || 'общо')}</text></svg>`;
+}
+
+function statsLegend(el, items, total) {
+  if (!el) return;
+  el.innerHTML = items.filter(it => it.value > 0).map(it =>
+    `<div class="stats-legend-item"><span class="stats-legend-dot" style="background:${it.color}"></span>${statsEsc(it.label)} <b>${it.value}</b>${total ? ` <span style="color:#9db0c6;">(${statsPct(it.value, total)}%)</span>` : ''}</div>`
+  ).join('');
+}
+
+function statsHeatmapChart(el, matrix, hours, dayLabels) {
+  if (!el) return;
+  const rows = dayLabels.length, cols = hours.length;
+  if (!cols) { statsEmpty(el); return; }
+  let max = 0;
+  matrix.forEach(row => row.forEach(v => { if (v > max) max = v; }));
+  if (max === 0) { statsEmpty(el, 'Няма разпределение по часове за периода'); return; }
+  const cw = 34, ch = 26, padL = 44, padT = 22;
+  const W = padL + cols * cw + 8, H = padT + rows * ch + 8;
+  let cells = '';
+  for (let d = 0; d < rows; d++) {
+    for (let h = 0; h < cols; h++) {
+      const v = matrix[d][h] || 0;
+      const t = max ? v / max : 0;
+      const fill = v === 0 ? '#f4f7fa' : `rgba(30,74,120,${(0.14 + t * 0.82).toFixed(3)})`;
+      const x = padL + h * cw, y = padT + d * ch;
+      cells += `<rect x="${(x + 1.5).toFixed(1)}" y="${(y + 1.5).toFixed(1)}" width="${cw - 3}" height="${ch - 3}" rx="5" fill="${fill}"><title>${statsEsc(dayLabels[d])}, ${hours[h]}:00 — ${v}</title></rect>`;
+      if (v > 0) cells += `<text x="${(x + cw / 2).toFixed(1)}" y="${(y + ch / 2 + 3.5).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="${t > 0.55 ? '#ffffff' : '#1e4a78'}">${v}</text>`;
+    }
+  }
+  let labels = '';
+  dayLabels.forEach((dl, d) => {
+    labels += `<text x="${padL - 8}" y="${(padT + d * ch + ch / 2 + 3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#7f95b0">${statsEsc(dl)}</text>`;
+  });
+  hours.forEach((hh, h) => {
+    labels += `<text x="${(padL + h * cw + cw / 2).toFixed(1)}" y="${padT - 7}" text-anchor="middle" font-size="9" fill="#9db0c6">${hh}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Заетост по часове">${cells}${labels}</svg>`;
+}
+
+// ── Помощни изчисления за клиничните резултати ────────────────────────────
+function statsBuildPainNotes() {
+  const map = {};
+  Object.values(sessionNotes).forEach(n => {
+    if (!n || !n.patientId) return;
+    const v = parseFloat(n.painScore);
+    if (isNaN(v)) return;
+    (map[n.patientId] = map[n.patientId] || []).push({ d: n.date || '', v: v, ts: n.createdAt || 0 });
+  });
+  Object.keys(map).forEach(k => map[k].sort((a, b) => (a.ts - b.ts) || String(a.d).localeCompare(String(b.d))));
+  return map;
+}
+function statsPainBefore(pat, painNotes) {
+  const v = parseFloat(pat.painBefore);
+  if (!isNaN(v)) return v;
+  const arr = painNotes[pat.id];
+  return arr && arr.length ? arr[0].v : null;
+}
+function statsPainAfter(pat, painNotes) {
+  const v = parseFloat(pat.painAfter);
+  if (!isNaN(v)) return v;
+  const arr = painNotes[pat.id];
+  return arr && arr.length ? arr[arr.length - 1].v : null;
+}
+function statsHasRecurrence(aptsAll, patientId) {
+  const ds = aptsAll
+    .filter(a => a.patientId === patientId && a.status !== 'cancelled')
+    .map(a => a.date).filter(Boolean).sort();
+  if (ds.length < 2) return false;
+  let prev = statsParseISO(ds[0]);
+  for (let i = 1; i < ds.length; i++) {
+    const cur = statsParseISO(ds[i]);
+    if (cur && prev && (cur - prev) / 86400000 >= 45) return true;
+    if (cur) prev = cur;
+  }
+  return false;
+}
+function statsStars(v) {
+  const n = Math.max(0, Math.min(5, Math.round(v)));
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+
+// ── Основна функция ───────────────────────────────────────────────────────
+function renderStats() {
+  if (!currentUser || currentPatient) return;
+  const r = statsRangeBounds();
+  const rangeLbl = $('statsRangeLabel');
+  if (rangeLbl) rangeLbl.innerHTML = `<i class="fas fa-calendar"></i> ${formatDate(r.from)} – ${formatDate(r.to)}`;
+
+  const kf = statsState.kinezi || '';
+
+  // ── базови множества ──
+  const allPatients = Object.entries(patients).map(([id, p]) => ({ id, ...p }));
+  const livePatients = allPatients.filter(p => !p.archived);
+  const scopePatients = kf ? livePatients.filter(p => (p.assignedKineziIds || []).includes(kf)) : livePatients;
+  const aptsAll = Object.entries(appointments).map(([id, a]) => ({ id, ...a }));
+  const apts = aptsAll.filter(a => statsInRange(a.date, r) && (!kf || a.kineziId === kf));
+  const aptsActive = apts.filter(a => a.status !== 'cancelled' && a.status !== 'no_show');
+  const procs = Object.entries(procedures).map(([id, p]) => ({ id, ...p }))
+    .filter(p => statsInRange(p.date, r) && (!kf || p.createdBy === kf));
+  const pay = Object.entries(pricing).map(([id, p]) => ({ id, ...p }))
+    .filter(p => statsInRange(p.date, r) && (!kf || p.createdBy === kf));
+
+  const days = statsDayCount(r);
+
+  // ── KPI 1: Общо процедури ──
+  const kpiProc = $('kpiProcedures');
+  if (kpiProc) kpiProc.textContent = procs.length;
+  const kpiProcSub = $('kpiProceduresSub');
+  if (kpiProcSub) kpiProcSub.textContent = `${aptsActive.length} ${aptsActive.length === 1 ? 'час' : 'часа'} в графика`;
+
+  // ── KPI 2: Нови пациенти ──
+  const newPats = scopePatients.filter(p => p.createdAt && statsInRange(statsTsDate(p.createdAt), r));
+  const kpiNew = $('kpiNewPatients');
+  if (kpiNew) kpiNew.textContent = newPats.length;
+  const kpiNewSub = $('kpiNewPatientsSub');
+  if (kpiNewSub) kpiNewSub.textContent = `${scopePatients.length} активни общо`;
+
+  // ── KPI 3: Заетост ──
+  const occ = statsOccupancy(r, kf, aptsActive);
+  const kpiOcc = $('kpiOccupancy');
+  if (kpiOcc) kpiOcc.innerHTML = `${occ.pct}<small>%</small>`;
+  const kpiOccSub = $('kpiOccupancySub');
+  if (kpiOccSub) kpiOccSub.textContent = `${occ.booked} от ${occ.slots} слота`;
+
+  // ── KPI 4: Отменени часове ──
+  const cancelled = apts.filter(a => a.status === 'cancelled');
+  const noShow = apts.filter(a => a.status === 'no_show');
+  const kpiCanc = $('kpiCancelled');
+  if (kpiCanc) kpiCanc.textContent = cancelled.length + noShow.length;
+  const kpiCancSub = $('kpiCancelledSub');
+  if (kpiCancSub) kpiCancSub.textContent = `${cancelled.length} отказани · ${noShow.length} неявили се`;
+
+  // ── KPI 5: Приходи ──
+  const revenue = pay.reduce((s, p) => { const v = parseFloat(p.price); return s + (isNaN(v) ? 0 : v); }, 0);
+  const kpiRev = $('kpiRevenue');
+  if (kpiRev) kpiRev.innerHTML = `${formatPrice(revenue)}<small> €</small>`;
+  const kpiRevSub = $('kpiRevenueSub');
+  if (kpiRevSub) kpiRevSub.textContent = `${pay.length} ${pay.length === 1 ? 'плащане' : 'плащания'} · ср. ${formatPrice(pay.length ? revenue / pay.length : 0)} €`;
+
+  // ── Графика: приходи по дни / седмици ──
+  const byWeek = days > 62;
+  const buckets = statsBuckets(r, byWeek);
+  const labels = buckets.map(b => b.label);
+  const revSeries = statsMoneyByBucket(pay, buckets);
+  const procSeries = statsSumByBucket(procs, buckets);
+  const revSub = $('statsRevenueSub');
+  if (revSub) revSub.textContent = byWeek ? `по седмици · общо ${formatPrice(revenue)} €` : `по дни · общо ${formatPrice(revenue)} €`;
+  if (buckets.length === 1) {
+    statsBarChart($('statsRevenueChart'), ['Общо'], [revenue], { aria: 'Приходи' });
+  } else {
+    statsLineChart($('statsRevenueChart'), labels, revSeries, { aria: 'Приходи по дни' });
+  }
+  statsBarChart($('statsProceduresChart'), labels, procSeries, { aria: 'Процедури по дни' });
+
+  // ── Графика: пациенти по диагноза ──
+  const diagItems = STATS_DIAG_CATS.map(c => ({ label: c.label, color: c.color, value: 0 }));
+  const diagIndex = {};
+  STATS_DIAG_CATS.forEach((c, i) => { diagIndex[c.key] = i; });
+  const diagOfPatient = {};
+  scopePatients.forEach(p => {
+    const cat = statsDiagOf(p.diagnosis || p.workingDiagnosis || p.complaint || '');
+    diagOfPatient[p.id] = cat.key;
+    diagItems[diagIndex[cat.key]].value++;
+  });
+  statsDoughnut($('statsDiagnosisChart'), diagItems, { centerLabel: 'пациента', aria: 'Пациенти по диагноза' });
+  statsLegend($('statsDiagnosisLegend'), diagItems, scopePatients.length);
+
+  // ── Графика: заетост по часове (heatmap) ──
+  let hMin = 8, hMax = 18;
+  aptsActive.forEach(a => {
+    const h = parseInt(String(a.time || '').slice(0, 2), 10);
+    if (isNaN(h)) return;
+    if (h < hMin) hMin = h;
+    if (h > hMax) hMax = h;
+  });
+  hMin = Math.max(7, hMin); hMax = Math.min(21, hMax);
+  const hours = [];
+  for (let h = hMin; h <= hMax; h++) hours.push(h);
+  const dayLabels = ['Пон', 'Вто', 'Сря', 'Чет', 'Пет', 'Съб', 'Нед'];
+  const matrix = dayLabels.map(() => hours.map(() => 0));
+  let busiest = { day: -1, hour: -1, count: 0 };
+  aptsActive.forEach(a => {
+    const dt = statsParseISO(a.date);
+    const h = parseInt(String(a.time || '').slice(0, 2), 10);
+    if (!dt || isNaN(h) || h < hMin || h > hMax) return;
+    const di = (dt.getDay() + 6) % 7;
+    const hi = h - hMin;
+    matrix[di][hi] = (matrix[di][hi] || 0) + 1;
+    if (matrix[di][hi] > busiest.count) busiest = { day: di, hour: h, count: matrix[di][hi] };
+  });
+  statsHeatmapChart($('statsHeatmap'), matrix, hours, dayLabels);
+  const heatSub = $('statsHeatSub');
+  if (heatSub) {
+    heatSub.textContent = busiest.count > 0
+      ? `Най-натоварено: ${dayLabels[busiest.day]}, ${busiest.hour}:00`
+      : 'Няма данни';
+  }
+
+  // ── Графика: източник на пациенти ──
+  const srcItems = STATS_SOURCES.map(s => ({ label: s.label, color: s.color, value: 0 }));
+  const srcIndex = {};
+  STATS_SOURCES.forEach((s, i) => { srcIndex[s.key] = i; });
+  scopePatients.forEach(p => {
+    const key = srcIndex[p.source] !== undefined ? p.source : 'other';
+    srcItems[srcIndex[key]].value++;
+  });
+  statsDoughnut($('statsSourceChart'), srcItems, { centerLabel: 'пациента', aria: 'Източник на пациенти' });
+  statsLegend($('statsSourceLegend'), srcItems, scopePatients.length);
+
+  // ── Клинични резултати ──
+  const painNotes = statsBuildPainNotes();
+  const procCountByPatient = {};
+  Object.values(procedures).forEach(p => {
+    if (!p || !p.patientId) return;
+    procCountByPatient[p.patientId] = (procCountByPatient[p.patientId] || 0) + 1;
+  });
+  const clinicalRows = [];
+  STATS_DIAG_CATS.forEach(cat => {
+    const group = scopePatients.filter(p => diagOfPatient[p.id] === cat.key);
+    if (!group.length) return;
+    let sBefore = 0, nBefore = 0, sAfter = 0, nAfter = 0, sProc = 0, goals = 0, recid = 0;
+    group.forEach(p => {
+      const b = statsPainBefore(p, painNotes);
+      const a = statsPainAfter(p, painNotes);
+      if (b !== null) { sBefore += b; nBefore++; }
+      if (a !== null) { sAfter += a; nAfter++; }
+      sProc += procCountByPatient[p.id] || 0;
+      const achieved = p.goalAchieved === true || (a !== null && a <= 3);
+      if (achieved) goals++;
+      if (statsHasRecurrence(aptsAll, p.id)) recid++;
+    });
+    clinicalRows.push({
+      label: cat.label,
+      color: cat.color,
+      patients: group.length,
+      before: nBefore ? sBefore / nBefore : null,
+      after: nAfter ? sAfter / nAfter : null,
+      proc: sProc / group.length,
+      goalPct: statsPct(goals, group.length),
+      recidPct: statsPct(recid, group.length)
+    });
+  });
+  const clinBody = $('statsClinicalBody');
+  if (clinBody) {
+    if (!clinicalRows.length) {
+      clinBody.innerHTML = `<tr><td colspan="6" class="empty-message">Няма пациенти с диагноза за периода</td></tr>`;
+    } else {
+      clinBody.innerHTML = clinicalRows.map(row => {
+        const arrow = (row.before !== null && row.after !== null)
+          ? `<b style="color:#0b2b4f;">${row.before.toFixed(1)}</b> <span style="color:#9db0c6;">→</span> <b style="color:${row.after <= row.before ? '#1a7a3e' : '#b22234'};">${row.after.toFixed(1)}</b> <span style="color:#9db0c6;font-size:0.72rem;">/10</span>`
+          : `<span style="color:#9db0c6;">няма данни</span>`;
+        return `<tr>
+<td><span class="stats-legend-dot" style="background:${row.color};display:inline-block;margin-right:6px;"></span>${statsEsc(row.label)}</td>
+<td class="num">${row.patients}</td>
+<td>${arrow}</td>
+<td class="num">${row.proc.toFixed(1)}</td>
+<td><div style="display:flex;align-items:center;gap:8px;">${statsPctBar(row.goalPct, 'green')}<span class="num" style="min-width:34px;">${row.goalPct}%</span></div></td>
+<td><div style="display:flex;align-items:center;gap:8px;">${statsPctBar(row.recidPct, 'red')}<span class="num" style="min-width:34px;">${row.recidPct}%</span></div></td>
+</tr>`;
+      }).join('');
+    }
+  }
+
+  // ── Блок „Пациенти" ──
+  const monthStart = toDateStr(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const newThisMonth = livePatients.filter(p => p.createdAt && statsTsDate(p.createdAt) >= monthStart).length;
+  const aptCountByPatient = {};
+  aptsAll.forEach(a => {
+    if (a.status === 'cancelled') return;
+    aptCountByPatient[a.patientId] = (aptCountByPatient[a.patientId] || 0) + 1;
+  });
+  const totalProcAll = Object.keys(procCountByPatient).reduce((s, k) => s + procCountByPatient[k], 0);
+  const avgProc = livePatients.length ? totalProcAll / livePatients.length : 0;
+
+  // „Прекъснали терапия" — пациенти без посещение от 45+ дни; гледаме след коя
+  // по ред процедура най-често спират.
+  const todayIso = toDateStr(new Date());
+  const todayDate = statsParseISO(todayIso);
+  const stopHist = {};
+  let stopTotal = 0;
+  livePatients.forEach(p => {
+    const ds = aptsAll.filter(a => a.patientId === p.id && a.status !== 'cancelled').map(a => a.date).filter(Boolean).sort();
+    if (!ds.length) return;
+    const lastDate = statsParseISO(ds[ds.length - 1]);
+    if (!lastDate || !todayDate) return;
+    const gap = Math.round((todayDate - lastDate) / 86400000);
+    if (gap < 45) return;
+    const k = Math.min(ds.length, 10);
+    stopHist[k] = (stopHist[k] || 0) + 1;
+    stopTotal++;
+  });
+  let stopMode = 0, stopModeCount = 0;
+  Object.keys(stopHist).forEach(k => { if (stopHist[k] > stopModeCount) { stopModeCount = stopHist[k]; stopMode = parseInt(k, 10); } });
+
+  const patStats = $('statsPatientStats');
+  if (patStats) {
+    patStats.innerHTML = `
+<div class="stats-mini"><div class="lbl">Активни в момента</div><div class="val">${livePatients.length}</div></div>
+<div class="stats-mini"><div class="lbl">Нови този месец</div><div class="val">${newThisMonth}</div></div>
+<div class="stats-mini"><div class="lbl">Ср. процедури / пациент</div><div class="val">${avgProc.toFixed(1)}</div></div>
+<div class="stats-mini"><div class="lbl">Прекъснали терапия</div><div class="val">${stopTotal}</div><div style="font-size:0.72rem;color:#9db0c6;margin-top:2px;">${stopMode ? `най-често след №${stopMode}` : 'няма данни'}</div></div>`;
+  }
+
+  const topBody = $('statsTopPatients');
+  if (topBody) {
+    const top = Object.entries(aptCountByPatient)
+      .map(([pid, cnt]) => ({ pid, cnt, pat: allPatients.find(p => p.id === pid) }))
+      .filter(x => x.pat && (!kf || (x.pat.assignedKineziIds || []).includes(kf)))
+      .sort((a, b) => b.cnt - a.cnt)
+      .slice(0, 10);
+    topBody.innerHTML = top.length ? top.map((x, i) => {
+      const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+      const diag = statsDiagOf(x.pat.diagnosis || x.pat.workingDiagnosis || '').label;
+      return `<tr class="${cls}"><td><span class="rank">${i + 1}</span></td><td>${statsEsc(x.pat.name)}</td><td style="color:#7f95b0;">${statsEsc(diag)}</td><td class="num">${x.cnt}</td></tr>`;
+    }).join('') : `<tr><td colspan="4" class="empty-message">Няма данни</td></tr>`;
+  }
+
+  // ── Блок „График и отменени часове" ──
+  const totalApts = apts.length;
+  const noShowPct = statsPct(noShow.length, totalApts);
+  const cancelPct = statsPct(cancelled.length, totalApts);
+
+  const cancelledByHour = {};
+  apts.filter(a => a.status === 'cancelled' || a.status === 'no_show').forEach(a => {
+    const h = parseInt(String(a.time || '').slice(0, 2), 10);
+    if (isNaN(h)) return;
+    const k = `${String(h).padStart(2, '0')}:00`;
+    cancelledByHour[k] = (cancelledByHour[k] || 0) + 1;
+  });
+  const cancelList = Object.entries(cancelledByHour).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  const firstApt = {};
+  aptsAll.forEach(a => {
+    if (!a.patientId || !a.date) return;
+    const cur = firstApt[a.patientId];
+    const key = `${a.date} ${a.time || ''}`;
+    if (!cur || key < `${cur.date} ${cur.time || ''}`) firstApt[a.patientId] = a;
+  });
+  let sumLead = 0, nLead = 0;
+  Object.values(firstApt).forEach(a => {
+    if (!a.createdAt) return;
+    const b = statsParseISO(statsTsDate(a.createdAt));
+    const v = statsParseISO(a.date);
+    if (!b || !v) return;
+    const dd = Math.round((v - b) / 86400000);
+    if (dd >= 0) { sumLead += dd; nLead++; }
+  });
+  const avgLead = nLead ? sumLead / nLead : 0;
+
+  const schedStats = $('statsScheduleStats');
+  if (schedStats) {
+    schedStats.innerHTML = `
+<div class="stats-mini"><div class="lbl">No-show</div><div class="val" style="color:${noShowPct > 10 ? '#b22234' : '#0b2b4f'};">${noShowPct}%</div><div style="font-size:0.72rem;color:#9db0c6;margin-top:2px;">${noShow.length} неявили се</div></div>
+<div class="stats-mini"><div class="lbl">Отказани часове</div><div class="val">${cancelPct}%</div><div style="font-size:0.72rem;color:#9db0c6;margin-top:2px;">${cancelled.length} от ${totalApts}</div></div>
+<div class="stats-mini"><div class="lbl">Записване → първо посещение</div><div class="val" style="color:${avgLead > 5 ? '#b22234' : '#0b2b4f'};">${avgLead.toFixed(1)} дни</div><div style="font-size:0.72rem;color:#9db0c6;margin-top:2px;">${avgLead > 5 ? 'над 5 дни — риск от отказ' : 'в норма'}</div></div>`;
+  }
+
+  const cancelBody = $('statsCancelledHours');
+  if (cancelBody) {
+    cancelBody.innerHTML = cancelList.length
+      ? cancelList.map(([h, c]) => `<tr><td>${statsEsc(h)}</td><td class="num">${c}</td></tr>`).join('')
+      : `<tr><td colspan="2" class="empty-message">Няма отменени часове</td></tr>`;
+  }
+
+  // ── Финанси (само админ) ──
+  const finPanel = $('statsFinancePanel');
+  if (finPanel) {
+    const admin = isAdmin(currentUser);
+    finPanel.style.display = admin ? '' : 'none';
+    if (admin) {
+      const byService = {};
+      const byTherapist = {};
+      const patSet = new Set();
+      pay.forEach(p => {
+        const v = parseFloat(p.price);
+        if (isNaN(v)) return;
+        const svc = (p.description || '').trim() || 'Без описание';
+        byService[svc] = byService[svc] || { sum: 0, cnt: 0 };
+        byService[svc].sum += v; byService[svc].cnt++;
+        const th = p.createdBy || '—';
+        byTherapist[th] = byTherapist[th] || { sum: 0, cnt: 0 };
+        byTherapist[th].sum += v; byTherapist[th].cnt++;
+        if (p.patientId) patSet.add(p.patientId);
+      });
+      const paidKeys = new Set(pay.map(p => `${p.patientId}|${p.date}`));
+      const unpaid = apts.filter(a => a.status === 'completed' && !paidKeys.has(`${a.patientId}|${a.date}`));
+      const avgPerPatient = patSet.size ? revenue / patSet.size : 0;
+
+      const finStats = $('statsFinanceStats');
+      if (finStats) {
+        finStats.innerHTML = `
+<div class="stats-mini"><div class="lbl">Общ приход</div><div class="val">${formatPrice(revenue)} €</div></div>
+<div class="stats-mini"><div class="lbl">Ср. приход / пациент</div><div class="val">${formatPrice(avgPerPatient)} €</div></div>
+<div class="stats-mini"><div class="lbl">Платили пациенти</div><div class="val">${patSet.size}</div></div>
+<div class="stats-mini"><div class="lbl">Неплатени часове</div><div class="val" style="color:${unpaid.length ? '#b22234' : '#0b2b4f'};">${unpaid.length}</div><div style="font-size:0.72rem;color:#9db0c6;margin-top:2px;">приключени без плащане</div></div>`;
+      }
+      const svcBody = $('statsRevenueByService');
+      if (svcBody) {
+        const rows = Object.entries(byService).sort((a, b) => b[1].sum - a[1].sum);
+        svcBody.innerHTML = rows.length ? rows.map(([k, v]) =>
+          `<tr><td>${statsEsc(k)}</td><td class="num">${formatPrice(v.sum)} €</td><td class="num">${v.cnt}</td></tr>`
+        ).join('') : `<tr><td colspan="3" class="empty-message">Няма плащания</td></tr>`;
+      }
+      const thBody = $('statsRevenueByTherapist');
+      if (thBody) {
+        const rows = Object.entries(byTherapist).sort((a, b) => b[1].sum - a[1].sum);
+        thBody.innerHTML = rows.length ? rows.map(([k, v]) => {
+          const nm = (users[k] && users[k].name) || '—';
+          return `<tr><td>${statsEsc(nm)}</td><td class="num">${formatPrice(v.sum)} €</td><td class="num">${v.cnt}</td></tr>`;
+        }).join('') : `<tr><td colspan="3" class="empty-message">Няма плащания</td></tr>`;
+      }
+    }
+  }
+
+  // ── Оценки ──
+  const rv = Object.entries(reviews).map(([id, x]) => ({ id, ...(x || {}) }))
+    .filter(x => x && (x.rating !== undefined || x.text));
+  const avgRating = rv.length
+    ? rv.reduce((s, x) => s + (parseFloat(x.rating) || 0), 0) / rv.length
+    : 0;
+  const recommendPct = rv.length ? statsPct(rv.filter(x => (parseFloat(x.rating) || 0) >= 4).length, rv.length) : 0;
+  const ratingStats = $('statsRatingStats');
+  if (ratingStats) {
+    ratingStats.innerHTML = `
+<div class="stats-mini"><div class="lbl">Средна оценка</div><div class="val">${rv.length ? avgRating.toFixed(1) : '—'}</div><div class="stars" style="font-size:0.8rem;">${rv.length ? statsStars(avgRating) : ''}</div></div>
+<div class="stats-mini"><div class="lbl">Брой отзиви</div><div class="val">${rv.length}</div></div>
+<div class="stats-mini"><div class="lbl">Биха препоръчали</div><div class="val">${rv.length ? recommendPct + '%' : '—'}</div></div>`;
+  }
+  const rvList = $('statsReviewsList');
+  if (rvList) {
+    const last5 = rv.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5);
+    if (!last5.length) {
+      rvList.innerHTML = `<div class="chart-empty">Все още няма отзиви от пациенти.</div>`;
+    } else {
+      rvList.innerHTML = last5.map(x => {
+        const nm = x.name || 'Пациент';
+        const initials = nm.trim().split(/\s+/).slice(0, 2).map(w => w.charAt(0).toUpperCase()).join('');
+        return `<div class="review-row"><div class="review-avatar">${statsEsc(initials || 'П')}</div><div class="review-body"><div class="review-name">${statsEsc(nm)} <span class="stars">${statsStars(parseFloat(x.rating) || 0)}</span></div>${x.text ? `<div class="review-text">${statsEsc(x.text)}</div>` : ''}<div class="review-meta">${x.createdAt ? formatTimestamp(x.createdAt) : ''}</div></div></div>`;
+      }).join('');
+    }
+  }
+}
+
+// ── Заетост: заети слотове / общо възможни слотове ────────────────────────
+// Слотовете се взимат по 30 минути от работното време на всеки терапевт
+// (workingHours), с резервни 09:00–18:00 за делнични дни, ако не е зададено.
+function statsOccupancy(r, kf, bookedApts) {
+  const ids = kf
+    ? [kf]
+    : Object.entries(users).filter(([, u]) => isKinezi(u)).map(([id]) => id);
+  const targets = ids.length ? ids : [null];
+  let slots = 0;
+  const start = statsParseISO(r.from), end = statsParseISO(r.to);
+  if (!start || !end) return { slots: 0, booked: bookedApts.length, pct: 0 };
+  let d = start;
+  while (d <= end) {
+    const dow = d.getDay();
+    const idx = dow === 0 ? 6 : dow - 1;
+    targets.forEach(kid => {
+      const wh = kid && workingHours[kid] ? workingHours[kid][idx] : null;
+      const cfg = wh || { from: '09:00', to: '18:00', active: idx < 5 };
+      if (!cfg.active) return;
+      const f = String(cfg.from || '09:00').split(':').map(Number);
+      const t = String(cfg.to || '18:00').split(':').map(Number);
+      const mins = (t[0] * 60 + t[1]) - (f[0] * 60 + f[1]);
+      if (mins > 0) slots += Math.round(mins / 30);
+    });
+    d = addDays(d, 1);
+  }
+  const booked = bookedApts.length;
+  return { slots: slots, booked: booked, pct: slots ? Math.min(100, Math.round((booked / slots) * 100)) : 0 };
+}
+
+// ── Филтри и събития ──────────────────────────────────────────────────────
+function renderStatsKineziOptions() {
+  const sel = $('statsKinezi');
+  if (!sel) return;
+  const list = Object.entries(users)
+    .filter(([, u]) => isKinezi(u))
+    .map(([id, u]) => ({ id: id, name: u.name || id }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const cur = statsState.kinezi;
+  sel.innerHTML = '<option value="">Всички терапевти</option>' +
+    list.map(x => `<option value="${x.id}">${statsEsc(x.name)}</option>`).join('');
+  if (list.some(x => x.id === cur)) sel.value = cur;
+  else { statsState.kinezi = ''; sel.value = ''; }
+}
+
+(function wireStatsFilters() {
+  const chips = document.querySelectorAll('[data-stats-preset]');
+  const custom = $('statsCustomRange');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const preset = chip.dataset.statsPreset;
+      statsState.preset = preset;
+      chips.forEach(c => c.classList.toggle('active', c === chip));
+      if (custom) custom.classList.toggle('show', preset === 'custom');
+      if (preset !== 'custom') renderStats();
+    });
+  });
+  const applyBtn = $('statsApplyRange');
+  if (applyBtn) applyBtn.addEventListener('click', () => {
+    statsState.from = $('statsFrom') ? $('statsFrom').value : '';
+    statsState.to = $('statsTo') ? $('statsTo').value : '';
+    renderStats();
+  });
+  const sel = $('statsKinezi');
+  if (sel) sel.addEventListener('change', () => { statsState.kinezi = sel.value; renderStats(); });
+  // Начални стойности за полетата „Избери период".
+  const todayIso = toDateStr(new Date());
+  if ($('statsTo')) $('statsTo').value = todayIso;
+  if ($('statsFrom')) $('statsFrom').value = toDateStr(addDays(new Date(), -29));
+})();
 
 document.addEventListener('click', (e)=>{ const item = e.target.closest('.dash-list-item[data-patient-id]'); if (item && !e.target.closest('[data-task-done]') && !e.target.closest('[data-task-delete]')) openPatientProfile(item.dataset.patientId); });
 document.addEventListener('click', async (e)=>{ const d = e.target.closest('[data-task-done]'); if (d) { try { await update(clinicRef(`tasks/${d.dataset.taskDone}`),{done:true}); showToast('Изпълнена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const dl = e.target.closest('[data-task-delete]'); if (dl) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`tasks/${dl.dataset.taskDelete}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} } });
@@ -3753,7 +4762,7 @@ $('patientForm').addEventListener('submit', async (e) => {
   try {
     const phone = $('patientPhone').value.trim();
     const assignedKineziIds = getPatientKineziIds();
-    const data = { name, egn: $('patientEgn').value.trim(), phone, phoneNormalized: normalizePhone(phone), email: $('patientEmail').value.trim(), birthDate: $('patientBirthDate').value, gender: $('patientGender').value, address: $('patientAddress').value.trim(), occupation: $('patientOccupation').value.trim(), insurance: $('patientInsurance').value.trim(), complaint: $('patientComplaint').value.trim(), diagnosis: $('patientDiagnosis').value.trim(), anamnesis: $('patientAnamnesis').value.trim(), prevInjuries: $('patientPrevInjuries').value.trim(), medications: $('patientMedications').value.trim(), allergies: $('patientAllergies').value.trim(), contraindications: $('patientContraindications').value.trim(), goals: $('patientGoals').value.trim(), initialAssessment: $('patientInitialAssessment').value.trim(), physicalExam: $('patientPhysicalExam').value.trim(), workingDiagnosis: $('patientWorkingDiagnosis').value.trim(), treatmentPlan: $('patientTreatmentPlan').value.trim(), assignedKineziIds, updatedAt: Date.now() };
+    const data = { name, egn: $('patientEgn').value.trim(), phone, phoneNormalized: normalizePhone(phone), email: $('patientEmail').value.trim(), birthDate: $('patientBirthDate').value, gender: $('patientGender').value, address: $('patientAddress').value.trim(), occupation: $('patientOccupation').value.trim(), insurance: $('patientInsurance').value.trim(), complaint: $('patientComplaint').value.trim(), diagnosis: $('patientDiagnosis').value.trim(), anamnesis: $('patientAnamnesis').value.trim(), prevInjuries: $('patientPrevInjuries').value.trim(), medications: $('patientMedications').value.trim(), allergies: $('patientAllergies').value.trim(), contraindications: $('patientContraindications').value.trim(), goals: $('patientGoals').value.trim(), initialAssessment: $('patientInitialAssessment').value.trim(), physicalExam: $('patientPhysicalExam').value.trim(), workingDiagnosis: $('patientWorkingDiagnosis').value.trim(), treatmentPlan: $('patientTreatmentPlan').value.trim(), source: $('patientSource').value, painBefore: $('patientPainBefore').value, painAfter: $('patientPainAfter').value, goalAchieved: !!$('patientGoalAchieved').checked, assignedKineziIds, updatedAt: Date.now() };
     if (editingPatientId) { await update(clinicRef(`patients/${editingPatientId}`), data); showToast('Данните на пациента са обновени.', 'success'); editingPatientId = null; $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Регистрирай пациента'; }
     else {
       // Пациентът влиза в „Моят портал" с потребителско име и парола — създаваме
@@ -3786,7 +4795,7 @@ document.addEventListener('click', async (e) => {
   if (editBtn) {
     const pat = patients[editBtn.dataset.id]; if (!pat) return;
     editingPatientId = editBtn.dataset.id;
-    $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || '';
+    $('patientName').value = pat.name || ''; $('patientEgn').value = pat.egn || ''; $('patientPhone').value = pat.phone || ''; $('patientEmail').value = pat.email || ''; $('patientBirthDate').value = pat.birthDate || ''; $('patientGender').value = pat.gender || ''; $('patientAddress').value = pat.address || ''; $('patientOccupation').value = pat.occupation || ''; $('patientInsurance').value = pat.insurance || ''; $('patientComplaint').value = pat.complaint || ''; $('patientDiagnosis').value = pat.diagnosis || ''; $('patientAnamnesis').value = pat.anamnesis || ''; $('patientPrevInjuries').value = pat.prevInjuries || ''; $('patientMedications').value = pat.medications || ''; $('patientAllergies').value = pat.allergies || ''; $('patientContraindications').value = pat.contraindications || ''; $('patientGoals').value = pat.goals || ''; $('patientInitialAssessment').value = pat.initialAssessment || ''; $('patientPhysicalExam').value = pat.physicalExam || ''; $('patientWorkingDiagnosis').value = pat.workingDiagnosis || ''; $('patientTreatmentPlan').value = pat.treatmentPlan || ''; $('patientSource').value = pat.source || ''; $('patientPainBefore').value = pat.painBefore === undefined || pat.painBefore === null ? '' : pat.painBefore; $('patientPainAfter').value = pat.painAfter === undefined || pat.painAfter === null ? '' : pat.painAfter; $('patientGoalAchieved').checked = pat.goalAchieved === true;
     renderPatientKineziCheckboxes();
     $('addPatientBtn').innerHTML = '<i class="fas fa-save"></i> Запази промените';
     // Редакцията винаги показва всички полета, за да не се скрие вече въведено.
@@ -3845,8 +4854,8 @@ $('procedureForm').addEventListener('submit', async (e) => { e.preventDefault();
 document.addEventListener('click', async (e) => { const b = e.target.closest('.delete-procedure'); if (b) { if (!confirm('Изтрий?')) return; try { await remove(clinicRef(`procedures/${b.dataset.id}`)); showToast('Изтрита.', 'success'); } catch(err) { showToast('Грешка: ' + err.message, 'error'); } } });
 
 // ==================== DOCUMENTATION ====================
-$('sessionNoteForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const pid = $('notePatient').value; const dt = $('noteDate').value; const txt = $('noteText').value.trim(); if (!pid || !dt || !txt) { showToast('Попълнете полетата.','error'); return; } $('addSessionNoteBtn').disabled = true; try { await set(push(clinicRef('sessionNotes')), { patientId: pid, date: dt, therapyType: $('noteTherapyType').value, duration: parseInt($('noteDuration').value) || 0, text: txt, createdBy: currentUser.id, createdAt: Date.now() }); $('sessionNoteForm').reset(); $('noteDate').value = new Date().toISOString().split('T')[0]; showToast('Запазена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addSessionNoteBtn').disabled = false; } });
-function renderSessionNotes() { const fp = $('sessionFilterPatient').value; const search = ($('sessionSearch').value || '').toLowerCase().trim(); let all = Object.entries(sessionNotes).map(([id,n])=>({id,...n})); if (fp) all = all.filter(n=>n.patientId === fp); if (search) all = all.filter(n=>(n.text||'').toLowerCase().includes(search) || (n.therapyType||'').toLowerCase().includes(search)); if (all.length===0) { $('sessionNotesList').innerHTML = `<div class="card"><div class="empty-message">Няма бележки</div></div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('sessionNotesList').innerHTML = sorted.map(note=>{ const pat = patients[note.patientId]; const pn = pat?escapeHtml(pat.name):'неизвестен'; const author = users[note.createdBy]; const an = author?author.name:'---'; return `<div class="note-card"><div class="note-card-header"><div class="who"><div class="avatar">${getUserInitials(pn)}</div><div class="details"><div class="name">${pn}</div><div class="meta">${an} · ${formatTimestamp(note.createdAt)}</div></div></div><span class="note-type-badge session"><i class="fas fa-notes-medical"></i> ${escapeHtml(note.therapyType||'')} · ${formatDate(note.date)}${note.duration?' · '+note.duration+'мин':''}</span></div><div class="note-card-body">${escapeHtml(note.text)}</div><div class="note-card-actions"><button class="btn-outline btn btn-sm view-patient-btn" data-patient-id="${note.patientId}"><i class="fas fa-user"></i> Профил</button><button class="btn-danger-outline btn btn-sm delete-session-note" data-id="${note.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div>`; }).join(''); }
+$('sessionNoteForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const pid = $('notePatient').value; const dt = $('noteDate').value; const txt = $('noteText').value.trim(); if (!pid || !dt || !txt) { showToast('Попълнете полетата.','error'); return; } $('addSessionNoteBtn').disabled = true; try { await set(push(clinicRef('sessionNotes')), { patientId: pid, date: dt, therapyType: $('noteTherapyType').value, duration: parseInt($('noteDuration').value) || 0, painScore: $('notePainScore').value, text: txt, createdBy: currentUser.id, createdAt: Date.now() }); $('sessionNoteForm').reset(); $('noteDate').value = new Date().toISOString().split('T')[0]; showToast('Запазена.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} finally { $('addSessionNoteBtn').disabled = false; } });
+function renderSessionNotes() { const fp = $('sessionFilterPatient').value; const search = ($('sessionSearch').value || '').toLowerCase().trim(); let all = Object.entries(sessionNotes).map(([id,n])=>({id,...n})); if (fp) all = all.filter(n=>n.patientId === fp); if (search) all = all.filter(n=>(n.text||'').toLowerCase().includes(search) || (n.therapyType||'').toLowerCase().includes(search)); if (all.length===0) { $('sessionNotesList').innerHTML = `<div class="card"><div class="empty-message">Няма бележки</div></div>`; return; } const sorted = all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); $('sessionNotesList').innerHTML = sorted.map(note=>{ const pat = patients[note.patientId]; const pn = pat?escapeHtml(pat.name):'неизвестен'; const author = users[note.createdBy]; const an = author?author.name:'---'; return `<div class="note-card"><div class="note-card-header"><div class="who"><div class="avatar">${getUserInitials(pn)}</div><div class="details"><div class="name">${pn}</div><div class="meta">${an} · ${formatTimestamp(note.createdAt)}</div></div></div><span class="note-type-badge session"><i class="fas fa-notes-medical"></i> ${escapeHtml(note.therapyType||'')} · ${formatDate(note.date)}${note.duration?' · '+note.duration+'мин':''}${note.painScore!==undefined&&note.painScore!==''?' · VAS '+escapeHtml(String(note.painScore)):''}</span></div><div class="note-card-body">${escapeHtml(note.text)}</div><div class="note-card-actions"><button class="btn-outline btn btn-sm view-patient-btn" data-patient-id="${note.patientId}"><i class="fas fa-user"></i> Профил</button><button class="btn-danger-outline btn btn-sm delete-session-note" data-id="${note.id}"><i class="fas fa-trash-alt"></i> Изтрий</button></div></div>`; }).join(''); }
 $('sessionFilterPatient').addEventListener('change', renderSessionNotes);
 $('sessionSearch').addEventListener('input', renderSessionNotes);
 document.addEventListener('click', async (e)=>{ const b = e.target.closest('.delete-session-note'); if (b) { if(!confirm('Изтрий?'))return; try { await remove(clinicRef(`sessionNotes/${b.dataset.id}`)); showToast('Изтрита.','success'); } catch(err){showToast('Грешка: '+err.message,'error');} return; } const v = e.target.closest('.view-patient-btn'); if (v) openPatientProfile(v.dataset.patientId); });
@@ -5046,6 +6055,7 @@ function goToModule(targetModule) {
   if (modules[targetModule]) {
     modules[targetModule].classList.add('active');
     if (targetModule === 'dashboard') renderDashboard();
+    if (targetModule === 'stats') renderStats();
     // Модулът винаги отваря списъка — формата се показва само при поискване.
     else if (targetModule === 'patients') { renderPatients(); showPatientPane('list'); }
     else if (targetModule === 'dossier') { renderDossierPatientDropdown(); renderDossierList(); }
@@ -5151,11 +6161,11 @@ navItems.forEach(item => {
 // ==================== SUBSCRIPTION ====================
 const PACKAGES_DEF = {
   start: { name: 'Начален', price: 50, color: 'start', icon: 'fa-seedling', desc: 'За малки практики', modules: ['dashboard', 'patients', 'schedule', 'procedures'] },
-  basic: { name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники', modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier'] },
-  max: { name: 'Максимален', price: 120, color: 'max', icon: 'fa-crown', desc: 'Пълен набор от функции', modules: ['dashboard', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'inventory', 'exercises', 'documentation', 'pricing'] }
+  basic: { name: 'Основен', price: 80, color: 'basic', icon: 'fa-rocket', desc: 'За растящи клиники', modules: ['dashboard', 'stats', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier'] },
+  max: { name: 'Максимален', price: 120, color: 'max', icon: 'fa-crown', desc: 'Пълен набор от функции', modules: ['dashboard', 'stats', 'patients', 'schedule', 'procedures', 'tests', 'vouchers', 'dossier', 'inventory', 'exercises', 'documentation', 'pricing'] }
 };
 const PACKAGE_ORDER = ['start', 'basic', 'max'];
-const MODULE_NAMES = { dashboard: 'Табло', patients: 'Пациенти', dossier: 'Досиета', schedule: 'График', substitutions: 'Замествания', procedures: 'Процедури', tests: 'Тестове и скали', inventory: 'Инвентар', vouchers: 'Ваучери', exercises: 'Упражнения', documentation: 'Документация', pricing: 'Ценоразпис', settings: 'Настройки', portal: 'Портал' };
+const MODULE_NAMES = { dashboard: 'Табло', stats: 'Статистика', patients: 'Пациенти', dossier: 'Досиета', schedule: 'График', substitutions: 'Замествания', procedures: 'Процедури', tests: 'Тестове и скали', inventory: 'Инвентар', vouchers: 'Ваучери', exercises: 'Упражнения', documentation: 'Документация', pricing: 'Ценоразпис', settings: 'Настройки', portal: 'Портал' };
 
 function renderSubscriptionPane() {
   const container = $('subscriptionContent');
